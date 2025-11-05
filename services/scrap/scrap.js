@@ -90,8 +90,8 @@ const twitterURLs = [
 
     // BBRI 2025
     // Kata Kunci: #BBRI
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // BBRI top januari - oktober 2025
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live", // BBRI latest januari - oktober 2025
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // #BBRI top januari - oktober 2025
+    "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-04-23%20since%3A2025-01-01&src=typed_query&f=live", // #BBRI latest januari - oktober 2025
 
     // Kata Kunci: BBRI
     // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // BBRI top januari - oktober 2025
@@ -303,8 +303,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_bbri_2024.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_bbri_2024.json", "utf-8"));
+    if (fs.existsSync("tweets_bbri_2025.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_bbri_2025.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -370,7 +370,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_bbri_2024.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_bbri_2025.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();

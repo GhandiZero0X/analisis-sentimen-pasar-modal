@@ -8,7 +8,7 @@ const files = [
     "tweets_bbri_2022.json",
     "tweets_bbri_2023.json",
     "tweets_bbri_2024.json",
-    // "tweets_bbri_2025.json",
+    "tweets_bbri_2025.json",
 ];
 
 const allTweets = [];
