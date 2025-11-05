@@ -74,15 +74,34 @@ const twitterURLs = [
     // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query", // BBRI top juli - desember 2023
     // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2023
     // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query&f=live", // BBRI latest juli - desember 2023
-    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2023-10-29%20since%3A2023-10-01&src=typed_query&f=live",
 
     // BBRI 2024
     // Kata Kunci: #BBRI
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query", // BBRI top januari - juni 2024
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query", // BBRI top juli - desember 2024
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2024
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query&f=live", // BBRI latest juli - desember 2024
+
     // Kata Kunci: BBRI
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query", // BBRI top januari - juni 2024
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query", // BBRI top juli - desember 2024
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2024-01-14%20since%3A2024-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2024
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2024-10-10%20since%3A2024-07-01&src=typed_query&f=live", // BBRI latest juli - desember 2024
+
+    // BBRI 2025
+    // Kata Kunci: #BBRI
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // BBRI top januari - oktober 2025
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live", // BBRI latest januari - oktober 2025
+
+    // Kata Kunci: BBRI
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // BBRI top januari - oktober 2025
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live", // BBRI latest januari - oktober 2025
+
 ];
 
-const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam running program
-const cookiesFile = "cookies_twitter.json";
+const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam
+const COOKIES_FILE = "cookies_twitter.json";
+const COOKIES_MAX_AGE = 8 * 60 * 60 * 1000; // 8 jam
 
 /* -------------------------------------------------------------------------- */
 /*                             Utility Functions                              */
@@ -119,12 +138,23 @@ async function clearAllCookies(page, cookiesFile) {
 }
 
 /* -------------------------------------------------------------------------- */
+/*                           Cookie Expiration Check                          */
+/* -------------------------------------------------------------------------- */
+
+function isCookieExpired(file) {
+    if (!fs.existsSync(file)) return true;
+    const stats = fs.statSync(file);
+    const age = Date.now() - stats.mtimeMs;
+    return age > COOKIES_MAX_AGE;
+}
+
+/* -------------------------------------------------------------------------- */
 /*                              Login Management                              */
 /* -------------------------------------------------------------------------- */
 
 async function doManualLogin(page) {
     console.log("🔄 Membersihkan session sebelumnya...");
-    await clearAllCookies(page, cookiesFile);
+    await clearAllCookies(page, COOKIES_FILE);
 
     const loginUrls = [
         "https://x.com/i/flow/login",
@@ -143,7 +173,7 @@ async function doManualLogin(page) {
             await Promise.race([
                 page.waitForSelector('a[href="/compose/tweet"]', { timeout: 120000 }),
                 page.waitForSelector('div[data-testid="AppTabBar_Home_Link"]', { timeout: 120000 }),
-                page.waitForSelector('article', { timeout: 120000 }),
+                page.waitForSelector("article", { timeout: 120000 }),
                 page.waitForSelector('[data-testid="primaryColumn"]', { timeout: 120000 }),
             ]);
 
@@ -167,7 +197,7 @@ async function doManualLogin(page) {
             if (isLoggedIn) {
                 const cookies = await page.cookies();
                 if (cookies && cookies.length > 0) {
-                    fs.writeFileSync(cookiesFile, JSON.stringify(cookies, null, 2));
+                    fs.writeFileSync(COOKIES_FILE, JSON.stringify(cookies, null, 2));
                     console.log("✅ Login manual berhasil, cookies disimpan!");
                     return true;
                 }
@@ -229,15 +259,20 @@ async function scrapeTweets() {
     await page.setUserAgent(userAgents[Math.floor(Math.random() * userAgents.length)]);
     await page.setViewport({ width: 1920, height: 1080 });
 
-    // Aktifkan blocking saat login (cepatin load)
     await enableRequestBlocking(page);
 
     let loggedIn = false;
 
-    // Coba login pakai cookies
-    if (fs.existsSync(cookiesFile)) {
+    // Cek cookies expired
+    if (isCookieExpired(COOKIES_FILE)) {
+        console.log("🕒 Cookies sudah lebih dari 24 jam, menghapus file lama...");
+        await clearAllCookies(page, COOKIES_FILE);
+    }
+
+    // Login dengan cookies
+    if (fs.existsSync(COOKIES_FILE)) {
         console.log("🍪 Mencoba login dengan cookies tersimpan...");
-        const cookies = JSON.parse(fs.readFileSync(cookiesFile, "utf-8"));
+        const cookies = JSON.parse(fs.readFileSync(COOKIES_FILE, "utf-8"));
         await page.setCookie(...cookies);
 
         await safeGoto(page, "https://x.com/home");
@@ -257,7 +292,6 @@ async function scrapeTweets() {
     }
 
     if (!loggedIn) loggedIn = await doManualLogin(page);
-
     if (!loggedIn) {
         console.log("❌ Gagal login, hentikan proses scraping.");
         await browser.close();
@@ -266,12 +300,11 @@ async function scrapeTweets() {
 
     console.log("✅ Login sukses! Mulai scraping...");
 
-    // Sekarang matikan blocking, dan hapus listener dulu
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_bbri_2023.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_bbri_2023.json", "utf-8"));
+    if (fs.existsSync("tweets_bbri_2024.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_bbri_2024.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -337,7 +370,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_bbri_2023.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_bbri_2024.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();
