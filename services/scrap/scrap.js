@@ -91,11 +91,11 @@ const twitterURLs = [
     // BBRI 2025
     // Kata Kunci: #BBRI
     // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // #BBRI top januari - oktober 2025
-    "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-04-23%20since%3A2025-01-01&src=typed_query&f=live", // #BBRI latest januari - oktober 2025
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-04-23%20since%3A2025-01-01&src=typed_query&f=live", // #BBRI latest januari - oktober 2025
 
     // Kata Kunci: BBRI
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // BBRI top januari - oktober 2025
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live", // BBRI latest januari - oktober 2025
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-10-09%20since%3A2025-01-01&src=typed_query", // BBRI top januari - oktober 2025
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-03-24%20since%3A2025-01-01&src=typed_query&f=live", // BBRI latest januari - oktober 2025
 
 ];
 
