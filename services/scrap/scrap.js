@@ -205,6 +205,32 @@ const twitterURLs = [
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // ICBP Terbaru Januari - Juni 2019
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // ICBP Terbaru Juli - Desember 2019
 
+    // ICBP 2020
+    // Kata Kunci: #ICBP
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live",
+
+    // Kata Kunci: ICBP
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-11-11%20since%3A2020-07-01&src=typed_query&f=live",
+
+    // ICBP 2021
+    // Kata Kunci: #ICBP
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live",
+
+    // Kata Kunci: ICBP
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live",
+
     // ICBP 2022
     // Kata Kunci: #ICBP
     // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query",
@@ -215,8 +241,8 @@ const twitterURLs = [
     // Kata Kunci: ICBP
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query",
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query",
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query&f=live",
-    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query&f=live",
+    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live",
 
     // ICBP 2023
     // Kata Kunci: #ICBP
