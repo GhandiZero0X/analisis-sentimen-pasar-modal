@@ -3,7 +3,7 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 const fs = require("fs");
 const Sentiment = require("sentiment");
 
-// akun google: hgrphantom01@gmail.com
+// akun google: paladintrinity01@gmail.com
 
 puppeteer.use(StealthPlugin());
 const sentiment = new Sentiment();
@@ -11,124 +11,22 @@ const sentiment = new Sentiment();
 require("dotenv").config();
 
 const twitterURLs = [
-    //  BBRI 2019
-    // Kata Kunci: #BBRI
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // #BBRI top januari - juni 2019
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // #BBRI top juli - desember 2019
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&f=live&src=typed_query", // #BBRI latest januari - juni 2019
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #BBRI latest juli - desember 2019
-
-    // Kata Kunci: BBRI
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=top", // BBRI top januari - juni 2019
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2019
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&f=top&src=typed_query", // BBRI top juli - desember 2019
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // BBRI latest juli - desember 2019
-
-    // BBRI 2020
-    // Kata Kunci: #BBRI
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&f=top&src=typed_query", // #BBRI top januari - juni 2020
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&f=top&src=typed_query", // #BBRI top juli - desember 2020
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&f=live&src=typed_query", // #BBRI latest januari - juni 2020
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // #BBRI latest juli - desember 2020
-
-    // Kata Kunci: BBRI
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // BBRI top januari - juni 2020
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2020
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // BBRI top juli - desember 2020
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-12-01&src=typed_query&f=live", // BBRI latest juli - desember 2020
-
-    // BBRI 2021
-    // Kata Kunci: #BBRI
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // #BBRI top januari - juni 2021
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // #BBRI top juli - desember 2021
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live", // #BBRI latest januari - juni 2021
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=liveclear", // #BBRI latest juli - desember 2021
-
-    // Kata Kunci: BBRI
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // BBRI top januari - juni 2021
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // BBRI top juli - desember 2021
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2021
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // BBRI latest juli - desember 2021 (november 17 2021)
-
-    // BBRI 2022
-    // Kata Kunci: #BBRI
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query", // #BBRI top januari - juni 2022
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query", // #BBRI top juli - desember 2022
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query&f=live", // #BBRI latest januari - juni 2022
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live", // #BBRI latest juli - desember 2022
-
-    // Kata Kunci: BBRI
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query", // BBRI top januari - juni 2022
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query", // BBRI top juli - desember 2022
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2022
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2022-03-06%20since%3A2022-01-01&src=typed_query&f=live", // masih tgl 5 november kurang tgl 4 - 1 novermbar
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live", // BBRI latest juli - desember 2022
-
-    // BBRI 2023
-    // Kata Kunci: #BBRI
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query", // #BBRI top januari - juni 2023
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query", // #BBRI top juli - desember 2023
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live", // #BBRI latest januari - juni 2023
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query&f=live", // #BBRI latest juli - desember 2023
-
-    // Kata Kunci: BBRI
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query", // BBRI top januari - juni 2023
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query", // BBRI top juli - desember 2023
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2023
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query&f=live", // BBRI latest juli - desember 2023
-
-    // BBRI 2024
-    // Kata Kunci: #BBRI
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query", // BBRI top januari - juni 2024
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query", // BBRI top juli - desember 2024
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2024
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query&f=live", // BBRI latest juli - desember 2024
-
-    // Kata Kunci: BBRI
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query", // BBRI top januari - juni 2024
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query", // BBRI top juli - desember 2024
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2024-01-14%20since%3A2024-01-01&src=typed_query&f=live", // BBRI latest januari - juni 2024
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2024-10-10%20since%3A2024-07-01&src=typed_query&f=live", // BBRI latest juli - desember 2024
-
-    // BBRI 2025
-    // Kata Kunci: #BBRI
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // #BBRI top januari - oktober 2025
-    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-04-23%20since%3A2025-01-01&src=typed_query&f=live", // #BBRI latest januari - oktober 2025
-
-    // Kata Kunci: BBRI
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-10-09%20since%3A2025-01-01&src=typed_query", // BBRI top januari - oktober 2025
-    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-01-07%20since%3A2025-01-01&src=typed_query&f=live", // BBRI latest januari - oktober 2025
-
-    // TLKM 2019
-    // Kata Kunci: #TLKM
-    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // #TLKM Top Januari - Juni 2019
-    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // #TLKM Top Juli - Desember 2019
-    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Juni 2019
-    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #TLKM Terbaru Juli - Desember 2019
-    
-    // Kata Kunci: TLKM
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // TLKM Top Januari - Juni 2019
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // TLKM Top Juli - Desember 2019
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2019-01-02%20since%3A2019-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2019
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // TLKM Terbaru Juli - Desember 2019
-
-    // TLKM 2021
-    // Kata Kunci: #TLKM
-    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query", // #TLKM Top Januari - Juni 2021
-    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query", // #TLKM Top Juli - Desember 2021
-    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Juni 2021
-    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live", // #TLKM Terbaru Juli - Desember 2021
+    // TLKM 2022
+        // Kata Kunci: #TLKM
+    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query", // #TLKM Top Januari - Juni 2022
+    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query", // #TLKM Top Juli - Desember 2022
+    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Juni 2022
+    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live", // #TLKM Terbaru Juli - Desember 2022
 
     // Kata Kunci: TLKM
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query", // TLKM Top Januari - Juni 2021
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query", // TLKM Top Juli - Desember 2021
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-01-02%20since%3A2021-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2021
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live", // TLKM Terbaru Juli - Desember 2021
-
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query", // TLKM Top Januari - Juni 2022
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query", // TLKM Top Juli - Desember 2022
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-01-02%20since%3A2022-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2022
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live", // TLKM Terbaru Juli - Desember 2022
 ];
 
 const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam
-const COOKIES_FILE = "cookies_twitter.json";
+const COOKIES_FILE = "cookies_twitter2.json";
 const COOKIES_MAX_AGE = 8 * 60 * 60 * 1000; // 8 jam
 
 /* -------------------------------------------------------------------------- */
@@ -331,8 +229,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_tlkm_2021.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_tlkm_2021.json", "utf-8"));
+    if (fs.existsSync("tweets_tlkm_2022.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_tlkm_2022.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -398,7 +296,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_tlkm_2021.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_tlkm_2022.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();

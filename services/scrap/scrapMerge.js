@@ -2,13 +2,13 @@ const fs = require("fs");
 const path = require("path");
 
 const files = [
-    "tweets_bbri_2019.json",
-    "tweets_bbri_2020.json",
-    "tweets_bbri_2021.json",
-    "tweets_bbri_2022.json",
-    "tweets_bbri_2023.json",
-    "tweets_bbri_2024.json",
-    "tweets_bbri_2025.json",
+    "tweets_tlkm_2019.json",
+    "tweets_tlkm_2020.json",
+    "tweets_tlkm_2021.json",
+    "tweets_tlkm_2022.json",
+    "tweets_tlkm_2023.json",
+    "tweets_tlkm_2024.json",
+    "tweets_tlkm_2025.json",
 ];
 
 const allTweets = [];
@@ -80,7 +80,7 @@ allTweets.sort((a, b) => {
 
 // 🚀 Simpan hasil gabungan ke satu file
 try {
-    const outPath = path.join(__dirname, "tweets_bbri.json");
+    const outPath = path.join(__dirname, "tweets_tlkm.json");
     fs.writeFileSync(outPath, JSON.stringify(allTweets, null, 2), "utf-8");
     console.log(`\n🎉 File gabungan & terurut berhasil dibuat: ${outPath}`);
     console.log(`📆 Total tweet: ${allTweets.length}`);
@@ -88,7 +88,7 @@ try {
     console.error(`❌ Gagal menulis file gabungan: ${err.message}`);
 }
 
-// util: ambil tahun dari nama file (mis. tweets_bbri_2020.json -> 2020)
+// util: ambil tahun dari nama file (mis. file dari json -> 2020)
 function extractYear(filename) {
     const m = filename.match(/\b(19|20)\d{2}\b/);
     return m ? m[0] : "unknown";
