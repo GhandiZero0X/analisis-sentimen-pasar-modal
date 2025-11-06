@@ -194,15 +194,15 @@ const twitterURLs = [
 
     // ICBP 2019
     // Kata Kunci: #ICBP
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // #ICBP Top Januari - Juni 2019
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // #ICBP Top Juli - Desember 2019
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // #ICBP Terbaru Januari - Juni 2019
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #ICBP Terbaru Juli - Desember 2019
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // #ICBP Top Januari - Juni 2019
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // #ICBP Top Juli - Desember 2019
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // #ICBP Terbaru Januari - Juni 2019
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #ICBP Terbaru Juli - Desember 2019
 
     // Kata Kunci: ICBP
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // ICBP Top Januari - Juni 2019
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // ICBP Top Juli - Desember 2019
-    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // ICBP Terbaru Januari - Juni 2019
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // ICBP Top Januari - Juni 2019
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // ICBP Top Juli - Desember 2019
+    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // ICBP Terbaru Januari - Juni 2019
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // ICBP Terbaru Juli - Desember 2019
 
 ];
@@ -411,8 +411,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_tlkm_2021.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_tlkm_2021.json", "utf-8"));
+    if (fs.existsSync("tweets_icbp_2019.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_icbp_2019.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -478,7 +478,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_tlkm_2021.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_icbp_2019.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();

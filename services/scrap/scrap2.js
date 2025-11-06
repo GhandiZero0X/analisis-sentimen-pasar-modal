@@ -13,15 +13,15 @@ require("dotenv").config();
 const twitterURLs = [
     // ICBP 2021
     // Kata Kunci: #ICBP
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query",
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query",
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query&f=live",
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live",
 
     // Kata Kunci: ICBP
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query",
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query",
-    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query",
+    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query&f=live",
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live",
 
 ];
@@ -230,8 +230,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_tlkm_2025.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_tlkm_2025.json", "utf-8"));
+    if (fs.existsSync("tweets_icbp_2021.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_icbp_2021.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -297,7 +297,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_tlkm_2025.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_icbp_2021.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();

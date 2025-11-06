@@ -14,15 +14,15 @@ require("dotenv").config();
 const twitterURLs = [
     // ICBP 2023
     // Kata Kunci: #ICBP
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query",
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query",
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live",
-    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query&f=live",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query&f=live",
 
     // Kata Kunci: ICBP
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query",
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query",
-    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query",
+    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live",
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query&f=live",
 
 ];
@@ -231,8 +231,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_asii_2019.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_asii_2019.json", "utf-8"));
+    if (fs.existsSync("tweets_icbp_2023.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_icbp_2023.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -298,7 +298,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_asii_2019.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_icbp_2023.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();
