@@ -191,6 +191,20 @@ const twitterURLs = [
     // Kata Kunci: TLKM
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // TLKM Top Januari - Oktober 2025
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-03-11%20since%3A2025-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Oktober 2025
+
+    // ICBP 2019
+    // Kata Kunci: #ICBP
+    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // #ICBP Top Januari - Juni 2019
+    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // #ICBP Top Juli - Desember 2019
+    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // #ICBP Terbaru Januari - Juni 2019
+    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #ICBP Terbaru Juli - Desember 2019
+
+    // Kata Kunci: ICBP
+    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // ICBP Top Januari - Juni 2019
+    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // ICBP Top Juli - Desember 2019
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // ICBP Terbaru Januari - Juni 2019
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // ICBP Terbaru Juli - Desember 2019
+
 ];
 
 const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam
