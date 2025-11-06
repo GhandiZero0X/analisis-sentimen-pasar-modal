@@ -11,7 +11,14 @@ const sentiment = new Sentiment();
 require("dotenv").config();
 
 const twitterURLs = [
+    // ICBP 2025
+    // Kata Kunci: #ICBP
+    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query",
+    "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live",
 
+    // Kata Kunci: ICBP
+    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live",
 ];
 
 const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam
@@ -218,8 +225,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_icbp_2020.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_icbp_2020.json", "utf-8"));
+    if (fs.existsSync("tweets_icbp_2025.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_icbp_2025.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -285,7 +292,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_icbp_2020.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_icbp_2025.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();
