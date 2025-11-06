@@ -111,7 +111,7 @@ const twitterURLs = [
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // #TLKM Top Juli - Desember 2019
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Juni 2019
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #TLKM Terbaru Juli - Desember 2019
-    
+
     // Kata Kunci: TLKM
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // TLKM Top Januari - Juni 2019
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // TLKM Top Juli - Desember 2019
@@ -124,7 +124,7 @@ const twitterURLs = [
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // #TLKM Top Juli - Desember 2020
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Juni 2020
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // #TLKM Terbaru Juli - Desember 2020
-    
+
     // Kata Kunci: TLKM
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // TLKM Top Januari - Juni 2020
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // TLKM Top Juli - Desember 2020
@@ -170,13 +170,13 @@ const twitterURLs = [
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2023
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2023-09-27%20since%3A2023-07-01&src=typed_query&f=live", // TLKM Terbaru Juli - Desember 2023
 
-        // TLKM 2024
+    // TLKM 2024
     // Kata Kunci: #TLKM
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query", // #TLKM Top Januari - Juni 2024
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query", // #TLKM Top Juli - Desember 2024
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Juni 2024
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query&f=live", // #TLKM Terbaru Juli - Desember 2024
-    
+
     // Kata Kunci: TLKM
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query", // TLKM Top Januari - Juni 2024
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query", // TLKM Top Juli - Desember 2024
@@ -202,9 +202,34 @@ const twitterURLs = [
     // Kata Kunci: ICBP
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // ICBP Top Januari - Juni 2019
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // ICBP Top Juli - Desember 2019
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // ICBP Terbaru Januari - Juni 2019
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // ICBP Terbaru Januari - Juni 2019
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // ICBP Terbaru Juli - Desember 2019
 
+    // ICBP 2022
+    // Kata Kunci: #ICBP
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live",
+
+    // Kata Kunci: ICBP
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query",
+    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live",
+
+    // ICBP 2023
+    // Kata Kunci: #ICBP
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query&f=live",
+
+    // Kata Kunci: ICBP
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2023-07-03%20since%3A2023-07-01&src=typed_query&f=live",
 ];
 
 const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam
@@ -411,8 +436,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_icbp_2019.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_icbp_2019.json", "utf-8"));
+    if (fs.existsSync("tweets_icbp_2022.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_icbp_2022.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -478,7 +503,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_icbp_2019.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_icbp_2022.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();

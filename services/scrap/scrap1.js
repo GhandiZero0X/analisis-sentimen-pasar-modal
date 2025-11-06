@@ -21,8 +21,8 @@ const twitterURLs = [
     // Kata Kunci: ICBP
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query",
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query",
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live",
-    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live",
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live",
+    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2020-11-11%20since%3A2020-07-01&src=typed_query&f=live",
 
 ];
 

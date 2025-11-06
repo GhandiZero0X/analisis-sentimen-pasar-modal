@@ -2,13 +2,29 @@ const fs = require("fs");
 const path = require("path");
 
 const files = [
-    "tweets_tlkm_2019.json",
-    "tweets_tlkm_2020.json",
-    "tweets_tlkm_2021.json",
-    "tweets_tlkm_2022.json",
-    "tweets_tlkm_2023.json",
-    "tweets_tlkm_2024.json",
-    "tweets_tlkm_2025.json",
+    // "tweets_bbri_2019.json",
+    // "tweets_bbri_2020.json",
+    // "tweets_bbri_2021.json",
+    // "tweets_bbri_2022.json",
+    // "tweets_bbri_2023.json",
+    // "tweets_bbri_2024.json",
+    // "tweets_bbri_2025.json",
+
+    // "tweets_tlkm_2019.json",
+    // "tweets_tlkm_2020.json",
+    // "tweets_tlkm_2021.json",
+    // "tweets_tlkm_2022.json",
+    // "tweets_tlkm_2023.json",
+    // "tweets_tlkm_2024.json",
+    // "tweets_tlkm_2025.json",
+
+    "tweets_icbp_2019.json",
+    "tweets_icbp_2020.json",
+    "tweets_icbp_2021.json",
+    "tweets_icbp_2022.json",
+    "tweets_icbp_2023.json",
+    "tweets_icbp_2024.json",
+    "tweets_icbp_2025.json",
 ];
 
 const allTweets = [];
