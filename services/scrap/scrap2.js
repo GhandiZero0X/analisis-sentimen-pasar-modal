@@ -11,18 +11,15 @@ const sentiment = new Sentiment();
 require("dotenv").config();
 
 const twitterURLs = [
-    // TLKM 2022
-        // Kata Kunci: #TLKM
-    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query", // #TLKM Top Januari - Juni 2022
-    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query", // #TLKM Top Juli - Desember 2022
-    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Juni 2022
-    "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live", // #TLKM Terbaru Juli - Desember 2022
+    // TLKM 2025
+    // Kata Kunci: #TLKM
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // #TLKM Top Januari - Oktober 2025
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Oktober 2025
 
     // Kata Kunci: TLKM
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-01-01&src=typed_query", // TLKM Top Januari - Juni 2022
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query", // TLKM Top Juli - Desember 2022
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-01-02%20since%3A2022-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2022
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query&f=live", // TLKM Terbaru Juli - Desember 2022
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // TLKM Top Januari - Oktober 2025
+    "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-10-29%20since%3A2025-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Oktober 2025
+
 ];
 
 const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam
@@ -229,8 +226,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_tlkm_2022.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_tlkm_2022.json", "utf-8"));
+    if (fs.existsSync("tweets_tlkm_2025.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_tlkm_2025.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -296,7 +293,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_tlkm_2022.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_tlkm_2025.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();
