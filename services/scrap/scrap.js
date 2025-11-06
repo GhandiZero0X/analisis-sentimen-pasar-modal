@@ -47,8 +47,8 @@ const twitterURLs = [
     // Kata Kunci: TLKM
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query", // TLKM Top Januari - Juni 2021
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query", // TLKM Top Juli - Desember 2021
-    "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-01-08%20since%3A2021-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2021
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live", // TLKM Terbaru Juli - Desember 2021
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-01-08%20since%3A2021-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2021
+    "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2021-10-02%20since%3A2021-07-01&src=typed_query&f=live", // TLKM Terbaru Juli - Desember 2021
 
         // TLKM 2022
     // Kata Kunci: #TLKM
@@ -62,6 +62,19 @@ const twitterURLs = [
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-07-01&src=typed_query", // TLKM Top Juli - Desember 2022
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-05-20%20since%3A2022-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2022
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2022-11-26%20since%3A2022-07-01&src=typed_query&f=live", // TLKM Terbaru Juli - Desember 2022
+
+    // TLKM 2023
+    // Kata Kunci: #TLKM
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query", // #TLKM Top Januari - Juni 2023
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query", // #TLKM Top Juli - Desember 2023
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Juni 2023
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query&f=live", // #TLKM Terbaru Juli - Desember 2023
+
+    // Kata Kunci: TLKM
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query", // TLKM Top Januari - Juni 2023
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2023-12-31%20since%3A2023-07-01&src=typed_query", // TLKM Top Juli - Desember 2023
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2023-06-30%20since%3A2023-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2023
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2023-09-27%20since%3A2023-07-01&src=typed_query&f=live", // TLKM Terbaru Juli - Desember 2023
 ];
 
 const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam
