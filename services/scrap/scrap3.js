@@ -4,6 +4,7 @@ const fs = require("fs");
 const Sentiment = require("sentiment");
 
 // akun google: phantom.zero2022@gmail.com
+// password: phantomzero021003
 
 puppeteer.use(StealthPlugin());
 const sentiment = new Sentiment();
@@ -11,18 +12,7 @@ const sentiment = new Sentiment();
 require("dotenv").config();
 
 const twitterURLs = [
-    // ASII 2019
-    // Kata Kunci: #ASII
-    "https://x.com/search?q=%23ASII%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // #ASII Top Januari - Juni 2019
-    "https://x.com/search?q=%23ASII%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // #ASII Top Juli - Desember 2019
-    "https://x.com/search?q=%23ASII%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // #ASII Terbaru Januari - Juni 2019
-    "https://x.com/search?q=%23ASII%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #ASII Terbaru Juli - Desember 2019
 
-    // Kata Kunci: ASII
-    // "https://x.com/search?q=ASII%20%22saham%22%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // ASII Top Januari - Juni 2019
-    // "https://x.com/search?q=ASII%20%22saham%22%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // ASII Top Juli - Desember 2019
-    // "https://x.com/search?q=ASII%20%22saham%22%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // ASII Terbaru Januari - Juni 2019
-    // "https://x.com/search?q=ASII%20%22saham%22%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // ASII Terbaru Juli - Desember 2019
 ];
 
 const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam

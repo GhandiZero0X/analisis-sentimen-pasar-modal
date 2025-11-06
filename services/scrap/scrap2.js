@@ -11,14 +11,6 @@ const sentiment = new Sentiment();
 require("dotenv").config();
 
 const twitterURLs = [
-    // TLKM 2025
-    // Kata Kunci: #TLKM
-    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // #TLKM Top Januari - Oktober 2025
-    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Oktober 2025
-
-    // Kata Kunci: TLKM
-    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // TLKM Top Januari - Oktober 2025
-    "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-08-16%20since%3A2025-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Oktober 2025
 
 ];
 
