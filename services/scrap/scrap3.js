@@ -12,18 +12,7 @@ const sentiment = new Sentiment();
 require("dotenv").config();
 
 const twitterURLs = [
-    // ICBP 2024
-    // Kata Kunci: #ICBP
-    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query",
-    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query",
-    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query&f=live",
-    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query&f=live",
 
-    // Kata Kunci: ICBP
-    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query",
-    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query",
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-01-01&src=typed_query&f=live",
-    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-07-01&src=typed_query&f=live",
 ];
 
 const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam

@@ -96,7 +96,7 @@ allTweets.sort((a, b) => {
 
 // 🚀 Simpan hasil gabungan ke satu file
 try {
-    const outPath = path.join(__dirname, "tweets_tlkm.json");
+    const outPath = path.join(__dirname, "tweets_icbp.json");
     fs.writeFileSync(outPath, JSON.stringify(allTweets, null, 2), "utf-8");
     console.log(`\n🎉 File gabungan & terurut berhasil dibuat: ${outPath}`);
     console.log(`📆 Total tweet: ${allTweets.length}`);
