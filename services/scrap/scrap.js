@@ -280,9 +280,9 @@ const twitterURLs = [
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live",
 ];
 
-const SCRAPING_TIME = 2 * 60 * 60 * 1000; // 2 jam
+const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam
 const COOKIES_FILE = "cookies_twitter.json";
-const COOKIES_MAX_AGE = 8 * 60 * 60 * 1000; // 8 jam
+const COOKIES_MAX_AGE = 12 * 60 * 60 * 1000; // 12 jam
 
 /* -------------------------------------------------------------------------- */
 /*                             Utility Functions                              */
