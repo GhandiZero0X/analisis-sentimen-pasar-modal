@@ -414,6 +414,16 @@ async function disableRequestBlocking(page) {
 /*                                 Main Logic                                 */
 /* -------------------------------------------------------------------------- */
 
+function detectSahamFromURL(url) {
+    const lower = url.toLowerCase();
+
+    if (lower.includes("bbri")) return "bbri";
+    if (lower.includes("tlkm")) return "tlkm";
+    if (lower.includes("icbp")) return "icbp";
+
+    return "unknown";
+}
+
 async function scrapeTweets() {
     const browser = await puppeteer.launch({
         headless: false,
@@ -492,6 +502,7 @@ async function scrapeTweets() {
     const startTime = Date.now();
 
     for (const url of twitterURLs) {
+        const sahamCode = detectSahamFromURL(url);
         console.log(`🌐 Membuka URL: ${url}`);
         try {
             await safeGoto(page, url);
@@ -507,18 +518,22 @@ async function scrapeTweets() {
             let attempt = 0;
 
             while (Date.now() - startTime < SCRAPING_TIME) {
-                const newTweets = await page.evaluate(() => {
+                const newTweets = await page.evaluate((saham) => {
                     const data = [];
                     document.querySelectorAll("article").forEach((tweet) => {
                         const content = tweet.querySelector("div[lang]")?.innerText || "No content";
                         const dateEl = tweet.querySelector("time");
                         const date = dateEl ? dateEl.getAttribute("datetime").split("T")[0] : null;
                         if (date && content && content !== "No content") {
-                            data.push({ date, tweet: content, sentiment: "" });
+                            data.push({ 
+                                date, 
+                                tweet: content, 
+                                sentiment: "", 
+                                saham: saham } );
                         }
                     });
                     return data;
-                });
+                }, sahamCode);
 
                 newTweets.forEach((tweet) => {
                     if (!Array.from(tweets).some((t) => JSON.parse(t).tweet === tweet.tweet)) {
