@@ -27,12 +27,38 @@ const twitterURLs = [
     // Kata Kunci: ICBP
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query",
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live",
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-02&f=top&src=typed_query", // ICBP Top November - Desember 2025
-    "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-01&f=live&src=typed_query" , // ICBP Terbaru November - Desember 2025
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-02&f=top&src=typed_query", // ICBP Top November - Desember 2025
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-01&f=live&src=typed_query" , // ICBP Terbaru November - Desember 2025
+
+    // ICBP 2018
+    // Kata Kunci: #ICBP
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // #ICBP Top Januari - Juni 2018
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // #ICBP Top Juli - Desember 2018
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // #ICBP Terbaru Januari - Juni 2018
+    // "https://x.com/search?q=%23ICBP%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query&f=live", // #ICBP Terbaru Juli - Desember 2018
+
+    // Kata Kunci: ICBP
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // ICBP Top Januari - Juni 2018
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // ICBP Top Juli - Desember 2018
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // ICBP Terbaru Januari - Juni 2018
+    // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query&f=live", // ICBP Terbaru Juli - Desember 2018
+
+    // BMRI 2021
+    // Kata Kunci: BMRI
+    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query", // BMRI Top Januari - Juni 2021
+    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query", // BMRI Top Juli - Desember 2021
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query&f=live", // BMRI Terbaru Januari - Juni 2021
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live", // BMRI Terbaru Juli - Desember 2021
+
+    // Kata Kunci: #BMRI
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query", // #BMRI Top Januari - Juni 2021
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query", // #BMRI Top Juli - Desember 2021
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-01-01&src=typed_query&f=live", // #BMRI Terbaru Januari - Juni 2021
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-07-01&src=typed_query&f=live", // #BMRI Terbaru Juli - Desember 2021
 ];
 
 const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam
-const COOKIES_FILE = "cookies_twitter2.json";
+const COOKIES_FILE = "cookies_twitter3.json";
 const COOKIES_MAX_AGE = 12 * 60 * 60 * 1000; // 12 jam
 
 /* -------------------------------------------------------------------------- */
@@ -245,8 +271,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_icbp.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_icbp.json", "utf-8"));
+    if (fs.existsSync("tweets_bmri_2021.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_bmri_2021.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -317,7 +343,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_icbp.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_bmri_2021.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();

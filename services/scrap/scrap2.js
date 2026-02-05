@@ -5,7 +5,7 @@ const Sentiment = require("sentiment");
 
 // list akun twitter 
 // 1. hgr.allphantom22@gmail.com
-// 2. 
+// 2. paladintrinity01@gmail.com
 // 3. phantom.zero2022@gmail.com
 // 4. hgrphantom01@gmail.com
 
@@ -21,18 +21,44 @@ const twitterURLs = [
     // Kata Kunci: #TLKM
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // #TLKM Top Januari - Oktober 2025
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Oktober 2025
-    "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-01&src=typed_query&f=live", // TLKM Terbaru November - Desember 2025
-    "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-03&src=typed_query", // TLKM Top November - Desember 2025
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-01&src=typed_query&f=live", // TLKM Terbaru November - Desember 2025
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-03&src=typed_query", // TLKM Top November - Desember 2025
 
     // Kata Kunci: TLKM
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query", // TLKM Top Januari - Oktober 2025
     // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2025-03-11%20since%3A2025-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Oktober 2025
     // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-01&f=top&src=typed_query", // #TLKM Top November - Desember 2025
-    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-01&src=typed_query&f=live", // #TLKM Terbaru November - Desember 2025 
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-11-01&src=typed_query&f=live", // #TLKM Terbaru November - Desember 2025
+
+    // TLKM 2018
+    // Kata Kunci: 
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // #TLKM Top Januari - Juni 2018
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-02&src=typed_query", // #TLKM Top Juli - Desember 2018
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // #TLKM Terbaru Januari - Juni 2018
+    // "https://x.com/search?q=%23TLKM%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-02&f=live&src=typed_query", // #TLKM Terbaru Juli - Desember 2018
+
+    // Kata Kunci: TLKM
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // TLKM Top Januari - Juni 2018
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-02&src=typed_query", // TLKM Top Juli - Desember 2018
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // TLKM Terbaru Januari - Juni 2018
+    // "https://x.com/search?q=TLKM%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-02&f=live&src=typed_query", // TLKM Terbaru Juli - Desember 2018
+
+    // BMRI 2020
+    // Kata Kunci: BMRI
+    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // BMRI Top Januari - Juni 2020
+    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // BMRI Top Juli - Desember 2020
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live", // BMRI Terbaru Januari - Juni 2020
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // BMRI Terbaru Juli - Desember 2020
+
+    // Kata Kunci: #BMRI
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // #BMRI Top Januari - Juni 2020
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // #BMRI Top Juli - Desember 2020
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live", // #BMRI Terbaru Januari - Juni 2020
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // #BMRI Terbaru Juli - Desember 2020
 ];
 
 const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam
-const COOKIES_FILE = "cookies_twitter1.json";
+const COOKIES_FILE = "cookies_twitter2.json";
 const COOKIES_MAX_AGE = 12 * 60 * 60 * 1000; // 12 jam
 
 /* -------------------------------------------------------------------------- */
@@ -245,8 +271,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_tlkm.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_tlkm.json", "utf-8"));
+    if (fs.existsSync("tweets_bmri_2020.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_bmri_2020.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -317,7 +343,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_tlkm.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_bmri_2020.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();

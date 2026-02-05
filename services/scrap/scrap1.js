@@ -9,7 +9,7 @@ const Sentiment = require("sentiment");
 // 3. phantom.zero2022@gmail.com
 // 4. hgrphantom01@gmail.com
 
-// akun file google: hgrphantom01@gmail.com
+// akun file google: hgr.allphantom22@gmail.com
 
 puppeteer.use(StealthPlugin());
 const sentiment = new Sentiment();
@@ -17,17 +17,48 @@ const sentiment = new Sentiment();
 require("dotenv").config();
 
 const twitterURLs = [
-    // BBRI
+    // BBRI 2025
     // Kata Kunci: BBRI
-    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-11-30%20since%3A2025-11-01&src=typed_query&f=live", // November live 2025
-    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-12-01&f=live&src=typed_query", // Desember live 2025
-
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-11-30%20since%3A2025-11-01&src=typed_query&f=live", // November live 2025
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-12-01&f=live&src=typed_query", // Desember live 2025
     // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-11-30%20since%3A2025-11-01&src=typed_query", // November top 2025
     // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-12-01&src=typed_query" // Desember top 2025
+
+    // Kata Kunci: #BBRI
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-11-30%20since%3A2025-11-01&src=typed_query&f=live", // November live 2025
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-12-01&f=live&src=typed_query", // Desember live 2025
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-11-30%20since%3A2025-11-01&src=typed_query", // November top 2025
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-12-01&src=typed_query" // Desember top 2025
+
+    // BBRI 2018
+    // Kata Kunci: BBRI
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // BBRI Top Januari - Juni 2018
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // BBRI Top Juli - Desember 2018
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // BBRI Live Januari - Juni 2018
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query&f=live", // BBRI Live Juli - Desember 2018
+
+    // Kata Kunci: #BBRI
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // #BBRI Top Januari - Juni 2018
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // #BBRI Top Juli - Desember 2018
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // #BBRI Live Januari - Juni 2018
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query&f=live", // #BBRI Live Juli - Desember 2018
+
+    // BMRI 2018
+    // Kata Kunci: BMRI
+    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // BMRI Top Januari - Juni 2019
+    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // BMRI Top Juli - Desember 2019
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // BMRI Live Januari - Juni 2019
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // BMRI Live Juli - Desember 2019
+
+    // Kata Kunci: #BMRI
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // #BMRI Top Januari - Juni 2019
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // #BMRI Top Juli - Desember 2019
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // #BMRI Live Januari - Juni 2019
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #BMRI Live Juli - Desember 2019
 ];
 
 const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam
-const COOKIES_FILE = "cookies_twitter.json";
+const COOKIES_FILE = "cookies_twitter1.json";
 const COOKIES_MAX_AGE = 12 * 60 * 60 * 1000; // 12 jam
 
 /* -------------------------------------------------------------------------- */
@@ -240,8 +271,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_bbri.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_bbri.json", "utf-8"));
+    if (fs.existsSync("tweets_bmri_2019.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_bmri_2019.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -312,7 +343,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_bbri.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_bmri_2019.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();

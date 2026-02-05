@@ -278,6 +278,19 @@ const twitterURLs = [
     // Kata Kunci: ICBP
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query",
     // "https://x.com/search?q=ICBP%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-01-01&src=typed_query&f=live",
+
+    // BMRI 2018
+    // Kata Kunci: BMRI
+    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // BMRI Top Januari - Juni 2018
+    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // BMRI Top Juli - Desember 2018
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // BMRI Terbaru Januari - Juni 2018
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query&f=live", // BMRI Terbaru Juli - Desember 2018
+
+    // Kata Kunci: #BMRI
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // #BMRI Top Januari - Juni 2018
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // #BMRI Top Juli - Desember 2018
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // #BMRI Terbaru Januari - Juni 2018
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query&f=live", // #BMRI Terbaru Juli - Desember 2018
 ];
 
 const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam
@@ -494,8 +507,8 @@ async function scrapeTweets() {
     await disableRequestBlocking(page);
 
     const tweets = new Set();
-    if (fs.existsSync("tweets_icbp_2022.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_icbp_2022.json", "utf-8"));
+    if (fs.existsSync("tweets_bmri_2018.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_bmri_2018.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -566,7 +579,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_icbp_2022.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_bmri_2018.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();
