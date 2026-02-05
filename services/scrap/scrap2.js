@@ -45,14 +45,14 @@ const twitterURLs = [
 
     // BMRI 2020
     // Kata Kunci: BMRI
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // BMRI Top Januari - Juni 2020
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // BMRI Top Juli - Desember 2020
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // BMRI Top Januari - Juni 2020
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // BMRI Top Juli - Desember 2020
     // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live", // BMRI Terbaru Januari - Juni 2020
-    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // BMRI Terbaru Juli - Desember 2020
+    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // BMRI Terbaru Juli - Desember 2020
 
     // Kata Kunci: #BMRI
-    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // #BMRI Top Januari - Juni 2020
-    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // #BMRI Top Juli - Desember 2020
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // #BMRI Top Januari - Juni 2020
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // #BMRI Top Juli - Desember 2020
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live", // #BMRI Terbaru Januari - Juni 2020
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // #BMRI Terbaru Juli - Desember 2020
 ];
@@ -197,6 +197,9 @@ function detectSahamFromURL(url) {
     if (lower.includes("bbri")) return "bbri";
     if (lower.includes("tlkm")) return "tlkm";
     if (lower.includes("icbp")) return "icbp";
+    if (lower.includes("bmri")) return "bmri";
+    if (lower.includes("unvr")) return "unvr";
+    if (lower.includes("isat")) return "isat";
 
     return "unknown";
 }

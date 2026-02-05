@@ -281,16 +281,22 @@ const twitterURLs = [
 
     // BMRI 2018
     // Kata Kunci: BMRI
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // BMRI Top Januari - Juni 2018
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // BMRI Top Juli - Desember 2018
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // BMRI Top Januari - Juni 2018
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // BMRI Top Juli - Desember 2018
     // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // BMRI Terbaru Januari - Juni 2018
     // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query&f=live", // BMRI Terbaru Juli - Desember 2018
 
     // Kata Kunci: #BMRI
-    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // #BMRI Top Januari - Juni 2018
-    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // #BMRI Top Juli - Desember 2018
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query", // #BMRI Top Januari - Juni 2018
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query", // #BMRI Top Juli - Desember 2018
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-06-30%20since%3A2018-01-01&src=typed_query&f=live", // #BMRI Terbaru Januari - Juni 2018
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2018-12-31%20since%3A2018-07-01&src=typed_query&f=live", // #BMRI Terbaru Juli - Desember 2018
+
+    // BMRI 2022
+    // Kata Kunci: BMRI
+    ""
+
+    // Kata Kunci: #BMRI
 ];
 
 const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam
@@ -433,6 +439,9 @@ function detectSahamFromURL(url) {
     if (lower.includes("bbri")) return "bbri";
     if (lower.includes("tlkm")) return "tlkm";
     if (lower.includes("icbp")) return "icbp";
+    if (lower.includes("bmri")) return "bmri";
+    if (lower.includes("unvr")) return "unvr";
+    if (lower.includes("isat")) return "isat";
 
     return "unknown";
 }
