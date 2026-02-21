@@ -48,13 +48,13 @@ const twitterURLs = [
     // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // BMRI Top Januari - Juni 2019
     // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // BMRI Top Juli - Desember 2019
     // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // BMRI Live Januari - Juni 2019
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // BMRI Live Juli - Desember 2019
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // BMRI Live Juli - Desember 2019
 
     // Kata Kunci: #BMRI
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query", // #BMRI Top Januari - Juni 2019
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query", // #BMRI Top Juli - Desember 2019
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2019-06-30%20since%3A2019-01-01&src=typed_query&f=live", // #BMRI Live Januari - Juni 2019
-    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #BMRI Live Juli - Desember 2019
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2019-12-31%20since%3A2019-07-01&src=typed_query&f=live", // #BMRI Live Juli - Desember 2019
 ];
 
 const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam

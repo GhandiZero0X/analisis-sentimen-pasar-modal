@@ -54,7 +54,7 @@ const twitterURLs = [
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query", // #BMRI Top Januari - Juni 2020
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query", // #BMRI Top Juli - Desember 2020
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-01-01&src=typed_query&f=live", // #BMRI Terbaru Januari - Juni 2020
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // #BMRI Terbaru Juli - Desember 2020
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-07-01&src=typed_query&f=live", // #BMRI Terbaru Juli - Desember 2020
 ];
 
 const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam
