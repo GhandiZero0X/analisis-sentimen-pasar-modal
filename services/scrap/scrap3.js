@@ -345,103 +345,103 @@ const twitterURLs = [
     // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-30%20since%3A2025-01-01&src=typed_query", // BMRI Top Januari - Juni 2025
     // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-07-01&src=typed_query", // #BMRI Top Juli - Desember 2025
 
-    // januari
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-03%20since%3A2025-01-01&f=live&src=typed_query", // BMRI 1-3 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-05%20since%3A2025-01-03&f=live&src=typed_query", // BMRI 3-5 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-07%20since%3A2025-01-05&f=live&src=typed_query", // BMRI 5-7 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-09%20since%3A2025-01-07&f=live&src=typed_query", // BMRI 7-9 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-11%20since%3A2025-01-09&f=live&src=typed_query", // BMRI 9-11 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-13%20since%3A2025-01-11&f=live&src=typed_query", // BMRI 11-13 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-15%20since%3A2025-01-13&f=live&src=typed_query", // BMRI 13-15 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-17%20since%3A2025-01-15&f=live&src=typed_query", // BMRI 15-17 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-19%20since%3A2025-01-17&f=live&src=typed_query", // BMRI 17-19 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-21%20since%3A2025-01-19&f=live&src=typed_query", // BMRI 19-21 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-23%20since%3A2025-01-21&f=live&src=typed_query", // BMRI 21-23 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-25%20since%3A2025-01-23&f=live&src=typed_query", // BMRI 23-25 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-27%20since%3A2025-01-25&f=live&src=typed_query", // BMRI 25-27 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-29%20since%3A2025-01-27&f=live&src=typed_query", // BMRI 27-29 Januari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-31%20since%3A2025-01-29&f=live&src=typed_query", // BMRI 29-31 Januari 2025
+    // // januari
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-03%20since%3A2025-01-01&f=live&src=typed_query", // BMRI 1-3 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-05%20since%3A2025-01-03&f=live&src=typed_query", // BMRI 3-5 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-07%20since%3A2025-01-05&f=live&src=typed_query", // BMRI 5-7 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-09%20since%3A2025-01-07&f=live&src=typed_query", // BMRI 7-9 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-11%20since%3A2025-01-09&f=live&src=typed_query", // BMRI 9-11 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-13%20since%3A2025-01-11&f=live&src=typed_query", // BMRI 11-13 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-15%20since%3A2025-01-13&f=live&src=typed_query", // BMRI 13-15 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-17%20since%3A2025-01-15&f=live&src=typed_query", // BMRI 15-17 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-19%20since%3A2025-01-17&f=live&src=typed_query", // BMRI 17-19 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-21%20since%3A2025-01-19&f=live&src=typed_query", // BMRI 19-21 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-23%20since%3A2025-01-21&f=live&src=typed_query", // BMRI 21-23 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-25%20since%3A2025-01-23&f=live&src=typed_query", // BMRI 23-25 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-27%20since%3A2025-01-25&f=live&src=typed_query", // BMRI 25-27 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-29%20since%3A2025-01-27&f=live&src=typed_query", // BMRI 27-29 Januari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-01-31%20since%3A2025-01-29&f=live&src=typed_query", // BMRI 29-31 Januari 2025
 
-    // februari
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-03%20since%3A2025-02-01&src=typed_query&f=live", // BMRI 1-3 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-05%20since%3A2025-02-03&src=typed_query&f=live", // BMRI 3-5 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-07%20since%3A2025-02-05&src=typed_query&f=live", // BMRI 5-7 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-09%20since%3A2025-02-07&src=typed_query&f=live", // BMRI 7-9 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-11%20since%3A2025-02-09&src=typed_query&f=live", // BMRI 9-11 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-13%20since%3A2025-02-11&src=typed_query&f=live", // BMRI 11-13 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-15%20since%3A2025-02-13&src=typed_query&f=live", // BMRI 13-15 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-17%20since%3A2025-02-15&src=typed_query&f=live", // BMRI 15-17 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-19%20since%3A2025-02-17&src=typed_query&f=live", // BMRI 17-19 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-21%20since%3A2025-02-19&src=typed_query&f=live", // BMRI 19-21 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-23%20since%3A2025-02-21&src=typed_query&f=live", // BMRI 21-23 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-25%20since%3A2025-02-23&src=typed_query&f=live", // BMRI 23-25 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-27%20since%3A2025-02-25&src=typed_query&f=live", // BMRI 25-27 Februari 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-28%20since%3A2025-02-27&src=typed_query&f=live", // BMRI 27-28 Februari 2025
+    // // februari
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-03%20since%3A2025-02-01&src=typed_query&f=live", // BMRI 1-3 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-05%20since%3A2025-02-03&src=typed_query&f=live", // BMRI 3-5 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-07%20since%3A2025-02-05&src=typed_query&f=live", // BMRI 5-7 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-09%20since%3A2025-02-07&src=typed_query&f=live", // BMRI 7-9 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-11%20since%3A2025-02-09&src=typed_query&f=live", // BMRI 9-11 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-13%20since%3A2025-02-11&src=typed_query&f=live", // BMRI 11-13 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-15%20since%3A2025-02-13&src=typed_query&f=live", // BMRI 13-15 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-17%20since%3A2025-02-15&src=typed_query&f=live", // BMRI 15-17 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-19%20since%3A2025-02-17&src=typed_query&f=live", // BMRI 17-19 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-21%20since%3A2025-02-19&src=typed_query&f=live", // BMRI 19-21 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-23%20since%3A2025-02-21&src=typed_query&f=live", // BMRI 21-23 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-25%20since%3A2025-02-23&src=typed_query&f=live", // BMRI 23-25 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-27%20since%3A2025-02-25&src=typed_query&f=live", // BMRI 25-27 Februari 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-02-28%20since%3A2025-02-27&src=typed_query&f=live", // BMRI 27-28 Februari 2025
 
-    // maret
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-03%20since%3A2025-03-01&src=typed_query&f=live", // BMRI 1-3 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-05%20since%3A2025-03-03&src=typed_query&f=live", // BMRI 3-5 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-07%20since%3A2025-03-05&src=typed_query&f=live", // BMRI 5-7 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-09%20since%3A2025-03-07&src=typed_query&f=live", // BMRI 7-9 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-11%20since%3A2025-03-09&src=typed_query&f=live", // BMRI 9-11 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-13%20since%3A2025-03-11&src=typed_query&f=live", // BMRI 11-13 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-15%20since%3A2025-03-13&src=typed_query&f=live", // BMRI 13-15 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-17%20since%3A2025-03-15&src=typed_query&f=live", // BMRI 15-17 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-19%20since%3A2025-03-17&src=typed_query&f=live", // BMRI 17-19 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-21%20since%3A2025-03-19&src=typed_query&f=live", // BMRI 19-21 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-23%20since%3A2025-03-21&src=typed_query&f=live", // BMRI 21-23 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-25%20since%3A2025-03-23&src=typed_query&f=live", // BMRI 23-25 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-27%20since%3A2025-03-25&src=typed_query&f=live", // BMRI 25-27 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-29%20since%3A2025-03-27&src=typed_query&f=live", // BMRI 27-29 Maret 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-31%20since%3A2025-03-29&src=typed_query&f=live", // BMRI 29-31 Maret 2025
+    // // maret
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-03%20since%3A2025-03-01&src=typed_query&f=live", // BMRI 1-3 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-05%20since%3A2025-03-03&src=typed_query&f=live", // BMRI 3-5 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-07%20since%3A2025-03-05&src=typed_query&f=live", // BMRI 5-7 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-09%20since%3A2025-03-07&src=typed_query&f=live", // BMRI 7-9 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-11%20since%3A2025-03-09&src=typed_query&f=live", // BMRI 9-11 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-13%20since%3A2025-03-11&src=typed_query&f=live", // BMRI 11-13 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-15%20since%3A2025-03-13&src=typed_query&f=live", // BMRI 13-15 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-17%20since%3A2025-03-15&src=typed_query&f=live", // BMRI 15-17 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-19%20since%3A2025-03-17&src=typed_query&f=live", // BMRI 17-19 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-21%20since%3A2025-03-19&src=typed_query&f=live", // BMRI 19-21 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-23%20since%3A2025-03-21&src=typed_query&f=live", // BMRI 21-23 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-25%20since%3A2025-03-23&src=typed_query&f=live", // BMRI 23-25 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-27%20since%3A2025-03-25&src=typed_query&f=live", // BMRI 25-27 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-29%20since%3A2025-03-27&src=typed_query&f=live", // BMRI 27-29 Maret 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-03-31%20since%3A2025-03-29&src=typed_query&f=live", // BMRI 29-31 Maret 2025
 
-    // april
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-03%20since%3A2025-04-01&src=typed_query&f=live", // BMRI 1-3 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-05%20since%3A2025-04-03&src=typed_query&f=live", // BMRI 3-5 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-07%20since%3A2025-04-05&src=typed_query&f=live", // BMRI 5-7 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-09%20since%3A2025-04-07&src=typed_query&f=live", // BMRI 7-9 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-11%20since%3A2025-04-09&src=typed_query&f=live", // BMRI 9-11 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-13%20since%3A2025-04-11&src=typed_query&f=live", // BMRI 11-13 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-15%20since%3A2025-04-13&src=typed_query&f=live", // BMRI 13-15 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-17%20since%3A2025-04-15&src=typed_query&f=live", // BMRI 15-17 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-19%20since%3A2025-04-17&src=typed_query&f=live", // BMRI 17-19 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-21%20since%3A2025-04-19&src=typed_query&f=live", // BMRI 19-21 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-23%20since%3A2025-04-21&src=typed_query&f=live", // BMRI 21-23 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-25%20since%3A2025-04-23&src=typed_query&f=live", // BMRI 23-25 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-27%20since%3A2025-04-25&src=typed_query&f=live", // BMRI 25-27 April 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-30%20since%3A2025-04-27&src=typed_query&f=live", // BMRI 27-30 April 2025
+    // // april
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-03%20since%3A2025-04-01&src=typed_query&f=live", // BMRI 1-3 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-05%20since%3A2025-04-03&src=typed_query&f=live", // BMRI 3-5 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-07%20since%3A2025-04-05&src=typed_query&f=live", // BMRI 5-7 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-09%20since%3A2025-04-07&src=typed_query&f=live", // BMRI 7-9 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-11%20since%3A2025-04-09&src=typed_query&f=live", // BMRI 9-11 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-13%20since%3A2025-04-11&src=typed_query&f=live", // BMRI 11-13 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-15%20since%3A2025-04-13&src=typed_query&f=live", // BMRI 13-15 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-17%20since%3A2025-04-15&src=typed_query&f=live", // BMRI 15-17 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-19%20since%3A2025-04-17&src=typed_query&f=live", // BMRI 17-19 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-21%20since%3A2025-04-19&src=typed_query&f=live", // BMRI 19-21 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-23%20since%3A2025-04-21&src=typed_query&f=live", // BMRI 21-23 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-25%20since%3A2025-04-23&src=typed_query&f=live", // BMRI 23-25 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-27%20since%3A2025-04-25&src=typed_query&f=live", // BMRI 25-27 April 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-04-30%20since%3A2025-04-27&src=typed_query&f=live", // BMRI 27-30 April 2025
 
-    // mei
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-03%20since%3A2025-05-01&src=typed_query&f=live", // BMRI 1-3 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-05%20since%3A2025-05-03&src=typed_query&f=live", // BMRI 3-5 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-07%20since%3A2025-05-05&src=typed_query&f=live", // BMRI 5-7 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-09%20since%3A2025-05-07&src=typed_query&f=live", // BMRI 7-9 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-11%20since%3A2025-05-09&src=typed_query&f=live", // BMRI 9-11 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-13%20since%3A2025-05-11&src=typed_query&f=live", // BMRI 11-13 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-15%20since%3A2025-05-13&src=typed_query&f=live", // BMRI 13-15 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-17%20since%3A2025-05-15&src=typed_query&f=live", // BMRI 15-17 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-19%20since%3A2025-05-17&src=typed_query&f=live", // BMRI 17-19 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-21%20since%3A2025-05-19&src=typed_query&f=live", // BMRI 19-21 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-23%20since%3A2025-05-21&src=typed_query&f=live", // BMRI 21-23 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-25%20since%3A2025-05-23&src=typed_query&f=live", // BMRI 23-25 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-27%20since%3A2025-05-25&src=typed_query&f=live", // BMRI 25-27 Mei 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-31%20since%3A2025-05-27&src=typed_query&f=live", // BMRI 27-31 Mei 2025
+    // // mei
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-03%20since%3A2025-05-01&src=typed_query&f=live", // BMRI 1-3 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-05%20since%3A2025-05-03&src=typed_query&f=live", // BMRI 3-5 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-07%20since%3A2025-05-05&src=typed_query&f=live", // BMRI 5-7 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-09%20since%3A2025-05-07&src=typed_query&f=live", // BMRI 7-9 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-11%20since%3A2025-05-09&src=typed_query&f=live", // BMRI 9-11 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-13%20since%3A2025-05-11&src=typed_query&f=live", // BMRI 11-13 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-15%20since%3A2025-05-13&src=typed_query&f=live", // BMRI 13-15 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-17%20since%3A2025-05-15&src=typed_query&f=live", // BMRI 15-17 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-19%20since%3A2025-05-17&src=typed_query&f=live", // BMRI 17-19 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-21%20since%3A2025-05-19&src=typed_query&f=live", // BMRI 19-21 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-23%20since%3A2025-05-21&src=typed_query&f=live", // BMRI 21-23 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-25%20since%3A2025-05-23&src=typed_query&f=live", // BMRI 23-25 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-27%20since%3A2025-05-25&src=typed_query&f=live", // BMRI 25-27 Mei 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-05-31%20since%3A2025-05-27&src=typed_query&f=live", // BMRI 27-31 Mei 2025
 
-    // juni
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-03%20since%3A2025-06-01&src=typed_query&f=live", // BMRI 1-3 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-05%20since%3A2025-06-03&src=typed_query&f=live", // BMRI 3-5 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-07%20since%3A2025-06-05&src=typed_query&f=live", // BMRI 5-7 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-09%20since%3A2025-06-07&src=typed_query&f=live", // BMRI 7-9 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-11%20since%3A2025-06-09&src=typed_query&f=live", // BMRI 9-11 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-13%20since%3A2025-06-11&src=typed_query&f=live", // BMRI 11-13 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-15%20since%3A2025-06-13&src=typed_query&f=live", // BMRI 13-15 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-17%20since%3A2025-06-15&src=typed_query&f=live", // BMRI 15-17 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-19%20since%3A2025-06-17&src=typed_query&f=live", // BMRI 17-19 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-21%20since%3A2025-06-19&src=typed_query&f=live", // BMRI 19-21 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-23%20since%3A2025-06-21&src=typed_query&f=live", // BMRI 21-23 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-25%20since%3A2025-06-23&src=typed_query&f=live", // BMRI 23-25 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-27%20since%3A2025-06-25&src=typed_query&f=live", // BMRI 25-27 Juni 2025
-    "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-30%20since%3A2025-06-27&src=typed_query&f=live", // BMRI 27-30 Juni 2025
+    // // juni
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-03%20since%3A2025-06-01&src=typed_query&f=live", // BMRI 1-3 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-05%20since%3A2025-06-03&src=typed_query&f=live", // BMRI 3-5 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-07%20since%3A2025-06-05&src=typed_query&f=live", // BMRI 5-7 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-09%20since%3A2025-06-07&src=typed_query&f=live", // BMRI 7-9 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-11%20since%3A2025-06-09&src=typed_query&f=live", // BMRI 9-11 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-13%20since%3A2025-06-11&src=typed_query&f=live", // BMRI 11-13 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-15%20since%3A2025-06-13&src=typed_query&f=live", // BMRI 13-15 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-17%20since%3A2025-06-15&src=typed_query&f=live", // BMRI 15-17 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-19%20since%3A2025-06-17&src=typed_query&f=live", // BMRI 17-19 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-21%20since%3A2025-06-19&src=typed_query&f=live", // BMRI 19-21 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-23%20since%3A2025-06-21&src=typed_query&f=live", // BMRI 21-23 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-25%20since%3A2025-06-23&src=typed_query&f=live", // BMRI 23-25 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-27%20since%3A2025-06-25&src=typed_query&f=live", // BMRI 25-27 Juni 2025
+    // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-06-30%20since%3A2025-06-27&src=typed_query&f=live", // BMRI 27-30 Juni 2025
 
     // // juli
     // "https://x.com/search?q=BMRI%20lang%3Aid%20until%3A2025-07-03%20since%3A2025-07-01&src=typed_query&f=live", // BMRI 1-3 Juli 2025
@@ -542,10 +542,10 @@ const twitterURLs = [
     
     // Kata Kunci: #BMRI
     // top 
-    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-06-30%20since%3A2025-01-01&src=typed_query", // #BMRI januari - juni top 2025
-    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-07-01&src=typed_query", // #BMRI juli - desember top 2025
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-06-30%20since%3A2025-01-01&src=typed_query", // #BMRI januari - juni top 2025
+    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-07-01&src=typed_query", // #BMRI juli - desember top 2025
 
-    //     // januari
+    // // januari
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-01-03%20since%3A2025-01-01&f=live&src=typed_query", // BMRI 1-3 Januari 2025
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-01-05%20since%3A2025-01-03&f=live&src=typed_query", // BMRI 3-5 Januari 2025
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-01-07%20since%3A2025-01-05&f=live&src=typed_query", // BMRI 5-7 Januari 2025
@@ -643,102 +643,102 @@ const twitterURLs = [
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-06-27%20since%3A2025-06-25&src=typed_query&f=live", // BMRI 25-27 Juni 2025
     // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-06-30%20since%3A2025-06-27&src=typed_query&f=live", // BMRI 27-30 Juni 2025
 
-    // // juli
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-03%20since%3A2025-07-01&src=typed_query&f=live", // BMRI 1-3 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-05%20since%3A2025-07-03&src=typed_query&f=live", // BMRI 3-5 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-07%20since%3A2025-07-05&src=typed_query&f=live", // BMRI 5-7 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-09%20since%3A2025-07-07&src=typed_query&f=live", // BMRI 7-9 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-11%20since%3A2025-07-09&src=typed_query&f=live", // BMRI 9-11 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-13%20since%3A2025-07-11&src=typed_query&f=live", // BMRI 11-13 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-15%20since%3A2025-07-13&src=typed_query&f=live", // BMRI 13-15 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-17%20since%3A2025-07-15&src=typed_query&f=live", // BMRI 15-17 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-19%20since%3A2025-07-17&src=typed_query&f=live", // BMRI 17-19 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-21%20since%3A2025-07-19&src=typed_query&f=live", // BMRI 19-21 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-23%20since%3A2025-07-21&src=typed_query&f=live", // BMRI 21-23 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-25%20since%3A2025-07-23&src=typed_query&f=live", // BMRI 23-25 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-27%20since%3A2025-07-25&src=typed_query&f=live", // BMRI 25-27 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-29%20since%3A2025-07-27&src=typed_query&f=live", // BMRI 27-29 Juli 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-31%20since%3A2025-07-29&src=typed_query&f=live", // BMRI 29-31 Juli 2025
+    // juli
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-03%20since%3A2025-07-01&src=typed_query&f=live", // BMRI 1-3 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-05%20since%3A2025-07-03&src=typed_query&f=live", // BMRI 3-5 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-07%20since%3A2025-07-05&src=typed_query&f=live", // BMRI 5-7 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-09%20since%3A2025-07-07&src=typed_query&f=live", // BMRI 7-9 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-11%20since%3A2025-07-09&src=typed_query&f=live", // BMRI 9-11 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-13%20since%3A2025-07-11&src=typed_query&f=live", // BMRI 11-13 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-15%20since%3A2025-07-13&src=typed_query&f=live", // BMRI 13-15 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-17%20since%3A2025-07-15&src=typed_query&f=live", // BMRI 15-17 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-19%20since%3A2025-07-17&src=typed_query&f=live", // BMRI 17-19 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-21%20since%3A2025-07-19&src=typed_query&f=live", // BMRI 19-21 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-23%20since%3A2025-07-21&src=typed_query&f=live", // BMRI 21-23 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-25%20since%3A2025-07-23&src=typed_query&f=live", // BMRI 23-25 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-27%20since%3A2025-07-25&src=typed_query&f=live", // BMRI 25-27 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-29%20since%3A2025-07-27&src=typed_query&f=live", // BMRI 27-29 Juli 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-07-31%20since%3A2025-07-29&src=typed_query&f=live", // BMRI 29-31 Juli 2025
 
-    // // agustus
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-03%20since%3A2025-08-01&src=typed_query&f=live", // BMRI 1-3 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-05%20since%3A2025-08-03&src=typed_query&f=live", // BMRI 3-5 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-07%20since%3A2025-08-05&src=typed_query&f=live", // BMRI 5-7 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-09%20since%3A2025-08-07&src=typed_query&f=live", // BMRI 7-9 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-11%20since%3A2025-08-09&src=typed_query&f=live", // BMRI 9-11 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-13%20since%3A2025-08-11&src=typed_query&f=live", // BMRI 11-13 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-15%20since%3A2025-08-13&src=typed_query&f=live", // BMRI 13-15 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-17%20since%3A2025-08-15&src=typed_query&f=live", // BMRI 15-17 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-19%20since%3A2025-08-17&src=typed_query&f=live", // BMRI 17-19 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-21%20since%3A2025-08-19&src=typed_query&f=live", // BMRI 19-21 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-23%20since%3A2025-08-21&src=typed_query&f=live", // BMRI 21-23 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-25%20since%3A2025-08-23&src=typed_query&f=live", // BMRI 23-25 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-27%20since%3A2025-08-25&src=typed_query&f=live", // BMRI 25-27 Agustus 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-31%20since%3A2025-08-27&src=typed_query&f=live", // BMRI 27-31 Agustus 2025
+    // agustus
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-03%20since%3A2025-08-01&src=typed_query&f=live", // BMRI 1-3 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-05%20since%3A2025-08-03&src=typed_query&f=live", // BMRI 3-5 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-07%20since%3A2025-08-05&src=typed_query&f=live", // BMRI 5-7 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-09%20since%3A2025-08-07&src=typed_query&f=live", // BMRI 7-9 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-11%20since%3A2025-08-09&src=typed_query&f=live", // BMRI 9-11 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-13%20since%3A2025-08-11&src=typed_query&f=live", // BMRI 11-13 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-15%20since%3A2025-08-13&src=typed_query&f=live", // BMRI 13-15 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-17%20since%3A2025-08-15&src=typed_query&f=live", // BMRI 15-17 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-19%20since%3A2025-08-17&src=typed_query&f=live", // BMRI 17-19 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-21%20since%3A2025-08-19&src=typed_query&f=live", // BMRI 19-21 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-23%20since%3A2025-08-21&src=typed_query&f=live", // BMRI 21-23 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-25%20since%3A2025-08-23&src=typed_query&f=live", // BMRI 23-25 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-27%20since%3A2025-08-25&src=typed_query&f=live", // BMRI 25-27 Agustus 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-08-31%20since%3A2025-08-27&src=typed_query&f=live", // BMRI 27-31 Agustus 2025
 
-    // // september
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-03%20since%3A2025-09-01&src=typed_query&f=live", // BMRI 1-3 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-05%20since%3A2025-09-03&src=typed_query&f=live", // BMRI 3-5 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-07%20since%3A2025-09-05&src=typed_query&f=live", // BMRI 5-7 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-09%20since%3A2025-09-07&src=typed_query&f=live", // BMRI 7-9 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-11%20since%3A2025-09-09&src=typed_query&f=live", // BMRI 9-11 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-13%20since%3A2025-09-11&src=typed_query&f=live", // BMRI 11-13 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-15%20since%3A2025-09-13&src=typed_query&f=live", // BMRI 13-15 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-17%20since%3A2025-09-15&src=typed_query&f=live", // BMRI 15-17 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-19%20since%3A2025-09-17&src=typed_query&f=live", // BMRI 17-19 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-21%20since%3A2025-09-19&src=typed_query&f=live", // BMRI 19-21 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-23%20since%3A2025-09-21&src=typed_query&f=live", // BMRI 21-23 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-25%20since%3A2025-09-23&src=typed_query&f=live", // BMRI 23-25 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-27%20since%3A2025-09-25&src=typed_query&f=live", // BMRI 25-27 September 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-30%20since%3A2025-09-27&src=typed_query&f=live", // BMRI 27-30 September 2025
+    // september
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-03%20since%3A2025-09-01&src=typed_query&f=live", // BMRI 1-3 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-05%20since%3A2025-09-03&src=typed_query&f=live", // BMRI 3-5 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-07%20since%3A2025-09-05&src=typed_query&f=live", // BMRI 5-7 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-09%20since%3A2025-09-07&src=typed_query&f=live", // BMRI 7-9 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-11%20since%3A2025-09-09&src=typed_query&f=live", // BMRI 9-11 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-13%20since%3A2025-09-11&src=typed_query&f=live", // BMRI 11-13 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-15%20since%3A2025-09-13&src=typed_query&f=live", // BMRI 13-15 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-17%20since%3A2025-09-15&src=typed_query&f=live", // BMRI 15-17 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-19%20since%3A2025-09-17&src=typed_query&f=live", // BMRI 17-19 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-21%20since%3A2025-09-19&src=typed_query&f=live", // BMRI 19-21 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-23%20since%3A2025-09-21&src=typed_query&f=live", // BMRI 21-23 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-25%20since%3A2025-09-23&src=typed_query&f=live", // BMRI 23-25 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-27%20since%3A2025-09-25&src=typed_query&f=live", // BMRI 25-27 September 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-09-30%20since%3A2025-09-27&src=typed_query&f=live", // BMRI 27-30 September 2025
     
-    // // oktober
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-03%20since%3A2025-10-01&src=typed_query&f=live", // BMRI 1-3 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-05%20since%3A2025-10-03&src=typed_query&f=live", // BMRI 3-5 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-07%20since%3A2025-10-05&src=typed_query&f=live", // BMRI 5-7 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-09%20since%3A2025-10-07&src=typed_query&f=live", // BMRI 7-9 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-11%20since%3A2025-10-09&src=typed_query&f=live", // BMRI 9-11 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-13%20since%3A2025-10-11&src=typed_query&f=live", // BMRI 11-13 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-15%20since%3A2025-10-13&src=typed_query&f=live", // BMRI 13-15 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-17%20since%3A2025-10-15&src=typed_query&f=live", // BMRI 15-17 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-19%20since%3A2025-10-17&src=typed_query&f=live", // BMRI 17-19 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-21%20since%3A2025-10-19&src=typed_query&f=live", // BMRI 19-21 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-23%20since%3A2025-10-21&src=typed_query&f=live", // BMRI 21-23 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-25%20since%3A2025-10-23&src=typed_query&f=live", // BMRI 23-25 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-27%20since%3A2025-10-25&src=typed_query&f=live", // BMRI 25-27 Oktober 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-10-27&src=typed_query&f=live", // BMRI 27-31 Oktober 2025
+    // oktober
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-03%20since%3A2025-10-01&src=typed_query&f=live", // BMRI 1-3 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-05%20since%3A2025-10-03&src=typed_query&f=live", // BMRI 3-5 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-07%20since%3A2025-10-05&src=typed_query&f=live", // BMRI 5-7 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-09%20since%3A2025-10-07&src=typed_query&f=live", // BMRI 7-9 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-11%20since%3A2025-10-09&src=typed_query&f=live", // BMRI 9-11 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-13%20since%3A2025-10-11&src=typed_query&f=live", // BMRI 11-13 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-15%20since%3A2025-10-13&src=typed_query&f=live", // BMRI 13-15 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-17%20since%3A2025-10-15&src=typed_query&f=live", // BMRI 15-17 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-19%20since%3A2025-10-17&src=typed_query&f=live", // BMRI 17-19 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-21%20since%3A2025-10-19&src=typed_query&f=live", // BMRI 19-21 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-23%20since%3A2025-10-21&src=typed_query&f=live", // BMRI 21-23 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-25%20since%3A2025-10-23&src=typed_query&f=live", // BMRI 23-25 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-27%20since%3A2025-10-25&src=typed_query&f=live", // BMRI 25-27 Oktober 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-10-31%20since%3A2025-10-27&src=typed_query&f=live", // BMRI 27-31 Oktober 2025
 
-    // // november
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-03%20since%3A2025-11-01&src=typed_query&f=live", // BMRI 1-3 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-05%20since%3A2025-11-03&src=typed_query&f=live", // BMRI 3-5 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-07%20since%3A2025-11-05&src=typed_query&f=live", // BMRI 5-7 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-09%20since%3A2025-11-07&src=typed_query&f=live", // BMRI 7-9 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-11%20since%3A2025-11-09&src=typed_query&f=live", // BMRI 9-11 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-13%20since%3A2025-11-11&src=typed_query&f=live", // BMRI 11-13 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-15%20since%3A2025-11-13&src=typed_query&f=live", // BMRI 13-15 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-17%20since%3A2025-11-15&src=typed_query&f=live", // BMRI 15-17 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-19%20since%3A2025-11-17&src=typed_query&f=live", // BMRI 17-19 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-21%20since%3A2025-11-19&src=typed_query&f=live", // BMRI 19-21 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-23%20since%3A2025-11-21&src=typed_query&f=live", // BMRI 21-23 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-25%20since%3A2025-11-23&src=typed_query&f=live", // BMRI 23-25 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-27%20since%3A2025-11-25&src=typed_query&f=live", // BMRI 25-27 November 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-30%20since%3A2025-11-27&src=typed_query&f=live", // BMRI 27-30 November 2025
+    // november
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-03%20since%3A2025-11-01&src=typed_query&f=live", // BMRI 1-3 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-05%20since%3A2025-11-03&src=typed_query&f=live", // BMRI 3-5 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-07%20since%3A2025-11-05&src=typed_query&f=live", // BMRI 5-7 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-09%20since%3A2025-11-07&src=typed_query&f=live", // BMRI 7-9 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-11%20since%3A2025-11-09&src=typed_query&f=live", // BMRI 9-11 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-13%20since%3A2025-11-11&src=typed_query&f=live", // BMRI 11-13 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-15%20since%3A2025-11-13&src=typed_query&f=live", // BMRI 13-15 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-17%20since%3A2025-11-15&src=typed_query&f=live", // BMRI 15-17 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-19%20since%3A2025-11-17&src=typed_query&f=live", // BMRI 17-19 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-21%20since%3A2025-11-19&src=typed_query&f=live", // BMRI 19-21 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-23%20since%3A2025-11-21&src=typed_query&f=live", // BMRI 21-23 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-25%20since%3A2025-11-23&src=typed_query&f=live", // BMRI 23-25 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-27%20since%3A2025-11-25&src=typed_query&f=live", // BMRI 25-27 November 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-11-30%20since%3A2025-11-27&src=typed_query&f=live", // BMRI 27-30 November 2025
 
-    // // desember
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-03%20since%3A2025-12-01&src=typed_query&f=live", // BMRI 1-3 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-05%20since%3A2025-12-03&src=typed_query&f=live", // BMRI 3-5 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-07%20since%3A2025-12-05&src=typed_query&f=live", // BMRI 5-7 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-09%20since%3A2025-12-07&src=typed_query&f=live", // BMRI 7-9 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-11%20since%3A2025-12-09&src=typed_query&f=live", // BMRI 9-11 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-13%20since%3A2025-12-11&src=typed_query&f=live", // BMRI 11-13 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-15%20since%3A2025-12-13&src=typed_query&f=live", // BMRI 13-15 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-17%20since%3A2025-12-15&src=typed_query&f=live", // BMRI 15-17 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-19%20since%3A2025-12-17&src=typed_query&f=live", // BMRI 17-19 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-21%20since%3A2025-12-19&src=typed_query&f=live", // BMRI 19-21 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-23%20since%3A2025-12-21&src=typed_query&f=live", // BMRI 21-23 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-25%20since%3A2025-12-23&src=typed_query&f=live", // BMRI 23-25 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-27%20since%3A2025-12-25&src=typed_query&f=live", // BMRI 25-27 Desember 2025
-    // "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-12-27&src=typed_query&f=live", // BMRI 27-31 Desember 2025
+    // desember
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-03%20since%3A2025-12-01&src=typed_query&f=live", // BMRI 1-3 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-05%20since%3A2025-12-03&src=typed_query&f=live", // BMRI 3-5 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-07%20since%3A2025-12-05&src=typed_query&f=live", // BMRI 5-7 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-09%20since%3A2025-12-07&src=typed_query&f=live", // BMRI 7-9 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-11%20since%3A2025-12-09&src=typed_query&f=live", // BMRI 9-11 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-13%20since%3A2025-12-11&src=typed_query&f=live", // BMRI 11-13 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-15%20since%3A2025-12-13&src=typed_query&f=live", // BMRI 13-15 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-17%20since%3A2025-12-15&src=typed_query&f=live", // BMRI 15-17 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-19%20since%3A2025-12-17&src=typed_query&f=live", // BMRI 17-19 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-21%20since%3A2025-12-19&src=typed_query&f=live", // BMRI 19-21 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-23%20since%3A2025-12-21&src=typed_query&f=live", // BMRI 21-23 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-25%20since%3A2025-12-23&src=typed_query&f=live", // BMRI 23-25 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-27%20since%3A2025-12-25&src=typed_query&f=live", // BMRI 25-27 Desember 2025
+    "https://x.com/search?q=%23BMRI%20lang%3Aid%20until%3A2025-12-31%20since%3A2025-12-27&src=typed_query&f=live", // BMRI 27-31 Desember 2025
 ];
 
 const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam
