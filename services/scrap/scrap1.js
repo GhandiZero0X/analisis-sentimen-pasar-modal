@@ -652,102 +652,102 @@ const twitterURLs = [
     // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-12-27%20since%3A2020-12-25&src=typed_query", // ISAT 25-27 Desember 2020
     // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-12-27&src=typed_query", // ISAT 27-31 Desember 2020
 
-    // latest
-    // januari
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-03%20since%3A2020-01-01&src=typed_query&f=live", // ISAT 1-3 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-05%20since%3A2020-01-03&src=typed_query&f=live", // ISAT 3-5 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-07%20since%3A2020-01-05&src=typed_query&f=live", // ISAT 5-7 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-09%20since%3A2020-01-07&src=typed_query&f=live", // ISAT 7-9 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-11%20since%3A2020-01-09&src=typed_query&f=live", // ISAT 9-11 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-13%20since%3A2020-01-11&src=typed_query&f=live", // ISAT 11-13 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-15%20since%3A2020-01-13&src=typed_query&f=live", // ISAT 13-15 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-17%20since%3A2020-01-15&src=typed_query&f=live", // ISAT 15-17 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-19%20since%3A2020-01-17&src=typed_query&f=live", // ISAT 17-19 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-21%20since%3A2020-01-19&src=typed_query&f=live", // ISAT 19-21 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-23%20since%3A2020-01-21&src=typed_query&f=live", // ISAT 21-23 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-25%20since%3A2020-01-23&src=typed_query&f=live", // ISAT 23-25 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-27%20since%3A2020-01-25&src=typed_query&f=live", // ISAT 25-27 Januari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-31%20since%3A2020-01-27&src=typed_query&f=live", // ISAT 27-31 Januari 2020
+    // // latest
+    // // januari
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-03%20since%3A2020-01-01&src=typed_query&f=live", // ISAT 1-3 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-05%20since%3A2020-01-03&src=typed_query&f=live", // ISAT 3-5 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-07%20since%3A2020-01-05&src=typed_query&f=live", // ISAT 5-7 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-09%20since%3A2020-01-07&src=typed_query&f=live", // ISAT 7-9 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-11%20since%3A2020-01-09&src=typed_query&f=live", // ISAT 9-11 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-13%20since%3A2020-01-11&src=typed_query&f=live", // ISAT 11-13 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-15%20since%3A2020-01-13&src=typed_query&f=live", // ISAT 13-15 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-17%20since%3A2020-01-15&src=typed_query&f=live", // ISAT 15-17 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-19%20since%3A2020-01-17&src=typed_query&f=live", // ISAT 17-19 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-21%20since%3A2020-01-19&src=typed_query&f=live", // ISAT 19-21 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-23%20since%3A2020-01-21&src=typed_query&f=live", // ISAT 21-23 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-25%20since%3A2020-01-23&src=typed_query&f=live", // ISAT 23-25 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-27%20since%3A2020-01-25&src=typed_query&f=live", // ISAT 25-27 Januari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-01-31%20since%3A2020-01-27&src=typed_query&f=live", // ISAT 27-31 Januari 2020
 
-    // februari
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-03%20since%3A2020-02-01&src=typed_query&f=live", // ISAT 1-3 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-05%20since%3A2020-02-03&src=typed_query&f=live", // ISAT 3-5 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-07%20since%3A2020-02-05&src=typed_query&f=live", // ISAT 5-7 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-09%20since%3A2020-02-07&src=typed_query&f=live", // ISAT 7-9 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-11%20since%3A2020-02-09&src=typed_query&f=live", // ISAT 9-11 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-13%20since%3A2020-02-11&src=typed_query&f=live", // ISAT 11-13 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-15%20since%3A2020-02-13&src=typed_query&f=live", // ISAT 13-15 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-17%20since%3A2020-02-15&src=typed_query&f=live", // ISAT 15-17 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-19%20since%3A2020-02-17&src=typed_query&f=live", // ISAT 17-19 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-21%20since%3A2020-02-19&src=typed_query&f=live", // ISAT 19-21 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-23%20since%3A2020-02-21&src=typed_query&f=live", // ISAT 21-23 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-25%20since%3A2020-02-23&src=typed_query&f=live", // ISAT 23-25 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-27%20since%3A2020-02-25&src=typed_query&f=live", // ISAT 25-27 Februari 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-28%20since%3A2020-02-27&src=typed_query&f=live", // ISAT 27-28 Februari 2020
+    // // februari
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-03%20since%3A2020-02-01&src=typed_query&f=live", // ISAT 1-3 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-05%20since%3A2020-02-03&src=typed_query&f=live", // ISAT 3-5 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-07%20since%3A2020-02-05&src=typed_query&f=live", // ISAT 5-7 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-09%20since%3A2020-02-07&src=typed_query&f=live", // ISAT 7-9 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-11%20since%3A2020-02-09&src=typed_query&f=live", // ISAT 9-11 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-13%20since%3A2020-02-11&src=typed_query&f=live", // ISAT 11-13 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-15%20since%3A2020-02-13&src=typed_query&f=live", // ISAT 13-15 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-17%20since%3A2020-02-15&src=typed_query&f=live", // ISAT 15-17 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-19%20since%3A2020-02-17&src=typed_query&f=live", // ISAT 17-19 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-21%20since%3A2020-02-19&src=typed_query&f=live", // ISAT 19-21 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-23%20since%3A2020-02-21&src=typed_query&f=live", // ISAT 21-23 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-25%20since%3A2020-02-23&src=typed_query&f=live", // ISAT 23-25 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-27%20since%3A2020-02-25&src=typed_query&f=live", // ISAT 25-27 Februari 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-02-28%20since%3A2020-02-27&src=typed_query&f=live", // ISAT 27-28 Februari 2020
 
-    // maret
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-03%20since%3A2020-03-01&src=typed_query&f=live", // ISAT 1-3 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-05%20since%3A2020-03-03&src=typed_query&f=live", // ISAT 3-5 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-07%20since%3A2020-03-05&src=typed_query&f=live", // ISAT 5-7 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-09%20since%3A2020-03-07&src=typed_query&f=live", // ISAT 7-9 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-11%20since%3A2020-03-09&src=typed_query&f=live", // ISAT 9-11 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-13%20since%3A2020-03-11&src=typed_query&f=live", // ISAT 11-13 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-15%20since%3A2020-03-13&src=typed_query&f=live", // ISAT 13-15 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-17%20since%3A2020-03-15&src=typed_query&f=live", // ISAT 15-17 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-19%20since%3A2020-03-17&src=typed_query&f=live", // ISAT 17-19 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-21%20since%3A2020-03-19&src=typed_query&f=live", // ISAT 19-21 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-23%20since%3A2020-03-21&src=typed_query&f=live", // ISAT 21-23 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-25%20since%3A2020-03-23&src=typed_query&f=live", // ISAT 23-25 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-27%20since%3A2020-03-25&src=typed_query&f=live", // ISAT 25-27 Maret 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-31%20since%3A2020-03-27&src=typed_query&f=live", // ISAT 27-31 Maret 2020
+    // // maret
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-03%20since%3A2020-03-01&src=typed_query&f=live", // ISAT 1-3 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-05%20since%3A2020-03-03&src=typed_query&f=live", // ISAT 3-5 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-07%20since%3A2020-03-05&src=typed_query&f=live", // ISAT 5-7 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-09%20since%3A2020-03-07&src=typed_query&f=live", // ISAT 7-9 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-11%20since%3A2020-03-09&src=typed_query&f=live", // ISAT 9-11 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-13%20since%3A2020-03-11&src=typed_query&f=live", // ISAT 11-13 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-15%20since%3A2020-03-13&src=typed_query&f=live", // ISAT 13-15 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-17%20since%3A2020-03-15&src=typed_query&f=live", // ISAT 15-17 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-19%20since%3A2020-03-17&src=typed_query&f=live", // ISAT 17-19 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-21%20since%3A2020-03-19&src=typed_query&f=live", // ISAT 19-21 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-23%20since%3A2020-03-21&src=typed_query&f=live", // ISAT 21-23 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-25%20since%3A2020-03-23&src=typed_query&f=live", // ISAT 23-25 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-27%20since%3A2020-03-25&src=typed_query&f=live", // ISAT 25-27 Maret 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-03-31%20since%3A2020-03-27&src=typed_query&f=live", // ISAT 27-31 Maret 2020
 
-    // april
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-03%20since%3A2020-04-01&src=typed_query&f=live", // ISAT 1-3 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-05%20since%3A2020-04-03&src=typed_query&f=live", // ISAT 3-5 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-07%20since%3A2020-04-05&src=typed_query&f=live", // ISAT 5-7 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-09%20since%3A2020-04-07&src=typed_query&f=live", // ISAT 7-9 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-11%20since%3A2020-04-09&src=typed_query&f=live", // ISAT 9-11 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-13%20since%3A2020-04-11&src=typed_query&f=live", // ISAT 11-13 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-15%20since%3A2020-04-13&src=typed_query&f=live", // ISAT 13-15 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-17%20since%3A2020-04-15&src=typed_query&f=live", // ISAT 15-17 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-19%20since%3A2020-04-17&src=typed_query&f=live", // ISAT 17-19 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-21%20since%3A2020-04-19&src=typed_query&f=live", // ISAT 19-21 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-23%20since%3A2020-04-21&src=typed_query&f=live", // ISAT 21-23 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-25%20since%3A2020-04-23&src=typed_query&f=live", // ISAT 23-25 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-27%20since%3A2020-04-25&src=typed_query&f=live", // ISAT 25-27 April 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-30%20since%3A2020-04-27&src=typed_query&f=live", // ISAT 27-30 April 2020
+    // // april
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-03%20since%3A2020-04-01&src=typed_query&f=live", // ISAT 1-3 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-05%20since%3A2020-04-03&src=typed_query&f=live", // ISAT 3-5 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-07%20since%3A2020-04-05&src=typed_query&f=live", // ISAT 5-7 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-09%20since%3A2020-04-07&src=typed_query&f=live", // ISAT 7-9 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-11%20since%3A2020-04-09&src=typed_query&f=live", // ISAT 9-11 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-13%20since%3A2020-04-11&src=typed_query&f=live", // ISAT 11-13 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-15%20since%3A2020-04-13&src=typed_query&f=live", // ISAT 13-15 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-17%20since%3A2020-04-15&src=typed_query&f=live", // ISAT 15-17 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-19%20since%3A2020-04-17&src=typed_query&f=live", // ISAT 17-19 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-21%20since%3A2020-04-19&src=typed_query&f=live", // ISAT 19-21 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-23%20since%3A2020-04-21&src=typed_query&f=live", // ISAT 21-23 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-25%20since%3A2020-04-23&src=typed_query&f=live", // ISAT 23-25 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-27%20since%3A2020-04-25&src=typed_query&f=live", // ISAT 25-27 April 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-04-30%20since%3A2020-04-27&src=typed_query&f=live", // ISAT 27-30 April 2020
 
-    // mei
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-03%20since%3A2020-05-01&src=typed_query&f=live", // ISAT 1-3 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-05%20since%3A2020-05-03&src=typed_query&f=live", // ISAT 3-5 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-07%20since%3A2020-05-05&src=typed_query&f=live", // ISAT 5-7 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-09%20since%3A2020-05-07&src=typed_query&f=live", // ISAT 7-9 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-11%20since%3A2020-05-09&src=typed_query&f=live", // ISAT 9-11 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-13%20since%3A2020-05-11&src=typed_query&f=live", // ISAT 11-13 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-15%20since%3A2020-05-13&src=typed_query&f=live", // ISAT 13-15 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-17%20since%3A2020-05-15&src=typed_query&f=live", // ISAT 15-17 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-19%20since%3A2020-05-17&src=typed_query&f=live", // ISAT 17-19 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-21%20since%3A2020-05-19&src=typed_query&f=live", // ISAT 19-21 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-23%20since%3A2020-05-21&src=typed_query&f=live", // ISAT 21-23 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-25%20since%3A2020-05-23&src=typed_query&f=live", // ISAT 23-25 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-27%20since%3A2020-05-25&src=typed_query&f=live", // ISAT 25-27 Mei 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-31%20since%3A2020-05-27&src=typed_query&f=live", // ISAT 27-31 Mei 2020
+    // // mei
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-03%20since%3A2020-05-01&src=typed_query&f=live", // ISAT 1-3 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-05%20since%3A2020-05-03&src=typed_query&f=live", // ISAT 3-5 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-07%20since%3A2020-05-05&src=typed_query&f=live", // ISAT 5-7 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-09%20since%3A2020-05-07&src=typed_query&f=live", // ISAT 7-9 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-11%20since%3A2020-05-09&src=typed_query&f=live", // ISAT 9-11 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-13%20since%3A2020-05-11&src=typed_query&f=live", // ISAT 11-13 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-15%20since%3A2020-05-13&src=typed_query&f=live", // ISAT 13-15 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-17%20since%3A2020-05-15&src=typed_query&f=live", // ISAT 15-17 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-19%20since%3A2020-05-17&src=typed_query&f=live", // ISAT 17-19 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-21%20since%3A2020-05-19&src=typed_query&f=live", // ISAT 19-21 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-23%20since%3A2020-05-21&src=typed_query&f=live", // ISAT 21-23 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-25%20since%3A2020-05-23&src=typed_query&f=live", // ISAT 23-25 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-27%20since%3A2020-05-25&src=typed_query&f=live", // ISAT 25-27 Mei 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-05-31%20since%3A2020-05-27&src=typed_query&f=live", // ISAT 27-31 Mei 2020
 
-    // juni
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-03%20since%3A2020-06-01&src=typed_query&f=live", // ISAT 1-3 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-05%20since%3A2020-06-03&src=typed_query&f=live", // ISAT 3-5 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-07%20since%3A2020-06-05&src=typed_query&f=live", // ISAT 5-7 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-09%20since%3A2020-06-07&src=typed_query&f=live", // ISAT 7-9 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-11%20since%3A2020-06-09&src=typed_query&f=live", // ISAT 9-11 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-13%20since%3A2020-06-11&src=typed_query&f=live", // ISAT 11-13 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-15%20since%3A2020-06-13&src=typed_query&f=live", // ISAT 13-15 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-17%20since%3A2020-06-15&src=typed_query&f=live", // ISAT 15-17 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-19%20since%3A2020-06-17&src=typed_query&f=live", // ISAT 17-19 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-21%20since%3A2020-06-19&src=typed_query&f=live", // ISAT 19-21 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-23%20since%3A2020-06-21&src=typed_query&f=live", // ISAT 21-23 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-25%20since%3A2020-06-23&src=typed_query&f=live", // ISAT 23-25 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-27%20since%3A2020-06-25&src=typed_query&f=live", // ISAT 25-27 Juni 2020
-    "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-06-27&src=typed_query&f=live", // ISAT 27-30 Juni 2020
+    // // juni
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-03%20since%3A2020-06-01&src=typed_query&f=live", // ISAT 1-3 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-05%20since%3A2020-06-03&src=typed_query&f=live", // ISAT 3-5 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-07%20since%3A2020-06-05&src=typed_query&f=live", // ISAT 5-7 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-09%20since%3A2020-06-07&src=typed_query&f=live", // ISAT 7-9 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-11%20since%3A2020-06-09&src=typed_query&f=live", // ISAT 9-11 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-13%20since%3A2020-06-11&src=typed_query&f=live", // ISAT 11-13 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-15%20since%3A2020-06-13&src=typed_query&f=live", // ISAT 13-15 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-17%20since%3A2020-06-15&src=typed_query&f=live", // ISAT 15-17 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-19%20since%3A2020-06-17&src=typed_query&f=live", // ISAT 17-19 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-21%20since%3A2020-06-19&src=typed_query&f=live", // ISAT 19-21 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-23%20since%3A2020-06-21&src=typed_query&f=live", // ISAT 21-23 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-25%20since%3A2020-06-23&src=typed_query&f=live", // ISAT 23-25 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-27%20since%3A2020-06-25&src=typed_query&f=live", // ISAT 25-27 Juni 2020
+    // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-06-30%20since%3A2020-06-27&src=typed_query&f=live", // ISAT 27-30 Juni 2020
 
     // // juli
     // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-07-03%20since%3A2020-07-01&src=typed_query&f=live", // ISAT 1-3 Juli 2020
@@ -845,7 +845,7 @@ const twitterURLs = [
     // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-12-27%20since%3A2020-12-25&src=typed_query&f=live", // ISAT 25-27 Desember 2020
     // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-12-27&src=typed_query&f=live", // ISAT 27-31 Desember 2020
 
-    // // Kata Kunci: #ISAT
+    // Kata Kunci: #ISAT
     // // top
     // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2020-01-31%20since%3A2020-01-01&src=typed_query", // ISAT Januari 2020
     // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2020-02-28%20since%3A2020-02-01&src=typed_query", // ISAT Februari 2020
@@ -873,7 +873,7 @@ const twitterURLs = [
     // "https://x.com/search?q=%23ISAT%20lang%3Aid%20since%3A2020-11-01&src=typed_query", // ISAT sejak November 2020
     // "https://x.com/search?q=%23ISAT%20lang%3Aid%20since%3A2020-12-01&src=typed_query", // ISAT sejak Desember 2020
 
-    // // latest
+    // latest
     // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2020-01-31%20since%3A2020-01-01&src=typed_query&f=live", // ISAT Januari 2020
     // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2020-02-28%20since%3A2020-02-01&src=typed_query&f=live", // ISAT Februari 2020
     // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2020-03-31%20since%3A2020-03-01&src=typed_query&f=live", // ISAT Maret 2020
@@ -899,10 +899,10 @@ const twitterURLs = [
     // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2020-11-30%20since%3A2020-11-01&src=typed_query&f=live", // ISAT November 2020
     // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2020-12-31%20since%3A2020-12-01&src=typed_query&f=live", // ISAT Desember 2020
 
-    // // ISAT 2024
-    // // Kata Kunci: ISAT
-    // // top
-    // // januari 
+    // ISAT 2024
+    // Kata Kunci: ISAT
+    // top
+    // januari 
     // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2024-01-03%20since%3A2024-01-01&src=typed_query", // ISAT 1-3 Januari 2024
     // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2024-01-05%20since%3A2024-01-03&src=typed_query", // ISAT 3-5 Januari 2024
     // "https://x.com/search?q=ISAT%20saham%20lang%3Aid%20until%3A2024-01-07%20since%3A2024-01-05&src=typed_query", // ISAT 5-7 Januari 2024
@@ -1315,31 +1315,31 @@ const twitterURLs = [
     // "https://x.com/search?q=%23ISAT%20lang%3Aid%20since%3A2024-11-01&src=typed_query", // ISAT sejak November 2024
     // "https://x.com/search?q=%23ISAT%20lang%3Aid%20since%3A2024-12-01&src=typed_query", // ISAT sejak Desember 2024
 
-    // // latest
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-01-31%20since%3A2024-01-01&src=typed_query&f=live", // ISAT Januari 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-02-28%20since%3A2024-02-01&src=typed_query&f=live", // ISAT Februari 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-03-31%20since%3A2024-03-01&src=typed_query&f=live", // ISAT Maret 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-04-30%20since%3A2024-04-01&src=typed_query&f=live", // ISAT April 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-05-31%20since%3A2024-05-01&src=typed_query&f=live", // ISAT Mei 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-06-01&src=typed_query&f=live", // ISAT Juni 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-07-31%20since%3A2024-07-01&src=typed_query&f=live", // ISAT Juli 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-08-31%20since%3A2024-08-01&src=typed_query&f=live", // ISAT Agustus 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-09-30%20since%3A2024-09-01&src=typed_query&f=live", // ISAT September 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-10-31%20since%3A2024-10-01&src=typed_query&f=live", // ISAT Oktober 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-11-30%20since%3A2024-11-01&src=typed_query&f=live", // ISAT November 2024
-    // "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-12-01&src=typed_query&f=live", // ISAT Desember 2024
+    // latest
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-01-31%20since%3A2024-01-01&src=typed_query&f=live", // ISAT Januari 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-02-28%20since%3A2024-02-01&src=typed_query&f=live", // ISAT Februari 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-03-31%20since%3A2024-03-01&src=typed_query&f=live", // ISAT Maret 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-04-30%20since%3A2024-04-01&src=typed_query&f=live", // ISAT April 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-05-31%20since%3A2024-05-01&src=typed_query&f=live", // ISAT Mei 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-06-01&src=typed_query&f=live", // ISAT Juni 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-07-31%20since%3A2024-07-01&src=typed_query&f=live", // ISAT Juli 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-08-31%20since%3A2024-08-01&src=typed_query&f=live", // ISAT Agustus 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-09-30%20since%3A2024-09-01&src=typed_query&f=live", // ISAT September 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-10-31%20since%3A2024-10-01&src=typed_query&f=live", // ISAT Oktober 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-11-30%20since%3A2024-11-01&src=typed_query&f=live", // ISAT November 2024
+    "https://x.com/search?q=%23ISAT%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-12-01&src=typed_query&f=live", // ISAT Desember 2024
 
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-02-28%20since%3A2024-02-01&src=typed_query&f=live", // ISAT Februari 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-03-31%20since%3A2024-03-01&src=typed_query&f=live", // ISAT Maret 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-04-30%20since%3A2024-04-01&src=typed_query&f=live", // ISAT April 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-05-31%20since%3A2024-05-01&src=typed_query&f=live", // ISAT Mei 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-06-01&src=typed_query&f=live", // ISAT Juni 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-07-31%20since%3A2024-07-01&src=typed_query&f=live", // ISAT Juli 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-08-31%20since%3A2024-08-01&src=typed_query&f=live", // ISAT Agustus 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-09-30%20since%3A2024-09-01&src=typed_query&f=live", // ISAT September 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-10-31%20since%3A2024-10-01&src=typed_query&f=live", // ISAT Oktober 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-11-30%20since%3A2024-11-01&src=typed_query&f=live", // ISAT November 2024
-    // "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-12-01&src=typed_query&f=live", // ISAT Desember 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-02-28%20since%3A2024-02-01&src=typed_query&f=live", // ISAT Februari 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-03-31%20since%3A2024-03-01&src=typed_query&f=live", // ISAT Maret 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-04-30%20since%3A2024-04-01&src=typed_query&f=live", // ISAT April 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-05-31%20since%3A2024-05-01&src=typed_query&f=live", // ISAT Mei 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-06-30%20since%3A2024-06-01&src=typed_query&f=live", // ISAT Juni 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-07-31%20since%3A2024-07-01&src=typed_query&f=live", // ISAT Juli 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-08-31%20since%3A2024-08-01&src=typed_query&f=live", // ISAT Agustus 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-09-30%20since%3A2024-09-01&src=typed_query&f=live", // ISAT September 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-10-31%20since%3A2024-10-01&src=typed_query&f=live", // ISAT Oktober 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-11-30%20since%3A2024-11-01&src=typed_query&f=live", // ISAT November 2024
+    "https://x.com/search?q=%23ISAT%20saham%20lang%3Aid%20until%3A2024-12-31%20since%3A2024-12-01&src=typed_query&f=live", // ISAT Desember 2024
 ];
 
 const SCRAPING_TIME = 6 * 60 * 60 * 1000; // 6 jam
@@ -1565,8 +1565,8 @@ async function scrapeTweets() {
     // Simpan referensi ke global agar bisa diakses oleh handler SIGINT
     globalCollectedTweets = tweets;
 
-    if (fs.existsSync("tweets_isat_2020.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_isat_2020.json", "utf-8"));
+    if (fs.existsSync("tweets_isat_2024.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_isat_2024.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -1637,7 +1637,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_isat_2020.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_isat_2024.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();
@@ -1653,7 +1653,7 @@ process.on("SIGINT", async () => {
     if (globalCollectedTweets && globalCollectedTweets.size > 0) {
         try {
             const tweetArray = Array.from(globalCollectedTweets).map((t) => JSON.parse(t));
-            fs.writeFileSync("tweets_isat_2020.json", JSON.stringify(tweetArray, null, 2));
+            fs.writeFileSync("tweets_isat_2024.json", JSON.stringify(tweetArray, null, 2));
             console.log(`✅ Data berhasil disimpan. Total tweet tersimpan: ${tweetArray.length}`);
         } catch (err) {
             console.error("❌ Gagal menyimpan data:", err.message);
