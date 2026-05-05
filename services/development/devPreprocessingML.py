@@ -1,7 +1,7 @@
-# dev_database/preprocessing.py
+# dev_database/preprocessing_ml.py
 """
 =============================================================
-STEP 2: PREPROCESSING TWEET
+STEP 2: PREPROCESSING TWEET — Machine Learning (SVM)
 =============================================================
 Urutan sesuai rencana skripsi:
   1. Casefolding
@@ -15,18 +15,18 @@ Urutan sesuai rencana skripsi:
   3. Tokenization  (Stanza)
   4. Stopword Removal (NLTK)
   5. Stemming (Sastrawi)
-
+ 
 Input  : dev_database/2_labelling/
          tweets_before_covid_labelling.csv
          tweets_covid_labelling.csv
          tweets_after_covid_labelling.csv
          tweets_all_periods_labelling.csv
-
-Output : dev_database/3_preprocessing/
-         tweets_before_covid_labelling_preprocessing.csv
-         tweets_covid_labelling_preprocessing.csv
-         tweets_after_covid_labelling_preprocessing.csv
-         tweets_all_periods_labelling_preprocessing.csv
+ 
+Output : dev_database/3_preprocessing/ml/
+         tweets_before_covid_labelling_preprocessingML.csv
+         tweets_covid_labelling_preprocessingML.csv
+         tweets_after_covid_labelling_preprocessingML.csv
+         tweets_all_periods_labelling_preprocessingML.csv
 =============================================================
 """
 
@@ -47,8 +47,8 @@ from tqdm import tqdm
 # ══════════════════════════════════════════════════════════════
 BASE_DIR   = Path(__file__).resolve().parent          # lokasi script ini
 INPUT_DIR  = BASE_DIR / "dev_database" / "2_labelling"
-OUTPUT_DIR = BASE_DIR / "dev_database" / "3_preprocessing"
-KAMUS_FILE = BASE_DIR / "kamuskatabaku.xlsx"          # sesuaikan path jika perlu
+OUTPUT_DIR = BASE_DIR / "dev_database" / "3_preprocessing" / "ml"  # ← diubah
+KAMUS_FILE = BASE_DIR / "kamus" / "kamuskatabaku.xlsx"          # sesuaikan path jika perlu
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -232,7 +232,7 @@ def process_file(filename: str):
 # ══════════════════════════════════════════════════════════════
 def main():
     print("=" * 60)
-    print("  PREPROCESSING PIPELINE — SKRIPSI")
+    print("  PREPROCESSING ML (SVM) — SKRIPSI")
     print("=" * 60)
     print(f"  Input  : {INPUT_DIR}")
     print(f"  Output : {OUTPUT_DIR}")
