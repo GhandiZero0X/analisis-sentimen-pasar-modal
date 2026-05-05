@@ -3036,102 +3036,688 @@ const twitterURLs = [
     // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-06-27%20since%3A2022-06-25&src=typed_query&f=live", // UNVR 25-27 Juni 2022
     // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-06-30%20since%3A2022-06-27&src=typed_query&f=live", // UNVR 27-30 Juni 2022
 
+    // // juli
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-03%20since%3A2022-07-01&src=typed_query&f=live", // UNVR 1-3 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-05%20since%3A2022-07-03&src=typed_query&f=live", // UNVR 3-5 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-07%20since%3A2022-07-05&src=typed_query&f=live", // UNVR 5-7 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-09%20since%3A2022-07-07&src=typed_query&f=live", // UNVR 7-9 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-11%20since%3A2022-07-09&src=typed_query&f=live", // UNVR 9-11 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-13%20since%3A2022-07-11&src=typed_query&f=live", // UNVR 11-13 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-15%20since%3A2022-07-13&src=typed_query&f=live", // UNVR 13-15 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-17%20since%3A2022-07-15&src=typed_query&f=live", // UNVR 15-17 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-19%20since%3A2022-07-17&src=typed_query&f=live", // UNVR 17-19 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-21%20since%3A2022-07-19&src=typed_query&f=live", // UNVR 19-21 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-23%20since%3A2022-07-21&src=typed_query&f=live", // UNVR 21-23 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-25%20since%3A2022-07-23&src=typed_query&f=live", // UNVR 23-25 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-27%20since%3A2022-07-25&src=typed_query&f=live", // UNVR 25-27 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-29%20since%3A2022-07-27&src=typed_query&f=live", // UNVR 27-29 Juli 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-31%20since%3A2022-07-29&src=typed_query&f=live", // UNVR 29-31 Juli 2022
+
+    // // agustus
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-03%20since%3A2022-08-01&src=typed_query&f=live", // UNVR 1-3 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-05%20since%3A2022-08-03&src=typed_query&f=live", // UNVR 3-5 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-07%20since%3A2022-08-05&src=typed_query&f=live", // UNVR 5-7 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-09%20since%3A2022-08-07&src=typed_query&f=live", // UNVR 7-9 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-11%20since%3A2022-08-09&src=typed_query&f=live", // UNVR 9-11 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-13%20since%3A2022-08-11&src=typed_query&f=live", // UNVR 11-13 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-15%20since%3A2022-08-13&src=typed_query&f=live", // UNVR 13-15 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-17%20since%3A2022-08-15&src=typed_query&f=live", // UNVR 15-17 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-19%20since%3A2022-08-17&src=typed_query&f=live", // UNVR 17-19 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-21%20since%3A2022-08-19&src=typed_query&f=live", // UNVR 19-21 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-23%20since%3A2022-08-21&src=typed_query&f=live", // UNVR 21-23 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-25%20since%3A2022-08-23&src=typed_query&f=live", // UNVR 23-25 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-27%20since%3A2022-08-25&src=typed_query&f=live", // UNVR 25-27 Agustus 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-31%20since%3A2022-08-27&src=typed_query&f=live", // UNVR 27-31 Agustus 2022
+
+    // // september
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-03%20since%3A2022-09-01&src=typed_query&f=live", // UNVR 1-3 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-05%20since%3A2022-09-03&src=typed_query&f=live", // UNVR 3-5 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-07%20since%3A2022-09-05&src=typed_query&f=live", // UNVR 5-7 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-09%20since%3A2022-09-07&src=typed_query&f=live", // UNVR 7-9 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-11%20since%3A2022-09-09&src=typed_query&f=live", // UNVR 9-11 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-13%20since%3A2022-09-11&src=typed_query&f=live", // UNVR 11-13 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-15%20since%3A2022-09-13&src=typed_query&f=live", // UNVR 13-15 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-17%20since%3A2022-09-15&src=typed_query&f=live", // UNVR 15-17 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-19%20since%3A2022-09-17&src=typed_query&f=live", // UNVR 17-19 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-21%20since%3A2022-09-19&src=typed_query&f=live", // UNVR 19-21 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-23%20since%3A2022-09-21&src=typed_query&f=live", // UNVR 21-23 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-25%20since%3A2022-09-23&src=typed_query&f=live", // UNVR 23-25 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-27%20since%3A2022-09-25&src=typed_query&f=live", // UNVR 25-27 September 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-30%20since%3A2022-09-27&src=typed_query&f=live", // UNVR 27-30 September 2022
+    
+    // // oktober
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-03%20since%3A2022-10-01&src=typed_query&f=live", // UNVR 1-3 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-05%20since%3A2022-10-03&src=typed_query&f=live", // UNVR 3-5 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-07%20since%3A2022-10-05&src=typed_query&f=live", // UNVR 5-7 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-09%20since%3A2022-10-07&src=typed_query&f=live", // UNVR 7-9 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-11%20since%3A2022-10-09&src=typed_query&f=live", // UNVR 9-11 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-13%20since%3A2022-10-11&src=typed_query&f=live", // UNVR 11-13 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-15%20since%3A2022-10-13&src=typed_query&f=live", // UNVR 13-15 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-17%20since%3A2022-10-15&src=typed_query&f=live", // UNVR 15-17 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-19%20since%3A2022-10-17&src=typed_query&f=live", // UNVR 17-19 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-21%20since%3A2022-10-19&src=typed_query&f=live", // UNVR 19-21 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-23%20since%3A2022-10-21&src=typed_query&f=live", // UNVR 21-23 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-25%20since%3A2022-10-23&src=typed_query&f=live", // UNVR 23-25 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-27%20since%3A2022-10-25&src=typed_query&f=live", // UNVR 25-27 Oktober 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-31%20since%3A2022-10-27&src=typed_query&f=live", // UNVR 27-31 Oktober 2022
+
+    // // november
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-03%20since%3A2022-11-01&src=typed_query&f=live", // UNVR 1-3 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-05%20since%3A2022-11-03&src=typed_query&f=live", // UNVR 3-5 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-07%20since%3A2022-11-05&src=typed_query&f=live", // UNVR 5-7 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-09%20since%3A2022-11-07&src=typed_query&f=live", // UNVR 7-9 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-11%20since%3A2022-11-09&src=typed_query&f=live", // UNVR 9-11 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-13%20since%3A2022-11-11&src=typed_query&f=live", // UNVR 11-13 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-15%20since%3A2022-11-13&src=typed_query&f=live", // UNVR 13-15 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-17%20since%3A2022-11-15&src=typed_query&f=live", // UNVR 15-17 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-19%20since%3A2022-11-17&src=typed_query&f=live", // UNVR 17-19 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-21%20since%3A2022-11-19&src=typed_query&f=live", // UNVR 19-21 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-23%20since%3A2022-11-21&src=typed_query&f=live", // UNVR 21-23 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-25%20since%3A2022-11-23&src=typed_query&f=live", // UNVR 23-25 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-27%20since%3A2022-11-25&src=typed_query&f=live", // UNVR 25-27 November 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-30%20since%3A2022-11-27&src=typed_query&f=live", // UNVR 27-30 November 2022
+
+    // // desember
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-03%20since%3A2022-12-01&src=typed_query&f=live", // UNVR 1-3 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-05%20since%3A2022-12-03&src=typed_query&f=live", // UNVR 3-5 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-07%20since%3A2022-12-05&src=typed_query&f=live", // UNVR 5-7 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-09%20since%3A2022-12-07&src=typed_query&f=live", // UNVR 7-9 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-11%20since%3A2022-12-09&src=typed_query&f=live", // UNVR 9-11 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-13%20since%3A2022-12-11&src=typed_query&f=live", // UNVR 11-13 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-15%20since%3A2022-12-13&src=typed_query&f=live", // UNVR 13-15 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-17%20since%3A2022-12-15&src=typed_query&f=live", // UNVR 15-17 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-19%20since%3A2022-12-17&src=typed_query&f=live", // UNVR 17-19 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-21%20since%3A2022-12-19&src=typed_query&f=live", // UNVR 19-21 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-23%20since%3A2022-12-21&src=typed_query&f=live", // UNVR 21-23 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-25%20since%3A2022-12-23&src=typed_query&f=live", // UNVR 23-25 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-27%20since%3A2022-12-25&src=typed_query&f=live", // UNVR 25-27 Desember 2022
+    // "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-12-27&src=typed_query&f=live", // UNVR 27-31 Desember 2022
+
+
+    // BBRI 2021
+    // Kata Kunci : BBRI
+    // top
+    // // januari 
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-03%20since%3A2021-01-01&src=typed_query", // BBRI 1-3 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-05%20since%3A2021-01-03&src=typed_query", // BBRI 3-5 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-07%20since%3A2021-01-05&src=typed_query", // BBRI 5-7 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-09%20since%3A2021-01-07&src=typed_query", // BBRI 7-9 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-11%20since%3A2021-01-09&src=typed_query", // BBRI 9-11 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-13%20since%3A2021-01-11&src=typed_query", // BBRI 11-13 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-15%20since%3A2021-01-13&src=typed_query", // BBRI 13-15 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-17%20since%3A2021-01-15&src=typed_query", // BBRI 15-17 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-19%20since%3A2021-01-17&src=typed_query", // BBRI 17-19Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-21%20since%3A2021-01-19&src=typed_query", // BBRI 19-21 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-23%20since%3A2021-01-21&src=typed_query", // BBRI 21-23 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-25%20since%3A2021-01-23&src=typed_query", // BBRI 23-25 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-27%20since%3A2021-01-25&src=typed_query", // BBRI 25-27 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-31%20since%3A2021-01-27&src=typed_query", // BBRI 27-31 Januari 2021
+
+    // // februari
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-03%20since%3A2021-02-01&src=typed_query", // BBRI 1-3 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-05%20since%3A2021-02-03&src=typed_query", // BBRI 3-5 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-07%20since%3A2021-02-05&src=typed_query", // BBRI 5-7 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-09%20since%3A2021-02-07&src=typed_query", // BBRI 7-9 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-11%20since%3A2021-02-09&src=typed_query", // BBRI 9-11 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-13%20since%3A2021-02-11&src=typed_query", // BBRI 11-13 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-15%20since%3A2021-02-13&src=typed_query", // BBRI 13-15 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-17%20since%3A2021-02-15&src=typed_query", // BBRI 15-17 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-19%20since%3A2021-02-17&src=typed_query", // BBRI 17-19Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-21%20since%3A2021-02-19&src=typed_query", // BBRI 19-21 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-23%20since%3A2021-02-21&src=typed_query", // BBRI 21-23 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-25%20since%3A2021-02-23&src=typed_query", // BBRI 23-25 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-27%20since%3A2021-02-25&src=typed_query", // BBRI 25-27 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-28%20since%3A2021-02-27&src=typed_query", // BBRI 27-28 Januari 2021
+
+    // // maret
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-03%20since%3A2021-03-01&src=typed_query", // BBRI 1-3 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-05%20since%3A2021-03-03&src=typed_query", // BBRI 3-5 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-07%20since%3A2021-03-05&src=typed_query", // BBRI 5-7 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-09%20since%3A2021-03-07&src=typed_query", // BBRI 7-9 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-11%20since%3A2021-03-09&src=typed_query", // BBRI 9-11 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-13%20since%3A2021-03-11&src=typed_query", // BBRI 11-13 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-15%20since%3A2021-03-13&src=typed_query", // BBRI 13-15 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-17%20since%3A2021-03-15&src=typed_query", // BBRI 15-17 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-19%20since%3A2021-03-17&src=typed_query", // BBRI 17-19 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-21%20since%3A2021-03-19&src=typed_query", // BBRI 19-21 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-23%20since%3A2021-03-21&src=typed_query", // BBRI 21-23 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-25%20since%3A2021-03-23&src=typed_query", // BBRI 23-25 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-27%20since%3A2021-03-25&src=typed_query", // BBRI 25-27 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-31%20since%3A2021-03-27&src=typed_query", // BBRI 27-31 Maret 2021
+
+    // // april
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-03%20since%3A2021-04-01&src=typed_query", // BBRI 1-3 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-05%20since%3A2021-04-03&src=typed_query", // BBRI 3-5 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-07%20since%3A2021-04-05&src=typed_query", // BBRI 5-7 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-09%20since%3A2021-04-07&src=typed_query", // BBRI 7-9 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-11%20since%3A2021-04-09&src=typed_query", // BBRI 9-11 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-13%20since%3A2021-04-11&src=typed_query", // BBRI 11-13 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-15%20since%3A2021-04-13&src=typed_query", // BBRI 13-15 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-17%20since%3A2021-04-15&src=typed_query", // BBRI 15-17 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-19%20since%3A2021-04-17&src=typed_query", // BBRI 17-19 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-21%20since%3A2021-04-19&src=typed_query", // BBRI 19-21 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-23%20since%3A2021-04-21&src=typed_query", // BBRI 21-23 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-25%20since%3A2021-04-23&src=typed_query", // BBRI 23-25 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-27%20since%3A2021-04-25&src=typed_query", // BBRI 25-27 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-30%20since%3A2021-04-27&src=typed_query", // BBRI 27-30 April 2021
+
+    // // mei
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-03%20since%3A2021-05-01&src=typed_query", // BBRI 1-3 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-05%20since%3A2021-05-03&src=typed_query", // BBRI 3-5 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-07%20since%3A2021-05-05&src=typed_query", // BBRI 5-7 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-09%20since%3A2021-05-07&src=typed_query", // BBRIT 7-9 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-11%20since%3A2021-05-09&src=typed_query", // BBRI 9-11 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-13%20since%3A2021-05-11&src=typed_query", // BBRI 11-13 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-15%20since%3A2021-05-13&src=typed_query", // BBRI 13-15 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-17%20since%3A2021-05-15&src=typed_query", // BBRI 15-17 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-19%20since%3A2021-05-17&src=typed_query", // BBRI 17-19 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-21%20since%3A2021-05-19&src=typed_query", // BBRI 19-21 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-23%20since%3A2021-05-21&src=typed_query", // BBRI 21-23 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-25%20since%3A2021-05-23&src=typed_query", // BBRI 23-25 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-27%20since%3A2021-05-25&src=typed_query", // BBRI 25-27 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-31%20since%3A2021-05-27&src=typed_query", // BBRI 27-31 Mei 2021
+
+    // // juni
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-03%20since%3A2021-06-01&src=typed_query", // BBRI 1-3 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-05%20since%3A2021-06-03&src=typed_query", // BBRI 3-5 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-07%20since%3A2021-06-05&src=typed_query", // BBRI 5-7 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-09%20since%3A2021-06-07&src=typed_query", // BBRI 7-9 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-11%20since%3A2021-06-09&src=typed_query", // BBRI 9-11 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-13%20since%3A2021-06-11&src=typed_query", // BBRI 11-13 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-15%20since%3A2021-06-13&src=typed_query", // BBRI 13-15 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-17%20since%3A2021-06-15&src=typed_query", // BBRI 15-17 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-19%20since%3A2021-06-17&src=typed_query", // BBRI 17-19 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-21%20since%3A2021-06-19&src=typed_query", // BBRI 19-21 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-23%20since%3A2021-06-21&src=typed_query", // BBRI 21-23 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-25%20since%3A2021-06-23&src=typed_query", // BBRI 23-25 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-27%20since%3A2021-06-25&src=typed_query", // BBRI 25-27 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-06-27&src=typed_query", // BBRI 27-30 Juni 2021
+
+    // latest
+    // // januari
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-03%20since%3A2021-01-01&src=typed_query&f=live", // BBRI 1-3 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-05%20since%3A2021-01-03&src=typed_query&f=live", // BBRI 3-5 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-07%20since%3A2021-01-05&src=typed_query&f=live", // BBRI 5-7 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-09%20since%3A2021-01-07&src=typed_query&f=live", // BBRI 7-9 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-11%20since%3A2021-01-09&src=typed_query&f=live", // BBRI 9-11 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-13%20since%3A2021-01-11&src=typed_query&f=live", // BBRI 11-13 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-15%20since%3A2021-01-13&src=typed_query&f=live", // BBRI 13-15 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-17%20since%3A2021-01-15&src=typed_query&f=live", // BBRI 15-17 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-19%20since%3A2021-01-17&src=typed_query&f=live", // BBRI 17-19 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-21%20since%3A2021-01-19&src=typed_query&f=live", // BBRI 19-21 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-23%20since%3A2021-01-21&src=typed_query&f=live", // BBRI 21-23 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-25%20since%3A2021-01-23&src=typed_query&f=live", // BBRI 23-25 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-27%20since%3A2021-01-25&src=typed_query&f=live", // BBRI 25-27 Januari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-01-31%20since%3A2021-01-27&src=typed_query&f=live", // BBRI 27-31 Januari 2021
+
+    // // februari
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-03%20since%3A2021-02-01&src=typed_query&f=live", // BBRI 1-3 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-05%20since%3A2021-02-03&src=typed_query&f=live", // BBRI 3-5 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-07%20since%3A2021-02-05&src=typed_query&f=live", // BBRI 5-7 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-09%20since%3A2021-02-07&src=typed_query&f=live", // BBRI 7-9 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-11%20since%3A2021-02-09&src=typed_query&f=live", // BBRI 9-11 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-13%20since%3A2021-02-11&src=typed_query&f=live", // BBRI 11-13 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-15%20since%3A2021-02-13&src=typed_query&f=live", // BBRI 13-15 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-17%20since%3A2021-02-15&src=typed_query&f=live", // BBRI 15-17 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-19%20since%3A2021-02-17&src=typed_query&f=live", // BBRI 17-19 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-21%20since%3A2021-02-19&src=typed_query&f=live", // BBRI 19-21 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-23%20since%3A2021-02-21&src=typed_query&f=live", // BBRI 21-23 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-25%20since%3A2021-02-23&src=typed_query&f=live", // BBRI 23-25 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-27%20since%3A2021-02-25&src=typed_query&f=live", // BBRI 25-27 Februari 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-02-28%20since%3A2021-02-27&src=typed_query&f=live", // BBRI 27-28 Februari 2021
+
+    // // maret
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-03%20since%3A2021-03-01&src=typed_query&f=live", // BBRI 1-3 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-05%20since%3A2021-03-03&src=typed_query&f=live", // BBRI 3-5 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-07%20since%3A2021-03-05&src=typed_query&f=live", // BBRI 5-7 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-09%20since%3A2021-03-07&src=typed_query&f=live", // BBRI 7-9 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-11%20since%3A2021-03-09&src=typed_query&f=live", // BBRI 9-11 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-13%20since%3A2021-03-11&src=typed_query&f=live", // BBRI 11-13 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-15%20since%3A2021-03-13&src=typed_query&f=live", // BBRI 13-15 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-17%20since%3A2021-03-15&src=typed_query&f=live", // BBRI 15-17 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-19%20since%3A2021-03-17&src=typed_query&f=live", // BBRI 17-19 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-21%20since%3A2021-03-19&src=typed_query&f=live", // BBRI 19-21 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-23%20since%3A2021-03-21&src=typed_query&f=live", // BBRI 21-23 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-25%20since%3A2021-03-23&src=typed_query&f=live", // BBRI 23-25 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-27%20since%3A2021-03-25&src=typed_query&f=live", // BBRI 25-27 Maret 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-03-31%20since%3A2021-03-27&src=typed_query&f=live", // BBRI 27-31 Maret 2021
+
+    // // april
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-03%20since%3A2021-04-01&src=typed_query&f=live", // BBRI 1-3 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-05%20since%3A2021-04-03&src=typed_query&f=live", // BBRI 3-5 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-07%20since%3A2021-04-05&src=typed_query&f=live", // BBRI 5-7 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-09%20since%3A2021-04-07&src=typed_query&f=live", // BBRI 7-9 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-11%20since%3A2021-04-09&src=typed_query&f=live", // BBRI 9-11 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-13%20since%3A2021-04-11&src=typed_query&f=live", // BBRI 11-13 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-15%20since%3A2021-04-13&src=typed_query&f=live", // BBRI 13-15 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-17%20since%3A2021-04-15&src=typed_query&f=live", // BBRI 15-17 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-19%20since%3A2021-04-17&src=typed_query&f=live", // BBRI 17-19 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-21%20since%3A2021-04-19&src=typed_query&f=live", // BBRI 19-21 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-23%20since%3A2021-04-21&src=typed_query&f=live", // BBRI 21-23 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-25%20since%3A2021-04-23&src=typed_query&f=live", // BBRI 23-25 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-27%20since%3A2021-04-25&src=typed_query&f=live", // BBRI 25-27 April 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-04-30%20since%3A2021-04-27&src=typed_query&f=live", // BBRI 27-30 April 2021
+
+    // // mei
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-03%20since%3A2021-05-01&src=typed_query&f=live", // BBRI 1-3 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-05%20since%3A2021-05-03&src=typed_query&f=live", // BBRI 3-5 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-07%20since%3A2021-05-05&src=typed_query&f=live", // BBRI 5-7 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-09%20since%3A2021-05-07&src=typed_query&f=live", // BBRI 7-9 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-11%20since%3A2021-05-09&src=typed_query&f=live", // BBRI 9-11 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-13%20since%3A2021-05-11&src=typed_query&f=live", // BBRI 11-13 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-15%20since%3A2021-05-13&src=typed_query&f=live", // BBRI 13-15 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-17%20since%3A2021-05-15&src=typed_query&f=live", // BBRI 15-17 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-19%20since%3A2021-05-17&src=typed_query&f=live", // BBRI 17-19 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-21%20since%3A2021-05-19&src=typed_query&f=live", // BBRI 19-21 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-23%20since%3A2021-05-21&src=typed_query&f=live", // BBRI 21-23 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-25%20since%3A2021-05-23&src=typed_query&f=live", // BBRI 23-25 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-27%20since%3A2021-05-25&src=typed_query&f=live", // BBRI 25-27 Mei 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-05-31%20since%3A2021-05-27&src=typed_query&f=live", // BBRI 27-31 Mei 2021
+
+    // // juni
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-03%20since%3A2021-06-01&src=typed_query&f=live", // BBRI 1-3 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-05%20since%3A2021-06-03&src=typed_query&f=live", // BBRI 3-5 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-07%20since%3A2021-06-05&src=typed_query&f=live", // BBRI 5-7 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-09%20since%3A2021-06-07&src=typed_query&f=live", // BBRI 7-9 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-11%20since%3A2021-06-09&src=typed_query&f=live", // BBRI 9-11 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-13%20since%3A2021-06-11&src=typed_query&f=live", // BBRI 11-13 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-15%20since%3A2021-06-13&src=typed_query&f=live", // BBRI 13-15 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-17%20since%3A2021-06-15&src=typed_query&f=live", // BBRI 15-17 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-19%20since%3A2021-06-17&src=typed_query&f=live", // BBRI 17-19 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-21%20since%3A2021-06-19&src=typed_query&f=live", // BBRI 19-21 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-23%20since%3A2021-06-21&src=typed_query&f=live", // BBRI 21-23 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-25%20since%3A2021-06-23&src=typed_query&f=live", // BBRI 23-25 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-27%20since%3A2021-06-25&src=typed_query&f=live", // BBRI 25-27 Juni 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-06-27&src=typed_query&f=live", // BBRI 27-30 Juni 2021
+
+    // Kata Kunci : #BBRI
+    // Top
+    // // januari 
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-03%20since%3A2021-01-01&src=typed_query", // BBRI 1-3 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-05%20since%3A2021-01-03&src=typed_query", // BBRI 3-5 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-07%20since%3A2021-01-05&src=typed_query", // BBRI 5-7 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-09%20since%3A2021-01-07&src=typed_query", // BBRI 7-9 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-11%20since%3A2021-01-09&src=typed_query", // BBRI 9-11 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-13%20since%3A2021-01-11&src=typed_query", // BBRI 11-13 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-15%20since%3A2021-01-13&src=typed_query", // BBRI 13-15 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-17%20since%3A2021-01-15&src=typed_query", // BBRI 15-17 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-19%20since%3A2021-01-17&src=typed_query", // BBRI 17-19Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-21%20since%3A2021-01-19&src=typed_query", // BBRI 19-21 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-23%20since%3A2021-01-21&src=typed_query", // BBRI 21-23 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-25%20since%3A2021-01-23&src=typed_query", // BBRI 23-25 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-27%20since%3A2021-01-25&src=typed_query", // BBRI 25-27 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-31%20since%3A2021-01-27&src=typed_query", // BBRI 27-31 Januari 2021
+
+    // // februari
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-03%20since%3A2021-02-01&src=typed_query", // BBRI 1-3 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-05%20since%3A2021-02-03&src=typed_query", // BBRI 3-5 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-07%20since%3A2021-02-05&src=typed_query", // BBRI 5-7 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-09%20since%3A2021-02-07&src=typed_query", // BBRI 7-9 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-11%20since%3A2021-02-09&src=typed_query", // BBRI 9-11 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-13%20since%3A2021-02-11&src=typed_query", // BBRI 11-13 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-15%20since%3A2021-02-13&src=typed_query", // BBRI 13-15 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-17%20since%3A2021-02-15&src=typed_query", // BBRI 15-17 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-19%20since%3A2021-02-17&src=typed_query", // BBRI 17-19Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-21%20since%3A2021-02-19&src=typed_query", // BBRI 19-21 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-23%20since%3A2021-02-21&src=typed_query", // BBRI 21-23 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-25%20since%3A2021-02-23&src=typed_query", // BBRI 23-25 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-27%20since%3A2021-02-25&src=typed_query", // BBRI 25-27 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-28%20since%3A2021-02-27&src=typed_query", // BBRI 27-28 Januari 2021
+
+    // // maret
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-03%20since%3A2021-03-01&src=typed_query", // BBRI 1-3 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-05%20since%3A2021-03-03&src=typed_query", // BBRI 3-5 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-07%20since%3A2021-03-05&src=typed_query", // BBRI 5-7 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-09%20since%3A2021-03-07&src=typed_query", // BBRI 7-9 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-11%20since%3A2021-03-09&src=typed_query", // BBRI 9-11 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-13%20since%3A2021-03-11&src=typed_query", // BBRI 11-13 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-15%20since%3A2021-03-13&src=typed_query", // BBRI 13-15 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-17%20since%3A2021-03-15&src=typed_query", // BBRI 15-17 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-19%20since%3A2021-03-17&src=typed_query", // BBRI 17-19 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-21%20since%3A2021-03-19&src=typed_query", // BBRI 19-21 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-23%20since%3A2021-03-21&src=typed_query", // BBRI 21-23 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-25%20since%3A2021-03-23&src=typed_query", // BBRI 23-25 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-27%20since%3A2021-03-25&src=typed_query", // BBRI 25-27 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-31%20since%3A2021-03-27&src=typed_query", // BBRI 27-31 Maret 2021
+
+    // // april
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-03%20since%3A2021-04-01&src=typed_query", // BBRI 1-3 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-05%20since%3A2021-04-03&src=typed_query", // BBRI 3-5 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-07%20since%3A2021-04-05&src=typed_query", // BBRI 5-7 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-09%20since%3A2021-04-07&src=typed_query", // BBRI 7-9 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-11%20since%3A2021-04-09&src=typed_query", // BBRI 9-11 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-13%20since%3A2021-04-11&src=typed_query", // BBRI 11-13 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-15%20since%3A2021-04-13&src=typed_query", // BBRI 13-15 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-17%20since%3A2021-04-15&src=typed_query", // BBRI 15-17 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-19%20since%3A2021-04-17&src=typed_query", // BBRI 17-19 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-21%20since%3A2021-04-19&src=typed_query", // BBRI 19-21 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-23%20since%3A2021-04-21&src=typed_query", // BBRI 21-23 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-25%20since%3A2021-04-23&src=typed_query", // BBRI 23-25 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-27%20since%3A2021-04-25&src=typed_query", // BBRI 25-27 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-30%20since%3A2021-04-27&src=typed_query", // BBRI 27-30 April 2021
+
+    // // mei
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-03%20since%3A2021-05-01&src=typed_query", // BBRI 1-3 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-05%20since%3A2021-05-03&src=typed_query", // BBRI 3-5 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-07%20since%3A2021-05-05&src=typed_query", // BBRI 5-7 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-09%20since%3A2021-05-07&src=typed_query", // BBRIT 7-9 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-11%20since%3A2021-05-09&src=typed_query", // BBRI 9-11 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-13%20since%3A2021-05-11&src=typed_query", // BBRI 11-13 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-15%20since%3A2021-05-13&src=typed_query", // BBRI 13-15 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-17%20since%3A2021-05-15&src=typed_query", // BBRI 15-17 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-19%20since%3A2021-05-17&src=typed_query", // BBRI 17-19 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-21%20since%3A2021-05-19&src=typed_query", // BBRI 19-21 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-23%20since%3A2021-05-21&src=typed_query", // BBRI 21-23 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-25%20since%3A2021-05-23&src=typed_query", // BBRI 23-25 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-27%20since%3A2021-05-25&src=typed_query", // BBRI 25-27 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-31%20since%3A2021-05-27&src=typed_query", // BBRI 27-31 Mei 2021
+
+    // // juni
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-03%20since%3A2021-06-01&src=typed_query", // BBRI 1-3 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-05%20since%3A2021-06-03&src=typed_query", // BBRI 3-5 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-07%20since%3A2021-06-05&src=typed_query", // BBRI 5-7 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-09%20since%3A2021-06-07&src=typed_query", // BBRI 7-9 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-11%20since%3A2021-06-09&src=typed_query", // BBRI 9-11 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-13%20since%3A2021-06-11&src=typed_query", // BBRI 11-13 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-15%20since%3A2021-06-13&src=typed_query", // BBRI 13-15 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-17%20since%3A2021-06-15&src=typed_query", // BBRI 15-17 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-19%20since%3A2021-06-17&src=typed_query", // BBRI 17-19 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-21%20since%3A2021-06-19&src=typed_query", // BBRI 19-21 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-23%20since%3A2021-06-21&src=typed_query", // BBRI 21-23 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-25%20since%3A2021-06-23&src=typed_query", // BBRI 23-25 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-27%20since%3A2021-06-25&src=typed_query", // BBRI 25-27 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-06-27&src=typed_query", // BBRI 27-30 Juni 2021
+
+    // Latest
+    // januari
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-03%20since%3A2021-01-01&f=live&src=typed_query", // BBRI 1-3 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-05%20since%3A2021-01-03&f=live&src=typed_query", // BBRI 3-5 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-07%20since%3A2021-01-05&f=live&src=typed_query", // BBRI 5-7 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-09%20since%3A2021-01-07&f=live&src=typed_query", // BBRI 7-9 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-11%20since%3A2021-01-09&f=live&src=typed_query", // BBRI 9-11 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-13%20since%3A2021-01-11&f=live&src=typed_query", // BBRI 11-13 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-15%20since%3A2021-01-13&f=live&src=typed_query", // BBRI 13-15 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-17%20since%3A2021-01-15&f=live&src=typed_query", // BBRI 15-17 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-19%20since%3A2021-01-17&f=live&src=typed_query", // BBRI 17-19 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-21%20since%3A2021-01-19&f=live&src=typed_query", // BBRI 19-21 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-23%20since%3A2021-01-21&f=live&src=typed_query", // BBRI 21-23 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-25%20since%3A2021-01-23&f=live&src=typed_query", // BBRI 23-25 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-27%20since%3A2021-01-25&f=live&src=typed_query", // BBRI 25-27 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-29%20since%3A2021-01-27&f=live&src=typed_query", // BBRI 27-29 Januari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-01-31%20since%3A2021-01-29&f=live&src=typed_query", // BBRI 29-31 Januari 2021
+
+    // // februari
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-03%20since%3A2021-02-01&src=typed_query&f=live", // BBRI 1-3 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-05%20since%3A2021-02-03&src=typed_query&f=live", // BBRI 3-5 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-07%20since%3A2021-02-05&src=typed_query&f=live", // BBRI 5-7 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-09%20since%3A2021-02-07&src=typed_query&f=live", // BBRI 7-9 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-11%20since%3A2021-02-09&src=typed_query&f=live", // BBRI 9-11 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-13%20since%3A2021-02-11&src=typed_query&f=live", // BBRI 11-13 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-15%20since%3A2021-02-13&src=typed_query&f=live", // BBRI 13-15 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-17%20since%3A2021-02-15&src=typed_query&f=live", // BBRI 15-17 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-19%20since%3A2021-02-17&src=typed_query&f=live", // BBRI 17-19 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-21%20since%3A2021-02-19&src=typed_query&f=live", // BBRI 19-21 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-23%20since%3A2021-02-21&src=typed_query&f=live", // BBRI 21-23 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-25%20since%3A2021-02-23&src=typed_query&f=live", // BBRI 23-25 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-27%20since%3A2021-02-25&src=typed_query&f=live", // BBRI 25-27 Februari 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-02-28%20since%3A2021-02-27&src=typed_query&f=live", // BBRI 27-28 Februari 2021
+
+    // // maret
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-03%20since%3A2021-03-01&src=typed_query&f=live", // BBRI 1-3 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-05%20since%3A2021-03-03&src=typed_query&f=live", // BBRI 3-5 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-07%20since%3A2021-03-05&src=typed_query&f=live", // BBRI 5-7 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-09%20since%3A2021-03-07&src=typed_query&f=live", // BBRI 7-9 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-11%20since%3A2021-03-09&src=typed_query&f=live", // BBRI 9-11 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-13%20since%3A2021-03-11&src=typed_query&f=live", // BBRI 11-13 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-15%20since%3A2021-03-13&src=typed_query&f=live", // BBRI 13-15 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-17%20since%3A2021-03-15&src=typed_query&f=live", // BBRI 15-17 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-19%20since%3A2021-03-17&src=typed_query&f=live", // BBRI 17-19 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-21%20since%3A2021-03-19&src=typed_query&f=live", // BBRI 19-21 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-23%20since%3A2021-03-21&src=typed_query&f=live", // BBRI 21-23 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-25%20since%3A2021-03-23&src=typed_query&f=live", // BBRI 23-25 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-27%20since%3A2021-03-25&src=typed_query&f=live", // BBRI 25-27 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-29%20since%3A2021-03-27&src=typed_query&f=live", // BBRI 27-29 Maret 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-03-31%20since%3A2021-03-29&src=typed_query&f=live", // BBRI 29-31 Maret 2021
+
+    // // april
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-03%20since%3A2021-04-01&src=typed_query&f=live", // BBRI 1-3 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-05%20since%3A2021-04-03&src=typed_query&f=live", // BBRI 3-5 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-07%20since%3A2021-04-05&src=typed_query&f=live", // BBRI 5-7 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-09%20since%3A2021-04-07&src=typed_query&f=live", // BBRI 7-9 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-11%20since%3A2021-04-09&src=typed_query&f=live", // BBRI 9-11 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-13%20since%3A2021-04-11&src=typed_query&f=live", // BBRI 11-13 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-15%20since%3A2021-04-13&src=typed_query&f=live", // BBRI 13-15 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-17%20since%3A2021-04-15&src=typed_query&f=live", // BBRI 15-17 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-19%20since%3A2021-04-17&src=typed_query&f=live", // BBRI 17-19 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-21%20since%3A2021-04-19&src=typed_query&f=live", // BBRI 19-21 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-23%20since%3A2021-04-21&src=typed_query&f=live", // BBRI 21-23 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-25%20since%3A2021-04-23&src=typed_query&f=live", // BBRI 23-25 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-27%20since%3A2021-04-25&src=typed_query&f=live", // BBRI 25-27 April 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-04-30%20since%3A2021-04-27&src=typed_query&f=live", // BBRI 27-30 April 2021
+
+    // // mei
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-03%20since%3A2021-05-01&src=typed_query&f=live", // BBRI 1-3 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-05%20since%3A2021-05-03&src=typed_query&f=live", // BBRI 3-5 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-07%20since%3A2021-05-05&src=typed_query&f=live", // BBRI 5-7 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-09%20since%3A2021-05-07&src=typed_query&f=live", // BBRI 7-9 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-11%20since%3A2021-05-09&src=typed_query&f=live", // BBRI 9-11 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-13%20since%3A2021-05-11&src=typed_query&f=live", // BBRI 11-13 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-15%20since%3A2021-05-13&src=typed_query&f=live", // BBRI 13-15 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-17%20since%3A2021-05-15&src=typed_query&f=live", // BBRI 15-17 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-19%20since%3A2021-05-17&src=typed_query&f=live", // BBRI 17-19 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-21%20since%3A2021-05-19&src=typed_query&f=live", // BBRI 19-21 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-23%20since%3A2021-05-21&src=typed_query&f=live", // BBRI 21-23 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-25%20since%3A2021-05-23&src=typed_query&f=live", // BBRI 23-25 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-27%20since%3A2021-05-25&src=typed_query&f=live", // BBRI 25-27 Mei 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-05-31%20since%3A2021-05-27&src=typed_query&f=live", // BBRI 27-31 Mei 2021
+
+    // // juni
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-03%20since%3A2021-06-01&src=typed_query&f=live", // BBRI 1-3 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-05%20since%3A2021-06-03&src=typed_query&f=live", // BBRI 3-5 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-07%20since%3A2021-06-05&src=typed_query&f=live", // BBRI 5-7 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-09%20since%3A2021-06-07&src=typed_query&f=live", // BBRI 7-9 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-11%20since%3A2021-06-09&src=typed_query&f=live", // BBRI 9-11 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-13%20since%3A2021-06-11&src=typed_query&f=live", // BBRI 11-13 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-15%20since%3A2021-06-13&src=typed_query&f=live", // BBRI 13-15 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-17%20since%3A2021-06-15&src=typed_query&f=live", // BBRI 15-17 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-19%20since%3A2021-06-17&src=typed_query&f=live", // BBRI 17-19 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-21%20since%3A2021-06-19&src=typed_query&f=live", // BBRI 19-21 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-23%20since%3A2021-06-21&src=typed_query&f=live", // BBRI 21-23 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-25%20since%3A2021-06-23&src=typed_query&f=live", // BBRI 23-25 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-27%20since%3A2021-06-25&src=typed_query&f=live", // BBRI 25-27 Juni 2021
+    // "https://x.com/search?q=%23BBRI%20lang%3Aid%20until%3A2021-06-30%20since%3A2021-06-27&src=typed_query&f=live", // BBRI 27-30 Juni 2021
+
+    // // juli
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-03%20since%3A2021-07-01&src=typed_query", // BBRI 1-3 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-05%20since%3A2021-07-03&src=typed_query", // BBRI 3-5 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-07%20since%3A2021-07-05&src=typed_query", // BBRI 5-7 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-09%20since%3A2021-07-07&src=typed_query", // BBRI 7-9 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-11%20since%3A2021-07-09&src=typed_query", // BBRI 9-11 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-13%20since%3A2021-07-11&src=typed_query", // BBRI 11-13 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-15%20since%3A2021-07-13&src=typed_query", // BBRI 13-15 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-17%20since%3A2021-07-15&src=typed_query", // BBRI 15-17 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-19%20since%3A2021-07-17&src=typed_query", // BBRI 17-19 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-21%20since%3A2021-07-19&src=typed_query", // BBRI 19-21 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-23%20since%3A2021-07-21&src=typed_query", // BBRI 21-23 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-25%20since%3A2021-07-23&src=typed_query", // BBRI 23-25 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-27%20since%3A2021-07-25&src=typed_query", // BBRI 25-27 Juli 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-31%20since%3A2021-07-27&src=typed_query", // BBRI 27-31 Juli 2021
+
+    // // agustus
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-03%20since%3A2021-08-01&src=typed_query", // BBRI 1-3 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-05%20since%3A2021-08-03&src=typed_query", // BBRI 3-5 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-07%20since%3A2021-08-05&src=typed_query", // BBRI 5-7 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-09%20since%3A2021-08-07&src=typed_query", // BBRI 7-9 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-11%20since%3A2021-08-09&src=typed_query", // BBRI 9-11 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-13%20since%3A2021-08-11&src=typed_query", // BBRI 11-13 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-15%20since%3A2021-08-13&src=typed_query", // BBRI 13-15 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-17%20since%3A2021-08-15&src=typed_query", // BBRI 15-17 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-19%20since%3A2021-08-17&src=typed_query", // BBRI 17-19 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-21%20since%3A2021-08-19&src=typed_query", // BBRI 19-21 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-23%20since%3A2021-08-21&src=typed_query", // BBRI 21-23 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-25%20since%3A2021-08-23&src=typed_query", // BBRI 23-25 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-27%20since%3A2021-08-25&src=typed_query", // BBRI 25-27 Agustus 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-31%20since%3A2021-08-27&src=typed_query", // BBRI 27-31 Agustus 2021
+
+    // // september
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-03%20since%3A2021-09-01&src=typed_query", // BBRI 1-3 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-05%20since%3A2021-09-03&src=typed_query", // BBRI 3-5 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-07%20since%3A2021-09-05&src=typed_query", // BBRI 5-7 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-09%20since%3A2021-09-07&src=typed_query", // BBRI 7-9 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-11%20since%3A2021-09-09&src=typed_query", // BBRI 9-11 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-13%20since%3A2021-09-11&src=typed_query", // BBRI 11-13 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-15%20since%3A2021-09-13&src=typed_query", // BBRI 13-15 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-17%20since%3A2021-09-15&src=typed_query", // BBRI 15-17 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-19%20since%3A2021-09-17&src=typed_query", // BBRI 17-19 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-21%20since%3A2021-09-19&src=typed_query", // BBRI 19-21 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-23%20since%3A2021-09-21&src=typed_query", // BBRI 21-23 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-25%20since%3A2021-09-23&src=typed_query", // BBRI 23-25 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-27%20since%3A2021-09-25&src=typed_query", // BBRI 25-27 September 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-30%20since%3A2021-09-27&src=typed_query", // BBRI 27-30 September 2021
+
+    // // oktober
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-03%20since%3A2021-10-01&src=typed_query", // BBRI 1-3 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-05%20since%3A2021-10-03&src=typed_query", // BBRI 3-5 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-07%20since%3A2021-10-05&src=typed_query", // BBRI 5-7 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-09%20since%3A2021-10-07&src=typed_query", // BBRI 7-9 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-11%20since%3A2021-10-09&src=typed_query", // BBRI 9-11 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-13%20since%3A2021-10-11&src=typed_query", // BBRI 11-13 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-15%20since%3A2021-10-13&src=typed_query", // BBRI 13-15 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-17%20since%3A2021-10-15&src=typed_query", // BBRI 15-17 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-19%20since%3A2021-10-17&src=typed_query", // BBRI 17-19 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-21%20since%3A2021-10-19&src=typed_query", // BBRI 19-21 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-23%20since%3A2021-10-21&src=typed_query", // BBRI 21-23 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-25%20since%3A2021-10-23&src=typed_query", // BBRI 23-25 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-27%20since%3A2021-10-25&src=typed_query", // BBRI 25-27 Oktober 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-31%20since%3A2021-10-27&src=typed_query", // BBRI 27-31 Oktober 2021
+
+    // // november
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-03%20since%3A2021-11-01&src=typed_query", // BBRI 1-3 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-05%20since%3A2021-11-03&src=typed_query", // BBRI 3-5 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-07%20since%3A2021-11-05&src=typed_query", // BBRI 5-7 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-09%20since%3A2021-11-07&src=typed_query", // BBRI 7-9 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-11%20since%3A2021-11-09&src=typed_query", // BBRI 9-11 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-13%20since%3A2021-11-11&src=typed_query", // BBRI 11-13 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-15%20since%3A2021-11-13&src=typed_query", // BBRI 13-15 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-17%20since%3A2021-11-15&src=typed_query", // BBRI 15-17 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-19%20since%3A2021-11-17&src=typed_query", // BBRI 17-19 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-21%20since%3A2021-11-19&src=typed_query", // BBRI 19-21 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-23%20since%3A2021-11-21&src=typed_query", // BBRI 21-23 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-25%20since%3A2021-11-23&src=typed_query", // BBRI 23-25 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-27%20since%3A2021-11-25&src=typed_query", // BBRI 25-27 November 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-30%20since%3A2021-11-27&src=typed_query", // BBRI 27-30 November 2021
+
+    // // desember
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-03%20since%3A2021-12-01&src=typed_query", // BBRI 1-3 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-05%20since%3A2021-12-03&src=typed_query", // BBRI 3-5 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-07%20since%3A2021-12-05&src=typed_query", // BBRI 5-7 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-09%20since%3A2021-12-07&src=typed_query", // BBRI 7-9 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-11%20since%3A2021-12-09&src=typed_query", // BBRI 9-11 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-13%20since%3A2021-12-11&src=typed_query", // BBRI 11-13 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-15%20since%3A2021-12-13&src=typed_query", // BBRI 13-15 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-17%20since%3A2021-12-15&src=typed_query", // BBRI 15-17 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-19%20since%3A2021-12-17&src=typed_query", // BBRI 17-19 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-21%20since%3A2021-12-19&src=typed_query", // BBRI 19-21 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-23%20since%3A2021-12-21&src=typed_query", // BBRI 21-23 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-25%20since%3A2021-12-23&src=typed_query", // BBRI 23-25 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-27%20since%3A2021-12-25&src=typed_query", // BBRI 25-27 Desember 2021
+    // "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-12-27&src=typed_query", // BBRI 27-31 Desember 2021
+
     // juli
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-03%20since%3A2022-07-01&src=typed_query&f=live", // UNVR 1-3 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-05%20since%3A2022-07-03&src=typed_query&f=live", // UNVR 3-5 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-07%20since%3A2022-07-05&src=typed_query&f=live", // UNVR 5-7 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-09%20since%3A2022-07-07&src=typed_query&f=live", // UNVR 7-9 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-11%20since%3A2022-07-09&src=typed_query&f=live", // UNVR 9-11 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-13%20since%3A2022-07-11&src=typed_query&f=live", // UNVR 11-13 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-15%20since%3A2022-07-13&src=typed_query&f=live", // UNVR 13-15 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-17%20since%3A2022-07-15&src=typed_query&f=live", // UNVR 15-17 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-19%20since%3A2022-07-17&src=typed_query&f=live", // UNVR 17-19 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-21%20since%3A2022-07-19&src=typed_query&f=live", // UNVR 19-21 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-23%20since%3A2022-07-21&src=typed_query&f=live", // UNVR 21-23 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-25%20since%3A2022-07-23&src=typed_query&f=live", // UNVR 23-25 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-27%20since%3A2022-07-25&src=typed_query&f=live", // UNVR 25-27 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-29%20since%3A2022-07-27&src=typed_query&f=live", // UNVR 27-29 Juli 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-07-31%20since%3A2022-07-29&src=typed_query&f=live", // UNVR 29-31 Juli 2022
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-03%20since%3A2021-07-01&src=typed_query&f=live", // BBRI 1-3 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-05%20since%3A2021-07-03&src=typed_query&f=live", // BBRI 3-5 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-07%20since%3A2021-07-05&src=typed_query&f=live", // BBRI 5-7 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-09%20since%3A2021-07-07&src=typed_query&f=live", // BBRI 7-9 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-11%20since%3A2021-07-09&src=typed_query&f=live", // BBRI 9-11 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-13%20since%3A2021-07-11&src=typed_query&f=live", // BBRI 11-13 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-15%20since%3A2021-07-13&src=typed_query&f=live", // BBRI 13-15 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-17%20since%3A2021-07-15&src=typed_query&f=live", // BBRI 15-17 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-19%20since%3A2021-07-17&src=typed_query&f=live", // BBRI 17-19 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-21%20since%3A2021-07-19&src=typed_query&f=live", // BBRI 19-21 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-23%20since%3A2021-07-21&src=typed_query&f=live", // BBRI 21-23 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-25%20since%3A2021-07-23&src=typed_query&f=live", // BBRI 23-25 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-27%20since%3A2021-07-25&src=typed_query&f=live", // BBRI 25-27 Juli 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-07-31%20since%3A2021-07-27&src=typed_query&f=live", // BBRI 27-31 Juli 2021
 
     // agustus
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-03%20since%3A2022-08-01&src=typed_query&f=live", // UNVR 1-3 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-05%20since%3A2022-08-03&src=typed_query&f=live", // UNVR 3-5 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-07%20since%3A2022-08-05&src=typed_query&f=live", // UNVR 5-7 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-09%20since%3A2022-08-07&src=typed_query&f=live", // UNVR 7-9 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-11%20since%3A2022-08-09&src=typed_query&f=live", // UNVR 9-11 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-13%20since%3A2022-08-11&src=typed_query&f=live", // UNVR 11-13 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-15%20since%3A2022-08-13&src=typed_query&f=live", // UNVR 13-15 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-17%20since%3A2022-08-15&src=typed_query&f=live", // UNVR 15-17 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-19%20since%3A2022-08-17&src=typed_query&f=live", // UNVR 17-19 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-21%20since%3A2022-08-19&src=typed_query&f=live", // UNVR 19-21 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-23%20since%3A2022-08-21&src=typed_query&f=live", // UNVR 21-23 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-25%20since%3A2022-08-23&src=typed_query&f=live", // UNVR 23-25 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-27%20since%3A2022-08-25&src=typed_query&f=live", // UNVR 25-27 Agustus 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-08-31%20since%3A2022-08-27&src=typed_query&f=live", // UNVR 27-31 Agustus 2022
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-03%20since%3A2021-08-01&src=typed_query&f=live", // BBRI 1-3 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-05%20since%3A2021-08-03&src=typed_query&f=live", // BBRI 3-5 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-07%20since%3A2021-08-05&src=typed_query&f=live", // BBRI 5-7 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-09%20since%3A2021-08-07&src=typed_query&f=live", // BBRI 7-9 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-11%20since%3A2021-08-09&src=typed_query&f=live", // BBRI 9-11 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-13%20since%3A2021-08-11&src=typed_query&f=live", // BBRI 11-13 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-15%20since%3A2021-08-13&src=typed_query&f=live", // BBRI 13-15 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-17%20since%3A2021-08-15&src=typed_query&f=live", // BBRI 15-17 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-19%20since%3A2021-08-17&src=typed_query&f=live", // BBRI 17-19 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-21%20since%3A2021-08-19&src=typed_query&f=live", // BBRI 19-21 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-23%20since%3A2021-08-21&src=typed_query&f=live", // BBRI 21-23 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-25%20since%3A2021-08-23&src=typed_query&f=live", // BBRI 23-25 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-27%20since%3A2021-08-25&src=typed_query&f=live", // BBRI 25-27 Agustus 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-08-30%20since%3A2021-08-27&src=typed_query&f=live", // BBRI 27-30 Agustus 2021
 
     // september
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-03%20since%3A2022-09-01&src=typed_query&f=live", // UNVR 1-3 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-05%20since%3A2022-09-03&src=typed_query&f=live", // UNVR 3-5 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-07%20since%3A2022-09-05&src=typed_query&f=live", // UNVR 5-7 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-09%20since%3A2022-09-07&src=typed_query&f=live", // UNVR 7-9 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-11%20since%3A2022-09-09&src=typed_query&f=live", // UNVR 9-11 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-13%20since%3A2022-09-11&src=typed_query&f=live", // UNVR 11-13 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-15%20since%3A2022-09-13&src=typed_query&f=live", // UNVR 13-15 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-17%20since%3A2022-09-15&src=typed_query&f=live", // UNVR 15-17 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-19%20since%3A2022-09-17&src=typed_query&f=live", // UNVR 17-19 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-21%20since%3A2022-09-19&src=typed_query&f=live", // UNVR 19-21 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-23%20since%3A2022-09-21&src=typed_query&f=live", // UNVR 21-23 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-25%20since%3A2022-09-23&src=typed_query&f=live", // UNVR 23-25 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-27%20since%3A2022-09-25&src=typed_query&f=live", // UNVR 25-27 September 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-09-30%20since%3A2022-09-27&src=typed_query&f=live", // UNVR 27-30 September 2022
-    
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-03%20since%3A2021-09-01&src=typed_query&f=live", // BBRI 1-3 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-05%20since%3A2021-09-03&src=typed_query&f=live", // BBRI 3-5 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-07%20since%3A2021-09-05&src=typed_query&f=live", // BBRI 5-7 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-09%20since%3A2021-09-07&src=typed_query&f=live", // BBRI 7-9 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-11%20since%3A2021-09-09&src=typed_query&f=live", // BBRI 9-11 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-13%20since%3A2021-09-11&src=typed_query&f=live", // BBRI 11-13 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-15%20since%3A2021-09-13&src=typed_query&f=live", // BBRI 13-15 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-17%20since%3A2021-09-15&src=typed_query&f=live", // BBRI 15-17 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-19%20since%3A2021-09-17&src=typed_query&f=live", // BBRI 17-19 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-21%20since%3A2021-09-19&src=typed_query&f=live", // BBRI 19-21 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-23%20since%3A2021-09-21&src=typed_query&f=live", // BBRI 21-23 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-25%20since%3A2021-09-23&src=typed_query&f=live", // BBRI 23-25 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-27%20since%3A2021-09-25&src=typed_query&f=live", // BBRI 25-27 September 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-09-30%20since%3A2021-09-27&src=typed_query&f=live", // BBRI 27-30 September 2021
+
     // oktober
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-03%20since%3A2022-10-01&src=typed_query&f=live", // UNVR 1-3 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-05%20since%3A2022-10-03&src=typed_query&f=live", // UNVR 3-5 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-07%20since%3A2022-10-05&src=typed_query&f=live", // UNVR 5-7 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-09%20since%3A2022-10-07&src=typed_query&f=live", // UNVR 7-9 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-11%20since%3A2022-10-09&src=typed_query&f=live", // UNVR 9-11 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-13%20since%3A2022-10-11&src=typed_query&f=live", // UNVR 11-13 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-15%20since%3A2022-10-13&src=typed_query&f=live", // UNVR 13-15 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-17%20since%3A2022-10-15&src=typed_query&f=live", // UNVR 15-17 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-19%20since%3A2022-10-17&src=typed_query&f=live", // UNVR 17-19 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-21%20since%3A2022-10-19&src=typed_query&f=live", // UNVR 19-21 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-23%20since%3A2022-10-21&src=typed_query&f=live", // UNVR 21-23 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-25%20since%3A2022-10-23&src=typed_query&f=live", // UNVR 23-25 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-27%20since%3A2022-10-25&src=typed_query&f=live", // UNVR 25-27 Oktober 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-10-31%20since%3A2022-10-27&src=typed_query&f=live", // UNVR 27-31 Oktober 2022
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-03%20since%3A2021-10-01&src=typed_query&f=live", // BBRI 1-3 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-05%20since%3A2021-10-03&src=typed_query&f=live", // BBRI 3-5 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-07%20since%3A2021-10-05&src=typed_query&f=live", // BBRI 5-7 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-09%20since%3A2021-10-07&src=typed_query&f=live", // BBRI 7-9 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-11%20since%3A2021-10-09&src=typed_query&f=live", // BBRI 9-11 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-13%20since%3A2021-10-11&src=typed_query&f=live", // BBRI 11-13 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-15%20since%3A2021-10-13&src=typed_query&f=live", // BBRI 13-15 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-17%20since%3A2021-10-15&src=typed_query&f=live", // BBRI 15-17 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-19%20since%3A2021-10-17&src=typed_query&f=live", // BBRI 17-19 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-21%20since%3A2021-10-19&src=typed_query&f=live", // BBRI 19-21 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-23%20since%3A2021-10-21&src=typed_query&f=live", // BBRI 21-23 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-25%20since%3A2021-10-23&src=typed_query&f=live", // BBRI 23-25 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-27%20since%3A2021-10-25&src=typed_query&f=live", // BBRI 25-27 Oktober 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-10-31%20since%3A2021-10-27&src=typed_query&f=live", // BBRI 27-31 Oktober 2021
 
     // november
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-03%20since%3A2022-11-01&src=typed_query&f=live", // UNVR 1-3 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-05%20since%3A2022-11-03&src=typed_query&f=live", // UNVR 3-5 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-07%20since%3A2022-11-05&src=typed_query&f=live", // UNVR 5-7 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-09%20since%3A2022-11-07&src=typed_query&f=live", // UNVR 7-9 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-11%20since%3A2022-11-09&src=typed_query&f=live", // UNVR 9-11 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-13%20since%3A2022-11-11&src=typed_query&f=live", // UNVR 11-13 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-15%20since%3A2022-11-13&src=typed_query&f=live", // UNVR 13-15 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-17%20since%3A2022-11-15&src=typed_query&f=live", // UNVR 15-17 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-19%20since%3A2022-11-17&src=typed_query&f=live", // UNVR 17-19 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-21%20since%3A2022-11-19&src=typed_query&f=live", // UNVR 19-21 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-23%20since%3A2022-11-21&src=typed_query&f=live", // UNVR 21-23 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-25%20since%3A2022-11-23&src=typed_query&f=live", // UNVR 23-25 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-27%20since%3A2022-11-25&src=typed_query&f=live", // UNVR 25-27 November 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-11-30%20since%3A2022-11-27&src=typed_query&f=live", // UNVR 27-30 November 2022
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-03%20since%3A2021-11-01&src=typed_query&f=live", // BBRI 1-3 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-05%20since%3A2021-11-03&src=typed_query&f=live", // BBRI 3-5 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-07%20since%3A2021-11-05&src=typed_query&f=live", // BBRI 5-7 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-09%20since%3A2021-11-07&src=typed_query&f=live", // BBRI 7-9 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-11%20since%3A2021-11-09&src=typed_query&f=live", // BBRI 9-11 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-13%20since%3A2021-11-11&src=typed_query&f=live", // BBRI 11-13 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-15%20since%3A2021-11-13&src=typed_query&f=live", // BBRI 13-15 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-17%20since%3A2021-11-15&src=typed_query&f=live", // BBRI 15-17 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-19%20since%3A2021-11-17&src=typed_query&f=live", // BBRI 17-19 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-21%20since%3A2021-11-19&src=typed_query&f=live", // BBRI 19-21 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-23%20since%3A2021-11-21&src=typed_query&f=live", // BBRI 21-23 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-25%20since%3A2021-11-23&src=typed_query&f=live", // BBRI 23-25 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-27%20since%3A2021-11-25&src=typed_query&f=live", // BBRI 25-27 November 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-11-30%20since%3A2021-11-27&src=typed_query&f=live", // BBRI 27-30 November 2021
 
     // desember
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-03%20since%3A2022-12-01&src=typed_query&f=live", // UNVR 1-3 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-05%20since%3A2022-12-03&src=typed_query&f=live", // UNVR 3-5 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-07%20since%3A2022-12-05&src=typed_query&f=live", // UNVR 5-7 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-09%20since%3A2022-12-07&src=typed_query&f=live", // UNVR 7-9 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-11%20since%3A2022-12-09&src=typed_query&f=live", // UNVR 9-11 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-13%20since%3A2022-12-11&src=typed_query&f=live", // UNVR 11-13 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-15%20since%3A2022-12-13&src=typed_query&f=live", // UNVR 13-15 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-17%20since%3A2022-12-15&src=typed_query&f=live", // UNVR 15-17 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-19%20since%3A2022-12-17&src=typed_query&f=live", // UNVR 17-19 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-21%20since%3A2022-12-19&src=typed_query&f=live", // UNVR 19-21 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-23%20since%3A2022-12-21&src=typed_query&f=live", // UNVR 21-23 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-25%20since%3A2022-12-23&src=typed_query&f=live", // UNVR 23-25 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-27%20since%3A2022-12-25&src=typed_query&f=live", // UNVR 25-27 Desember 2022
-    "https://x.com/search?q=%23UNVR%20lang%3Aid%20until%3A2022-12-31%20since%3A2022-12-27&src=typed_query&f=live", // UNVR 27-31 Desember 2022
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-03%20since%3A2021-12-01&src=typed_query&f=live", // BBRI 1-3 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-05%20since%3A2021-12-03&src=typed_query&f=live", // BBRI 3-5 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-07%20since%3A2021-12-05&src=typed_query&f=live", // BBRI 5-7 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-09%20since%3A2021-12-07&src=typed_query&f=live", // BBRI 7-9 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-11%20since%3A2021-12-09&src=typed_query&f=live", // BBRI 9-11 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-13%20since%3A2021-12-11&src=typed_query&f=live", // BBRI 11-13 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-15%20since%3A2021-12-13&src=typed_query&f=live", // BBRI 13-15 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-17%20since%3A2021-12-15&src=typed_query&f=live", // BBRI 15-17 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-19%20since%3A2021-12-17&src=typed_query&f=live", // BBRI 17-19 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-21%20since%3A2021-12-19&src=typed_query&f=live", // BBRI 19-21 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-23%20since%3A2021-12-21&src=typed_query&f=live", // BBRI 21-23 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-25%20since%3A2021-12-23&src=typed_query&f=live", // BBRI 23-25 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-27%20since%3A2021-12-25&src=typed_query&f=live", // BBRI 25-27 Desember 2021
+    "https://x.com/search?q=BBRI%20lang%3Aid%20until%3A2021-12-31%20since%3A2021-12-27&src=typed_query&f=live", // BBRI 27-31 Desember 2021
 
 ];
 
@@ -3358,8 +3944,8 @@ async function scrapeTweets() {
     // Simpan referensi ke global agar bisa diakses oleh handler SIGINT
     globalCollectedTweets = tweets;
 
-    if (fs.existsSync("tweets_unvr_2022.json")) {
-        const existing = JSON.parse(fs.readFileSync("tweets_unvr_2022.json", "utf-8"));
+    if (fs.existsSync("tweets_bbri_2021.json")) {
+        const existing = JSON.parse(fs.readFileSync("tweets_bbri_2021.json", "utf-8"));
         existing.forEach((t) => tweets.add(JSON.stringify(t)));
     }
 
@@ -3430,7 +4016,7 @@ async function scrapeTweets() {
     }
 
     const tweetArray = Array.from(tweets).map((t) => JSON.parse(t));
-    fs.writeFileSync("tweets_unvr_2022.json", JSON.stringify(tweetArray, null, 2));
+    fs.writeFileSync("tweets_bbri_2021.json", JSON.stringify(tweetArray, null, 2));
     console.log(`✅ Selesai! Total tweet terkumpul: ${tweetArray.length}`);
 
     await browser.close();
@@ -3446,7 +4032,7 @@ process.on("SIGINT", async () => {
     if (globalCollectedTweets && globalCollectedTweets.size > 0) {
         try {
             const tweetArray = Array.from(globalCollectedTweets).map((t) => JSON.parse(t));
-            fs.writeFileSync("tweets_unvr_2022.json", JSON.stringify(tweetArray, null, 2));
+            fs.writeFileSync("tweets_bbri_2021.json", JSON.stringify(tweetArray, null, 2));
             console.log(`✅ Data berhasil disimpan. Total tweet tersimpan: ${tweetArray.length}`);
         } catch (err) {
             console.error("❌ Gagal menyimpan data:", err.message);

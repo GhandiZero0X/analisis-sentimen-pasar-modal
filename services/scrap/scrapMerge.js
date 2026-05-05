@@ -1,111 +1,161 @@
 const fs = require("fs");
 const path = require("path");
 
-const files = [
-    // "tweets_bbri_2019.json",
-    // "tweets_bbri_2020.json",
-    // "tweets_bbri_2021.json",
-    // "tweets_bbri_2022.json",
-    // "tweets_bbri_2023.json",
-    // "tweets_bbri_2024.json",
-    // "tweets_bbri_2025.json",
+// ══════════════════════════════════════════════════════════════
+//  KONFIGURASI — Edit bagian ini sesuai kebutuhanmu
+// ══════════════════════════════════════════════════════════════
 
-    // "tweets_tlkm_2019.json",
-    // "tweets_tlkm_2020.json",
-    // "tweets_tlkm_2021.json",
-    // "tweets_tlkm_2022.json",
-    // "tweets_tlkm_2023.json",
-    // "tweets_tlkm_2024.json",
-    // "tweets_tlkm_2025.json",
+// Folder induk tempat semua folder saham berada
+// Contoh: jika struktur kamu adalah ./data/bbri/, ./data/icbp/
+// ganti BASE_DIR = "./data"  → jika folder saham ada di subfolder
+// ganti BASE_DIR = "."       → jika folder saham langsung di sini
+const BASE_DIR = "./database";
 
-    // "tweets_icbp_2019.json",
-    // "tweets_icbp_2020.json",
-    // "tweets_icbp_2021.json",
-    // "tweets_icbp_2022.json",
-    // "tweets_icbp_2023.json",
-    // "tweets_icbp_2024.json",
-    // "tweets_icbp_2025.json",
+// Daftar file yang ingin digabung
+// Format: { folder: "nama_folder_saham", file: "nama_file.json" }
+const FILES_TO_MERGE = [
+    { folder: "bbri", file: "tweets_bbri_2023.json" },
+    { folder: "bbri", file: "tweets_bbri_2024.json" },
+    { folder: "bbri", file: "tweets_bbri_2025.json" },
+
+    { folder: "icbp", file: "tweets_icbp_2023.json" },
+    { folder: "icbp", file: "tweets_icbp_2024.json" },
+    { folder: "icbp", file: "tweets_icbp_2025.json" },
+
+    { folder: "tlkm", file: "tweets_tlkm_2023.json" },
+    { folder: "tlkm", file: "tweets_tlkm_2024.json" },
+    { folder: "tlkm", file: "tweets_tlkm_2025.json" },
+
+    { folder: "bmri", file: "tweets_bmri_2023.json" },
+    { folder: "bmri", file: "tweets_bmri_2024.json" },
+    { folder: "bmri", file: "tweets_bmri_2025.json" },
+
+    { folder: "isat", file: "tweets_isat_2023.json" },
+    { folder: "isat", file: "tweets_isat_2024.json" },
+    { folder: "isat", file: "tweets_isat_2025.json" },
+
+    { folder: "unvr", file: "tweets_unvr_2023.json" },
+    { folder: "unvr", file: "tweets_unvr_2024.json" },
+    { folder: "unvr", file: "tweets_unvr_2025.json" },
 ];
 
-const allTweets = [];
-const stats = [];
+// Nama file output hasil penggabungan
+const OUTPUT_FILE = "tweets_after_covid.json";
 
-console.log("Mengecek panjang tiap file JSON per tahun sebelum merge...\n");
+// ══════════════════════════════════════════════════════════════
+//  HELPER FUNCTIONS
+// ══════════════════════════════════════════════════════════════
 
-files.forEach((file) => {
-    const filePath = path.join(__dirname, file);
+// Baca satu file JSON, return array of objects
+function readJsonFile(filepath) {
+    const raw = fs.readFileSync(filepath, "utf-8");
+    const data = JSON.parse(raw);
 
-    if (!fs.existsSync(filePath)) {
-        console.warn(`⚠️ File ${file} tidak ditemukan, dilewati`);
-        stats.push({ file, year: extractYear(file), count: 0, ok: false });
-        return;
+    // Pastikan isinya array, bukan object tunggal
+    if (!Array.isArray(data)) {
+        throw new Error(`File bukan array JSON: ${filepath}`);
     }
+    return data;
+}
 
-    try {
-        const raw = fs.readFileSync(filePath, "utf-8");
-        const data = JSON.parse(raw);
+// Bandingkan dua tanggal "YYYY-MM-DD" secara ascending
+function compareByDate(a, b) {
+    // localeCompare aman untuk format YYYY-MM-DD
+    // karena urutan string = urutan kronologis
+    if (!a.date) return 1; // data tanpa tanggal → taruh paling belakang
+    if (!b.date) return -1;
+    return a.date.localeCompare(b.date);
+}
 
-        let count;
-        if (Array.isArray(data)) {
-            count = data.length;
-            allTweets.push(...data);
-        } else if (data && typeof data === "object") {
-            count = Object.keys(data).length;
-            allTweets.push(data);
-        } else {
-            count = 0;
+// ══════════════════════════════════════════════════════════════
+//  MAIN FUNCTION
+// ══════════════════════════════════════════════════════════════
+
+function mergeFiles() {
+    console.log("🔀 Mulai proses penggabungan...\n");
+    console.log("─".repeat(50));
+
+    let allData = []; // tampung semua tweet dari semua file
+    let totalFiles = 0;
+    let failedFiles = 0;
+
+    for (const { folder, file } of FILES_TO_MERGE) {
+        const filepath = path.join(BASE_DIR, folder, file);
+
+        process.stdout.write(`  📄 Membaca: ${path.join(folder, file).padEnd(35)}`);
+
+        // Coba baca file — skip jika tidak ditemukan
+        try {
+            const data = readJsonFile(filepath);
+            allData = allData.concat(data); // gabungkan ke array utama
+            console.log(`→ ${data.length.toLocaleString()} tweet ✅`);
+            totalFiles++;
+        } catch (err) {
+            // Tampilkan pesan error tapi lanjut ke file berikutnya
+            if (err.code === "ENOENT") {
+                console.log(`→ ❌ FILE TIDAK DITEMUKAN`);
+            } else {
+                console.log(`→ ❌ ERROR: ${err.message}`);
+            }
+            failedFiles++;
         }
-
-        stats.push({ file, year: extractYear(file), count, ok: true });
-        console.log(`✅ ${file} (${extractYear(file)}) → ${count} tweet(s)`);
-    } catch (err) {
-        console.error(`❌ Gagal membaca/mengurai ${file}: ${err.message}`);
-        stats.push({ file, year: extractYear(file), count: 0, ok: false });
     }
-});
 
-const totalFromStats = stats.reduce((s, it) => s + (it.count || 0), 0);
-console.log("\nRingkasan sebelum merge:");
-stats.forEach((s) => {
-    const status = s.ok ? "OK" : "DILEWATI";
-    console.log(`  - ${s.file} [${s.year}]: ${s.count} (${status})`);
-});
-console.log(`\nTotal menurut pengecekan per-file: ${totalFromStats}`);
-console.log(`Total gabungan array allTweets.length: ${allTweets.length}`);
+    console.log("─".repeat(50));
+    console.log(
+        `\n📦 Total sebelum sort : ${allData.length.toLocaleString()} tweet`,
+    );
 
-// 🧠 SORTING TWEET BERDASARKAN TANGGAL
-console.log("\nMengurutkan tweet berdasarkan tanggal (2019 → 2025)...");
+    if (allData.length === 0) {
+        console.error(
+            "\n❌ Tidak ada data untuk digabung. Periksa path folder & nama file.",
+        );
+        process.exit(1);
+    }
 
-const parseDate = (dateStr) => {
-    if (!dateStr) return null;
-    // Jika tanggal berupa "YYYY-MM-DD" → aman langsung
-    const d = new Date(dateStr);
-    return isNaN(d.getTime()) ? null : d;
-};
+    // ── Urutkan semua data berdasarkan tanggal (ascending) ──
+    console.log("⏳ Mengurutkan berdasarkan tanggal...");
+    allData.sort(compareByDate);
 
-// Urutkan berdasarkan tanggal ascending
-allTweets.sort((a, b) => {
-    const dateA = parseDate(a.date);
-    const dateB = parseDate(b.date);
+    // ── Tampilkan rentang tanggal hasil merge ──
+    const firstDate = allData[0]?.date ?? "-";
+    const lastDate = allData[allData.length - 1]?.date ?? "-";
+    console.log(`📅 Rentang tanggal   : ${firstDate}  →  ${lastDate}`);
 
-    if (!dateA && !dateB) return 0;
-    if (!dateA) return 1;
-    if (!dateB) return -1;
-    return dateA - dateB;
-});
+    // ── Hitung distribusi per saham untuk ringkasan ──
+    const perSaham = {};
+    for (const item of allData) {
+        const saham = item.saham ?? "unknown";
+        perSaham[saham] = (perSaham[saham] ?? 0) + 1;
+    }
 
-// 🚀 Simpan hasil gabungan ke satu file
-try {
-    const outPath = path.join(__dirname, "tweets_icbp.json");
-    fs.writeFileSync(outPath, JSON.stringify(allTweets, null, 2), "utf-8");
-    console.log(`\n🎉 File gabungan & terurut berhasil dibuat: ${outPath}`);
-    console.log(`📆 Total tweet: ${allTweets.length}`);
-} catch (err) {
-    console.error(`❌ Gagal menulis file gabungan: ${err.message}`);
+    console.log("\n📊 Distribusi per saham:");
+    for (const [saham, count] of Object.entries(perSaham)) {
+        console.log(
+            `   ${saham.toUpperCase().padEnd(10)} → ${count.toLocaleString()} tweet`,
+        );
+    }
+
+    // ── Simpan ke file output ──
+    console.log(`\n💾 Menyimpan ke: ${OUTPUT_FILE} ...`);
+    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(allData, null, 2), "utf-8");
+
+    // ── Hitung ukuran file output ──
+    const fileSizeKB = (fs.statSync(OUTPUT_FILE).size / 1024).toFixed(1);
+
+    console.log("\n" + "═".repeat(50));
+    console.log(`✅ Selesai!`);
+    console.log(
+        `   File berhasil dibaca : ${totalFiles} dari ${FILES_TO_MERGE.length}`,
+    );
+    if (failedFiles > 0) {
+        console.log(`   File gagal/tidak ada  : ${failedFiles}`);
+    }
+    console.log(`   Total tweet tergabung : ${allData.length.toLocaleString()}`);
+    console.log(`   Ukuran file output    : ${fileSizeKB} KB`);
+    console.log(`   Output disimpan di    : ${path.resolve(OUTPUT_FILE)}`);
+    console.log("═".repeat(50));
 }
 
-// util: ambil tahun dari nama file (mis. file dari json -> 2020)
-function extractYear(filename) {
-    const m = filename.match(/\b(19|20)\d{2}\b/);
-    return m ? m[0] : "unknown";
-}
+// Jalankan
+mergeFiles();
