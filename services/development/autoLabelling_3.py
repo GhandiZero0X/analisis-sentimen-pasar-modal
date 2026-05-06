@@ -7,10 +7,10 @@ from tqdm import tqdm
 # =============================
 # PATH CONFIG
 # =============================
-BASE_DIR = Path(__file__).resolve().parents[2]
+BASE_DIR = Path(__file__).resolve().parent
 
-INPUT_DIR = BASE_DIR / "dev_database/1_raw"
-OUTPUT_DIR = BASE_DIR / "dev_database/2_labellingLexicon"
+INPUT_DIR = BASE_DIR / "dev_database" / "1_raw"
+OUTPUT_DIR = BASE_DIR / "dev_database" / "2_labellingLexicon"
 KAMUS_FILE = BASE_DIR / "kamus" / "kamuskatabaku.xlsx"
 
 FILES = [
@@ -36,25 +36,21 @@ kamus_dict = dict(zip(
 # LEXICON (FULL MERGED)
 # =============================
 positive_lexicon = set([
-    "abis","accumulate","acuan","advice","agresif","akhir","akhirnya","akra","akses","aksi","akum",
-    "akumulasi","akumulasi beli","alhamdulilah","alhamdulillah","all time high","alokasi","aman","ambil",
-    "andalan","angkat","apresiasi","ara","arah","asa","ascending","atas","ath","atraktif","auto reject atas","average","avia","ayo","ayok",
-    "ayoo","back","badai","bagger","bagus","bagusnya","bahagia", "baik","bandingkan","bangga","bangkit","bangun",
-    "beli", "beli di dip", "belikan","berapapun","berencana", "berhasil", "berkah", "berkelanjutan", "berkembang", "berkontribusi", "berlanjut", "bermanfaat", "berperan", "berpotensi", "bersama", "bersinar",
-    "bertahan", "bertumbuh", "beruntun", "besar", "best", "better", "betul", "bisa terbang","blue", "bluechip","bottoming", "breakout",
-    "bull", "bullish", "buruan", "buy", "buyback", "buying", "cakep", "cantik", "capai", "caplok", "cashflow", "cemerlang", "cenderung", "cepat", "cepet", "cerah", "cerdas",
-    "chip", "ciamik", "cicil", "cicilan", "cocok", "comeback", "cuan", "cuci gudang", "cukup", "cutloss",
-    "dca","defensif", "defensive", "dekati", "demand","devidennya","diakumulasi", "diatas", "dibeli", "diborong","diburu", "didorong", "digendong",
-    "dihargai", "diincar", "dikoleksi", "diminati", "diproyeksikan", "direstui", "diserok", "disetujui", "ditopang", "diuntungkan",
-    "dividen", "dividend", "dividennya", "dongkrak", "dominan", "dominasi", "efektif", "efisiensi", "ekspansi", "ekspor",
-    "enak", "enaknya", "entry bagus", "favorit", "finally", "fokus", "fundamental kuat", "fundamental sehat",
-    "gacor", "gain", "gas", "gass", "gampang", "gede", "gencar", "golden", "golden cross", "good",
-    "green", "gurihnya", "happy", "harga menarik", "harga terkoreksi", "hasil", "high", "hijau", "hoki", "hold",
-    "holding", "ijo", "ijoo", "imbal", "impian", "incar", "indikator bagus", "inovasi", "ipo sukses", "investasi",
-    "investor", "juara", "jumbo", "justru", "katalis", "keep", "kejutan", "kemajuan", "kenaikan", "kencang", "kerek", "kerjasama", "kesempatan", "keuntungan",
-    "kinerja baik", "kinerja ekspor", "kolaborasi", "komitmen", "konsisten", "konsistensi", "kontribusi", "kuat", "laba", "laba naik",
-    "lancar", "lanjut", "lanjutan", "lanjutkan", "layak", "leaders", "likuiditas tinggi", "lompat", "long", "longterm",
-    "love", "lumayan", "luncurkan", "maju", "makmur", "maksimal", "mampu", "mandiri", "manis", "mantap",
+    "accumulate","agresif","akumulasi","akumulasi beli","all time high","aman","apresiasi","ascending","ath","atraktif",
+    "bagger","bagus","bagusnya","bahagia","baik","bangga","bangkit","berhasil","berkah","berkembang",
+    "berkontribusi","berlanjut","bermanfaat","berpotensi","bersinar","bertahan","bertumbuh","best","better","bluechip",
+    "bottoming","breakout","bull","bullish","buy","buyback","buying","cakep","cantik","capai",
+    "caplok","cashflow","cemerlang","cerah","cerdas","ciamik","comeback","cuan","cuci gudang","dca",
+    "defensif","defensive","demand","diakumulasi","dibeli","diborong","diburu","didorong","dihargai","diincar",
+    "dikoleksi","diminati","diproyeksikan","direstui","diserok","disetujui","ditopang","diuntungkan","dividen","dividend",
+    "dongkrak","dominan","dominasi","efektif","efisiensi","ekspansi","ekspor","entry bagus","fokus","fundamental kuat",
+    "fundamental sehat","gacor","gain","gas","gass","gampang","gede","gencar","golden","golden cross",
+    "good","green","happy","harga menarik","harga terkoreksi","hasil","high","hijau","hoki","hold",
+    "holding","imbal","incar","indikator bagus","inovasi","ipo sukses","investasi","investor","juara","jumbo",
+    "katalis","keep","kejutan","kemajuan","kenaikan","kencang","kerek","kerjasama","kesempatan","keuntungan",
+    "kinerja baik","kinerja ekspor","kolaborasi","komitmen","konsisten","konsistensi","kontribusi","kuat","laba","laba naik",
+    "lancar","lanjut","lanjutan","lanjutkan","layak","leaders","likuiditas tinggi","lompat","long","longterm",
+    "lumayan","maju","maksimal","mampu","mantap",
     "mantep", "mantul", "masif", "melaju", "melambung", "melesat", "melonjak", "membaik", "membantu", "membeli",
     "memborong", "membukukan", "memilih", "memiliki", "memperluas", "mempertahankan","menabung", "menaikkan", "menang", "menargetkan", "menarik", "menawarkan", "mencapai", "mencatat", "mencetak", "mendominasi",
     "mendorong", "menembus", "mengakumulasi", "menggiurkan", "menghasilkan", "menghijau", "menguntungkan", "menikmati", "meningkat", "meningkatkan",
@@ -71,40 +67,56 @@ positive_lexicon = set([
     "setuju", "siap", "signifikan", "simpan", "sinergi", "sinyal beli", "sip", "smart", "solusi", "spesial",
     "stabil", "stabilitas", "strategi", "strategis", "strong", "strong buy", "sukses", "super", "support", "support kuat",
     "syukur", "tabung", "tabungan", "tahan", "tambah", "tambahan", "tangguh", "target", "target harga naik", "tembus",
-    "terbang", "terbuka", "terbukti", "tercatat", "terdiskon", "terjaga", "terkerek", "tertarik", "tertinggi", "tetap",
+    "terbang", "terbuka", "terbukti", "tercatat", "terbesar", "terdiskon", "terjaga", "terkerek", "tertarik", "tertinggi", "tetap",
     "tinggi", "tingkatkan", "to the moon","top gainers", "topang", "tren", "trend", "trendnya", "tuku","tumbuh",
     "unggul", "untung", "untungnya", "upgrade rekomendasi", "upside", "uptrend", "volume meningkat", "wajar", "worth", "wow",
     "upper","uptrendnya", "waah","wah", "wajar", "watchlist", "yakin",
 ])
 
 negative_lexicon = set([
-    "abang", "amblas", "ambles", "ambrol", "ambruk", "ampas", "amsyong", "ancur", "anjlok", "arb", "auto reject bawah"
-    "bad", "bandar", "bangkrut", "bapuk", "bearish", "beban", "berat", "berdarah", "bermasalah", "bleeding"
+    "abang", "amblas", "ambles", "ambrol", "ambruk", "ampas", "amsyong", "ancur", "anjlok", "arb", "auto reject bawah",
+    "bad", "bandar", "bangkrut", "bapuk", "bearish", "beban", "berat", "berdarah", "bermasalah", "bleeding",
     "boncos", "breakdown", "brutal", "buang", "bubar", "buruk", "cabut", "capek", "chaos",
-    "crash", "cut", "cut loss", "dead", "dibanting", "dihajar", "dihentikan sementara", "dijual", "dilego", "dilepas"
-    "dilusi", "dilusi saham", "disedot", "distribusi", "distribusi jual", "ditarik", "ditekan", "ditinggal", "divestasi", "down"
-    "down bad", "downgrade", "downgrade rekomendasi", "downtrend", "drastis", "drop", "dump", "exit", "fear", "flat"
-    "floating", "gagal", "gejolak pasar", "gelembung pecah", "gorengan", "goyang", "halt", "hancur", "harga longsor", "hilang"
+    "crash", "cut", "cut loss", "dead", "dibanting", "dihajar", "dihentikan sementara", "dijual", "dilego", "dilepas",
+    "dilusi", "dilusi saham", "disedot", "distribusi", "distribusi jual", "ditarik", "ditekan", "ditinggal", "divestasi", "down",
+    "down bad", "downgrade", "downgrade rekomendasi", "downtrend", "drastis", "drop", "dump", "exit", "fear", "flat",
+    "floating", "gagal", "gejolak pasar", "gelembung pecah", "gorengan", "goyang", "halt", "hancur", "harga longsor", "hilang",
     "hutang", "imbas", "indikator jelek",
-    "inflasi tinggi", "issue", "isu", "jangan", "jatoh", "jatuh", "jeblok", "jebol", "jelek", "jual"
-    "jual rugi", "kabur", "kacau", "kalah", "kasus", "kebangkrutan", "kecurangan akuntansi", "kehilangan", "kemahalan", "kempes"
-    "kena", "kerugian", "khawatir", "kinerja buruk", "koreksi", "korupsi", "krisis", "kujual", "kurang", "laggard"
+    "inflasi tinggi", "issue", "isu", "jangan", "jatoh", "jatuh", "jeblok", "jebol", "jelek", "jual",
+    "jual rugi", "kabur", "kacau", "kalah", "kasus", "kebangkrutan", "kecurangan akuntansi", "kehilangan", "kemahalan", "kempes",
+    "kena", "kerugian", "khawatir", "kinerja buruk", "koreksi", "korupsi", "krisis", "kujual", "kurang",
     "lagging", "lambat", "laporan keuangan jelek",
-    "lelet", "lemah", "lemot", "lepas", "lesu", "likuiditas rendah", "longsor", "loser", "lower", "loyo"
-    "macet", "mahal", "mandek", "masalah", "mati", "melemah", "melorot", "menekan", "mentok", "menurun"
-    "merah", "merosot", "merugi", "minim", "minus", "miskin", "mundur", "nahan", "nasib", "ndlosor"
+    "lelet", "lemah", "lemot", "lepas", "lesu", "likuiditas rendah", "longsor", "loser", "lower", "loyo",
+    "macet", "mahal", "mandek", "masalah", "mati", "melemah", "melorot", "menekan", "mentok", "menurun",
+    "merah", "merosot", "merugi", "minim", "minus", "miskin", "mundur", "nahan", "nasib", "ndlosor",
     "negatif", "net sell", "netsell", "ngeri", "nggak", "nggak jelas", "nggak kuat", "nggak sanggup",
-    "nyangkut", "nyesek", "nyesel", "nyungsep", "outflow", "overbought", "panic", "panic sell", "panik", "parah"
-    "pasrah", "patah", "pecah", "pelemahan", "pembatalan dividen", "pengurangan", "penipuan", "penjualan insider", "penundaan", "penundaan proyek"
-    "penurunan", "penurunan permintaan", "pesimis"
-    "profit warning", "pusing", "puyeng", "rasio overvalue", "red", "reject", "resisten gagal", "rontok", "rugi", "rugi operasional"
-    "rungkad", "saham gorengan", "saham jelek", "saham sampah", "sampah", "sangkut", "sanksi regulasi", "sebel", "sedih"
+    "nyangkut", "nyesek", "nyesel", "nyungsep", "outflow", "overbought", "panic", "panic sell", "panik", "parah",
+    "pasrah", "patah", "pecah", "pelemahan", "pembatalan dividen", "pengurangan", "penipuan", "penjualan insider", "penundaan", "penundaan proyek",
+    "penurunan", "penurunan permintaan", "pesimis",
+    "profit warning", "pusing", "puyeng", "rasio overvalue", "red", "reject", "resisten gagal", "rontok", "rugi", "rugi operasional",
+    "rungkad", "saham gorengan", "saham jelek", "saham sampah", "sampah", "sangkut", "sanksi regulasi", "sebel", "sedih",
     "sell", "selling", "sentimen buruk", "serem", "sial", "sinyal jual", "skip", 
-    "spam", "stagnan", "stress", "stuck", "suku bunga naik", "sulit", "surem", "susah", "suspensi", "target harga turun"
-    "terancam", "terdampak", "terdepak", "tergerus", "terjun", "terkoreksi", "terpaksa", "terpengaruh", "terpuruk", "tertekan"
+    "spam", "stagnan", "stress", "stuck", "suku bunga naik", "sulit", "surem", "susah", "suspensi", "target harga turun",
+    "terancam", "terdampak", "terdepak", "tergerus", "terjun", "terkoreksi", "terpaksa", "terpengaruh", "terpuruk", "tertekan",
     "top losers", "trading halt", "trauma",
     "turun", "turunnya", "turunnya laba", "utang", "utang menumpuk", "volatilitas", "volume turun", "zonk"
 ])
+
+# =============================
+# SPLIT LEXICON (FIX DOUBLE COUNT)
+# =============================
+def split_lexicon(lexicon):
+    single = set()
+    phrases = set()
+    for w in lexicon:
+        if " " in w:
+            phrases.add(w)
+        else:
+            single.add(w)
+    return single, phrases
+
+pos_single, pos_phrases = split_lexicon(positive_lexicon)
+neg_single, neg_phrases = split_lexicon(negative_lexicon)
 
 # =============================
 # CLEAN TEXT
@@ -127,17 +139,13 @@ def normalize_text(text):
     return [kamus_dict.get(w, w) for w in tokens]
 
 # =============================
-# PHRASE MATCH
+# CONFIG NLP
 # =============================
-def count_phrases(text, lexicon):
-    count = 0
-    for phrase in lexicon:
-        if " " in phrase and phrase in text:
-            count += 2  # weight lebih besar
-    return count
+NEGATIONS = {"tidak","ga","gak","nggak"}
+INTENSIFIERS = {"banget","parah","bgt"}
 
 # =============================
-# LEXICON LABELING
+# LEXICON LABELING (FIXED ENGINE)
 # =============================
 def lexicon_label(text):
 
@@ -148,32 +156,61 @@ def lexicon_label(text):
     pos_score = 0
     neg_score = 0
 
-    # token match
-    for word in tokens:
-        if word in positive_lexicon:
-            pos_score += 1
-        if word in negative_lexicon:
-            neg_score += 1
+    # =============================
+    # TOKEN MATCH (NEGATION LOCAL)
+    # =============================
+    for i, word in enumerate(tokens):
 
-    # phrase match (lebih kuat)
-    pos_score += count_phrases(joined, positive_lexicon)
-    neg_score += count_phrases(joined, negative_lexicon)
+        negated = False
+        if i > 0 and tokens[i-1] in NEGATIONS:
+            negated = True
 
-    # negasi
-    if any(w in tokens for w in ["tidak","ga","gak","nggak"]):
-        pos_score, neg_score = neg_score, pos_score
+        if word in pos_single:
+            if negated:
+                neg_score += 1
+            else:
+                pos_score += 1
 
-    # intensifier
-    if any(w in tokens for w in ["banget","parah","bgt"]):
-        pos_score *= 1.5
-        neg_score *= 1.5
+        elif word in neg_single:
+            if negated:
+                pos_score += 1
+            else:
+                neg_score += 1
 
+    # =============================
+    # PHRASE MATCH (NO DOUBLE COUNT)
+    # =============================
+    for phrase in pos_phrases:
+        if phrase in joined:
+            pos_score += 2
+
+    for phrase in neg_phrases:
+        if phrase in joined:
+            neg_score += 2
+
+    # =============================
+    # INTENSIFIER
+    # =============================
+    if any(w in tokens for w in INTENSIFIERS):
+        pos_score *= 1.3
+        neg_score *= 1.3
+
+    # =============================
+    # NOISE FILTER
+    # =============================
+    if pos_score == 0 and neg_score == 0:
+        return "netral"
+
+    if abs(pos_score - neg_score) < 1:
+        return "netral"
+
+    # =============================
+    # FINAL
+    # =============================
     if pos_score > neg_score:
         return "positif"
-    elif neg_score > pos_score:
-        return "negatif"
     else:
-        return "netral"
+        return "negatif"
 
 # =============================
 # PROCESS FILE
@@ -201,7 +238,7 @@ def process_file(file):
 # =============================
 if __name__ == "__main__":
 
-    print("🚀 AUTO LABELLING LEXICON (IMPROVED)")
+    print("🚀 AUTO LABELLING LEXICON (STABLE VERSION)")
 
     for file in FILES:
         process_file(file)
