@@ -46,7 +46,7 @@ from tqdm import tqdm
 #  PATH CONFIGURATION
 # ══════════════════════════════════════════════════════════════
 BASE_DIR   = Path(__file__).resolve().parent          # lokasi script ini
-INPUT_DIR  = BASE_DIR / "dev_database" / "2_labelling"
+INPUT_DIR  = BASE_DIR / "dev_database" / "2_labellingLexicon"  # ← diubah
 OUTPUT_DIR = BASE_DIR / "dev_database" / "3_preprocessing" / "ml"  # ← diubah
 KAMUS_FILE = BASE_DIR / "kamus" / "kamuskatabaku.xlsx"          # sesuaikan path jika perlu
 
@@ -54,32 +54,31 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # File yang diproses (urutan bebas)
 INPUT_FILES = [
-    "tweets_before_covid_labelling.csv",
-    "tweets_covid_labelling.csv",
-    "tweets_after_covid_labelling.csv",
-    "tweets_all_periods_labelling.csv",
+    "tweets_before_covid_labellingLexicon.csv",
+    "tweets_covid_labellingLexicon.csv",
+    "tweets_after_covid_labellingLexicon.csv",
+    "tweets_all_periods_labellingLexicon.csv",
 ]
 
 # ══════════════════════════════════════════════════════════════
-#  SETUP RESOURCE (dijalankan sekali)
+# SETUP RESOURCE
 # ══════════════════════════════════════════════════════════════
 print("⚙️  Menyiapkan resource...\n")
 
-# NLTK stopwords
-nltk.download("stopwords", quiet=True)
+# NLTK
+nltk.download("stopwords")
 stop_words = set(stopwords.words("indonesian"))
 
-# Sastrawi stemmer
+# Sastrawi
 stemmer = StemmerFactory().create_stemmer()
 
-# Stanza tokenizer Bahasa Indonesia
-stanza.download("id", quiet=True)
-nlp = stanza.Pipeline(
-    lang="id",
-    processors="tokenize",
-    tokenize_no_ssplit=True,  # satu tweet = satu kalimat, tidak dipecah per kalimat
-    verbose=False,
-)
+# Stanza (SAFE INIT)
+try:
+    nlp = stanza.Pipeline(lang="id", processors="tokenize", tokenize_no_ssplit=True, verbose=False)
+except:
+    print("⬇️  Downloading Stanza model...")
+    stanza.download("id")
+    nlp = stanza.Pipeline(lang="id", processors="tokenize", tokenize_no_ssplit=True, verbose=False)
 
 # Kamus kata tidak baku → baku
 kamus_df   = pd.read_excel(KAMUS_FILE)
@@ -186,7 +185,7 @@ def process_file(filename: str):
 
     # Nama output: tambahkan _preprocessing sebelum .csv
     stem        = Path(filename).stem                              # tweets_before_covid_labelling
-    output_name = f"{stem}_preprocessing.csv"                     # tweets_before_covid_labelling_preprocessing.csv
+    output_name = f"{stem}_preprocessingML.csv"                     # tweets_before_covid_labelling_preprocessingML.csv
     output_path = OUTPUT_DIR / output_name
 
     if not input_path.exists():

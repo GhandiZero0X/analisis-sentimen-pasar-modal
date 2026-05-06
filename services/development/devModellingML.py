@@ -39,11 +39,11 @@ from sklearn.metrics import accuracy_score
 # ══════════════════════════════════════════════════════════════
 BASE_DIR   = Path(__file__).resolve().parent
 INPUT_DIR  = BASE_DIR / "dev_database" / "3_preprocessing" / "ml"
-OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "ml"
+OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "ml" / "covid"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-INPUT_FILE      = INPUT_DIR  / "tweets_all_periods_labelling_preprocessingML.csv"
+INPUT_FILE      = INPUT_DIR  / "tweets_covid_labellingLexicon_preprocessingML.csv"
 MODEL_FILE      = OUTPUT_DIR / "svm_model.joblib"
 VECTORIZER_FILE = OUTPUT_DIR / "tfidf_vectorizer.joblib"
 ENCODER_FILE    = OUTPUT_DIR / "label_encoder.joblib"

@@ -48,184 +48,129 @@ import emoji
 from pathlib import Path
 from tqdm import tqdm
 
-# ══════════════════════════════════════════════════════════════
-#  PATH CONFIGURATION
-# ══════════════════════════════════════════════════════════════
+# =============================
+# PATH CONFIG
+# =============================
 BASE_DIR   = Path(__file__).resolve().parent
-INPUT_DIR  = BASE_DIR / "dev_database" / "2_labelling"
+INPUT_DIR  = BASE_DIR / "dev_database" / "2_labellingLexicon"  # NOTE: Tetap ambil dari folder labellingLexicon, bukan labelling
 OUTPUT_DIR = BASE_DIR / "dev_database" / "3_preprocessing" / "dl"
-KAMUS_FILE = BASE_DIR / "kamuskatabaku.xlsx"
+KAMUS_FILE = BASE_DIR / "kamus" / "kamuskatabaku.xlsx"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 INPUT_FILES = [
-    "tweets_before_covid_labelling.csv",
-    "tweets_covid_labelling.csv",
-    "tweets_after_covid_labelling.csv",
-    "tweets_all_periods_labelling.csv",
+    "tweets_before_covid_labellingLexicon.csv",
+    "tweets_covid_labellingLexicon.csv",
+    "tweets_after_covid_labellingLexicon.csv",
+    "tweets_all_periods_labellingLexicon.csv",
 ]
 
-# ══════════════════════════════════════════════════════════════
-#  LOAD KAMUS (sekali saja)
-# ══════════════════════════════════════════════════════════════
+# =============================
+# LOAD KAMUS
+# =============================
 print("⚙️  Menyiapkan resource...\n")
 
-kamus_df   = pd.read_excel(KAMUS_FILE)
+kamus_df = pd.read_excel(KAMUS_FILE)
+
 kamus_dict = dict(zip(
     kamus_df["tidak_baku"].astype(str).str.lower(),
     kamus_df["kata_baku"].astype(str).str.lower()
 ))
-print(f"✅ Kamus dimuat  : {len(kamus_dict):,} entri")
-print(f"ℹ️  Tokenisasi   : ditangani AutoTokenizer IndoBERTweet (saat training)")
-print(f"ℹ️  Stopword     : tidak dihapus (konteks dibutuhkan model Transformer)")
-print(f"ℹ️  Stemming     : tidak dilakukan (subword tokenization menangani morfologi)\n")
 
-# ══════════════════════════════════════════════════════════════
-#  PREPROCESSING PIPELINE — DL VERSION
-# ══════════════════════════════════════════════════════════════
+print(f"✅ Kamus dimuat: {len(kamus_dict):,} kata\n")
 
+# =============================
+# PREPROCESS FUNCTION (FIXED)
+# =============================
 def preprocess_for_dl(tweet: str) -> str:
-    """
-    Preprocessing ringan untuk IndoBERTweet.
-    Tujuan: bersihkan noise, pertahankan struktur kalimat.
+    tweet = str(tweet).lower()
 
-    TIDAK ada: tokenisasi manual, stopword removal, stemming.
-    Ketiga hal itu akan merusak representasi kontekstual model.
-    """
-    tweet = str(tweet)
+    # 1. URL
+    tweet = re.sub(r"(https?://|www\.)\S+", " ", tweet)
 
-    # ──────────────────────────────────────────
-    # TAHAP 1: CASEFOLDING
-    # Lowercase agar konsisten, IndoBERTweet
-    # dilatih dengan teks lowercase Twitter
-    # ──────────────────────────────────────────
-    tweet = tweet.lower()
+    # 2. Hashtag → ambil isi
+    tweet = re.sub(r"#(\w+)", r"\1", tweet)
 
-    # ──────────────────────────────────────────
-    # TAHAP 2: TEXT CLEANING
-    # ──────────────────────────────────────────
+    # 3. Cashtag → ambil isi
+    tweet = re.sub(r"\$", "", tweet)
 
-    # i. Hapus URL
-    tweet = re.sub(
-        r"(https?://|ftp://|www\.)\S+|bit\.ly/\S+|t\.co/\S+",
-        " ", tweet
-    )
+    # 4. Mention
+    tweet = re.sub(r"@\w+", " ", tweet)
 
-    # ii. Hapus hashtag (#), cashtag ($), mention (@)
-    tweet = re.sub(r"#\w+", " ", tweet)    # #ihsg #saham
-    tweet = re.sub(r"\$\w+", " ", tweet)   # $BBRI $TLKM
-    tweet = re.sub(r"@\w+", " ", tweet)    # @username
-
-    # iii. Hapus emoji Unicode (library emoji lebih akurat dari regex manual)
+    # 5. Emoji
     tweet = emoji.replace_emoji(tweet, replace=" ")
 
-    # Hapus emotikon ASCII: :) :( xD :'( <3 dll
-    tweet = re.sub(
-        r"(:-?\)|:-?\(|;-?\)|:-?D|:-?P|:-?\||:'[(\)]|<3|>:<|xD|x\))",
-        " ", tweet, flags=re.IGNORECASE
-    )
+    # 6. Emoticon
+    tweet = re.sub(r"(:-?\)|:-?\(|;-\)|:-?D|:-?P|<3|xD)", " ", tweet)
 
-    # iv. Hapus angka yang berdiri sendiri (tidak bermakna kontekstual)
-    # Catatan: "covid19" atau "q3" tetap dipertahankan karena bagian dari kata
-    tweet = re.sub(r"\b\d+\b", " ", tweet)
+    # 7. Karakter (SOFT CLEANING - FIX)
+    tweet = re.sub(r"[^a-z0-9\s.,%!?]", " ", tweet)
+    tweet = re.sub(r"\.{2,}", ".", tweet) 
 
-    # v. Hapus karakter selain alfabet dan spasi
-    # Pertahankan struktur kata, buang simbol sisa
-    tweet = re.sub(r"[^a-z\s]", " ", tweet)
+    # 8. Normalisasi tanda berlebih
+    tweet = re.sub(r"!{2,}", "!", tweet)
+    tweet = re.sub(r"\?{2,}", "?", tweet)
 
-    # Rapikan spasi
+    # 9. Rapihin spasi
     tweet = re.sub(r"\s+", " ", tweet).strip()
 
-    # vi. Normalisasi singkatan & slang → kata baku
-    # Dilakukan di level kata (split by spasi), BUKAN token Stanza
-    # Penting: kamus di-apply SEBELUM diserahkan ke AutoTokenizer
-    # agar representasi subword lebih bersih dan konsisten
+    # 10. Normalisasi slang → baku
     words = tweet.split()
     words = [kamus_dict.get(w, w) for w in words]
-    tweet = " ".join(words)
 
-    # ── SELESAI ──
-    # Tidak ada tokenisasi, stopword removal, atau stemming.
-    # Teks ini langsung siap masuk ke:
-    #   tokenizer(tweet, max_length=128, truncation=True,
-    #             padding="max_length", return_tensors="pt")
-    return tweet
+    return " ".join(words)
 
-
-# ══════════════════════════════════════════════════════════════
-#  PROSES SEMUA FILE
-# ══════════════════════════════════════════════════════════════
-
+# =============================
+# PROCESS FILE
+# =============================
 def process_file(filename: str):
-    input_path  = INPUT_DIR / filename
+    input_path = INPUT_DIR / filename
 
-    # Nama output: ganti akhiran .csv → _preprocessingDL.csv
-    stem        = Path(filename).stem                           # tweets_before_covid_labelling
-    output_name = f"{stem}_preprocessingDL.csv"                # tweets_before_covid_labelling_preprocessingDL.csv
+    output_name = filename.replace(".csv", "_preprocessingDL.csv")
     output_path = OUTPUT_DIR / output_name
 
     if not input_path.exists():
-        print(f"⚠️  File tidak ditemukan, skip: {filename}")
+        print(f"⚠️  File tidak ditemukan: {filename}")
         return
 
-    print(f"\n{'─'*62}")
-    print(f"📂 Memproses : {filename}")
-    print(f"{'─'*62}")
+    print(f"\n📂 Processing: {filename}")
 
-    # Load
     df = pd.read_csv(input_path, dtype=str).fillna("")
-    print(f"   Total baris  : {len(df):,}")
 
     # Validasi kolom
     required = {"date", "tweet", "sentiment", "saham"}
-    missing  = required - set(df.columns)
-    if missing:
-        print(f"   ❌ Kolom tidak lengkap: {missing}, skip!")
+    if not required.issubset(df.columns):
+        print(f"❌ Kolom tidak lengkap di {filename}")
         return
 
-    # Apply preprocessing DL
-    tqdm.pandas(desc="   🔄 Preprocessing DL")
+    tqdm.pandas(desc="🔄 Preprocessing DL")
     df["tweet_preprocessed_dl"] = df["tweet"].progress_apply(preprocess_for_dl)
 
     # Statistik
     empty_count = (df["tweet_preprocessed_dl"].str.strip() == "").sum()
-    avg_len     = df["tweet_preprocessed_dl"].str.split().apply(len).mean()
+    avg_len = df["tweet_preprocessed_dl"].str.split().apply(len).mean()
 
-    print(f"\n   📊 Rata-rata panjang teks  : {avg_len:.1f} kata")
-    if empty_count > 0:
-        print(f"   ⚠️  Tweet menjadi kosong   : {empty_count} baris")
+    print(f"📊 Avg length : {avg_len:.1f} kata")
+    print(f"⚠️ Empty data : {empty_count}")
 
-    # Simpan — kolom: date | tweet | tweet_preprocessed_dl | sentiment | saham
+    # Save
     df_out = df[["date", "tweet", "tweet_preprocessed_dl", "sentiment", "saham"]]
     df_out.to_csv(output_path, index=False, encoding="utf-8-sig")
 
-    size_kb = output_path.stat().st_size / 1024
-    print(f"   ✅ Disimpan  : {output_name}  ({size_kb:.1f} KB)")
+    print(f"✅ Saved: {output_name}")
 
-
-# ══════════════════════════════════════════════════════════════
-#  MAIN
-# ══════════════════════════════════════════════════════════════
+# =============================
+# MAIN
+# =============================
 def main():
-    print("=" * 62)
-    print("  PREPROCESSING DL — IndoBERTweet")
-    print("=" * 62)
-    print(f"  Input  : {INPUT_DIR}")
-    print(f"  Output : {OUTPUT_DIR}")
-    print("=" * 62)
+    print("=" * 60)
+    print("PREPROCESSING DL — INDOBERTWEET")
+    print("=" * 60)
 
-    for filename in INPUT_FILES:
-        process_file(filename)
+    for file in INPUT_FILES:
+        process_file(file)
 
-    print(f"\n{'='*62}")
-    print("  ✅ Semua file selesai diproses!")
-    print(f"  📂 Cek hasil di: {OUTPUT_DIR}")
-    print(f"{'='*62}")
-    print("\n  Perbandingan output preprocessing:")
-    print("  SVM → tweet_preprocessed    : token bersih, sudah stem+stopword")
-    print("  DL  → tweet_preprocessed_dl : kalimat utuh, siap AutoTokenizer")
-    print("\n  Lanjut ke: python 03_train_indobertweet.py")
-
+    print("\n✅ DONE ALL FILES")
 
 if __name__ == "__main__":
     main()
