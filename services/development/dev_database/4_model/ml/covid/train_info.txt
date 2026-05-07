@@ -1,6 +1,6 @@
 TRAINING INFO — SVM LinearSVC
 ==============================
-Tanggal          : 2026-05-07 00:11:18
+Tanggal          : 2026-05-08 02:13:47
 Input file       : tweets_covid_labellingLexicon_preprocessingML.csv
 Total data       : 61,356
 Train / Test     : 49,084 / 12,272
