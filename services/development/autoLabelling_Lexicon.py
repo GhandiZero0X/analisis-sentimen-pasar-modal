@@ -80,7 +80,7 @@ negative_lexicon = set([
     "crash", "cut", "cut loss", "dead", "dibanting", "dihajar", "dihentikan sementara", "dijual", "dilego", "dilepas",
     "dilusi", "dilusi saham", "disedot", "distribusi", "distribusi jual", "ditarik", "ditekan", "ditinggal", "divestasi", "down",
     "down bad", "downgrade", "downgrade rekomendasi", "downtrend", "drastis", "drop", "dump", "exit", "fear", "flat",
-    "floating", "gagal", "gejolak pasar", "gelembung pecah", "gorengan", "goyang", "halt", "hancur", "harga longsor", "hilang",
+    "floating", "gagal", "gejolak pasar", "gws", "gelembung pecah", "gorengan", "goyang", "halt", "hancur", "harga longsor", "hilang",
     "hutang", "imbas", "indikator jelek",
     "inflasi tinggi", "issue", "isu", "jangan", "jatoh", "jatuh", "jeblok", "jebol", "jelek", "jual",
     "jual rugi", "kabur", "kacau", "kalah", "kasus", "kebangkrutan", "kecurangan akuntansi", "kehilangan", "kemahalan", "kempes",
