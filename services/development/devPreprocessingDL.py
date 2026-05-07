@@ -51,8 +51,8 @@ from tqdm import tqdm
 # =============================
 # PATH CONFIG
 # =============================
-BASE_DIR   = Path(__file__).resolve().parent
-INPUT_DIR  = BASE_DIR / "dev_database" / "2_labellingLexicon"  # NOTE: Tetap ambil dari folder labellingLexicon, bukan labelling
+BASE_DIR = Path(__file__).resolve().parent
+INPUT_DIR = BASE_DIR / "dev_database" / "2_labellingLexicon"
 OUTPUT_DIR = BASE_DIR / "dev_database" / "3_preprocessing" / "dl"
 KAMUS_FILE = BASE_DIR / "kamus" / "kamuskatabaku.xlsx"
 
@@ -80,7 +80,7 @@ kamus_dict = dict(zip(
 print(f"✅ Kamus dimuat: {len(kamus_dict):,} kata\n")
 
 # =============================
-# PREPROCESS FUNCTION (FIXED)
+# PREPROCESS FUNCTION
 # =============================
 def preprocess_for_dl(tweet: str) -> str:
     tweet = str(tweet).lower()
@@ -103,9 +103,11 @@ def preprocess_for_dl(tweet: str) -> str:
     # 6. Emoticon
     tweet = re.sub(r"(:-?\)|:-?\(|;-\)|:-?D|:-?P|<3|xD)", " ", tweet)
 
-    # 7. Karakter (SOFT CLEANING - FIX)
+    # 7. Karakter (soft cleaning)
     tweet = re.sub(r"[^a-z0-9\s.,%!?]", " ", tweet)
-    tweet = re.sub(r"\.{2,}", ".", tweet) 
+
+    # Normalisasi titik berulang
+    tweet = re.sub(r"\.{2,}", ".", tweet)
 
     # 8. Normalisasi tanda berlebih
     tweet = re.sub(r"!{2,}", "!", tweet)
@@ -125,7 +127,6 @@ def preprocess_for_dl(tweet: str) -> str:
 # =============================
 def process_file(filename: str):
     input_path = INPUT_DIR / filename
-
     output_name = filename.replace(".csv", "_preprocessingDL.csv")
     output_path = OUTPUT_DIR / output_name
 
@@ -133,7 +134,9 @@ def process_file(filename: str):
         print(f"⚠️  File tidak ditemukan: {filename}")
         return
 
-    print(f"\n📂 Processing: {filename}")
+    print(f"\n{'─' * 62}")
+    print(f"📂 Processing: {filename}")
+    print(f"{'─' * 62}")
 
     df = pd.read_csv(input_path, dtype=str).fillna("")
 
@@ -153,11 +156,21 @@ def process_file(filename: str):
     print(f"📊 Avg length : {avg_len:.1f} kata")
     print(f"⚠️ Empty data : {empty_count}")
 
-    # Save
-    df_out = df[["date", "tweet", "tweet_preprocessed_dl", "sentiment", "saham"]]
+    # Buang baris kosong hasil preprocessing
+    df_out = df[["date", "tweet", "tweet_preprocessed_dl", "sentiment", "saham"]].copy()
+    before_drop = len(df_out)
+    df_out = df_out[df_out["tweet_preprocessed_dl"].str.strip() != ""].copy()
+    after_drop = len(df_out)
+
+    dropped = before_drop - after_drop
+    if dropped > 0:
+        print(f"🧹 Baris kosong dibuang : {dropped}")
+
+    # Simpan
     df_out.to_csv(output_path, index=False, encoding="utf-8-sig")
 
-    print(f"✅ Saved: {output_name}")
+    size_kb = output_path.stat().st_size / 1024
+    print(f"✅ Saved: {output_name} ({size_kb:.1f} KB)")
 
 # =============================
 # MAIN
@@ -165,6 +178,9 @@ def process_file(filename: str):
 def main():
     print("=" * 60)
     print("PREPROCESSING DL — INDOBERTWEET")
+    print("=" * 60)
+    print(f"  Input  : {INPUT_DIR}")
+    print(f"  Output : {OUTPUT_DIR}")
     print("=" * 60)
 
     for file in INPUT_FILES:
