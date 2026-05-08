@@ -1,0 +1,26 @@
+TRAINING INFO — IndoBERTweetweet Fine-tuning
+=====================================
+Tanggal          : 2026-05-08 05:57:19
+Model pretrained : indolem/indobertweet-base-uncased
+Input file       : tweets_all_periods_labellingLexicon_preprocessingDL.csv
+Total data       : 116,725
+
+Split:
+  Train          : 93,379
+  Validation     : 11,673
+  Test           : 11,673
+
+Hyperparameter:
+  max_length     : 128
+  batch_size     : 16
+  epochs         : 5
+  learning_rate  : 2e-05
+  warmup_ratio   : 0.1
+  weight_decay   : 0.01
+
+Hasil:
+  Best epoch     : 5
+  Best val_loss  : 0.03209
+
+Kelas: ['negatif', 'netral', 'positif']
+Device: NVIDIA GeForce RTX 3050 Laptop GPU

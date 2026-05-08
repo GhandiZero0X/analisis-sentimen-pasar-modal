@@ -1,4 +1,4 @@
-# dev_database/03b_eval_svm.py
+# dev_database/devEvaluasiML.py
 """
 =============================================================
 STEP 3b: EVALUASI MODEL SVM
@@ -44,7 +44,7 @@ from sklearn.preprocessing import label_binarize
 #  PATH CONFIGURATION
 # ══════════════════════════════════════════════════════════════
 BASE_DIR   = Path(__file__).resolve().parent
-MODEL_DIR  = BASE_DIR / "dev_database" / "4_model" / "ml"
+MODEL_DIR  = BASE_DIR / "dev_database" / "4_model" / "ml" / "covid"
 
 MODEL_FILE      = MODEL_DIR / "svm_model.joblib"
 VECTORIZER_FILE = MODEL_DIR / "tfidf_vectorizer.joblib"

@@ -1,0 +1,29 @@
+EVALUATION REPORT — SVM LinearSVC
+===================================
+Tanggal     : 2026-05-08 02:32:22
+Test set    : 23,273 baris
+Kelas       : ['negatif', 'netral', 'positif']
+
+ACCURACY
+--------
+0.8512
+
+CLASSIFICATION REPORT
+---------------------
+              precision    recall  f1-score   support
+
+     negatif     0.7551    0.8436    0.7969      3293
+      netral     0.8448    0.8392    0.8420      9976
+     positif     0.8943    0.8657    0.8797     10004
+
+    accuracy                         0.8512     23273
+   macro avg     0.8314    0.8495    0.8395     23273
+weighted avg     0.8534    0.8512    0.8518     23273
+
+
+AUC-ROC (One-vs-Rest)
+---------------------
+  negatif      : 0.9641
+  netral       : 0.9002
+  positif      : 0.9550
+  Macro AUC    : 0.9398
