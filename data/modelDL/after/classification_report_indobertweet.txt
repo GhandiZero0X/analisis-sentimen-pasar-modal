@@ -1,0 +1,30 @@
+EVALUATION REPORT — IndoBERTweet Fine-tuning
+==========================================
+Tanggal      : 2026-05-08 13:25:59
+Model        : indolem/indobertweet-base-uncased
+Test set     : 4,153 baris
+Kelas        : ['negatif', 'netral', 'positif']
+
+ACCURACY
+--------
+0.9687
+
+CLASSIFICATION REPORT
+---------------------
+              precision    recall  f1-score   support
+
+     negatif     0.9265    0.9814    0.9532       591
+      netral     0.9790    0.9432    0.9608      1584
+     positif     0.9740    0.9853    0.9796      1978
+
+    accuracy                         0.9687      4153
+   macro avg     0.9599    0.9700    0.9645      4153
+weighted avg     0.9692    0.9687    0.9687      4153
+
+PER-CLASS DETAIL
+----------------
+  negatif      precision: 0.9265 | recall: 0.9814 | f1: 0.9532 | support: 591
+  netral       precision: 0.9790 | recall: 0.9432 | f1: 0.9608 | support: 1584
+  positif      precision: 0.9740 | recall: 0.9853 | f1: 0.9796 | support: 1978
+
+  Macro F1     : 0.9645

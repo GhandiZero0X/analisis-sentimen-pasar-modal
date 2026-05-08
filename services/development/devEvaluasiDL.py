@@ -8,8 +8,12 @@ Tahapan evaluasi:
      - Accuracy   : ketepatan keseluruhan
      - Precision  : ketepatan per kelas
      - Recall     : kemampuan temukan data benar per kelas
-     - F1-score   : keseimbangan precision & recall
+     - F1-score   : keseimbangan precision & recall (binary)
   b. Plot training curve (loss & accuracy per epoch)
+
+Catatan:
+  Model dilatih hanya dengan 2 kelas: positif & negatif
+  → F1 menggunakan average="binary" (bukan macro)
 
 Input  : dev_database/4_model/dl/covid/
          best_model.bin
@@ -104,12 +108,11 @@ print("=" * 62)
 print("  EVALUASI IndoBERTweet — Confusion Matrix & Training Curve")
 print("=" * 62)
 
-# Validasi file wajib ada sebelum lanjut
 for f in [MODEL_BIN_FILE, ENCODER_FILE, SPLIT_FILE]:
     if not f.exists():
         raise FileNotFoundError(
             f"\nFile tidak ditemukan: {f}\n"
-            "Pastikan sudah menjalankan devTrainingDL.py terlebih dahulu."
+            "Pastikan sudah menjalankan devModellingDL.py terlebih dahulu."
         )
 
 le         = joblib.load(ENCODER_FILE)
@@ -117,12 +120,17 @@ split_data = joblib.load(SPLIT_FILE)
 X_test     = split_data["X_test"]
 y_test     = split_data["y_test"]
 
-class_names = list(le.classes_)   # ['negatif', 'netral', 'positif']
-n_classes   = len(class_names)
+class_names = list(le.classes_)   # ✅ ['negatif', 'positif'] — binary
+n_classes   = len(class_names)    # 2
+
+# pos_label: indeks kelas "positif" di LabelEncoder
+# urutan alfabetis: negatif=0, positif=1
+pos_label = list(le.classes_).index("positif")   # → 1
 
 print(f"✅ Artefak dimuat")
-print(f"   Kelas    : {class_names}")
-print(f"   Test set : {len(X_test):,} baris\n")
+print(f"   Kelas     : {class_names}")
+print(f"   Pos label : positif (idx={pos_label})")
+print(f"   Test set  : {len(X_test):,} baris\n")
 
 # ── Setup device ──
 device      = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -135,10 +143,8 @@ print(f"⬇️  Loading tokenizer dari : {TOKENIZER_DIR}")
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_DIR)
 
 # ── Load model ──
-# ✅ FIX: from_pretrained(folder) hanya mencari file bernama
-#    pytorch_model.bin atau model.safetensors — bukan best_model.bin.
-#    Solusi: load arsitektur dari config.json via from_config(),
-#    lalu load bobot dari best_model.bin secara manual dengan load_state_dict().
+# from_pretrained(folder) hanya mencari pytorch_model.bin / model.safetensors.
+# Solusi: load arsitektur dari config.json, lalu load bobot manual dari best_model.bin
 print(f"⬇️  Loading model dari      : {MODEL_BIN_FILE}")
 config = AutoConfig.from_pretrained(MODEL_DIR, num_labels=n_classes)
 model  = AutoModelForSequenceClassification.from_config(config)
@@ -192,18 +198,25 @@ report = classification_report(
 print(f"\n  Accuracy : {acc:.4f}\n")
 print(report)
 
-# Per-class metrics untuk laporan detail skripsi
+# Per-class metrics
 precision, recall, f1, support = precision_recall_fscore_support(
     all_labels, all_preds,
     average = None,
     labels  = list(range(n_classes)),
 )
-macro_f1 = f1_score(all_labels, all_preds, average="macro")
+
+# ✅ Binary F1 — sesuai model 2 kelas
+binary_f1 = f1_score(
+    all_labels, all_preds,
+    average       = "binary",
+    pos_label     = pos_label,
+    zero_division = 0,
+)
 
 # ── Plot Confusion Matrix ──
 cm = confusion_matrix(all_labels, all_preds)
 
-fig, ax = plt.subplots(figsize=(7, 6))
+fig, ax = plt.subplots(figsize=(6, 5))
 sns.heatmap(
     cm,
     annot       = True,
@@ -221,7 +234,6 @@ ax.set_title(
     fontsize=13, pad=15
 )
 
-# Tambahkan persentase di setiap sel
 for i in range(n_classes):
     for j in range(n_classes):
         pct = cm[i, j] / cm[i].sum() * 100 if cm[i].sum() > 0 else 0
@@ -234,7 +246,7 @@ plt.close()
 print(f"✅ Confusion matrix disimpan : {CM_FILE.name}")
 
 # ══════════════════════════════════════════════════════════════
-#  b. TRAINING CURVE (loss & accuracy per epoch)
+#  b. TRAINING CURVE
 # ══════════════════════════════════════════════════════════════
 print("\n" + "─" * 62)
 print("  b. TRAINING CURVE")
@@ -246,7 +258,6 @@ if TRAIN_LOG_FILE.exists():
     fig, axes = plt.subplots(1, 2, figsize=(12, 5))
     fig.suptitle("Training Curve — IndoBERTweet Fine-tuning", fontsize=13)
 
-    # Plot Loss
     axes[0].plot(log_df["epoch"], log_df["train_loss"],
                  "o-",  color="#3498db", label="Train Loss", linewidth=2)
     axes[0].plot(log_df["epoch"], log_df["val_loss"],
@@ -258,13 +269,13 @@ if TRAIN_LOG_FILE.exists():
     axes[0].grid(alpha=0.3)
     axes[0].xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
 
-    # Plot Accuracy & F1
     axes[1].plot(log_df["epoch"], log_df["train_acc"],
-                 "o-",  color="#3498db", label="Train Acc",    linewidth=2)
+                 "o-",  color="#3498db", label="Train Acc",      linewidth=2)
     axes[1].plot(log_df["epoch"], log_df["val_acc"],
-                 "s--", color="#e74c3c", label="Val Acc",      linewidth=2)
+                 "s--", color="#e74c3c", label="Val Acc",        linewidth=2)
+    # ✅ Label F1 binary (bukan macro)
     axes[1].plot(log_df["epoch"], log_df["val_f1"],
-                 "^:",  color="#2ecc71", label="Val F1-macro", linewidth=2)
+                 "^:",  color="#2ecc71", label="Val F1-binary",  linewidth=2)
     axes[1].set_xlabel("Epoch")
     axes[1].set_ylabel("Score")
     axes[1].set_title("Accuracy & F1 per Epoch")
@@ -283,12 +294,12 @@ else:
 # ══════════════════════════════════════════════════════════════
 #  SIMPAN LAPORAN TEKS
 # ══════════════════════════════════════════════════════════════
-report_text = f"""EVALUATION REPORT — IndoBERTweet Fine-tuning
-==========================================
+report_text = f"""EVALUATION REPORT — IndoBERTweet Fine-tuning (Binary)
+======================================================
 Tanggal      : {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 Model        : indolem/indobertweet-base-uncased
 Test set     : {len(X_test):,} baris
-Kelas        : {class_names}
+Kelas        : {class_names}  ← hanya positif & negatif
 
 ACCURACY
 --------
@@ -308,7 +319,9 @@ for i, cls in enumerate(class_names):
         f"f1: {f1[i]:.4f} | "
         f"support: {int(support[i])}\n"
     )
-report_text += f"\n  Macro F1     : {macro_f1:.4f}\n"
+
+# ✅ Binary F1
+report_text += f"\n  Binary F1    : {binary_f1:.4f}  (pos_label=positif)\n"
 
 REPORT_FILE.write_text(report_text.strip(), encoding="utf-8")
 print(f"✅ Laporan disimpan        : {REPORT_FILE.name}")
@@ -319,8 +332,8 @@ print(f"✅ Laporan disimpan        : {REPORT_FILE.name}")
 print(f"\n{'='*62}")
 print(f"  ✅ Evaluasi selesai!")
 print(f"{'='*62}")
-print(f"  📊 Accuracy  : {acc:.4f}")
-print(f"  📊 Macro F1  : {macro_f1:.4f}")
+print(f"  📊 Accuracy   : {acc:.4f}")
+print(f"  📊 Binary F1  : {binary_f1:.4f}")
 print(f"\n  Per-kelas:")
 for i, cls in enumerate(class_names):
     print(f"   {cls:<12} P:{precision[i]:.4f}  R:{recall[i]:.4f}  F1:{f1[i]:.4f}")

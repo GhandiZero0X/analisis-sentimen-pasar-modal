@@ -2,3 +2,7 @@ services/development/dev_database/4_model/dl/covid/best_model.bin
 services/development/dev_database/4_model/dl/before/best_model.bin
 services/development/dev_database/4_model/dl/all_periods/best_model.bin
 services/development/dev_database/4_model/dl/after/best_model.bin
+data/modelDL/after/best_model.bin
+data/modelDL/covid/best_model.bin
+data/modelDL/before/best_model.bin
+data/modelDL/all_periods/best_model.bin

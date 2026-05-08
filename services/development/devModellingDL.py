@@ -1,7 +1,7 @@
 # services/development/devModellingDL.py
 """
 =============================================================
-STEP 4a: FINE-TUNING IndoBERTweetweet
+STEP 4a: FINE-TUNING IndoBERTweet
 =============================================================
 Model    : indolem/indobertweet-base-uncased
 Source   : https://huggingface.co/indolem/indobertweet-base-uncased
@@ -12,23 +12,24 @@ Tahapan:
   3. Fine-tuning  → PyTorch training loop + validation per epoch
   4. Simpan       → checkpoint .bin (model terbaik berdasarkan val loss)
 
-Input  : dev_database/3_preprocessing/dl/
-         tweets_all_periods_labelling_preprocessingDL.csv
+Catatan:
+  - Hanya label POSITIF dan NEGATIF yang dimasukkan ke model
+  - Label NETRAL dibuang sebelum training
 
-Output : dev_database/4_model/dl/
-         best_model.bin              ← checkpoint terbaik (val loss terendah)
-         config.json                 ← konfigurasi model
-         tokenizer/                  ← tokenizer tersimpan
-         label_encoder.joblib        ← mapping label → int
-         split_indices.joblib        ← indeks split (untuk evaluasi)
-         train_log.csv               ← log loss & akurasi per epoch
-         train_info.txt              ← ringkasan training
+Input  : dev_database/3_preprocessing/dl/
+         tweets_covid_labellingLexicon_preprocessingDL.csv
+
+Output : dev_database/4_model/dl/covid/
+         best_model.bin
+         config.json
+         tokenizer/
+         label_encoder.joblib
+         split_indices.joblib
+         train_log.csv
+         train_info.txt
 =============================================================
 """
 
-import re
-import csv
-import json
 import joblib
 import numpy as np
 import pandas as pd
@@ -55,23 +56,21 @@ from transformers import (
 # ══════════════════════════════════════════════════════════════
 BASE_DIR   = Path(__file__).resolve().parent
 INPUT_DIR  = BASE_DIR / "dev_database" / "3_preprocessing" / "dl"
-OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "dl" / "covid"
+OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "dl" / "all_periods"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-INPUT_FILE = INPUT_DIR / "tweets_covid_labellingLexicon_preprocessingDL.csv"
+INPUT_FILE = INPUT_DIR / "tweets_all_periods_labellingLexicon_preprocessingDL.csv"
 
-# Model pretrained IndoBERTweet dari IndoLEM
 MODEL_NAME = "indolem/indobertweet-base-uncased"
 
 # ── Hyperparameter ──
-MAX_LENGTH   = 128      # panjang token maksimum (sesuai IndoBERTweet)
-BATCH_SIZE   = 16       # sesuaikan dengan VRAM RTX 3050 4GB
-                        # jika OOM, turunkan ke 8
-EPOCHS       = 5        # jumlah epoch fine-tuning
-LEARNING_RATE = 2e-5    # lr standar untuk fine-tuning BERT
-WARMUP_RATIO  = 0.1     # 10% dari total steps untuk warmup
-WEIGHT_DECAY  = 0.01    # regularisasi AdamW
+MAX_LENGTH    = 128
+BATCH_SIZE    = 16      # turunkan ke 8 jika OOM di RTX 3050
+EPOCHS        = 5
+LEARNING_RATE = 2e-5
+WARMUP_RATIO  = 0.1
+WEIGHT_DECAY  = 0.01
 RANDOM_SEED   = 42
 
 # ── Proporsi split ──
@@ -91,10 +90,6 @@ if torch.cuda.is_available():
 #  DATASET CLASS
 # ══════════════════════════════════════════════════════════════
 class TweetDataset(Dataset):
-    """
-    PyTorch Dataset untuk tweet yang sudah di-tokenisasi.
-    Setiap item mengembalikan: input_ids, attention_mask, label.
-    """
     def __init__(self, texts, labels, tokenizer, max_length):
         self.texts      = texts
         self.labels     = labels
@@ -107,14 +102,14 @@ class TweetDataset(Dataset):
     def __getitem__(self, idx):
         encoding = self.tokenizer(
             self.texts[idx],
-            max_length      = self.max_length,
-            padding         = "max_length",
-            truncation      = True,
-            return_tensors  = "pt",
+            max_length     = self.max_length,
+            padding        = "max_length",
+            truncation     = True,
+            return_tensors = "pt",
         )
         return {
-            "input_ids"      : encoding["input_ids"].squeeze(0),       # [seq_len]
-            "attention_mask" : encoding["attention_mask"].squeeze(0),  # [seq_len]
+            "input_ids"      : encoding["input_ids"].squeeze(0),
+            "attention_mask" : encoding["attention_mask"].squeeze(0),
             "label"          : torch.tensor(self.labels[idx], dtype=torch.long),
         }
 
@@ -131,7 +126,6 @@ def train_epoch(model, dataloader, optimizer, scheduler, device):
         labels         = batch["label"].to(device)
 
         optimizer.zero_grad()
-
         outputs = model(
             input_ids      = input_ids,
             attention_mask = attention_mask,
@@ -142,10 +136,7 @@ def train_epoch(model, dataloader, optimizer, scheduler, device):
         logits = outputs.logits
 
         loss.backward()
-
-        # Gradient clipping — cegah exploding gradient (standar BERT)
         nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-
         optimizer.step()
         scheduler.step()
 
@@ -154,15 +145,13 @@ def train_epoch(model, dataloader, optimizer, scheduler, device):
         total_loss    += loss.item() * len(labels)
         total_samples += len(labels)
 
-    avg_loss = total_loss / total_samples
-    accuracy = total_correct / total_samples
-    return avg_loss, accuracy
+    return total_loss / total_samples, total_correct / total_samples
 
 
 # ══════════════════════════════════════════════════════════════
 #  HELPER: EVALUASI (VAL / TEST)
 # ══════════════════════════════════════════════════════════════
-def evaluate_epoch(model, dataloader, device):
+def evaluate_epoch(model, dataloader, device, pos_label):
     model.eval()
     total_loss, total_correct, total_samples = 0, 0, 0
     all_preds, all_labels = [], []
@@ -179,20 +168,26 @@ def evaluate_epoch(model, dataloader, device):
                 labels         = labels,
             )
 
-            loss   = outputs.loss
-            logits = outputs.logits
-            preds  = torch.argmax(logits, dim=1)
+            preds = torch.argmax(outputs.logits, dim=1)
 
             total_correct  += (preds == labels).sum().item()
-            total_loss     += loss.item() * len(labels)
+            total_loss     += outputs.loss.item() * len(labels)
             total_samples  += len(labels)
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
 
     avg_loss = total_loss / total_samples
     accuracy = total_correct / total_samples
-    f1       = f1_score(all_labels, all_preds, average="macro", zero_division=0)
+
+    # ✅ f1 binary — sesuai 2 kelas (positif vs negatif)
+    f1 = f1_score(
+        all_labels, all_preds,
+        average   = "binary",
+        pos_label = pos_label,
+        zero_division = 0,
+    )
     return avg_loss, accuracy, f1
+
 
 # ══════════════════════════════════════════════════════════════
 #  MAIN
@@ -204,45 +199,54 @@ def main():
     print(f"\n📂 Input  : {INPUT_FILE}")
     print(f"📂 Output : {OUTPUT_DIR}\n")
 
-    # ── 1. Load dataset ──
+    # ── 1. Load & filter dataset ──
     df = pd.read_csv(INPUT_FILE, dtype=str).fillna("")
     df = df[df["tweet_preprocessed_dl"].str.strip() != ""]
 
-    valid_labels = {"positif", "netral", "negatif"}
-    df = df[df["sentiment"].isin(valid_labels)].reset_index(drop=True)
+    # ✅ Filter: hanya positif dan negatif
+    df_all = df.copy()
+    df = df[df["sentiment"].isin(["positif", "negatif"])].reset_index(drop=True)
 
-    print(f"✅ Dataset dimuat : {len(df):,} baris")
-    print(f"\n📊 Distribusi label:")
+    netral_count = len(df_all) - len(df)
+    print(f"✅ Dataset dimuat               : {len(df_all):,} baris")
+    print(f"✅ Setelah filter (buang netral): {len(df):,} baris")
+    print(f"   (dibuang {netral_count:,} baris berlabel netral)")
+
+    print(f"\n📊 Distribusi label (final):")
     dist = df["sentiment"].value_counts()
     for label, count in dist.items():
         pct = count / len(df) * 100
-        print(f"   {label:<12} {count:>6,} ({pct:5.1f}%)")
+        bar = "█" * int(pct / 4)
+        print(f"   {label:<12} {count:>6,} ({pct:5.1f}%)  {bar}")
 
     # ── Encode label ──
+    # LabelEncoder urutan alfabetis: negatif=0, positif=1
     le = LabelEncoder()
-    y  = le.fit_transform(df["sentiment"])          # negatif=0, netral=1, positif=2
+    y  = le.fit_transform(df["sentiment"])
     X  = df["tweet_preprocessed_dl"].tolist()
 
+    # pos_label untuk f1_score binary
+    pos_label = list(le.classes_).index("positif")   # → 1
+
     print(f"\n🔖 Label encoding: {dict(zip(le.classes_, range(len(le.classes_))))}")
+    print(f"   pos_label untuk F1 binary : {pos_label} (positif)")
 
     # ── 2. Split 80 / 10 / 10 ──
-    # Step 1: pisah test (10%) dulu
     X_train_val, X_test, y_train_val, y_test, idx_train_val, idx_test = \
         train_test_split(
             X, y, range(len(X)),
-            test_size   = TEST_RATIO,
+            test_size    = TEST_RATIO,
             random_state = RANDOM_SEED,
-            stratify    = y,
+            stratify     = y,
         )
 
-    # Step 2: pisah val (10%) dari sisanya
-    val_size_adjusted = VAL_RATIO / (TRAIN_RATIO + VAL_RATIO)   # ~0.111
+    val_size_adjusted = VAL_RATIO / (TRAIN_RATIO + VAL_RATIO)
     X_train, X_val, y_train, y_val, idx_train, idx_val = \
         train_test_split(
             X_train_val, y_train_val, idx_train_val,
-            test_size   = val_size_adjusted,
+            test_size    = val_size_adjusted,
             random_state = RANDOM_SEED,
-            stratify    = y_train_val,
+            stratify     = y_train_val,
         )
 
     print(f"\n✂️  Split data (80/10/10):")
@@ -250,17 +254,16 @@ def main():
     print(f"   Validation : {len(X_val):,} baris")
     print(f"   Test       : {len(X_test):,} baris")
 
-    # Simpan indeks split untuk dipakai script evaluasi
     joblib.dump({
-        "idx_train"    : list(idx_train),
-        "idx_val"      : list(idx_val),
-        "idx_test"     : list(idx_test),
-        "X_test"       : X_test,
-        "y_test"       : y_test,
+        "idx_train" : list(idx_train),
+        "idx_val"   : list(idx_val),
+        "idx_test"  : list(idx_test),
+        "X_test"    : X_test,
+        "y_test"    : y_test,
     }, OUTPUT_DIR / "split_indices.joblib")
 
     # ── Setup device ──
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device      = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     device_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() \
                   else "CPU"
     print(f"\n🖥️  Device: {device_name}")
@@ -270,14 +273,13 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model     = AutoModelForSequenceClassification.from_pretrained(
         MODEL_NAME,
-        num_labels = len(le.classes_),   # 3 kelas
+        num_labels = len(le.classes_),   # ✅ 2 kelas (bukan 3)
     )
     model.to(device)
 
-    # Simpan tokenizer agar bisa dipakai script evaluasi/inferensi
     tokenizer.save_pretrained(OUTPUT_DIR / "tokenizer")
 
-    # ── Buat Dataset & DataLoader ──
+    # ── DataLoader ──
     train_dataset = TweetDataset(X_train, y_train, tokenizer, MAX_LENGTH)
     val_dataset   = TweetDataset(X_val,   y_val,   tokenizer, MAX_LENGTH)
 
@@ -287,16 +289,11 @@ def main():
                               shuffle=False, num_workers=0)
 
     # ── Optimizer & Scheduler ──
-    optimizer = AdamW(
-        model.parameters(),
-        lr           = LEARNING_RATE,
-        weight_decay = WEIGHT_DECAY,
-    )
-
+    optimizer    = AdamW(model.parameters(), lr=LEARNING_RATE,
+                         weight_decay=WEIGHT_DECAY)
     total_steps  = len(train_loader) * EPOCHS
     warmup_steps = int(total_steps * WARMUP_RATIO)
-
-    scheduler = get_linear_schedule_with_warmup(
+    scheduler    = get_linear_schedule_with_warmup(
         optimizer,
         num_warmup_steps   = warmup_steps,
         num_training_steps = total_steps,
@@ -308,9 +305,9 @@ def main():
     print(f"\n🚀 Mulai fine-tuning ({EPOCHS} epoch)...\n")
     print(f"{'─'*62}")
 
-    best_val_loss  = float("inf")
-    best_epoch     = 0
-    train_log      = []
+    best_val_loss = float("inf")
+    best_epoch    = 0
+    train_log     = []
 
     for epoch in range(1, EPOCHS + 1):
         print(f"\n  Epoch {epoch}/{EPOCHS}")
@@ -319,54 +316,40 @@ def main():
             model, train_loader, optimizer, scheduler, device
         )
         val_loss, val_acc, val_f1 = evaluate_epoch(
-            model, val_loader, device
+            model, val_loader, device, pos_label
         )
 
-        log_row = {
+        train_log.append({
             "epoch"      : epoch,
             "train_loss" : round(train_loss, 5),
             "train_acc"  : round(train_acc,  4),
             "val_loss"   : round(val_loss,   5),
             "val_acc"    : round(val_acc,    4),
             "val_f1"     : round(val_f1,     4),
-        }
-        train_log.append(log_row)
+        })
 
         print(f"   Train  → loss: {train_loss:.4f} | acc: {train_acc:.4f}")
         print(f"   Val    → loss: {val_loss:.4f}   | acc: {val_acc:.4f} | f1: {val_f1:.4f}")
 
-        # Simpan checkpoint terbaik berdasarkan val loss
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             best_epoch    = epoch
-
-            # Simpan weight model dalam format .bin
-            torch.save(
-                model.state_dict(),
-                OUTPUT_DIR / "best_model.bin"
-            )
-            # Simpan config agar bisa di-load ulang
+            torch.save(model.state_dict(), OUTPUT_DIR / "best_model.bin")
             model.config.save_pretrained(OUTPUT_DIR)
-
             print(f"   ✅ Checkpoint disimpan (val_loss: {val_loss:.4f})")
         else:
             print(f"   — Tidak ada peningkatan (best epoch: {best_epoch})")
 
-    # Simpan training log ke CSV
-    pd.DataFrame(train_log).to_csv(
-        OUTPUT_DIR / "train_log.csv", index=False
-    )
-
-    # Simpan label encoder
+    pd.DataFrame(train_log).to_csv(OUTPUT_DIR / "train_log.csv", index=False)
     joblib.dump(le, OUTPUT_DIR / "label_encoder.joblib")
 
-    # Simpan ringkasan training
-    info = f"""TRAINING INFO — IndoBERTweetweet Fine-tuning
+    info = f"""TRAINING INFO — IndoBERTweet Fine-tuning
 =====================================
 Tanggal          : {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 Model pretrained : {MODEL_NAME}
 Input file       : {INPUT_FILE.name}
-Total data       : {len(df):,}
+Total data       : {len(df):,}  (netral dibuang: {netral_count:,})
+Kelas            : {list(le.classes_)}  ← hanya positif & negatif
 
 Split:
   Train          : {len(X_train):,}
@@ -385,21 +368,20 @@ Hasil:
   Best epoch     : {best_epoch}
   Best val_loss  : {best_val_loss:.5f}
 
-Kelas: {list(le.classes_)}
 Device: {device_name}
 """
     (OUTPUT_DIR / "train_info.txt").write_text(info.strip(), encoding="utf-8")
 
     print(f"\n{'='*62}")
     print(f"  ✅ Fine-tuning selesai!")
-    print(f"  Best epoch     : {best_epoch} (val_loss: {best_val_loss:.4f})")
+    print(f"  Best epoch : {best_epoch} (val_loss: {best_val_loss:.4f})")
     print(f"{'='*62}")
     print(f"  📦 best_model.bin")
     print(f"  📁 tokenizer/")
     print(f"  📄 train_log.csv")
     print(f"  📄 train_info.txt")
     print(f"{'='*62}")
-    print(f"\n  ➡  Lanjut ke: python 04b_eval_indobertweet.py")
+    print(f"\n  ➡  Lanjut ke: python devEvaluasiDL.py")
 
 
 if __name__ == "__main__":
