@@ -1,29 +1,25 @@
-EVALUATION REPORT — SVM LinearSVC
-===================================
-Tanggal     : 2026-05-08 02:37:16
-Test set    : 2,708 baris
-Kelas       : ['negatif', 'netral', 'positif']
+EVALUATION REPORT — SVM LinearSVC (Binary)
+===========================================
+Tanggal     : 2026-05-08 14:08:08
+Test set    : 1,494 baris
+Kelas       : ['negatif', 'positif']  ← hanya positif & negatif
 
 ACCURACY
 --------
-0.8545
+0.9531
 
 CLASSIFICATION REPORT
 ---------------------
               precision    recall  f1-score   support
 
-     negatif     0.8394    0.8615    0.8503       455
-      netral     0.8591    0.8386    0.8487      1214
-     positif     0.8561    0.8701    0.8630      1039
+     negatif     0.9122    0.9363    0.9241       455
+     positif     0.9718    0.9605    0.9661      1039
 
-    accuracy                         0.8545      2708
-   macro avg     0.8515    0.8567    0.8540      2708
-weighted avg     0.8546    0.8545    0.8545      2708
+    accuracy                         0.9531      1494
+   macro avg     0.9420    0.9484    0.9451      1494
+weighted avg     0.9536    0.9531    0.9533      1494
 
-
-AUC-ROC (One-vs-Rest)
----------------------
-  negatif      : 0.9727
-  netral       : 0.9104
-  positif      : 0.9556
-  Macro AUC    : 0.9462
+AUC-ROC (Binary)
+----------------
+  AUC         : 0.9869
+  Pos label   : positif

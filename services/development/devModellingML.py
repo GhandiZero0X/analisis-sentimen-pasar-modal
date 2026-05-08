@@ -4,21 +4,25 @@
 STEP 3a: FEATURE EXTRACTION + TRAINING SVM
 =============================================================
 Tahapan:
-  1. Feature Extraction  → TF-IDF (TfidfVectorizer scikit-learn)
-  2. Split Data          → 80% train / 20% test (train_test_split)
-  3. Modeling            → LinearSVC + GridSearchCV (hyperparameter tuning)
-  4. Simpan Model        → .joblib (siap dipakai 03b_eval_svm.py)
+    1. Feature Extraction  → TF-IDF (TfidfVectorizer scikit-learn)
+    2. Split Data          → 80% train / 20% test (train_test_split)
+    3. Modeling            → LinearSVC + GridSearchCV (hyperparameter tuning)
+    4. Simpan Model        → .joblib (siap dipakai devEvaluasiML.py)
+
+Catatan:
+    - Hanya label POSITIF dan NEGATIF yang dimasukkan ke model
+    - Label NETRAL dibuang sebelum training
 
 Input  : dev_database/3_preprocessing/ml/
-         tweets_all_periods_labelling_preprocessingML.csv
+        tweets_covid_labellingLexicon_preprocessingML.csv
 
-Output : dev_database/4_model/ml/
-         svm_model.joblib
-         tfidf_vectorizer.joblib
-         label_encoder.joblib
-         X_test.joblib   ← data test untuk script evaluasi
-         y_test.joblib   ← label test untuk script evaluasi
-         train_info.txt
+Output : dev_database/4_model/ml/covid/
+        svm_model.joblib
+        tfidf_vectorizer.joblib
+        label_encoder.joblib
+        X_test.joblib
+        y_test.joblib
+        train_info.txt
 =============================================================
 """
 
@@ -39,11 +43,11 @@ from sklearn.metrics import accuracy_score
 # ══════════════════════════════════════════════════════════════
 BASE_DIR   = Path(__file__).resolve().parent
 INPUT_DIR  = BASE_DIR / "dev_database" / "3_preprocessing" / "ml"
-OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "ml" / "covid"
+OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "ml" / "all_periods"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-INPUT_FILE      = INPUT_DIR  / "tweets_covid_labellingLexicon_preprocessingML.csv"
+INPUT_FILE      = INPUT_DIR  / "tweets_all_periods_labellingLexicon_preprocessingML.csv"
 MODEL_FILE      = OUTPUT_DIR / "svm_model.joblib"
 VECTORIZER_FILE = OUTPUT_DIR / "tfidf_vectorizer.joblib"
 ENCODER_FILE    = OUTPUT_DIR / "label_encoder.joblib"
@@ -60,18 +64,22 @@ print("=" * 60)
 print(f"\n📂 Input : {INPUT_FILE}\n")
 
 df = pd.read_csv(INPUT_FILE, dtype=str).fillna("")
-print(f"✅ Dataset dimuat          : {len(df):,} baris")
+print(f"✅ Dataset dimuat               : {len(df):,} baris")
 
 # Hapus baris dengan tweet_preprocessed kosong
 df = df[df["tweet_preprocessed"].str.strip() != ""]
-print(f"✅ Setelah filter kosong   : {len(df):,} baris")
+print(f"✅ Setelah filter kosong        : {len(df):,} baris")
 
-# Hanya pakai 3 kelas yang valid
-valid_labels = {"positif", "netral", "negatif"}
-df = df[df["sentiment"].isin(valid_labels)]
-print(f"✅ Setelah filter label    : {len(df):,} baris")
+# ── Filter: hanya pakai label POSITIF dan NEGATIF ──
+# Netral dibuang karena model ini fokus pada klasifikasi biner sentimen
+df_all = df.copy()
+df = df[df["sentiment"].isin(["positif", "negatif"])].reset_index(drop=True)
 
-print(f"\n📊 Distribusi label:")
+netral_count = len(df_all) - len(df)
+print(f"✅ Setelah filter (buang netral): {len(df):,} baris")
+print(f"   (dibuang {netral_count:,} baris berlabel netral)")
+
+print(f"\n📊 Distribusi label (final):")
 dist = df["sentiment"].value_counts()
 for label, count in dist.items():
     pct = count / len(df) * 100
@@ -82,10 +90,11 @@ X_raw = df["tweet_preprocessed"]
 y_raw = df["sentiment"]
 
 # ══════════════════════════════════════════════════════════════
-#  ENCODE LABEL → integer (wajib untuk LinearSVC)
+#  ENCODE LABEL → integer
+#  negatif=0, positif=1  (urutan alfabetis LabelEncoder)
 # ══════════════════════════════════════════════════════════════
 le = LabelEncoder()
-y  = le.fit_transform(y_raw)   # negatif=0, netral=1, positif=2
+y  = le.fit_transform(y_raw)
 
 print(f"\n🔖 Label encoding:")
 for cls, idx in zip(le.classes_, range(len(le.classes_))):
@@ -96,9 +105,9 @@ for cls, idx in zip(le.classes_, range(len(le.classes_))):
 # ══════════════════════════════════════════════════════════════
 X_train_raw, X_test_raw, y_train, y_test = train_test_split(
     X_raw, y,
-    test_size=0.2,
-    random_state=0,
-    stratify=y      # distribusi label seimbang di train & test
+    test_size    = 0.2,
+    random_state = 0,
+    stratify     = y,   # distribusi label seimbang di train & test
 )
 
 print(f"\n✂️  Split data (80/20):")
@@ -112,11 +121,11 @@ print(f"   Test  : {len(X_test_raw):,} baris")
 print(f"\n⚙️  TF-IDF Vectorization...")
 
 vectorizer = TfidfVectorizer(
-    ngram_range=(1, 2),     # unigram + bigram
-    max_features=10000,     # 10.000 fitur paling informatif
-    min_df=5,               # abaikan kata yang muncul < 5 dokumen
-    max_df=0.9,             # abaikan kata yang muncul di > 90% dokumen
-    sublinear_tf=True,      # tf = 1 + log(tf), reduksi dominasi frekuensi tinggi
+    ngram_range  = (1, 2),   # unigram + bigram
+    max_features = 10000,    # 10.000 fitur paling informatif
+    min_df       = 5,        # abaikan kata yang muncul < 5 dokumen
+    max_df       = 0.9,      # abaikan kata yang muncul di > 90% dokumen
+    sublinear_tf = True,     # tf = 1 + log(tf), reduksi dominasi frekuensi tinggi
 )
 
 X_train = vectorizer.fit_transform(X_train_raw)   # fit + transform train
@@ -136,20 +145,20 @@ print(f"   (Proses ini membutuhkan beberapa menit)\n")
 param_grid = {"C": [0.01, 0.1, 1, 10, 100]}
 
 svm = LinearSVC(
-    class_weight="balanced",    # tangani class imbalance
-    random_state=0,
-    max_iter=2000,
+    class_weight = "balanced",   # tangani class imbalance
+    random_state = 0,
+    max_iter     = 2000,
 )
 
 cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=0)
 
 grid_search = GridSearchCV(
-    estimator=svm,
-    param_grid=param_grid,
-    scoring="f1_macro",         # cocok untuk 3 kelas (rata-rata tidak berbobot)
-    cv=cv,
-    n_jobs=-1,                  # pakai semua CPU core
-    verbose=1,
+    estimator  = svm,
+    param_grid = param_grid,
+    scoring    = "f1",       # f1 binary cocok untuk 2 kelas (positif vs negatif)
+    cv         = cv,
+    n_jobs     = -1,
+    verbose    = 1,
 )
 
 grid_search.fit(X_train, y_train)
@@ -159,8 +168,8 @@ best_C     = grid_search.best_params_["C"]
 best_score = grid_search.best_score_
 
 print(f"\n✅ GridSearchCV selesai")
-print(f"   Parameter terbaik  : C = {best_C}")
-print(f"   F1-macro CV terbaik : {best_score:.4f}")
+print(f"   Parameter terbaik : C = {best_C}")
+print(f"   F1 CV terbaik     : {best_score:.4f}")
 
 # Cek cepat overfitting
 y_train_pred = best_model.predict(X_train)
@@ -189,9 +198,9 @@ info = f"""TRAINING INFO — SVM LinearSVC
 ==============================
 Tanggal          : {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 Input file       : {INPUT_FILE.name}
-Total data       : {len(df):,}
+Total data       : {len(df):,}  (netral dibuang: {netral_count:,})
+Kelas            : {list(le.classes_)}  ← hanya positif & negatif
 Train / Test     : {len(X_train_raw):,} / {len(X_test_raw):,}
-Kelas            : {list(le.classes_)}
 
 TF-IDF:
   ngram_range    : (1, 2)
@@ -203,8 +212,9 @@ TF-IDF:
 GridSearch:
   C dicoba       : {param_grid["C"]}
   C terbaik      : {best_C}
-  F1-macro CV    : {best_score:.4f}
+  F1 CV terbaik  : {best_score:.4f}
   CV strategy    : StratifiedKFold (5 fold)
+  Scoring        : f1 (binary)
 
 Akurasi:
   Train          : {train_acc:.4f}
@@ -221,4 +231,4 @@ print(f"  📦 label_encoder.joblib")
 print(f"  📦 X_test.joblib + y_test.joblib")
 print(f"  📄 train_info.txt")
 print(f"{'='*60}")
-print(f"\n  ➡  Lanjut ke: python 03b_eval_svm.py")
+print(f"\n  ➡  Lanjut ke: python devEvaluasiML.py")
