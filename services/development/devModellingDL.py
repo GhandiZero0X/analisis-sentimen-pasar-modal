@@ -55,11 +55,11 @@ from transformers import (
 # ══════════════════════════════════════════════════════════════
 BASE_DIR   = Path(__file__).resolve().parent
 INPUT_DIR  = BASE_DIR / "dev_database" / "3_preprocessing" / "dl"
-OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "dl" / "before"
+OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "dl" / "covid"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-INPUT_FILE = INPUT_DIR / "tweets_before_covid_labellingLexicon_preprocessingDL.csv"
+INPUT_FILE = INPUT_DIR / "tweets_covid_labellingLexicon_preprocessingDL.csv"
 
 # Model pretrained IndoBERTweet dari IndoLEM
 MODEL_NAME = "indolem/indobertweet-base-uncased"
@@ -67,7 +67,7 @@ MODEL_NAME = "indolem/indobertweet-base-uncased"
 # ── Hyperparameter ──
 MAX_LENGTH   = 128      # panjang token maksimum (sesuai IndoBERTweet)
 BATCH_SIZE   = 16       # sesuaikan dengan VRAM RTX 3050 4GB
-                         # jika OOM, turunkan ke 8
+                        # jika OOM, turunkan ke 8
 EPOCHS       = 5        # jumlah epoch fine-tuning
 LEARNING_RATE = 2e-5    # lr standar untuk fine-tuning BERT
 WARMUP_RATIO  = 0.1     # 10% dari total steps untuk warmup
