@@ -71,7 +71,7 @@ df = df[df["tweet_preprocessed"].str.strip() != ""]
 print(f"✅ Setelah filter kosong        : {len(df):,} baris")
 
 # ── Filter: hanya pakai label POSITIF dan NEGATIF ──
-# Netral dibuang karena model ini fokus pada klasifikasi biner sentimen
+# Netral dibuang
 df_all = df.copy()
 df = df[df["sentiment"].isin(["positif", "negatif"])].reset_index(drop=True)
 
@@ -86,8 +86,8 @@ for label, count in dist.items():
     bar = "█" * int(pct / 4)
     print(f"   {label:<12} {count:>6,} ({pct:5.1f}%)  {bar}")
 
-X_raw = df["tweet_preprocessed"]
-y_raw = df["sentiment"]
+X_raw = df["tweet_preprocessed"] # fitur/input
+y_raw = df["sentiment"] # label/target
 
 # ══════════════════════════════════════════════════════════════
 #  ENCODE LABEL → integer
@@ -181,7 +181,7 @@ print(f"\n📊 Akurasi cepat:")
 print(f"   Train : {train_acc:.4f}")
 print(f"   Test  : {test_acc:.4f}")
 if train_acc - test_acc > 0.1:
-    print(f"   ⚠️  Gap > 0.1 → potensi overfitting, coba C lebih kecil")
+    print(f"   ⚠️  Gap > 0.1/10% → potensi overfitting, coba C lebih kecil")
 
 # ══════════════════════════════════════════════════════════════
 #  4. SIMPAN MODEL & ARTEFAK

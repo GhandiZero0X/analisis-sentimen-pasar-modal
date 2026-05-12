@@ -83,6 +83,7 @@ print(f"✅ Kamus dimuat: {len(kamus_dict):,} kata\n")
 # PREPROCESS FUNCTION
 # =============================
 def preprocess_for_dl(tweet: str) -> str:
+    # Casefolding
     tweet = str(tweet).lower()
 
     # 1. URL

@@ -23,6 +23,10 @@ Output : dev_database/4_model/dl/covid/
          best_model.bin
          config.json
          tokenizer/
+             special_tokens_map.json
+             tokenizer_config.json
+             vocab.txt
+             tokenizer.json
          label_encoder.joblib
          split_indices.joblib
          train_log.csv
@@ -71,7 +75,7 @@ EPOCHS        = 5
 LEARNING_RATE = 2e-5
 WARMUP_RATIO  = 0.1
 WEIGHT_DECAY  = 0.01
-RANDOM_SEED   = 42
+RANDOM_SEED   = 0
 
 # ── Proporsi split ──
 TRAIN_RATIO = 0.80
@@ -225,13 +229,14 @@ def main():
     y  = le.fit_transform(df["sentiment"])
     X  = df["tweet_preprocessed_dl"].tolist()
 
-    # pos_label untuk f1_score binary
+    # pos_label untuk f1_score
     pos_label = list(le.classes_).index("positif")   # → 1
 
     print(f"\n🔖 Label encoding: {dict(zip(le.classes_, range(len(le.classes_))))}")
     print(f"   pos_label untuk F1 binary : {pos_label} (positif)")
 
     # ── 2. Split 80 / 10 / 10 ──
+    # split ambil data test
     X_train_val, X_test, y_train_val, y_test, idx_train_val, idx_test = \
         train_test_split(
             X, y, range(len(X)),
@@ -240,6 +245,7 @@ def main():
             stratify     = y,
         )
 
+    #split ambil data validasi
     val_size_adjusted = VAL_RATIO / (TRAIN_RATIO + VAL_RATIO)
     X_train, X_val, y_train, y_val, idx_train, idx_val = \
         train_test_split(
@@ -273,7 +279,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model     = AutoModelForSequenceClassification.from_pretrained(
         MODEL_NAME,
-        num_labels = len(le.classes_),   # ✅ 2 kelas (bukan 3)
+        num_labels = len(le.classes_),   # 2 kelas (bukan 3)
     )
     model.to(device)
 
