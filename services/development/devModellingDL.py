@@ -66,7 +66,7 @@ MODEL_NAME = "indolem/indobertweet-base-uncased"
 
 # ── Hyperparameter ──
 MAX_LENGTH    = 128
-BATCH_SIZE    = 16      # turunkan ke 8 jika OOM di RTX 3050
+BATCH_SIZE    = 16      # turunkan ke 8 jika OOM di RTX 3050 tidak kuat
 EPOCHS        = 5
 LEARNING_RATE = 2e-5
 WARMUP_RATIO  = 0.1
@@ -179,7 +179,7 @@ def evaluate_epoch(model, dataloader, device, pos_label):
     avg_loss = total_loss / total_samples
     accuracy = total_correct / total_samples
 
-    # ✅ f1 binary — sesuai 2 kelas (positif vs negatif)
+    # f1 binary — sesuai 2 kelas (positif negatif)
     f1 = f1_score(
         all_labels, all_preds,
         average   = "binary",
@@ -203,7 +203,7 @@ def main():
     df = pd.read_csv(INPUT_FILE, dtype=str).fillna("")
     df = df[df["tweet_preprocessed_dl"].str.strip() != ""]
 
-    # ✅ Filter: hanya positif dan negatif
+    # Filter: hanya positif dan negatif
     df_all = df.copy()
     df = df[df["sentiment"].isin(["positif", "negatif"])].reset_index(drop=True)
 

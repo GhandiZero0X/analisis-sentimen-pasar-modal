@@ -15,38 +15,6 @@ Urutan sesuai rencana skripsi:
   3. Tokenization  (Stanza)
   4. Stopword Removal (NLTK)
   5. Stemming (Sastrawi)
- 
-Input  : dev_database/2_labelling/
-         tweets_before_covid_labelling.csv
-         tweets_covid_labelling.csv
-         tweets_after_covid_labelling.csv
-         tweets_all_periods_labelling.csv
- 
-Output : dev_database/3_preprocessing/ml/
-         tweets_before_covid_labelling_preprocessingML.csv
-         tweets_covid_labelling_preprocessingML.csv
-         tweets_after_covid_labelling_preprocessingML.csv
-         tweets_all_periods_labelling_preprocessingML.csv
-=============================================================
-"""
-
-# dev_database/preprocessing_ml.py
-"""
-=============================================================
-STEP 2: PREPROCESSING TWEET — Machine Learning (SVM)
-=============================================================
-Urutan sesuai rencana skripsi:
-  1. Casefolding
-  2. Text Cleaning:
-     i.   Hapus URL
-     ii.  Hapus hashtag (#), cashtag ($), mention (@)
-     iii. Hapus emoji dan emotikon
-     iv.  Hapus angka yang tidak memiliki makna kontekstual
-     v.   Hapus karakter selain alfabet
-     vi.  Normalisasi singkatan & slang → kata baku (kamus)
-  3. Tokenization  (Stanza)
-  4. Stopword Removal (NLTK)
-  5. Stemming (Sastrawi)
 
 Input  : dev_database/2_labellingLexicon/
          tweets_before_covid_labellingLexicon.csv

@@ -1,0 +1,37 @@
+RINGKASAN KOMPARASI — SVM vs IndoBERTweet
+==============================================================
+Tanggal   : 2026-05-12 23:53:49
+Kelas     : Positif & Negatif (binary classification)
+
+HASIL PER PERIODE:
+──────────────────────────────────────────────────────────────
+
+  [Sebelum COVID]
+  SVM          → Acc: 0.9531 | P: 0.9536 | R: 0.9531 | F1: 0.9533
+  IndoBERTweet → Acc: 0.9439 | P: 0.9440 | R: 0.9439 | F1: 0.9439
+  🏆 Unggul     : SVM (selisih F1: 0.0094)
+
+  [Masa COVID]
+  SVM          → Acc: 0.9403 | P: 0.9425 | R: 0.9403 | F1: 0.9410
+  IndoBERTweet → Acc: 0.9856 | P: 0.9856 | R: 0.9856 | F1: 0.9856
+  🏆 Unggul     : IndoBERTweet (selisih F1: 0.0446)
+
+  [Setelah COVID]
+  SVM          → Acc: 0.9457 | P: 0.9478 | R: 0.9457 | F1: 0.9464
+  IndoBERTweet → Acc: 0.9813 | P: 0.9815 | R: 0.9813 | F1: 0.9814
+  🏆 Unggul     : IndoBERTweet (selisih F1: 0.0350)
+
+  [Semua Periode]
+  SVM          → Acc: 0.9486 | P: 0.9500 | R: 0.9486 | F1: 0.9491
+  IndoBERTweet → Acc: 0.9934 | P: 0.9934 | R: 0.9934 | F1: 0.9934
+  🏆 Unggul     : IndoBERTweet (selisih F1: 0.0443)
+
+──────────────────────────────────────────────────────────────
+KESIMPULAN KESELURUHAN:
+  SVM unggul di          : 1 periode
+  IndoBERTweet unggul di : 3 periode
+  Model terbaik overall  : IndoBERTweet (berdasarkan F1 semua periode)
+
+  → Direkomendasikan untuk sistem (Tujuan Penelitian #1):
+    Gunakan model: IndoBERTweet
+==============================================================
