@@ -94,15 +94,19 @@ if torch.cuda.is_available():
 #  DATASET CLASS
 # ══════════════════════════════════════════════════════════════
 class TweetDataset(Dataset):
+    # fungsi init: simpan teks, label, tokenizer, max_length
+    # Dataset untuk fine-tuning IndoBERTweet
     def __init__(self, texts, labels, tokenizer, max_length):
         self.texts      = texts
         self.labels     = labels
         self.tokenizer  = tokenizer
         self.max_length = max_length
 
+    # Dataset length
     def __len__(self):
         return len(self.texts)
 
+    # Ambil item (tokenisasi + encoding)
     def __getitem__(self, idx):
         encoding = self.tokenizer(
             self.texts[idx],
@@ -120,6 +124,8 @@ class TweetDataset(Dataset):
 # ══════════════════════════════════════════════════════════════
 #  HELPER: SATU EPOCH TRAINING
 # ══════════════════════════════════════════════════════════════
+# fungsi untuk modelling satu epoch training: loop per batch, hitung loss, update model
+# dan hitung akurasi per epoch
 def train_epoch(model, dataloader, optimizer, scheduler, device):
     model.train()
     total_loss, total_correct, total_samples = 0, 0, 0
@@ -155,6 +161,7 @@ def train_epoch(model, dataloader, optimizer, scheduler, device):
 # ══════════════════════════════════════════════════════════════
 #  HELPER: EVALUASI (VAL / TEST)
 # ══════════════════════════════════════════════════════════════
+# fungsi untuk evaluasi model di data validasi atau test: loop per batch, hitung loss, akurasi, dan F1
 def evaluate_epoch(model, dataloader, device, pos_label):
     model.eval()
     total_loss, total_correct, total_samples = 0, 0, 0
@@ -236,7 +243,7 @@ def main():
     print(f"   pos_label untuk F1 binary : {pos_label} (positif)")
 
     # ── 2. Split 80 / 10 / 10 ──
-    # split ambil data test
+    # split ambil data test 10%
     X_train_val, X_test, y_train_val, y_test, idx_train_val, idx_test = \
         train_test_split(
             X, y, range(len(X)),
@@ -245,7 +252,7 @@ def main():
             stratify     = y,
         )
 
-    #split ambil data validasi
+    #split ambil data validasi 10%
     val_size_adjusted = VAL_RATIO / (TRAIN_RATIO + VAL_RATIO)
     X_train, X_val, y_train, y_val, idx_train, idx_val = \
         train_test_split(
@@ -268,7 +275,7 @@ def main():
         "y_test"    : y_test,
     }, OUTPUT_DIR / "split_indices.joblib")
 
-    # ── Setup device ──
+    # ── Setup device gpu rtx 3050 ──
     device      = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     device_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() \
                   else "CPU"
