@@ -1,160 +1,313 @@
-from flask import Blueprint, jsonify, request
-import pandas as pd
+# controller/algoritmaController.py
+import os
+import io
+import torch
 import joblib
-import re
-import string
+import pandas as pd
 from pathlib import Path
+from flask import request, jsonify, render_template, current_app
 
-# BLUEPRINT
-algoritma_bp = Blueprint("algoritma", __name__)
+from transformers import AutoConfig, AutoTokenizer, AutoModelForSequenceClassification
+from utils.util import (
+    load_csv, load_all_csv,
+    hitung_distribusi, hitung_tren,
+    validasi_csv_upload, clean_tweet_for_inference,
+    VALID_SAHAM, VALID_PERIODE, PERIODE_LABEL, SAHAM_LABEL,
+)
 
-# PATH CONFIGURATION
-BASE_DIR = Path(__file__).resolve().parents[1]
-DATA_DIR = BASE_DIR / "data"
+# ══════════════════════════════════════════════════════════════
+#  PATH MODEL
+# ══════════════════════════════════════════════════════════════
+BASE_DIR  = Path(__file__).resolve().parents[1]
+MODEL_DIR = BASE_DIR / "data" / "modelDL"
 
-DATA_FILE = DATA_DIR / "tweets_sahamAll_classified.csv"
-MODEL_FILE = DATA_DIR / "svm_tfidf_model.joblib"
-VECTORIZER_FILE = DATA_DIR / "tfidf_vectorizer.joblib"
+# Mapping periode → folder model
+MODEL_PATHS = {
+    "before"     : MODEL_DIR / "before",
+    "covid"      : MODEL_DIR / "covid",
+    "after"      : MODEL_DIR / "after",
+    "all_periods": MODEL_DIR / "all_periods",
+}
 
-# LOAD RESOURCE (ONCE)
-df = pd.read_csv(DATA_FILE, parse_dates=["date"])
-model = joblib.load(MODEL_FILE)
-vectorizer = joblib.load(VECTORIZER_FILE)
+# ══════════════════════════════════════════════════════════════
+#  LOAD MODEL (lazy, disimpan di app context)
+# ══════════════════════════════════════════════════════════════
+_models    = {}   # cache model per periode
+_tokenizer = None # tokenizer sama untuk semua (IndoBERTweet)
 
-# VALIDATION (CRITICAL)
-required_cols = {"date", "sentiment", "saham"}
-missing_cols = required_cols - set(df.columns)
-
-if missing_cols:
-    raise RuntimeError(
-        f"Kolom {missing_cols} tidak ditemukan. "
-        "Pastikan data telah melalui proses klasifikasi menggunakan model SVM."
-    )
-
-print("✅ Dataset hasil klasifikasi SVM berhasil dimuat")
-print("✅ Model & vectorizer siap digunakan")
-
-# HELPER FUNCTION
-def sentiment_label(val):
-    if val == 1:
-        return "positif"
-    elif val == -1:
-        return "negatif"
-    else:
-        return "netral"
+MAX_LENGTH = 128
+BATCH_SIZE = 16
+DEVICE     = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def simple_preprocess(text: str) -> str:
+def _get_tokenizer(model_dir: Path):
+    """Load tokenizer dari folder model (cached)."""
+    global _tokenizer
+    if _tokenizer is None:
+        tokenizer_dir = model_dir / "tokenizer"
+        if tokenizer_dir.exists():
+            _tokenizer = AutoTokenizer.from_pretrained(str(tokenizer_dir))
+        else:
+            # Fallback: download dari HuggingFace
+            _tokenizer = AutoTokenizer.from_pretrained(
+                "indolem/indobertweet-base-uncased"
+            )
+    return _tokenizer
+
+
+def _get_model(periode: str):
+    """Load model untuk periode tertentu (cached)."""
+    if periode in _models:
+        return _models[periode]
+
+    model_dir = MODEL_PATHS.get(periode)
+    if model_dir is None or not model_dir.exists():
+        return None
+
+    bin_file = model_dir / "best_model.bin"
+    if not bin_file.exists():
+        return None
+
+    try:
+        # Load label encoder
+        le_file = model_dir / "label_encoder.joblib"
+        le      = joblib.load(le_file) if le_file.exists() else None
+
+        # Load arsitektur dari config.json
+        config = AutoConfig.from_pretrained(
+            str(model_dir),
+            num_labels = 2,   # positif & negatif
+        )
+        model = AutoModelForSequenceClassification.from_config(config)
+        state_dict = torch.load(bin_file, map_location=DEVICE)
+        model.load_state_dict(state_dict, strict=True)
+        model.to(DEVICE)
+        model.eval()
+
+        _models[periode] = {"model": model, "le": le}
+        print(f"✅ Model [{periode}] berhasil dimuat")
+        return _models[periode]
+
+    except Exception as e:
+        print(f"❌ Gagal load model [{periode}]: {e}")
+        return None
+
+
+def _predict_batch(texts: list, periode: str = "all_periods") -> list:
     """
-    Preprocessing ringan untuk inference real-time
-    (disesuaikan dengan preprocessing training)
+    Prediksi sentimen untuk list teks.
+    Return: list string 'positif' / 'negatif'
     """
-    text = text.lower()
-    text = re.sub(r"http\S+|www\S+", "", text)
-    text = re.sub(r"@\w+|#\w+", "", text)
-    text = re.sub(r"\d+", "", text)
-    text = re.sub(rf"[{re.escape(string.punctuation)}]", "", text)
-    text = re.sub(r"\s+", " ", text).strip()
-    return text
+    model_bundle = _get_model(periode)
+    if model_bundle is None:
+        return ["netral"] * len(texts)
+
+    model     = model_bundle["model"]
+    le        = model_bundle["le"]
+    tokenizer = _get_tokenizer(MODEL_PATHS[periode])
+
+    results = []
+    for i in range(0, len(texts), BATCH_SIZE):
+        batch = texts[i: i + BATCH_SIZE]
+        batch_safe = [t if t.strip() else "tidak ada informasi" for t in batch]
+
+        encoding = tokenizer(
+            batch_safe,
+            max_length  = MAX_LENGTH,
+            padding     = "max_length",
+            truncation  = True,
+            return_tensors = "pt",
+        )
+        input_ids      = encoding["input_ids"].to(DEVICE)
+        attention_mask = encoding["attention_mask"].to(DEVICE)
+
+        with torch.no_grad():
+            logits = model(input_ids=input_ids,
+                           attention_mask=attention_mask).logits
+            preds  = torch.argmax(logits, dim=1).cpu().numpy()
+
+        if le is not None:
+            labels = le.inverse_transform(preds)
+        else:
+            # Fallback: 0=negatif, 1=positif
+            labels = ["positif" if p == 1 else "negatif" for p in preds]
+
+        results.extend(labels)
+
+    return results
 
 
-# USE CASE 1: DASHBOARD DISTRIBUSI SENTIMEN
-@algoritma_bp.route("/dashboard", methods=["GET"])
-def dashboard_sentimen():
-    saham = request.args.get("saham")
+# ══════════════════════════════════════════════════════════════
+#  VIEWS & API HANDLERS
+# ══════════════════════════════════════════════════════════════
 
-    data = df.copy()
-    if saham:
-        data = data[data["saham"] == saham]
+def index():
+    """Render halaman utama dashboard."""
+    return render_template("index.html")
 
-    summary = (
-        data["sentiment"]
-        .value_counts()
-        .rename(index=sentiment_label)
-        .to_dict()
-    )
+
+def get_dashboard_data():
+    """
+    GET /api/dashboard?periode=all_periods
+    Return ringkasan distribusi sentimen semua saham untuk periode tertentu.
+    """
+    periode = request.args.get("periode", "all_periods")
+    if periode not in VALID_PERIODE:
+        return jsonify({"error": "periode tidak valid"}), 400
+
+    df = load_csv(periode)
+    if df is None:
+        return jsonify({"error": f"Data untuk periode '{periode}' tidak ditemukan"}), 404
+
+    distribusi = hitung_distribusi(df)
+
+    # Ringkasan total semua saham
+    total_all   = sum(v["total"]   for v in distribusi.values())
+    positif_all = sum(v["positif"] for v in distribusi.values())
+    negatif_all = sum(v["negatif"] for v in distribusi.values())
 
     return jsonify({
-        "saham": saham if saham else "ALL",
-        "total_tweet": int(len(data)),
-        "distribusi_sentimen": summary,
-        "sumber_data": "hasil_klasifikasi_svm"
+        "periode"       : periode,
+        "periode_label" : PERIODE_LABEL.get(periode, periode),
+        "total"         : total_all,
+        "positif"       : positif_all,
+        "negatif"       : negatif_all,
+        "distribusi"    : distribusi,
     })
 
 
-# USE CASE 2: FILTER BERDASARKAN PERIODE
-@algoritma_bp.route("/filter", methods=["GET"])
-def filter_periode():
-    periode = request.args.get("periode", "harian")
-    saham = request.args.get("saham")
+def get_trend_data():
+    """
+    GET /api/trend?saham=bbri&periode=all_periods&period_type=monthly
+    Return data tren sentimen untuk grafik garis.
+    """
+    saham       = request.args.get("saham", "bbri").lower()
+    periode     = request.args.get("periode", "all_periods")
+    period_type = request.args.get("period_type", "monthly")
 
-    data = df.copy()
-    if saham:
-        data = data[data["saham"] == saham]
+    if saham not in VALID_SAHAM:
+        return jsonify({"error": "saham tidak valid"}), 400
+    if periode not in VALID_PERIODE:
+        return jsonify({"error": "periode tidak valid"}), 400
+    if period_type not in ("daily", "weekly", "monthly"):
+        return jsonify({"error": "period_type tidak valid"}), 400
 
-    if periode == "harian":
-        group = data.groupby(data["date"].dt.date)
-    elif periode == "mingguan":
-        group = data.groupby(data["date"].dt.to_period("W").astype(str))
-    elif periode == "bulanan":
-        group = data.groupby(data["date"].dt.to_period("M").astype(str))
-    else:
-        return jsonify({"error": "Periode tidak valid"}), 400
+    df = load_csv(periode)
+    if df is None:
+        return jsonify({"error": "Data tidak ditemukan"}), 404
 
-    result = []
-    for period, g in group:
-        result.append({
-            "periode": str(period),
-            "positif": int((g["sentiment"] == 1).sum()),
-            "negatif": int((g["sentiment"] == -1).sum()),
-            "netral": int((g["sentiment"] == 0).sum()),
-            "basis": "hasil_model_svm"
-        })
-
-    return jsonify(result)
-
-
-# USE CASE 3: TREN SENTIMEN
-@algoritma_bp.route("/trend", methods=["GET"])
-def trend_sentimen():
-    saham = request.args.get("saham")
-
-    data = df.copy()
-    if saham:
-        data = data[data["saham"] == saham]
-
-    trend = (
-        data.groupby([data["date"].dt.date, "sentiment"])
-        .size()
-        .unstack(fill_value=0)
-        .rename(columns={
-            1: "positif",
-            -1: "negatif",
-            0: "netral"
-        })
-        .reset_index()
-        .rename(columns={"date": "tanggal"})
-    )
-
-    trend["sumber"] = "hasil_klasifikasi_svm"
-
-    return jsonify(trend.to_dict(orient="records"))
-
-
-# USE CASE TAMBAHAN: PREDIKSI TWEET BARU
-@algoritma_bp.route("/predict", methods=["POST"])
-def predict_tweet():
-    text = request.json.get("tweet", "")
-
-    if not text:
-        return jsonify({"error": "Tweet tidak boleh kosong"}), 400
-
-    clean_text = simple_preprocess(text)
-    X = vectorizer.transform([clean_text])
-    pred = model.predict(X)[0]
+    tren = hitung_tren(df, saham, period_type)
 
     return jsonify({
-        "tweet": text,
-        "sentiment": sentiment_label(pred),
-        "sumber": "model_svm"
+        "saham"      : saham,
+        "saham_label": SAHAM_LABEL.get(saham, saham.upper()),
+        "periode"    : periode,
+        "period_type": period_type,
+        "data"       : tren,
+    })
+
+
+def get_saham_detail():
+    """
+    GET /api/saham?saham=bbri&periode=all_periods
+    Return distribusi sentimen detail untuk satu saham.
+    """
+    saham   = request.args.get("saham", "bbri").lower()
+    periode = request.args.get("periode", "all_periods")
+
+    if saham not in VALID_SAHAM:
+        return jsonify({"error": "saham tidak valid"}), 400
+    if periode not in VALID_PERIODE:
+        return jsonify({"error": "periode tidak valid"}), 400
+
+    df = load_csv(periode)
+    if df is None:
+        return jsonify({"error": "Data tidak ditemukan"}), 404
+
+    sub = df[df["saham"].str.lower() == saham]
+    total   = len(sub)
+    positif = int((sub["sentiment"].str.lower() == "positif").sum())
+    negatif = int((sub["sentiment"].str.lower() == "negatif").sum())
+
+    # Sample tweet terbaru (maks 5)
+    sample = (
+        sub[["date", "tweet", "sentiment"]]
+        .sort_values("date", ascending=False)
+        .head(5)
+        .to_dict(orient="records")
+    )
+
+    return jsonify({
+        "saham"      : saham,
+        "saham_label": SAHAM_LABEL.get(saham, saham.upper()),
+        "periode"    : periode,
+        "total"      : total,
+        "positif"    : positif,
+        "negatif"    : negatif,
+        "pct_positif": round(positif / total * 100, 1) if total > 0 else 0,
+        "pct_negatif": round(negatif / total * 100, 1) if total > 0 else 0,
+        "sample"     : sample,
+    })
+
+
+def upload_csv():
+    """
+    POST /api/upload
+    Terima file CSV, jalankan inferensi model, return hasil sentimen.
+    Form data: file (CSV), periode (model yang dipakai)
+    """
+    if "file" not in request.files:
+        return jsonify({"error": "Tidak ada file yang diunggah"}), 400
+
+    file    = request.files["file"]
+    periode = request.form.get("periode", "all_periods")
+
+    if file.filename == "":
+        return jsonify({"error": "Nama file kosong"}), 400
+    if not file.filename.lower().endswith(".csv"):
+        return jsonify({"error": "Hanya file .csv yang diizinkan"}), 400
+    if periode not in VALID_PERIODE:
+        return jsonify({"error": "periode tidak valid"}), 400
+
+    try:
+        df = pd.read_csv(io.StringIO(file.stream.read().decode("utf-8")),
+                         dtype=str).fillna("")
+    except Exception as e:
+        return jsonify({"error": f"Gagal membaca CSV: {str(e)}"}), 400
+
+    valid, msg = validasi_csv_upload(df)
+    if not valid:
+        return jsonify({"error": msg}), 400
+
+    # Cari kolom tweet
+    col_map  = {c.lower(): c for c in df.columns}
+    tweet_col = col_map.get("tweet") or col_map.get("text") or col_map.get("teks")
+    if tweet_col is None:
+        return jsonify({"error": "Kolom 'tweet' tidak ditemukan di CSV"}), 400
+
+    # Bersihkan dan prediksi
+    texts      = [clean_tweet_for_inference(t) for t in df[tweet_col].tolist()]
+    sentiments = _predict_batch(texts, periode)
+
+    df["sentiment_hasil"] = sentiments
+
+    # Hitung distribusi hasil
+    total   = len(df)
+    positif = sentiments.count("positif")
+    negatif = sentiments.count("negatif")
+
+    # Preview 10 baris pertama
+    preview_cols = [tweet_col, "sentiment_hasil"]
+    if "date" in col_map:
+        preview_cols = [col_map["date"]] + preview_cols
+    preview = df[preview_cols].head(10).to_dict(orient="records")
+
+    return jsonify({
+        "total"      : total,
+        "positif"    : positif,
+        "negatif"    : negatif,
+        "pct_positif": round(positif / total * 100, 1) if total > 0 else 0,
+        "pct_negatif": round(negatif / total * 100, 1) if total > 0 else 0,
+        "model_used" : f"IndoBERTweet ({PERIODE_LABEL.get(periode, periode)})",
+        "preview"    : preview,
     })

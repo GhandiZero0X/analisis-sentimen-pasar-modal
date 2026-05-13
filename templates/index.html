@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SentimenSaham — Analisis Sentimen Pasar Modal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/css/style.css"/>
+</head>
+<body>
+
+<!-- ── NAVBAR ─────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+      <span class="brand-icon"><i class="bi bi-graph-up-arrow"></i></span>
+      <span>SentimenSaham</span>
+    </a>
+    <div class="navbar-nav ms-auto d-flex flex-row align-items-center gap-3">
+      <span class="model-badge"><i class="bi bi-cpu"></i> IndoBERTweet</span>
+      <a href="#upload-section" class="btn btn-sm btn-outline-accent">
+        <i class="bi bi-upload me-1"></i>Upload CSV
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────────── -->
+<section class="hero-section">
+  <div class="container-fluid px-4">
+    <div class="row align-items-center">
+      <div class="col-lg-7">
+        <p class="hero-eyebrow">Analisis Sentimen · Pasar Modal Indonesia</p>
+        <h1 class="hero-title">Pantau sentimen publik<br/>terhadap <span class="accent-text" id="hero-saham-rotate">saham unggulan</span></h1>
+        <p class="hero-sub">Berbasis tweet media sosial X — dianalisis menggunakan model IndoBERTweet fine-tuned untuk 6 emiten: BBRI, BMRI, TLKM, ISAT, ICBP, UNVR.</p>
+      </div>
+      <div class="col-lg-5 mt-4 mt-lg-0">
+        <!-- Summary cards -->
+        <div class="row g-3" id="summary-cards">
+          <div class="col-6">
+            <div class="stat-card">
+              <div class="stat-icon positive"><i class="bi bi-emoji-smile"></i></div>
+              <div class="stat-value" id="total-positif">—</div>
+              <div class="stat-label">Tweet Positif</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="stat-card">
+              <div class="stat-icon negative"><i class="bi bi-emoji-frown"></i></div>
+              <div class="stat-value" id="total-negatif">—</div>
+              <div class="stat-label">Tweet Negatif</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="stat-card">
+              <div class="stat-icon neutral"><i class="bi bi-collection"></i></div>
+              <div class="stat-value" id="total-tweet">—</div>
+              <div class="stat-label">Total Data</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="stat-card">
+              <div class="stat-icon accent"><i class="bi bi-buildings"></i></div>
+              <div class="stat-value">6</div>
+              <div class="stat-label">Emiten</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FILTER BAR ─────────────────────────────────────── -->
+<section class="filter-bar">
+  <div class="container-fluid px-4">
+    <div class="d-flex flex-wrap align-items-center gap-3">
+      <span class="filter-label"><i class="bi bi-funnel"></i> Filter:</span>
+
+      <!-- Periode -->
+      <div class="btn-group" role="group" id="filter-periode">
+        <button class="btn btn-filter active" data-value="all_periods">Semua Periode</button>
+        <button class="btn btn-filter" data-value="before">Sebelum COVID</button>
+        <button class="btn btn-filter" data-value="covid">Masa COVID</button>
+        <button class="btn btn-filter" data-value="after">Setelah COVID</button>
+      </div>
+
+      <!-- Loading indicator -->
+      <div id="filter-loading" class="d-none ms-auto">
+        <div class="spinner-border spinner-border-sm text-accent" role="status"></div>
+        <span class="ms-2 text-muted small">Memuat data…</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MAIN CONTENT ───────────────────────────────────── -->
+<main class="container-fluid px-4 py-4">
+
+  <!-- Distribusi per saham -->
+  <div class="section-header">
+    <h2 class="section-title"><i class="bi bi-pie-chart"></i> Distribusi Sentimen per Saham</h2>
+    <p class="section-sub">Perbandingan sentimen positif dan negatif untuk setiap emiten</p>
+  </div>
+
+  <div class="row g-3 mb-5" id="saham-cards">
+    <!-- Diisi oleh JS -->
+    <div class="col-12 text-center py-5" id="saham-loading">
+      <div class="spinner-border text-accent" role="status"></div>
+      <p class="mt-3 text-muted">Memuat data sentimen…</p>
+    </div>
+  </div>
+
+  <!-- Grafik tren -->
+  <div class="section-header">
+    <h2 class="section-title"><i class="bi bi-graph-up"></i> Tren Sentimen</h2>
+    <p class="section-sub">Perubahan sentimen publik dari waktu ke waktu</p>
+  </div>
+
+  <div class="card dashboard-card mb-5">
+    <div class="card-body">
+      <!-- Kontrol grafik tren -->
+      <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
+        <div>
+          <label class="form-label mb-1 small text-muted">Pilih Saham</label>
+          <select class="form-select form-select-sm" id="trend-saham">
+            <option value="bbri">BBRI — Bank BRI</option>
+            <option value="bmri">BMRI — Bank Mandiri</option>
+            <option value="tlkm">TLKM — Telkom</option>
+            <option value="isat">ISAT — Indosat</option>
+            <option value="icbp">ICBP — Indofood CBP</option>
+            <option value="unvr">UNVR — Unilever</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label mb-1 small text-muted">Granularitas</label>
+          <div class="btn-group" role="group" id="trend-period-type">
+            <button class="btn btn-filter-sm" data-value="daily">Harian</button>
+            <button class="btn btn-filter-sm active" data-value="monthly">Bulanan</button>
+            <button class="btn btn-filter-sm" data-value="weekly">Mingguan</button>
+          </div>
+        </div>
+        <div id="trend-loading" class="d-none ms-auto">
+          <div class="spinner-border spinner-border-sm text-accent" role="status"></div>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="trend-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grafik perbandingan semua saham -->
+  <div class="section-header">
+    <h2 class="section-title"><i class="bi bi-bar-chart-grouped"></i> Perbandingan Antar Saham</h2>
+    <p class="section-sub">Visualisasi jumlah tweet positif dan negatif semua emiten</p>
+  </div>
+
+  <div class="card dashboard-card mb-5">
+    <div class="card-body">
+      <div class="chart-container">
+        <canvas id="comparison-chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload CSV -->
+  <div id="upload-section" class="section-header">
+    <h2 class="section-title"><i class="bi bi-cloud-upload"></i> Analisis Dataset Baru</h2>
+    <p class="section-sub">Unggah file CSV berisi tweet untuk dianalisis menggunakan model IndoBERTweet</p>
+  </div>
+
+  <div class="card dashboard-card mb-5">
+    <div class="card-body">
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <form id="upload-form" novalidate>
+            <div class="mb-3">
+              <label class="form-label">File CSV <span class="text-danger">*</span></label>
+              <input type="file" class="form-control" id="upload-file" accept=".csv" required/>
+              <div class="form-text">Format: kolom <code>tweet</code> atau <code>text</code> wajib ada. Maks. 10.000 baris.</div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Gunakan Model Periode</label>
+              <select class="form-select" id="upload-periode">
+                <option value="all_periods">Semua Periode (Rekomendasi)</option>
+                <option value="before">Sebelum COVID</option>
+                <option value="covid">Masa COVID</option>
+                <option value="after">Setelah COVID</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-accent w-100" id="upload-btn">
+              <span class="btn-text"><i class="bi bi-cpu me-2"></i>Analisis Sekarang</span>
+              <span class="btn-loading d-none"><div class="spinner-border spinner-border-sm me-2"></div>Memproses…</span>
+            </button>
+          </form>
+        </div>
+        <div class="col-lg-7">
+          <div id="upload-result" class="d-none">
+            <h6 class="mb-3">Hasil Analisis</h6>
+            <div class="row g-3 mb-3" id="upload-summary"></div>
+            <div class="chart-container-sm">
+              <canvas id="upload-chart"></canvas>
+            </div>
+            <div class="mt-3">
+              <h6 class="mb-2 small text-muted">Preview 10 baris pertama</h6>
+              <div class="table-responsive">
+                <table class="table table-sm" id="upload-table">
+                  <thead><tr><th>Tweet</th><th>Sentimen</th></tr></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div id="upload-placeholder" class="upload-placeholder">
+            <i class="bi bi-file-earmark-bar-graph"></i>
+            <p>Hasil analisis akan tampil di sini</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ── MODAL DETAIL SAHAM ─────────────────────────────── -->
+<div class="modal fade" id="saham-modal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">Detail Saham</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <div class="text-center py-4">
+          <div class="spinner-border text-accent"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="container-fluid px-4">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <span class="text-muted small">SentimenSaham · Analisis Sentimen Pasar Modal Indonesia</span>
+      <span class="text-muted small"><i class="bi bi-cpu me-1"></i>Powered by IndoBERTweet · <code>indolem/indobertweet-base-uncased</code></span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="/static/js/script.js"></script>
+</body>
+</html>
