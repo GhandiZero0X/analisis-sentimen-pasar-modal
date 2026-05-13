@@ -27,6 +27,7 @@ Output : dev_database/4_model/dl/covid/
          confusion_matrix_indobertweet.png
          training_curve_indobertweet.png
          classification_report_indobertweet.txt
+         evaluation_info.txt
 =============================================================
 """
 
@@ -34,6 +35,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import torch
+import time
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
@@ -70,12 +72,13 @@ TRAIN_LOG_FILE = MODEL_DIR / "train_log.csv"
 CM_FILE        = MODEL_DIR / "confusion_matrix_indobertweet.png"
 CURVE_FILE     = MODEL_DIR / "training_curve_indobertweet.png"
 REPORT_FILE    = MODEL_DIR / "classification_report_indobertweet.txt"
+EVAL_INFO_FILE = MODEL_DIR / "evaluation_info.txt"
 
 MAX_LENGTH = 128
 BATCH_SIZE = 16
 
 # ══════════════════════════════════════════════════════════════
-#  DATASET CLASS (sama seperti training)
+#  DATASET CLASS
 # ══════════════════════════════════════════════════════════════
 class TweetDataset(Dataset):
     def __init__(self, texts, labels, tokenizer, max_length):
@@ -104,6 +107,8 @@ class TweetDataset(Dataset):
 # ══════════════════════════════════════════════════════════════
 #  LOAD ARTEFAK
 # ══════════════════════════════════════════════════════════════
+script_start_time = time.time()
+
 print("=" * 62)
 print("  EVALUASI IndoBERTweet — Confusion Matrix & Training Curve")
 print("=" * 62)
@@ -115,16 +120,16 @@ for f in [MODEL_BIN_FILE, ENCODER_FILE, SPLIT_FILE]:
             "Pastikan sudah menjalankan devModellingDL.py terlebih dahulu."
         )
 
+load_start_time = time.time()
+
 le         = joblib.load(ENCODER_FILE)
 split_data = joblib.load(SPLIT_FILE)
 X_test     = split_data["X_test"]
 y_test     = split_data["y_test"]
 
-class_names = list(le.classes_)   # ✅ ['negatif', 'positif'] — binary
-n_classes   = len(class_names)    # 2
+class_names = list(le.classes_)
+n_classes   = len(class_names)
 
-# pos_label: indeks kelas "positif" di LabelEncoder
-# urutan alfabetis: negatif=0, positif=1
 pos_label = list(le.classes_).index("positif")   # → 1
 
 print(f"✅ Artefak dimuat")
@@ -134,8 +139,7 @@ print(f"   Test set  : {len(X_test):,} baris\n")
 
 # ── Setup device ──
 device      = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() \
-              else "CPU"
+device_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
 print(f"🖥️  Device: {device_name}")
 
 # ── Load tokenizer ──
@@ -143,8 +147,6 @@ print(f"⬇️  Loading tokenizer dari : {TOKENIZER_DIR}")
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_DIR)
 
 # ── Load model ──
-# from_pretrained(folder) hanya mencari pytorch_model.bin / model.safetensors.
-# Solusi: load arsitektur dari config.json, lalu load bobot manual dari best_model.bin
 print(f"⬇️  Loading model dari      : {MODEL_BIN_FILE}")
 config = AutoConfig.from_pretrained(MODEL_DIR, num_labels=n_classes)
 model  = AutoModelForSequenceClassification.from_config(config)
@@ -154,11 +156,15 @@ model.to(device)
 model.eval()
 print(f"✅ Model berhasil di-load\n")
 
+load_time = time.time() - load_start_time
+
 # ══════════════════════════════════════════════════════════════
 #  INFERENSI PADA TEST SET
 # ══════════════════════════════════════════════════════════════
+infer_start_time = time.time()
+
 test_dataset = TweetDataset(X_test, y_test, tokenizer, MAX_LENGTH)
-test_loader  = DataLoader(
+test_loader   = DataLoader(
     test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=0
 )
 
@@ -180,6 +186,8 @@ with torch.no_grad():
 
 all_preds  = np.array(all_preds)
 all_labels = np.array(all_labels)
+
+infer_time = time.time() - infer_start_time
 
 # ══════════════════════════════════════════════════════════════
 #  a. CONFUSION MATRIX + CLASSIFICATION REPORT
@@ -205,7 +213,7 @@ precision, recall, f1, support = precision_recall_fscore_support(
     labels  = list(range(n_classes)),
 )
 
-# ✅ Binary F1 — sesuai model 2 kelas
+# Binary F1
 binary_f1 = f1_score(
     all_labels, all_preds,
     average       = "binary",
@@ -214,6 +222,8 @@ binary_f1 = f1_score(
 )
 
 # ── Plot Confusion Matrix ──
+cm_plot_start = time.time()
+
 cm = confusion_matrix(all_labels, all_preds)
 
 fig, ax = plt.subplots(figsize=(6, 5))
@@ -223,9 +233,9 @@ sns.heatmap(
     fmt         = "d",
     cmap        = "Blues",
     xticklabels = [c.capitalize() for c in class_names],
-    yticklabels = [c.capitalize() for c in class_names],
-    linewidths  = 0.5,
-    ax          = ax,
+    yticklabels  = [c.capitalize() for c in class_names],
+    linewidths   = 0.5,
+    ax           = ax,
 )
 ax.set_xlabel("Prediksi", fontsize=12, labelpad=10)
 ax.set_ylabel("Aktual",   fontsize=12, labelpad=10)
@@ -245,12 +255,16 @@ plt.savefig(CM_FILE, dpi=150, bbox_inches="tight")
 plt.close()
 print(f"✅ Confusion matrix disimpan : {CM_FILE.name}")
 
+cm_plot_time = time.time() - cm_plot_start
+
 # ══════════════════════════════════════════════════════════════
 #  b. TRAINING CURVE
 # ══════════════════════════════════════════════════════════════
 print("\n" + "─" * 62)
 print("  b. TRAINING CURVE")
 print("─" * 62)
+
+curve_start_time = time.time()
 
 if TRAIN_LOG_FILE.exists():
     log_df = pd.read_csv(TRAIN_LOG_FILE)
@@ -259,9 +273,9 @@ if TRAIN_LOG_FILE.exists():
     fig.suptitle("Training Curve — IndoBERTweet Fine-tuning", fontsize=13)
 
     axes[0].plot(log_df["epoch"], log_df["train_loss"],
-                 "o-",  color="#3498db", label="Train Loss", linewidth=2)
+                 "o-", color="#3498db", label="Train Loss", linewidth=2)
     axes[0].plot(log_df["epoch"], log_df["val_loss"],
-                 "s--", color="#e74c3c", label="Val Loss",   linewidth=2)
+                 "s--", color="#e74c3c", label="Val Loss", linewidth=2)
     axes[0].set_xlabel("Epoch")
     axes[0].set_ylabel("Loss")
     axes[0].set_title("Loss per Epoch")
@@ -270,12 +284,11 @@ if TRAIN_LOG_FILE.exists():
     axes[0].xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
 
     axes[1].plot(log_df["epoch"], log_df["train_acc"],
-                 "o-",  color="#3498db", label="Train Acc",      linewidth=2)
+                 "o-", color="#3498db", label="Train Acc", linewidth=2)
     axes[1].plot(log_df["epoch"], log_df["val_acc"],
-                 "s--", color="#e74c3c", label="Val Acc",        linewidth=2)
-    # ✅ Label F1 binary (bukan macro)
+                 "s--", color="#e74c3c", label="Val Acc", linewidth=2)
     axes[1].plot(log_df["epoch"], log_df["val_f1"],
-                 "^:",  color="#2ecc71", label="Val F1-binary",  linewidth=2)
+                 "^:", color="#2ecc71", label="Val F1-binary", linewidth=2)
     axes[1].set_xlabel("Epoch")
     axes[1].set_ylabel("Score")
     axes[1].set_title("Accuracy & F1 per Epoch")
@@ -291,9 +304,13 @@ if TRAIN_LOG_FILE.exists():
 else:
     print(f"⚠️  train_log.csv tidak ditemukan, training curve dilewati")
 
+curve_time = time.time() - curve_start_time
+
 # ══════════════════════════════════════════════════════════════
 #  SIMPAN LAPORAN TEKS
 # ══════════════════════════════════════════════════════════════
+total_eval_time = time.time() - script_start_time
+
 report_text = f"""EVALUATION REPORT — IndoBERTweet Fine-tuning (Binary)
 ======================================================
 Tanggal      : {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
@@ -308,6 +325,7 @@ ACCURACY
 CLASSIFICATION REPORT
 ---------------------
 {report}
+
 PER-CLASS DETAIL
 ----------------
 """
@@ -320,11 +338,38 @@ for i, cls in enumerate(class_names):
         f"support: {int(support[i])}\n"
     )
 
-# ✅ Binary F1
-report_text += f"\n  Binary F1    : {binary_f1:.4f}  (pos_label=positif)\n"
+report_text += f"""
+\nBinary F1
+---------
+{binary_f1:.4f}  (pos_label=positif)
+
+RUNTIME
+-------
+Load model     : {load_time:.2f} detik
+Inferensi test : {infer_time:.2f} detik
+Plot CM        : {cm_plot_time:.2f} detik
+Plot curve     : {curve_time:.2f} detik
+Total runtime  : {total_eval_time:.2f} detik
+"""
 
 REPORT_FILE.write_text(report_text.strip(), encoding="utf-8")
 print(f"✅ Laporan disimpan        : {REPORT_FILE.name}")
+
+# juga simpan info ringkas terpisah
+eval_info = f"""EVALUATION INFO — IndoBERTweet
+==============================
+Tanggal        : {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+Model          : indolem/indobertweet-base-uncased
+Test set       : {len(X_test):,} baris
+Accuracy       : {acc:.4f}
+Binary F1      : {binary_f1:.4f}
+Runtime load   : {load_time:.2f} detik
+Runtime infer  : {infer_time:.2f} detik
+Runtime cm     : {cm_plot_time:.2f} detik
+Runtime curve  : {curve_time:.2f} detik
+Total runtime  : {total_eval_time:.2f} detik
+"""
+EVAL_INFO_FILE.write_text(eval_info.strip(), encoding="utf-8")
 
 # ══════════════════════════════════════════════════════════════
 #  RINGKASAN AKHIR
@@ -334,10 +379,18 @@ print(f"  ✅ Evaluasi selesai!")
 print(f"{'='*62}")
 print(f"  📊 Accuracy   : {acc:.4f}")
 print(f"  📊 Binary F1  : {binary_f1:.4f}")
+print(f"  ⏱ Load model  : {load_time:.2f} detik")
+print(f"  ⏱ Inferensi   : {infer_time:.2f} detik")
+print(f"  ⏱ Plot CM     : {cm_plot_time:.2f} detik")
+print(f"  ⏱ Plot curve  : {curve_time:.2f} detik")
+print(f"  ⏱ Total eval  : {total_eval_time:.2f} detik")
+
 print(f"\n  Per-kelas:")
 for i, cls in enumerate(class_names):
     print(f"   {cls:<12} P:{precision[i]:.4f}  R:{recall[i]:.4f}  F1:{f1[i]:.4f}")
+
 print(f"\n  🖼  {CM_FILE.name}")
 print(f"  🖼  {CURVE_FILE.name}")
 print(f"  📄  {REPORT_FILE.name}")
+print(f"  📄  {EVAL_INFO_FILE.name}")
 print(f"{'='*62}")

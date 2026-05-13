@@ -1,0 +1,25 @@
+EVALUATION REPORT — SVM LinearSVC (Binary)
+===========================================
+Tanggal     : 2026-05-08 14:09:53
+Test set    : 13,298 baris
+Kelas       : ['negatif', 'positif']  ← hanya positif & negatif
+
+ACCURACY
+--------
+0.9486
+
+CLASSIFICATION REPORT
+---------------------
+              precision    recall  f1-score   support
+
+     negatif     0.8759    0.9235    0.8990      3293
+     positif     0.9744    0.9569    0.9656     10005
+
+    accuracy                         0.9486     13298
+   macro avg     0.9251    0.9402    0.9323     13298
+weighted avg     0.9500    0.9486    0.9491     13298
+
+AUC-ROC (Binary)
+----------------
+  AUC         : 0.9837
+  Pos label   : positif

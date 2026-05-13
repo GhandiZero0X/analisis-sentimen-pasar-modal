@@ -44,8 +44,8 @@ from tqdm import tqdm
 # PATH CONFIGURATION
 # ══════════════════════════════════════════════════════════════
 BASE_DIR = Path(__file__).resolve().parent
-INPUT_DIR = BASE_DIR / "dev_database" / "2_labellingLexicon"
-OUTPUT_DIR = BASE_DIR / "dev_database" / "3_preprocessing" / "ml"
+INPUT_DIR = BASE_DIR / "dev_database" / "2_labelling_S2"
+OUTPUT_DIR = BASE_DIR / "dev_database" / "3_preprocessing" / "S2" / "ml"
 KAMUS_FILE = BASE_DIR / "kamus" / "kamuskatabaku.xlsx"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
