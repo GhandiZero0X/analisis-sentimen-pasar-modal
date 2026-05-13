@@ -61,11 +61,11 @@ from transformers import (
 # ══════════════════════════════════════════════════════════════
 BASE_DIR   = Path(__file__).resolve().parent
 INPUT_DIR  = BASE_DIR / "dev_database" / "3_preprocessing" / "S1S3" / "dl"
-OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "S1" / "dl" / "covid"
+OUTPUT_DIR = BASE_DIR / "dev_database" / "4_model" / "S1" / "dl" / "all_periods"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-INPUT_FILE = INPUT_DIR / "tweets_covid_labellingLexicon_preprocessingDL.csv"
+INPUT_FILE = INPUT_DIR / "tweets_all_periods_labellingLexicon_preprocessingDL.csv"
 
 MODEL_NAME = "indolem/indobertweet-base-uncased"
 
