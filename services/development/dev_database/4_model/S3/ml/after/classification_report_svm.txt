@@ -1,0 +1,47 @@
+EVALUATION REPORT — SVM LinearSVC (Skenario 3 — 3 Kelas)
+==========================================================
+Tanggal     : 2026-05-17 02:57:51
+Skenario    : 3 (negatif · netral · positif)
+Test set    : 8,295 baris
+Kelas       : ['negatif', 'netral', 'positif']
+
+ACCURACY
+--------
+0.8362
+
+CLASSIFICATION REPORT
+---------------------
+              precision    recall  f1-score   support
+
+     negatif     0.7356    0.7885    0.7611      1182
+      netral     0.8031    0.8097    0.8064      3159
+     positif     0.8967    0.8715    0.8839      3954
+
+    accuracy                         0.8362      8295
+   macro avg     0.8118    0.8233    0.8172      8295
+weighted avg     0.8381    0.8362    0.8369      8295
+
+PER-CLASS DETAIL
+----------------
+  negatif      precision: 0.7356 | recall: 0.7885 | f1: 0.7611 | support: 1182
+  netral       precision: 0.8031 | recall: 0.8097 | f1: 0.8064 | support: 3159
+  positif      precision: 0.8967 | recall: 0.8715 | f1: 0.8839 | support: 3954
+
+Macro F1
+--------
+0.8172
+
+AUC-ROC (One-vs-Rest)
+---------------------
+  negatif      : 0.9628
+  netral       : 0.8875
+  positif      : 0.9549
+  Macro AUC    : 0.9351
+
+RUNTIME
+-------
+  Load model    : 0.12 detik
+  Predict       : 0.00 detik
+  Plot CM       : 0.47 detik
+  Plot ROC      : 0.30 detik
+  Total runtime : 0.92 detik

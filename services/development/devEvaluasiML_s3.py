@@ -1,24 +1,25 @@
 # services/development/devEvaluasiML.py
 """
 =============================================================
-STEP 3b: EVALUASI MODEL SVM
+STEP 3b: EVALUASI MODEL SVM (SKENARIO 3)
 =============================================================
 Tahapan evaluasi:
   a. Confusion Matrix → Accuracy, Precision, Recall, F1-score
-  b. AUC-ROC          → Binary (positif vs negatif)
+  b. AUC-ROC          → One-vs-Rest untuk 3 kelas
 
 Catatan:
-  Model hanya dilatih dengan 2 kelas: positif & negatif
-  → AUC-ROC menggunakan binary roc_curve (bukan One-vs-Rest)
-  → y_score dari decision_function berbentuk 1D (n_samples,)
+  Model dilatih dengan 3 kelas: negatif, netral, positif
+  → AUC-ROC menggunakan One-vs-Rest (bukan binary)
+  → y_score dari decision_function berbentuk 2D (n_samples, 3)
+  → F1 menggunakan average="macro"
 
-Input  : dev_database/4_model/ml/covid/
+Input  : dev_database/4_model/S3/ml/after/    ← S3, 3 kelas
          svm_model.joblib
          label_encoder.joblib
          X_test.joblib
          y_test.joblib
 
-Output : dev_database/4_model/ml/covid/
+Output : dev_database/4_model/S3/ml/after/
          confusion_matrix_svm.png
          roc_curve_svm.png
          classification_report_svm.txt
@@ -42,26 +43,29 @@ from sklearn.metrics import (
     precision_recall_fscore_support,
     roc_curve,
     auc,
+    roc_auc_score,
 )
+from sklearn.preprocessing import label_binarize
 
 # ══════════════════════════════════════════════════════════════
 #  PATH CONFIGURATION
+#  ✅ S3 — 3 kelas (negatif, netral, positif)
 # ══════════════════════════════════════════════════════════════
 BASE_DIR  = Path(__file__).resolve().parent
-MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S1" / "ml" / "before"
+MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S3" / "ml" / "all_periods"
 
-MODEL_FILE      = MODEL_DIR / "svm_model.joblib"
-ENCODER_FILE    = MODEL_DIR / "label_encoder.joblib"
-X_TEST_FILE     = MODEL_DIR / "X_test.joblib"
-Y_TEST_FILE     = MODEL_DIR / "y_test.joblib"
+MODEL_FILE     = MODEL_DIR / "svm_model.joblib"
+ENCODER_FILE   = MODEL_DIR / "label_encoder.joblib"
+X_TEST_FILE    = MODEL_DIR / "X_test.joblib"
+Y_TEST_FILE    = MODEL_DIR / "y_test.joblib"
 
-CM_FILE         = MODEL_DIR / "confusion_matrix_svm.png"
-ROC_FILE        = MODEL_DIR / "roc_curve_svm.png"
-REPORT_FILE     = MODEL_DIR / "classification_report_svm.txt"
-EVAL_INFO_FILE  = MODEL_DIR / "evaluation_info.txt"
+CM_FILE        = MODEL_DIR / "confusion_matrix_svm.png"
+ROC_FILE       = MODEL_DIR / "roc_curve_svm.png"
+REPORT_FILE    = MODEL_DIR / "classification_report_svm.txt"
+EVAL_INFO_FILE = MODEL_DIR / "evaluation_info.txt"
 
 # ══════════════════════════════════════════════════════════════
-#  TIMER TOTAL
+#  TIMER
 # ══════════════════════════════════════════════════════════════
 script_start_time = time.time()
 
@@ -69,48 +73,52 @@ script_start_time = time.time()
 #  LOAD ARTEFAK
 # ══════════════════════════════════════════════════════════════
 print("=" * 60)
-print("  EVALUASI SVM — Confusion Matrix & AUC-ROC (Binary)")
+print("  EVALUASI SVM — Confusion Matrix & AUC-ROC (3 Kelas)")
+print("  Skenario 3: negatif · netral · positif")
 print("=" * 60)
 
 for f in [MODEL_FILE, ENCODER_FILE, X_TEST_FILE, Y_TEST_FILE]:
     if not f.exists():
         raise FileNotFoundError(
             f"File tidak ditemukan: {f}\n"
-            "Jalankan devModellingML.py terlebih dahulu."
+            "Jalankan devModellingML.py (Skenario 3) terlebih dahulu."
         )
 
 load_start_time = time.time()
 
-model       = joblib.load(MODEL_FILE)
-le          = joblib.load(ENCODER_FILE)
-X_test      = joblib.load(X_TEST_FILE)
-y_test      = joblib.load(Y_TEST_FILE)
+model  = joblib.load(MODEL_FILE)
+le     = joblib.load(ENCODER_FILE)
+X_test = joblib.load(X_TEST_FILE)
+y_test = joblib.load(Y_TEST_FILE)
 
 load_time = time.time() - load_start_time
 
-class_names = list(le.classes_)   # ['negatif', 'positif']
-n_classes   = len(class_names)    # 2
+class_names = list(le.classes_)   # ['negatif', 'netral', 'positif']
+n_classes   = len(class_names)    # 3
 
-# pos_label = indeks kelas "positif" di LabelEncoder
-# LabelEncoder mengurutkan alfabetis: negatif=0, positif=1
-pos_label = list(le.classes_).index("positif")   # → 1
+# Validasi memang 3 kelas
+if n_classes != 3:
+    raise ValueError(
+        f"Skenario 3 membutuhkan 3 kelas, ditemukan: {class_names}\n"
+        "Pastikan model yang diload adalah hasil training Skenario 3."
+    )
 
 print(f"✅ Model & data test dimuat")
-print(f"   Kelas     : {class_names}")
-print(f"   Pos label : positif (idx={pos_label})")
-print(f"   Test set  : {X_test.shape[0]:,} baris")
+print(f"   Kelas    : {class_names}")
+print(f"   Test set : {X_test.shape[0]:,} baris")
 print(f"   Runtime load model : {load_time:.2f} detik\n")
 
 # ══════════════════════════════════════════════════════════════
 #  PREDIKSI
+#  ✅ 3 kelas: decision_function → shape (n_samples, 3)
 # ══════════════════════════════════════════════════════════════
 predict_start_time = time.time()
 
-y_pred = model.predict(X_test)
+y_pred  = model.predict(X_test)
 
-# Binary: decision_function → shape (n_samples,) bukan (n_samples, n_classes)
-# Nilai positif = condong ke kelas positif, negatif = condong ke kelas negatif
-y_score = model.decision_function(X_test)   # shape: (n_samples,)
+# decision_function untuk 3 kelas menghasilkan shape (n_samples, 3)
+# setiap kolom = skor untuk satu kelas (urutan sesuai le.classes_)
+y_score = model.decision_function(X_test)   # shape: (n_samples, 3)
 
 predict_time = time.time() - predict_start_time
 
@@ -138,20 +146,18 @@ precision, recall, f1, support = precision_recall_fscore_support(
     labels  = list(range(n_classes)),
 )
 
-# Binary F1
-binary_f1 = f1_score(
+# ✅ F1 macro — cocok untuk 3 kelas (rata-rata tidak berbobot)
+macro_f1 = f1_score(
     y_test, y_pred,
-    average       = "binary",
-    pos_label     = pos_label,
+    average       = "macro",
     zero_division = 0,
 )
 
 # ── Plot Confusion Matrix ──
 cm_start_time = time.time()
-
 cm = confusion_matrix(y_test, y_pred)
 
-fig, ax = plt.subplots(figsize=(6, 5))
+fig, ax = plt.subplots(figsize=(7, 6))
 sns.heatmap(
     cm,
     annot       = True,
@@ -165,11 +171,10 @@ sns.heatmap(
 ax.set_xlabel("Prediksi", fontsize=12, labelpad=10)
 ax.set_ylabel("Aktual",   fontsize=12, labelpad=10)
 ax.set_title(
-    f"Confusion Matrix — SVM LinearSVC\nAccuracy: {acc:.4f}",
+    f"Confusion Matrix — SVM LinearSVC (S3)\nAccuracy: {acc:.4f}",
     fontsize=13, pad=15
 )
 
-# Persentase di setiap sel
 for i in range(n_classes):
     for j in range(n_classes):
         pct = cm[i, j] / cm[i].sum() * 100 if cm[i].sum() > 0 else 0
@@ -186,39 +191,60 @@ print(f"✅ Confusion matrix disimpan : {CM_FILE.name}")
 cm_plot_time = time.time() - cm_start_time
 
 # ══════════════════════════════════════════════════════════════
-#  b. AUC-ROC — BINARY (positif vs negatif)
+#  b. AUC-ROC — ONE-VS-REST (3 kelas)
+#  ✅ Berbeda dari S2: binarize label dulu, lalu hitung per kelas
 # ══════════════════════════════════════════════════════════════
 print("\n" + "─" * 60)
-print("  b. AUC-ROC (Binary: positif vs negatif)")
+print("  b. AUC-ROC (One-vs-Rest, 3 kelas)")
 print("─" * 60)
 
 roc_start_time = time.time()
 
-# Binary roc_curve: langsung pakai y_score 1D + pos_label
-fpr, tpr, _ = roc_curve(y_test, y_score, pos_label=pos_label)
-roc_auc     = auc(fpr, tpr)
+# Binarize: [[1,0,0],[0,1,0],[0,0,1]] untuk OvR
+y_test_bin = label_binarize(y_test, classes=list(range(n_classes)))
 
-print(f"\n  AUC-ROC : {roc_auc:.4f}")
+colors    = ["#e74c3c", "#3498db", "#2ecc71"]   # merah, biru, hijau
+auc_scores = {}
 
-# ── Plot ROC Curve ──
 fig, ax = plt.subplots(figsize=(7, 6))
 
-ax.plot(fpr, tpr, color="#e74c3c", lw=2,
-        label=f"SVM LinearSVC (AUC = {roc_auc:.4f})")
+for i, (cls, color) in enumerate(zip(class_names, colors)):
+    fpr, tpr, _ = roc_curve(y_test_bin[:, i], y_score[:, i])
+    roc_auc_cls = auc(fpr, tpr)
+    auc_scores[cls] = roc_auc_cls
+    ax.plot(fpr, tpr, color=color, lw=2,
+            label=f"{cls.capitalize()} (AUC = {roc_auc_cls:.4f})")
+
+# Diagonal random classifier
 ax.plot([0, 1], [0, 1], "k--", lw=1.5, label="Random Classifier")
 
-ax.set_title(f"ROC Curve — SVM LinearSVC\nAUC = {roc_auc:.4f}", fontsize=13)
+# Macro AUC rata-rata semua kelas
+macro_auc = roc_auc_score(
+    y_test_bin, y_score,
+    average     = "macro",
+    multi_class = "ovr",
+)
+
+ax.set_title(
+    f"ROC Curve — SVM LinearSVC (S3)\nMacro AUC = {macro_auc:.4f}",
+    fontsize=13
+)
 ax.set_xlabel("False Positive Rate (FPR)", fontsize=12)
 ax.set_ylabel("True Positive Rate (TPR)", fontsize=12)
 ax.set_xlim([0.0, 1.0])
 ax.set_ylim([0.0, 1.05])
-ax.legend(loc="lower right", fontsize=11)
+ax.legend(loc="lower right", fontsize=10)
 ax.grid(alpha=0.3)
 
 plt.tight_layout()
 plt.savefig(ROC_FILE, dpi=150, bbox_inches="tight")
 plt.close()
-print(f"✅ ROC curve disimpan        : {ROC_FILE.name}")
+
+print(f"\n  AUC per kelas (One-vs-Rest):")
+for cls, score in auc_scores.items():
+    print(f"   {cls:<12} : {score:.4f}")
+print(f"   {'Macro AUC':<12} : {macro_auc:.4f}")
+print(f"\n✅ ROC curve disimpan        : {ROC_FILE.name}")
 
 roc_plot_time = time.time() - roc_start_time
 
@@ -227,11 +253,12 @@ roc_plot_time = time.time() - roc_start_time
 # ══════════════════════════════════════════════════════════════
 total_eval_time = time.time() - script_start_time
 
-report_text = f"""EVALUATION REPORT — SVM LinearSVC (Binary)
-===========================================
+report_text = f"""EVALUATION REPORT — SVM LinearSVC (Skenario 3 — 3 Kelas)
+==========================================================
 Tanggal     : {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+Skenario    : 3 (negatif · netral · positif)
 Test set    : {X_test.shape[0]:,} baris
-Kelas       : {class_names}  ← hanya positif & negatif
+Kelas       : {class_names}
 
 ACCURACY
 --------
@@ -240,7 +267,6 @@ ACCURACY
 CLASSIFICATION REPORT
 ---------------------
 {report}
-
 PER-CLASS DETAIL
 ----------------
 """
@@ -254,41 +280,50 @@ for i, cls in enumerate(class_names):
     )
 
 report_text += f"""
-\nBinary F1
----------
-{binary_f1:.4f}  (pos_label=positif)
+Macro F1
+--------
+{macro_f1:.4f}
 
+AUC-ROC (One-vs-Rest)
+---------------------
+"""
+for cls, score in auc_scores.items():
+    report_text += f"  {cls:<12} : {score:.4f}\n"
+report_text += f"  {'Macro AUC':<12} : {macro_auc:.4f}\n"
+
+report_text += f"""
 RUNTIME
 -------
-Load model     : {load_time:.2f} detik
-Predict        : {predict_time:.2f} detik
-Plot CM        : {cm_plot_time:.2f} detik
-Plot ROC       : {roc_plot_time:.2f} detik
-Total runtime  : {total_eval_time:.2f} detik
-
-AUC-ROC (Binary)
-----------------
-  AUC         : {roc_auc:.4f}
-  Pos label   : positif
+  Load model    : {load_time:.2f} detik
+  Predict       : {predict_time:.2f} detik
+  Plot CM       : {cm_plot_time:.2f} detik
+  Plot ROC      : {roc_plot_time:.2f} detik
+  Total runtime : {total_eval_time:.2f} detik
 """
 
 REPORT_FILE.write_text(report_text.strip(), encoding="utf-8")
 print(f"✅ Laporan disimpan          : {REPORT_FILE.name}")
 
-# Simpan info ringkas terpisah
-eval_info = f"""EVALUATION INFO — SVM LinearSVC
-===============================
+eval_info = f"""EVALUATION INFO — SVM LinearSVC (Skenario 3)
+=============================================
 Tanggal        : {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+Skenario       : 3 (negatif · netral · positif)
 Test set       : {X_test.shape[0]:,} baris
 Accuracy       : {acc:.4f}
-Binary F1      : {binary_f1:.4f}
-AUC-ROC        : {roc_auc:.4f}
+Macro F1       : {macro_f1:.4f}
+Macro AUC      : {macro_auc:.4f}
 
+AUC per kelas:
+"""
+for cls, score in auc_scores.items():
+    eval_info += f"  {cls:<12} : {score:.4f}\n"
+
+eval_info += f"""
 Runtime:
-  Load model   : {load_time:.2f} detik
-  Predict      : {predict_time:.2f} detik
-  Plot CM      : {cm_plot_time:.2f} detik
-  Plot ROC     : {roc_plot_time:.2f} detik
+  Load model    : {load_time:.2f} detik
+  Predict       : {predict_time:.2f} detik
+  Plot CM       : {cm_plot_time:.2f} detik
+  Plot ROC      : {roc_plot_time:.2f} detik
   Total runtime : {total_eval_time:.2f} detik
 """
 EVAL_INFO_FILE.write_text(eval_info.strip(), encoding="utf-8")
@@ -297,15 +332,19 @@ EVAL_INFO_FILE.write_text(eval_info.strip(), encoding="utf-8")
 #  RINGKASAN AKHIR
 # ══════════════════════════════════════════════════════════════
 print(f"\n{'='*60}")
-print(f"  ✅ Evaluasi selesai!")
+print(f"  ✅ Evaluasi selesai! (Skenario 3 — 3 Kelas)")
 print(f"{'='*60}")
 print(f"  📊 Accuracy      : {acc:.4f}")
-print(f"  📈 AUC-ROC       : {roc_auc:.4f}")
-print(f"  ⏱ Load model    : {load_time:.2f} detik")
-print(f"  ⏱ Predict       : {predict_time:.2f} detik")
-print(f"  ⏱ Plot CM       : {cm_plot_time:.2f} detik")
-print(f"  ⏱ Plot ROC      : {roc_plot_time:.2f} detik")
-print(f"  ⏱ Total eval    : {total_eval_time:.2f} detik")
+print(f"  📊 Macro F1      : {macro_f1:.4f}")
+print(f"  📈 Macro AUC-ROC : {macro_auc:.4f}")
+print(f"\n  AUC per kelas:")
+for cls, score in auc_scores.items():
+    print(f"   {cls:<12} : {score:.4f}")
+print(f"  ⏱  Load model   : {load_time:.2f} detik")
+print(f"  ⏱  Predict      : {predict_time:.2f} detik")
+print(f"  ⏱  Plot CM      : {cm_plot_time:.2f} detik")
+print(f"  ⏱  Plot ROC     : {roc_plot_time:.2f} detik")
+print(f"  ⏱  Total eval   : {total_eval_time:.2f} detik")
 print(f"  🖼  {CM_FILE.name}")
 print(f"  🖼  {ROC_FILE.name}")
 print(f"  📄  {REPORT_FILE.name}")
