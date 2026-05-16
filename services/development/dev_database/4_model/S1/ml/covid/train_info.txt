@@ -1,7 +1,7 @@
 TRAINING INFO — SVM LinearSVC
 ==============================
 
-Tanggal          : 2026-05-14 00:39:31
+Tanggal          : 2026-05-17 00:48:21
 Input file       : tweets_covid_labellingLexicon_preprocessingML.csv
 
 Total data       : 33,331
@@ -30,6 +30,6 @@ Akurasi:
   Test           : 0.9403
 
 Runtime:
-  TF-IDF         : 0.77 detik
-  Training SVM   : 17.73 detik
-  Total Runtime  : 19.04 detik
+  TF-IDF         : 0.81 detik
+  Training SVM   : 10.91 detik
+  Total Runtime  : 12.09 detik

@@ -61,7 +61,7 @@ from transformers import (
 #  PATH CONFIGURATION
 # ══════════════════════════════════════════════════════════════
 BASE_DIR  = Path(__file__).resolve().parent
-MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "dl" / "all_periods"
+MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S1" / "dl" / "after"
 
 MODEL_BIN_FILE = MODEL_DIR / "best_model.bin"
 TOKENIZER_DIR  = MODEL_DIR / "tokenizer"

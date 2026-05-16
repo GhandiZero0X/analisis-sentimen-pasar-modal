@@ -1,6 +1,6 @@
 EVALUATION REPORT — SVM LinearSVC (Binary)
 ===========================================
-Tanggal     : 2026-05-14 00:50:50
+Tanggal     : 2026-05-17 01:24:04
 Test set    : 6,667 baris
 Kelas       : ['negatif', 'positif']  ← hanya positif & negatif
 
@@ -34,9 +34,9 @@ RUNTIME
 -------
 Load model     : 0.05 detik
 Predict        : 0.00 detik
-Plot CM        : 0.27 detik
-Plot ROC       : 0.21 detik
-Total runtime  : 0.56 detik
+Plot CM        : 0.29 detik
+Plot ROC       : 0.23 detik
+Total runtime  : 0.59 detik
 
 AUC-ROC (Binary)
 ----------------
