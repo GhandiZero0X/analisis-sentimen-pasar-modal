@@ -1,0 +1,31 @@
+TRAINING INFO — IndoBERTweet Fine-tuning (3 Class)
+=====================================
+Tanggal          : 2026-05-17 05:16:06
+Model pretrained : indolem/indobertweet-base-uncased
+Input file       : tweets_before_covid_labellingLexicon_preprocessingDL.csv
+Total data       : 13,568
+Kelas            : ['negatif', 'netral', 'positif']  ← negatif, netral, positif
+
+Split:
+  Train          : 10,854
+  Validation     : 1,357
+  Test           : 1,357
+
+Hyperparameter:
+  max_length     : 128
+  batch_size     : 16
+  epochs         : 5
+  learning_rate  : 2e-05
+  warmup_ratio   : 0.1
+  weight_decay   : 0.01
+
+Hasil:
+  Best epoch     : 2
+  Best val_loss  : 0.22651
+
+Runtime:
+  Load model     : 7.99 detik
+  Fine-tuning    : 1373.54 detik
+  Total runtime  : 1381.86 detik
+
+Device: NVIDIA GeForce RTX 3050 Laptop GPU
