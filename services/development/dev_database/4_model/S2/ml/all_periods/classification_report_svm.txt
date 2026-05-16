@@ -1,0 +1,43 @@
+EVALUATION REPORT — SVM LinearSVC (Skenario 2 — Binary)
+=========================================================
+Tanggal     : 2026-05-17 02:29:23
+Skenario    : 2 (tanpa kelas netral)
+Test set    : 23,273 baris
+Kelas       : ['negatif', 'positif']
+
+ACCURACY
+--------
+0.9001
+
+CLASSIFICATION REPORT
+---------------------
+              precision    recall  f1-score   support
+
+     negatif     0.7132    0.9004    0.7959      5038
+     positif     0.9703    0.9000    0.9338     18235
+
+    accuracy                         0.9001     23273
+   macro avg     0.8418    0.9002    0.8649     23273
+weighted avg     0.9147    0.9001    0.9040     23273
+
+PER-CLASS DETAIL
+----------------
+  negatif      precision: 0.7132 | recall: 0.9004 | f1: 0.7959 | support: 5038
+  positif      precision: 0.9703 | recall: 0.9000 | f1: 0.9338 | support: 18235
+
+Binary F1
+---------
+0.9338  (pos_label=positif)
+
+AUC-ROC (Binary)
+----------------
+  AUC       : 0.9601
+  Pos label : positif
+
+RUNTIME
+-------
+  Load model    : 0.10 detik
+  Predict       : 0.00 detik
+  Plot CM       : 0.41 detik
+  Plot ROC      : 0.27 detik
+  Total runtime : 0.81 detik
