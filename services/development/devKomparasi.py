@@ -47,11 +47,11 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 SKENARIOS = ["S1", "S2", "S3"]
 SKENARIO_LABEL = {
-    "S1": "S1 (IBT label, 3 kelas)",
+    "S1": "S1 (IBT label, 2 kelas)",
     "S2": "S2 (Lexicon, 2 kelas)",
     "S3": "S3 (Lexicon, 3 kelas)",
 }
-SKENARIO_KELAS = {"S1": "3", "S2": "2", "S3": "3"}
+SKENARIO_KELAS = {"S1": "2", "S2": "2", "S3": "3"}
 
 PERIODS = ["before", "covid", "after", "all_periods"]
 PERIOD_LABEL = {
