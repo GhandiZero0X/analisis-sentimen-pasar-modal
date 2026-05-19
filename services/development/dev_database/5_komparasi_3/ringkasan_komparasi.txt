@@ -1,0 +1,87 @@
+RINGKASAN KOMPARASI — SVM vs IndoBERTweet
+==========================================================================================
+Tanggal : 2026-05-20 04:29:22
+
+PRIORITAS PEMILIHAN MODEL:
+1) Accuracy dari confusion matrix
+2) Runtime (semakin kecil semakin baik)
+
+HASIL PER KOMBINASI SCENARIO x PERIOD:
+──────────────────────────────────────────────────────────────────────────────────────────
+
+[Scenario 1 | Before]
+SVM          → Acc: 0.9531 | Runtime: 3.35 detik
+IndoBERTweet → Acc: 0.9612 | Runtime: 758.04 detik
+Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0081))
+
+[Scenario 1 | Covid]
+SVM          → Acc: 0.9403 | Runtime: 11.50 detik
+IndoBERTweet → Acc: 0.9916 | Runtime: 4223.89 detik
+Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0513))
+
+[Scenario 1 | After]
+SVM          → Acc: 0.9457 | Runtime: 7.81 detik
+IndoBERTweet → Acc: 0.9840 | Runtime: 2634.81 detik
+Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0383))
+
+[Scenario 2 | Before]
+SVM          → Acc: 0.9092 | Runtime: 6.50 detik
+IndoBERTweet → Acc: 0.9293 | Runtime: 1466.63 detik
+Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0201))
+
+[Scenario 2 | Covid]
+SVM          → Acc: 0.8953 | Runtime: 26.93 detik
+IndoBERTweet → Acc: 0.9552 | Runtime: 6464.89 detik
+Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0599))
+
+[Scenario 2 | After]
+SVM          → Acc: 0.9051 | Runtime: 20.32 detik
+IndoBERTweet → Acc: 0.9355 | Runtime: 4324.31 detik
+Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0304))
+
+[Scenario 3 | Before]
+SVM          → Acc: 0.8545 | Runtime: 7.68 detik
+IndoBERTweet → Acc: 0.9116 | Runtime: 1426.07 detik
+Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0571))
+
+[Scenario 3 | Covid]
+SVM          → Acc: 0.8287 | Runtime: 87.23 detik
+IndoBERTweet → Acc: 0.9883 | Runtime: 6470.15 detik
+Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.1596))
+
+[Scenario 3 | After]
+SVM          → Acc: 0.8362 | Runtime: 68.53 detik
+IndoBERTweet → Acc: 0.9742 | Runtime: 4447.74 detik
+Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.1380))
+
+──────────────────────────────────────────────────────────────────────────────────────────
+KESIMPULAN KESELURUHAN:
+SVM unggul di          : 0 kombinasi
+IndoBERTweet unggul di : 9 kombinasi
+
+SCENARIO TERBAIK OVERALL:
+Scenario 1
+
+MODEL TERBAIK OVERALL:
+IndoBERTweet
+
+Alasan ringkas model terbaik overall:
+- mean accuracy : 0.9590
+- mean F1 macro : 0.9449
+- mean runtime  : 3579.61 detik
+- win count     : 9
+
+SCENARIO TERBAIK:
+- Scenario 1
+- model pemenang : IndoBERTweet
+- best accuracy   : 0.9789
+- best runtime    : 7.55 detik
+
+Detail model terbaik scenario terbaik:
+- Accuracy        : 0.9590
+- F1 weighted     : 0.9587
+- F1 macro        : 0.9449
+- Train runtime   : 3478.34 detik
+- Eval runtime    : 101.28 detik
+- Total runtime   : 3579.61 detik
+==========================================================================================

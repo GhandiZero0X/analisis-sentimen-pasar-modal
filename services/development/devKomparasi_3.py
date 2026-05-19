@@ -80,7 +80,7 @@ import matplotlib.ticker as mticker
 # ══════════════════════════════════════════════════════════════
 BASE_DIR   = Path(__file__).resolve().parent
 MODEL_DIR  = BASE_DIR / "dev_database" / "4_model"
-OUTPUT_DIR = BASE_DIR / "dev_database" / "5_komparasi_2"
+OUTPUT_DIR = BASE_DIR / "dev_database" / "5_komparasi_3"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -463,25 +463,18 @@ scenario_best_df = scenario_df.sort_values(
 # Untuk best scenario, ambil scenario yang model pemenangnya memiliki mean accuracy terbesar
 scenario_best_candidates = []
 for _, row in scenario_df.iterrows():
-    # Ambil accuracy dan runtime dari model pemenang
-    winner_model = row["winner"]
-    if winner_model == "SVM":
-        winner_acc = row["svm_mean_accuracy"]
-        winner_rt = row["svm_mean_runtime"]
-    else:
-        winner_acc = row["dl_mean_accuracy"]
-        winner_rt = row["dl_mean_runtime"]
-    
+    best_acc = max(row["svm_mean_accuracy"], row["dl_mean_accuracy"])
+    best_rt  = min(row["svm_mean_runtime"], row["dl_mean_runtime"])
     scenario_best_candidates.append({
         "scenario": row["scenario"],
         "winner": row["winner"],
-        "winner_acc": winner_acc,
-        "winner_rt": winner_rt,
+        "best_acc": best_acc,
+        "best_rt": best_rt,
         "reason": row["reason"],
     })
 
 scenario_best_candidates_df = pd.DataFrame(scenario_best_candidates).sort_values(
-    by=["winner_acc", "winner_rt"],
+    by=["best_acc", "best_rt"],
     ascending=[False, True]
 ).reset_index(drop=True)
 
@@ -489,7 +482,8 @@ best_scenario_row = scenario_best_candidates_df.iloc[0]
 best_scenario = best_scenario_row["scenario"]
 
 # model terbaik di scenario terbaik
-best_scenario_model = best_scenario_row["winner"]
+best_scenario_raw = scenario_df[scenario_df["scenario"] == best_scenario].iloc[0]
+best_scenario_model = best_scenario_raw["winner"]
 
 # detail row model terbaik di scenario terbaik, ambil mean modelnya
 best_scenario_model_stats = overall_model_df[overall_model_df["model"] == best_scenario_model].iloc[0]
@@ -562,9 +556,9 @@ txt_lines += [
     "",
     "Scenario terbaik overall:",
     f"- {best_scenario}",
-    f"- model pemenang : {best_scenario_row['winner']}",
-    f"- accuracy       : {best_scenario_row['winner_acc']:.4f}",
-    f"- runtime        : {best_scenario_row['winner_rt']:.2f} detik",
+    f"- model pemenang : {best_scenario_model}",
+    f"- best accuracy   : {best_scenario_row['best_acc']:.4f}",
+    f"- best runtime    : {best_scenario_row['best_rt']:.2f} detik",
 ]
 
 txt_path = OUTPUT_DIR / "tabel_komparasi.txt"
@@ -706,9 +700,9 @@ summary_lines += [
     "",
     "SCENARIO TERBAIK:",
     f"- {best_scenario}",
-    f"- model pemenang : {best_scenario_row['winner']}",
-    f"- accuracy       : {best_scenario_row['winner_acc']:.4f}",
-    f"- runtime        : {best_scenario_row['winner_rt']:.2f} detik",
+    f"- model pemenang : {best_scenario_model}",
+    f"- best accuracy   : {best_scenario_row['best_acc']:.4f}",
+    f"- best runtime    : {best_scenario_row['best_rt']:.2f} detik",
     "",
     "Detail model terbaik scenario terbaik:",
     f"- Accuracy        : {best_scenario_model_stats['mean_accuracy']:.4f}",
@@ -736,5 +730,5 @@ print("  📊 tabel_komparasi.csv")
 print("  📄 tabel_komparasi.txt")
 print("  🖼  grafik_akurasi.png")
 print("  🖼  grafik_runtime.png")
-print("  � ringkasan_komparasi.txt")
+print("  📄 ringkasan_komparasi.txt")
 print(f"{'='*90}")
