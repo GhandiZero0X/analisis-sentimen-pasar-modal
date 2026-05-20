@@ -1,30 +1,40 @@
-EVALUATION REPORT — IndoBERTweet Fine-tuning
-==========================================
-Tanggal      : 2026-05-08 13:25:59
+EVALUATION REPORT — IndoBERTweet Fine-tuning (Binary)
+======================================================
+Tanggal      : 2026-05-14 05:37:01
 Model        : indolem/indobertweet-base-uncased
-Test set     : 4,153 baris
-Kelas        : ['negatif', 'netral', 'positif']
+Test set     : 2,569 baris
+Kelas        : ['negatif', 'positif']  ← hanya positif & negatif
 
 ACCURACY
 --------
-0.9687
+0.9840
 
 CLASSIFICATION REPORT
 ---------------------
               precision    recall  f1-score   support
 
-     negatif     0.9265    0.9814    0.9532       591
-      netral     0.9790    0.9432    0.9608      1584
-     positif     0.9740    0.9853    0.9796      1978
+     negatif     0.9614    0.9695    0.9655       591
+     positif     0.9909    0.9884    0.9896      1978
 
-    accuracy                         0.9687      4153
-   macro avg     0.9599    0.9700    0.9645      4153
-weighted avg     0.9692    0.9687    0.9687      4153
+    accuracy                         0.9840      2569
+   macro avg     0.9761    0.9790    0.9775      2569
+weighted avg     0.9841    0.9840    0.9841      2569
+
 
 PER-CLASS DETAIL
 ----------------
-  negatif      precision: 0.9265 | recall: 0.9814 | f1: 0.9532 | support: 591
-  netral       precision: 0.9790 | recall: 0.9432 | f1: 0.9608 | support: 1584
-  positif      precision: 0.9740 | recall: 0.9853 | f1: 0.9796 | support: 1978
+  negatif      precision: 0.9614 | recall: 0.9695 | f1: 0.9655 | support: 591
+  positif      precision: 0.9909 | recall: 0.9884 | f1: 0.9896 | support: 1978
 
-  Macro F1     : 0.9645
+
+Binary F1
+---------
+0.9896  (pos_label=positif)
+
+RUNTIME
+-------
+Load model     : 4.24 detik
+Inferensi test : 17.97 detik
+Plot CM        : 0.30 detik
+Plot curve     : 0.34 detik
+Total runtime  : 22.87 detik
