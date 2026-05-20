@@ -21,6 +21,7 @@ const files = [
     { label: "before_covid", file: "tweets_before_covid.json" },
     { label: "covid",        file: "tweets_covid.json"        },
     { label: "after_covid",  file: "tweets_after_covid.json"  },
+    { label: "after_covid_baru", file: "tweets_after_covid_baru.json"  } // File gabungan semua periode (jika sudah ada),
 ];
 
 // ================= HELPER =================

@@ -2,9 +2,12 @@ const fs = require("fs");
 
 // Daftar file JSON yang mau dicek
 const files = [
-    "./tweets_bbri.json",
-    "./tweets_icbp.json",
-    "./tweets_tlkm.json"
+    "./tweets_bbri_2026.json",
+    "./tweets_icbp_2026.json",
+    "./tweets_tlkm_2026.json",
+    "./tweets_bmri_2026.json",
+    "./tweets_isat_2026.json",
+    "./tweets_unvr_2026.json",
 ];
 
 let grandTotal = 0;

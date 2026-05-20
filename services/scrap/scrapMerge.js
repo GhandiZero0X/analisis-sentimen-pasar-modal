@@ -14,33 +14,33 @@ const BASE_DIR = "./database";
 // Daftar file yang ingin digabung
 // Format: { folder: "nama_folder_saham", file: "nama_file.json" }
 const FILES_TO_MERGE = [
-    { folder: "bbri", file: "tweets_bbri_2023.json" },
-    { folder: "bbri", file: "tweets_bbri_2024.json" },
-    { folder: "bbri", file: "tweets_bbri_2025.json" },
+    // { folder: "bbri", file: "tweets_bbri_2023.json" },
+    // { folder: "bbri", file: "tweets_bbri_2024.json" },
+    { folder: "bbri", file: "tweets_bbri_2026.json" },
 
-    { folder: "icbp", file: "tweets_icbp_2023.json" },
-    { folder: "icbp", file: "tweets_icbp_2024.json" },
-    { folder: "icbp", file: "tweets_icbp_2025.json" },
+    // { folder: "icbp", file: "tweets_icbp_2023.json" },
+    // { folder: "icbp", file: "tweets_icbp_2024.json" },
+    { folder: "icbp", file: "tweets_icbp_2026.json" },
 
-    { folder: "tlkm", file: "tweets_tlkm_2023.json" },
-    { folder: "tlkm", file: "tweets_tlkm_2024.json" },
-    { folder: "tlkm", file: "tweets_tlkm_2025.json" },
+    // { folder: "tlkm", file: "tweets_tlkm_2023.json" },
+    // { folder: "tlkm", file: "tweets_tlkm_2024.json" },
+    { folder: "tlkm", file: "tweets_tlkm_2026.json" },
 
-    { folder: "bmri", file: "tweets_bmri_2023.json" },
-    { folder: "bmri", file: "tweets_bmri_2024.json" },
-    { folder: "bmri", file: "tweets_bmri_2025.json" },
+    // { folder: "bmri", file: "tweets_bmri_2023.json" },
+    // { folder: "bmri", file: "tweets_bmri_2024.json" },
+    { folder: "bmri", file: "tweets_bmri_2026.json" },
 
-    { folder: "isat", file: "tweets_isat_2023.json" },
-    { folder: "isat", file: "tweets_isat_2024.json" },
-    { folder: "isat", file: "tweets_isat_2025.json" },
+    // { folder: "isat", file: "tweets_isat_2023.json" },
+    // { folder: "isat", file: "tweets_isat_2024.json" },
+    { folder: "isat", file: "tweets_isat_2026.json" },
 
-    { folder: "unvr", file: "tweets_unvr_2023.json" },
-    { folder: "unvr", file: "tweets_unvr_2024.json" },
-    { folder: "unvr", file: "tweets_unvr_2025.json" },
+    // { folder: "unvr", file: "tweets_unvr_2023.json" },
+    // { folder: "unvr", file: "tweets_unvr_2024.json" },
+    { folder: "unvr", file: "tweets_unvr_2026.json" },
 ];
 
 // Nama file output hasil penggabungan
-const OUTPUT_FILE = "tweets_after_covid.json";
+const OUTPUT_FILE = "tweets_after_covid_baru.json";
 
 // ══════════════════════════════════════════════════════════════
 //  HELPER FUNCTIONS
