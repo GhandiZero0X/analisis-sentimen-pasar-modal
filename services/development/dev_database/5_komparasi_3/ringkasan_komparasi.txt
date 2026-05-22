@@ -13,6 +13,10 @@ ALUR PEMILIHAN:
 
   Threshold 'hampir sama' : selisih accuracy < 0.001
 
+  Scenario 1 : netral buang jadi 2 class
+  Scenario 2 : netralnya masukkan saja kelass salah satu negatif/positif
+  Scenario 3 : netralnya masukkan ke model 3 class
+
 ──────────────────────────────────────────────────────────────────────
 TAHAP 1 — HASIL PER SKENARIO:
 ──────────────────────────────────────────────────────────────────────

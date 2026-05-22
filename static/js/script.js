@@ -3,21 +3,21 @@
 
 // ── State ────────────────────────────────────────────────
 const state = {
-  periode    : "all_periods",
-  trendSaham : "bbri",
-  periodType : "monthly",
+  periode: "all_periods",
+  trendSaham: "bbri",
+  periodType: "monthly",
 };
 
 // ── Chart instances ──────────────────────────────────────
-let trendChart      = null;
+let trendChart = null;
 let comparisonChart = null;
-let uploadChart     = null;
+let uploadChart = null;
 
 // ── Chart.js default theme ───────────────────────────────
-Chart.defaults.color          = "#8b949e";
-Chart.defaults.borderColor    = "#30363d";
-Chart.defaults.font.family    = "'Plus Jakarta Sans', system-ui, sans-serif";
-Chart.defaults.font.size      = 12;
+Chart.defaults.color = "#8b949e";
+Chart.defaults.borderColor = "#30363d";
+Chart.defaults.font.family = "'Plus Jakarta Sans', system-ui, sans-serif";
+Chart.defaults.font.size = 12;
 
 // ── Helpers ──────────────────────────────────────────────
 function fmt(n) {
@@ -46,12 +46,12 @@ async function apiFetch(url) {
 // ── Number counter animation ─────────────────────────────
 function animateCount(el, target, duration = 800) {
   const start = Date.now();
-  const from  = 0;
-  const to    = parseInt(target, 10);
-  const tick  = () => {
+  const from = 0;
+  const to = parseInt(target, 10);
+  const tick = () => {
     const elapsed = Date.now() - start;
     const progress = Math.min(elapsed / duration, 1);
-    const ease     = 1 - Math.pow(1 - progress, 3);
+    const ease = 1 - Math.pow(1 - progress, 3);
     el.textContent = fmt(Math.round(from + (to - from) * ease));
     if (progress < 1) requestAnimationFrame(tick);
   };
@@ -59,7 +59,7 @@ function animateCount(el, target, duration = 800) {
 }
 
 // ── Hero saham rotation ──────────────────────────────────
-const sahamNames = ["BBRI","BMRI","TLKM","ISAT","ICBP","UNVR"];
+const sahamNames = ["BBRI", "BMRI", "TLKM", "ISAT", "ICBP", "UNVR"];
 let heroIdx = 0;
 setInterval(() => {
   const el = document.getElementById("hero-saham-rotate");
@@ -85,7 +85,7 @@ async function loadDashboard() {
     // Update summary cards
     animateCount(document.getElementById("total-positif"), data.positif);
     animateCount(document.getElementById("total-negatif"), data.negatif);
-    animateCount(document.getElementById("total-tweet"),   data.total);
+    animateCount(document.getElementById("total-tweet"), data.total);
 
     // Render saham cards
     renderSahamCards(data.distribusi);
@@ -137,7 +137,7 @@ function renderSahamCards(distribusi) {
 
 // ── Comparison Chart ─────────────────────────────────────
 function renderComparisonChart(distribusi) {
-  const labels   = Object.values(distribusi).map(d => d.label);
+  const labels = Object.values(distribusi).map(d => d.label);
   const positifs = Object.values(distribusi).map(d => d.positif);
   const negatifs = Object.values(distribusi).map(d => d.negatif);
 
@@ -150,25 +150,25 @@ function renderComparisonChart(distribusi) {
       labels,
       datasets: [
         {
-          label          : "Positif",
-          data           : positifs,
+          label: "Positif",
+          data: positifs,
           backgroundColor: "rgba(63,185,80,.75)",
-          borderColor    : "#3fb950",
-          borderWidth    : 1,
-          borderRadius   : 4,
+          borderColor: "#3fb950",
+          borderWidth: 1,
+          borderRadius: 4,
         },
         {
-          label          : "Negatif",
-          data           : negatifs,
+          label: "Negatif",
+          data: negatifs,
           backgroundColor: "rgba(248,81,73,.75)",
-          borderColor    : "#f85149",
-          borderWidth    : 1,
-          borderRadius   : 4,
+          borderColor: "#f85149",
+          borderWidth: 1,
+          borderRadius: 4,
         },
       ],
     },
     options: {
-      responsive       : true,
+      responsive: true,
       maintainAspectRatio: false,
       plugins: {
         legend: { position: "top" },
@@ -179,14 +179,14 @@ function renderComparisonChart(distribusi) {
         },
       },
       scales: {
-        x: { grid: { color: "#21262d" } },
+        x: { grid: { color: "#e6ecf5" } },
         y: {
-          grid   : { color: "#21262d" },
-          ticks  : {
-            callback: v => (v >= 1000 ? (v/1000).toFixed(1)+"K" : v),
+          grid: { color: "#e6ecf5" },
+          ticks: {
+            callback: v => (v >= 1000 ? (v / 1000).toFixed(1) + "K" : v),
           },
         },
-      },
+      }
     },
   });
 }
@@ -209,7 +209,7 @@ async function loadTrend() {
 }
 
 function renderTrendChart(data) {
-  const labels   = data.data.map(d => d.label);
+  const labels = data.data.map(d => d.label);
   const positifs = data.data.map(d => d.positif);
   const negatifs = data.data.map(d => d.negatif);
 
@@ -222,50 +222,50 @@ function renderTrendChart(data) {
       labels,
       datasets: [
         {
-          label          : "Positif",
-          data           : positifs,
-          borderColor    : "#3fb950",
+          label: "Positif",
+          data: positifs,
+          borderColor: "#3fb950",
           backgroundColor: "rgba(63,185,80,.1)",
-          fill           : true,
-          tension        : 0.4,
-          pointRadius    : 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 3,
           pointHoverRadius: 6,
-          borderWidth    : 2,
+          borderWidth: 2,
         },
         {
-          label          : "Negatif",
-          data           : negatifs,
-          borderColor    : "#f85149",
+          label: "Negatif",
+          data: negatifs,
+          borderColor: "#f85149",
           backgroundColor: "rgba(248,81,73,.08)",
-          fill           : true,
-          tension        : 0.4,
-          pointRadius    : 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 3,
           pointHoverRadius: 6,
-          borderWidth    : 2,
+          borderWidth: 2,
         },
       ],
     },
     options: {
-      responsive        : true,
+      responsive: true,
       maintainAspectRatio: false,
-      interaction       : { mode: "index", intersect: false },
+      interaction: { mode: "index", intersect: false },
       plugins: {
         legend: { position: "top" },
         tooltip: {
           callbacks: {
             title: items => items[0].label,
-            label: ctx  => ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`,
+            label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`,
           },
         },
       },
       scales: {
         x: {
-          grid : { color: "#21262d" },
+          grid: { color: "#e6ecf5" },
           ticks: { maxTicksLimit: 12, maxRotation: 45 },
         },
         y: {
-          grid : { color: "#21262d" },
-          ticks: { callback: v => (v >= 1000 ? (v/1000).toFixed(1)+"K" : v) },
+          grid: { color: "#e6ecf5" },
+          ticks: { callback: v => (v >= 1000 ? (v / 1000).toFixed(1) + "K" : v) },
         },
       },
     },
@@ -275,7 +275,7 @@ function renderTrendChart(data) {
 // ══════════════════════════════════════════════════════════
 //  MODAL DETAIL SAHAM
 // ══════════════════════════════════════════════════════════
-window.openSahamDetail = async function(saham) {
+window.openSahamDetail = async function (saham) {
   const modal = new bootstrap.Modal(document.getElementById("saham-modal"));
   document.getElementById("modal-title").textContent = saham.toUpperCase();
   document.getElementById("modal-body").innerHTML =
@@ -329,12 +329,12 @@ window.openSahamDetail = async function(saham) {
 // ══════════════════════════════════════════════════════════
 //  UPLOAD CSV
 // ══════════════════════════════════════════════════════════
-document.getElementById("upload-form").addEventListener("submit", async function(e) {
+document.getElementById("upload-form").addEventListener("submit", async function (e) {
   e.preventDefault();
 
-  const fileInput  = document.getElementById("upload-file");
+  const fileInput = document.getElementById("upload-file");
   const periodeVal = document.getElementById("upload-periode").value;
-  const btn        = document.getElementById("upload-btn");
+  const btn = document.getElementById("upload-btn");
 
   if (!fileInput.files.length) {
     fileInput.classList.add("is-invalid");
@@ -348,7 +348,7 @@ document.getElementById("upload-form").addEventListener("submit", async function
   btn.disabled = true;
 
   const formData = new FormData();
-  formData.append("file",    fileInput.files[0]);
+  formData.append("file", fileInput.files[0]);
   formData.append("periode", periodeVal);
 
   try {
@@ -388,23 +388,23 @@ document.getElementById("upload-form").addEventListener("submit", async function
     uploadChart = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels  : ["Positif", "Negatif"],
+        labels: ["Positif", "Negatif"],
         datasets: [{
-          data           : [data.positif, data.negatif],
+          data: [data.positif, data.negatif],
           backgroundColor: ["rgba(63,185,80,.8)", "rgba(248,81,73,.8)"],
-          borderColor    : ["#3fb950", "#f85149"],
-          borderWidth    : 2,
+          borderColor: ["#3fb950", "#f85149"],
+          borderWidth: 2,
         }],
       },
       options: {
-        responsive       : true,
+        responsive: true,
         maintainAspectRatio: false,
-        cutout           : "65%",
+        cutout: "65%",
         plugins: {
-          legend  : { position: "right" },
-          tooltip : {
+          legend: { position: "right" },
+          tooltip: {
             callbacks: {
-              label: ctx => ` ${ctx.label}: ${fmt(ctx.raw)} (${((ctx.raw/data.total)*100).toFixed(1)}%)`
+              label: ctx => ` ${ctx.label}: ${fmt(ctx.raw)} (${((ctx.raw / data.total) * 100).toFixed(1)}%)`
             }
           },
         },
@@ -415,7 +415,7 @@ document.getElementById("upload-form").addEventListener("submit", async function
     const tbody = document.querySelector("#upload-table tbody");
     tbody.innerHTML = data.preview.map(row => {
       const tweetKey = Object.keys(row).find(k =>
-        ["tweet","text","teks"].includes(k.toLowerCase())
+        ["tweet", "text", "teks"].includes(k.toLowerCase())
       ) || Object.keys(row)[0];
       const sent = row.sentiment_hasil || "";
       return `<tr>
@@ -446,7 +446,7 @@ document.getElementById("filter-periode").addEventListener("click", e => {
   const btn = e.target.closest("[data-value]");
   if (!btn) return;
   document.querySelectorAll("#filter-periode .btn-filter")
-          .forEach(b => b.classList.remove("active"));
+    .forEach(b => b.classList.remove("active"));
   btn.classList.add("active");
   state.periode = btn.dataset.value;
   loadDashboard();
@@ -464,7 +464,7 @@ document.getElementById("trend-period-type").addEventListener("click", e => {
   const btn = e.target.closest("[data-value]");
   if (!btn) return;
   document.querySelectorAll("#trend-period-type .btn-filter-sm")
-          .forEach(b => b.classList.remove("active"));
+    .forEach(b => b.classList.remove("active"));
   btn.classList.add("active");
   state.periodType = btn.dataset.value;
   loadTrend();
