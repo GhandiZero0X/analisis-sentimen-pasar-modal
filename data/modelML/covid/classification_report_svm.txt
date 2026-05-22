@@ -1,44 +1,47 @@
-EVALUATION REPORT — SVM LinearSVC (Binary)
-===========================================
-Tanggal     : 2026-05-17 01:24:04
-Test set    : 6,667 baris
-Kelas       : ['negatif', 'positif']  ← hanya positif & negatif
+EVALUATION REPORT — SVM LinearSVC (Skenario 3 — 3 Kelas)
+==========================================================
+Tanggal     : 2026-05-17 02:58:33
+Skenario    : 3 (negatif · netral · positif)
+Test set    : 12,272 baris
+Kelas       : ['negatif', 'netral', 'positif']
 
 ACCURACY
 --------
-0.9403
+0.8287
 
 CLASSIFICATION REPORT
 ---------------------
               precision    recall  f1-score   support
 
-     negatif     0.8537    0.9166    0.8840      1655
-     positif     0.9718    0.9481    0.9598      5012
+     negatif     0.7185    0.8157    0.7640      1655
+      netral     0.8354    0.8266    0.8310      5606
+     positif     0.8638    0.8354    0.8493      5011
 
-    accuracy                         0.9403      6667
-   macro avg     0.9127    0.9324    0.9219      6667
-weighted avg     0.9425    0.9403    0.9410      6667
-
+    accuracy                         0.8287     12272
+   macro avg     0.8059    0.8259    0.8148     12272
+weighted avg     0.8312    0.8287    0.8295     12272
 
 PER-CLASS DETAIL
 ----------------
-  negatif      precision: 0.8537 | recall: 0.9166 | f1: 0.8840 | support: 1655
-  positif      precision: 0.9718 | recall: 0.9481 | f1: 0.9598 | support: 5012
+  negatif      precision: 0.7185 | recall: 0.8157 | f1: 0.7640 | support: 1655
+  netral       precision: 0.8354 | recall: 0.8266 | f1: 0.8310 | support: 5606
+  positif      precision: 0.8638 | recall: 0.8354 | f1: 0.8493 | support: 5011
 
+Macro F1
+--------
+0.8148
 
-Binary F1
----------
-0.9598  (pos_label=positif)
+AUC-ROC (One-vs-Rest)
+---------------------
+  negatif      : 0.9574
+  netral       : 0.8830
+  positif      : 0.9404
+  Macro AUC    : 0.9269
 
 RUNTIME
 -------
-Load model     : 0.05 detik
-Predict        : 0.00 detik
-Plot CM        : 0.29 detik
-Plot ROC       : 0.23 detik
-Total runtime  : 0.59 detik
-
-AUC-ROC (Binary)
-----------------
-  AUC         : 0.9789
-  Pos label   : positif
+  Load model    : 0.06 detik
+  Predict       : 0.00 detik
+  Plot CM       : 0.33 detik
+  Plot ROC      : 0.29 detik
+  Total runtime : 0.72 detik
