@@ -7,8 +7,26 @@ from controller.algoritmaController import (
     get_saham_detail,
     upload_csv,
 )
+from controller.authController import (
+    login_get,
+    login_get,
+    login_post,
+    logout,
+    register_get,
+    register_post
+)
 
 routes_bp = Blueprint("routes", __name__)
+
+# Autentikasi admin
+routes_bp.add_url_rule("/admin/login", view_func=login_get, methods=["GET"])
+# routes_bp.add_url_rule("/admin/login", view_func=login_post, methods=["POST"])
+# routes_bp.add_url_rule("/admin/logout", view_func=logout, methods=["GET"])
+routes_bp.add_url_rule("/admin/register", view_func=register_get, methods=["GET"])
+# routes_bp.add_url_rule("/admin/register", view_func=register_post, methods=["POST"])
+
+# Halaman Dashboard admin
+routes_bp.add_url_rule("/admin/dashboard", view_func=index, methods=["GET"])
 
 # ── Halaman utama ──────────────────────────────────────────
 routes_bp.add_url_rule("/", view_func=index, methods=["GET"])
