@@ -156,7 +156,7 @@
                     <span>Model Sentimen</span>
                     <i class="bi bi-chevron-down ms-auto"></i>
                 </a>
-                <ul id="database-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
+                <ul id="model-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
                     <li>
                         <a href="modelDL.html">
                             <i class="bi bi-circle"></i>
@@ -261,11 +261,11 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
                                 <div>
-                                    <h5 class="card-title mb-1">Update Model IndoBERTweet</h5>
+                                    <h5 class="card-title mb-1">Update Model SVM</h5>
                                 </div>
 
                                 <span class="badge bg-primary px-3 py-2">
-                                    Model Fine-tuning Ready
+                                    Model SVM
                                 </span>
                             </div>
 
@@ -273,10 +273,10 @@
                                 <div class="col-12 col-lg-6">
                                     <label for="modelTarget" class="form-label">Pilih Model yang Akan Diupdate</label>
                                     <select class="form-select" id="modelTarget" name="model_target">
-                                        <option value="before" data-path="data/modelDL/before">Before Covid</option>
-                                        <option value="covid" data-path="data/modelDL/covid">Covid</option>
-                                        <option value="after" data-path="data/modelDL/after">After Covid</option>
-                                        <option value="all_periods" data-path="data/modelDL/all_periods">All Periods
+                                        <option value="before" data-path="data/modelML/before">Before Covid</option>
+                                        <option value="covid" data-path="data/modelML/covid">Covid</option>
+                                        <option value="after" data-path="data/modelML/after">After Covid</option>
+                                        <option value="all_periods" data-path="data/modelML/all_periods">All Periods
                                         </option>
                                     </select>
                                 </div>
@@ -296,10 +296,6 @@
                                     </button>
                                 </div>
                             </form>
-
-                            <!-- <div class="alert alert-info mt-3 mb-0" id="targetFolderInfo">
-                                Model terpilih: <strong>Before Covid</strong> — folder: <code>data/modelDL/before</code>
-                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -320,7 +316,7 @@
                                             <i class="bi bi-bullseye"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>93.55%</h6>
+                                            <h6 id="accuracyValue">83.62%</h6>
                                             <span class="text-muted small">Persentase prediksi benar dari total
                                                 data</span>
                                         </div>
@@ -341,7 +337,7 @@
                                             <i class="bi bi-crosshair"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>93.65%</h6>
+                                            <h6 id="precisionValue">83.81%</h6>
                                             <span class="text-muted small">Kemampuan model mendeteksi kelas
                                                 positif dengan benar</span>
                                         </div>
@@ -362,7 +358,7 @@
                                             <i class="bi bi-search"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>93.55%</h6>
+                                            <h6 id="recallValue">83.62%</h6>
                                             <span class="text-muted small">Kemampuan model untuk mendeteksi kelas
                                                 positif</span>
                                         </div>
@@ -383,7 +379,7 @@
                                             <i class="bi bi-bar-chart-line"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>93.59%</h6>
+                                            <h6 id="f1Value">83.69%</h6>
                                             <span class="text-muted small">Keseimbangan Precision dan Recall</span>
                                         </div>
                                     </div>
@@ -392,30 +388,32 @@
                         </div>
                         <!-- End F1-Score -->
                     </div>
-                    <!-- 2 Card Bawah  -->
+                    <!-- 2 Card Bawah -->
                     <div class="row g-4 justify-content-center mt-1">
-                        <!-- Best Epoch -->
+
+                        <!-- AUC-ROC -->
                         <div class="col-12 col-md-6 col-xl-3">
                             <div class="card info-card shadow-sm h-100">
                                 <div class="card-body">
-                                    <h5 class="card-title">Best Epoch</h5>
+                                    <h5 class="card-title">AUC-ROC</h5>
 
                                     <div class="d-flex align-items-center">
                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
                                             style="background-color: #8b5fdd;">
-                                            <i class="bi bi-award"></i>
+                                            <i class="bi bi-graph-up-arrow"></i>
                                         </div>
 
                                         <div class="ps-3">
-                                            <h6>1</h6>
+                                            <h6 id="aucValue">93.51%</h6>
                                             <span class="text-muted small">
-                                                Epoch dengan performa terbaik selama pelatihan
+                                                Macro AUC dari One-vs-Rest
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <!-- Run Time -->
                         <div class="col-12 col-md-6 col-xl-3">
                             <div class="card info-card shadow-sm h-100">
@@ -429,15 +427,16 @@
                                         </div>
 
                                         <div class="ps-3">
-                                            <h6>4324.31 detik</h6>
+                                            <h6 id="runtimeValue">0.92 detik</h6>
                                             <span class="text-muted small">
-                                                Waktu pelatihan model
+                                                Total waktu evaluasi model
                                             </span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -451,16 +450,16 @@
                             <div class="row g-4">
                                 <div class="col-12 col-lg-6">
                                     <div class="ratio ratio-1x1">
-                                        <img src="../data/modelDL/after/confusion_matrix_indobertweet.png"
-                                            class="img-fluid rounded" alt="Confusion Matrix IndoBERTweet"
+                                        <img id="confusionMatrixImg"
+                                            src="../data/modelML/after/confusion_matrix_svm.png"
+                                            class="img-fluid rounded" alt="Confusion Matrix SVM"
                                             style="object-fit: contain;">
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-6">
                                     <div class="ratio ratio-1x1">
-                                        <img src="../data/modelDL/after/training_curve_indobertweet.png"
-                                            class="img-fluid rounded" alt="Training Curve IndoBERTweet"
-                                            style="object-fit: contain;">
+                                        <img id="rocCurveImg" src="../data/modelML/after/roc_curve_svm.png"
+                                            class="img-fluid rounded" alt="ROC Curve SVM" style="object-fit: contain;">
                                     </div>
                                 </div>
                             </div>
@@ -506,6 +505,156 @@
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
+
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const modelTarget = document.getElementById("modelTarget");
+
+            const confusionMatrixImg =
+                document.getElementById("confusionMatrixImg");
+
+            const rocCurveImg =
+                document.getElementById("rocCurveImg");
+
+            modelTarget.addEventListener("change", function () {
+
+                const selectedModel = this.value;
+
+                // otomatis ganti gambar
+                confusionMatrixImg.src =
+                    `../data/modelML/${selectedModel}/confusion_matrix_svm.png`;
+
+                rocCurveImg.src =
+                    `../data/modelML/${selectedModel}/roc_curve_svm.png`;
+
+            });
+
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const modelTarget = document.getElementById("modelTarget");
+
+            // gambar
+            const confusionMatrixImg =
+                document.getElementById("confusionMatrixImg");
+
+            const rocCurveImg =
+                document.getElementById("rocCurveImg");
+
+            // metric
+            const accuracyValue =
+                document.getElementById("accuracyValue");
+
+            const precisionValue =
+                document.getElementById("precisionValue");
+
+            const recallValue =
+                document.getElementById("recallValue");
+
+            const f1Value =
+                document.getElementById("f1Value");
+
+            const aucValue =
+                document.getElementById("aucValue");
+
+            const runtimeValue =
+                document.getElementById("runtimeValue");
+
+
+            // DATABASE MODEL
+            const modelData = {
+
+                before: {
+                    accuracy: "85.45%",
+                    precision: "85.46%",
+                    recall: "85.45%",
+                    f1: "85.45%",
+                    auc: "94.62%",
+                    runtime: "0.70 detik",
+
+                    cmImage:
+                        "../data/modelML/before/confusion_matrix_svm.png",
+
+                    rocImage:
+                        "../data/modelML/before/roc_curve_svm.png"
+                },
+
+                covid: {
+                    accuracy: "83.62%",
+                    precision: "83.81%",
+                    recall: "83.62%",
+                    f1: "83.69%",
+                    auc: "93.51%",
+                    runtime: "0.92 detik",
+
+                    cmImage:
+                        "../data/modelML/covid/confusion_matrix_svm.png",
+
+                    rocImage:
+                        "../data/modelML/covid/roc_curve_svm.png"
+                },
+
+                after: {
+                    accuracy: "98.40%",
+                    precision: "98.41%",
+                    recall: "98.40%",
+                    f1: "98.41%",
+                    auc: "99.10%",
+                    runtime: "0.51 detik",
+
+                    cmImage:
+                        "../data/modelML/after/confusion_matrix_svm.png",
+
+                    rocImage:
+                        "../data/modelML/after/roc_curve_svm.png"
+                },
+
+                all_periods: {
+                    accuracy: "93.55%",
+                    precision: "93.65%",
+                    recall: "93.55%",
+                    f1: "93.59%",
+                    auc: "96.22%",
+                    runtime: "1.20 detik",
+
+                    cmImage:
+                        "../data/modelML/all_periods/confusion_matrix_svm.png",
+
+                    rocImage:
+                        "../data/modelML/all_periods/roc_curve_svm.png"
+                }
+            };
+
+
+            function updateDashboard(selectedModel) {
+
+                const data = modelData[selectedModel];
+
+                if (!data) return;
+
+                // metric
+                accuracyValue.textContent = data.accuracy;
+                precisionValue.textContent = data.precision;
+                recallValue.textContent = data.recall;
+                f1Value.textContent = data.f1;
+                aucValue.textContent = data.auc;
+                runtimeValue.textContent = data.runtime;
+
+                // gambar
+                confusionMatrixImg.src = data.cmImage;
+                rocCurveImg.src = data.rocImage;
+            }
+
+
+            // saat dropdown berubah
+            modelTarget.addEventListener("change", function () {
+                updateDashboard(this.value);
+            });
+
+        });
+    </script> -->
 </body>
 
 </html>

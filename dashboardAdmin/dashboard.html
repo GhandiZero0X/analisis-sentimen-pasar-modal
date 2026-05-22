@@ -177,40 +177,14 @@
             </li>
             <!-- End Model Sentiment -->
 
-            <!-- ===== Hasil Analisis ===== -->
+            <!-- ===== Hasil Komparasi ===== -->
             <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#analysis-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-bar-chart-line"></i>
-                    <span>Hasil Analisis</span>
-                    <i class="bi bi-chevron-down ms-auto"></i>
+                <a class="nav-link" href="comparison-model.html">
+                    <i class="bi bi-circle"></i>
+                    <span>Komparasi Model</span>
                 </a>
-
-                <ul id="analysis-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-                    <li>
-                        <a href="distribution.html">
-                            <i class="bi bi-circle"></i>
-                            <span>Distribusi Sentimen</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="trend.html">
-                            <i class="bi bi-circle"></i>
-                            <span>Tren Sentimen</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="prediction-result.html">
-                            <i class="bi bi-circle"></i>
-                            <span>Hasil Prediksi</span>
-                        </a>
-                    </li>
-
-                </ul>
             </li>
-            <!-- End Hasil Analisis -->
+            <!-- End Hasil Komparasi -->
 
             <!-- ===== Admin ===== -->
             <li class="nav-heading">Account</li>
@@ -315,71 +289,72 @@
                         </div>
                         <!-- End Total Tweet Card -->
 
-                        <!-- Total Model Card -->
+                        <!-- Akurasi Model Card -->
                         <div class="col-xxl-4 col-md-6">
-                            <div class="card info-card sales-card">
+                            <div class="card info-card customers-card">
+
                                 <div class="card-body">
-                                    <h5 class="card-title">Total Model</h5>
+                                    <h5 class="card-title">
+                                        Akurasi Terbaik<span>| IBT</span>
+                                    </h5>
+
                                     <div class="d-flex align-items-center">
+
                                         <div
                                             class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-cpu"></i>
+                                            <i class="bi bi-bullseye"></i>
                                         </div>
+
                                         <div class="ps-3">
-                                            <h6>3</h6>
+                                            <h6>98.41%</h6>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- End Total Model Card -->
+                        <!-- End Akurasi Model Card -->
 
                         <!-- Statistik Dataset -->
                         <div class="col-12">
                             <div class="card">
-
                                 <div class="card-body">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
+
+                                    <div
+                                        class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3 mb-3">
+
                                         <h5 class="card-title mb-0">
                                             Statistik Sentimen <span>| All</span>
                                         </h5>
 
                                         <!-- Filter Harian Mingguan Bulanan -->
-                                        <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-sm btn-outline-primary active">
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <button type="button" class="btn btn-sm btn-outline-primary active px-3">
                                                 Harian
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-outline-primary">
+                                            <button type="button" class="btn btn-sm btn-outline-primary px-3">
                                                 Mingguan
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-outline-primary">
+                                            <button type="button" class="btn btn-sm btn-outline-primary px-3">
                                                 Bulanan
                                             </button>
                                         </div>
 
-
-                                        <div class="dropdown">
-                                            <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                                    class="bi bi-three-dots"></i></a>
+                                        <!-- Dropdown -->
+                                        <div class="dropdown ms-lg-auto">
+                                            <a class="icon" href="#" data-bs-toggle="dropdown">
+                                                <i class="bi bi-three-dots"></i>
+                                            </a>
                                             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        Before Covid
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        Covid
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="#">
-                                                        After Covid
-                                                    </a>
-                                                </li>
+                                                <li><a class="dropdown-item" href="#">Before Covid</a></li>
+                                                <li><a class="dropdown-item" href="#">Covid</a></li>
+                                                <li><a class="dropdown-item" href="#">After Covid</a></li>
+                                                <li><a class="dropdown-item" href="#">All Periods</a></li>
                                             </ul>
                                         </div>
+
                                     </div>
+
                                     <!-- Line Chart -->
                                     <div id="reportsChart"></div>
                                     <script>
@@ -397,7 +372,6 @@
                                                             data: [80, 72, 65, 60, 75, 68, 55]
                                                         }
                                                     ],
-
                                                     chart: {
                                                         height: 350,
                                                         type: "area",
@@ -405,13 +379,10 @@
                                                             show: false
                                                         }
                                                     },
-
                                                     markers: {
                                                         size: 4
                                                     },
-
                                                     colors: ["#2eca6a", "#ff4d4f"],
-
                                                     fill: {
                                                         type: "gradient",
                                                         gradient: {
@@ -421,28 +392,16 @@
                                                             stops: [0, 90, 100]
                                                         }
                                                     },
-
                                                     dataLabels: {
                                                         enabled: false
                                                     },
-
                                                     stroke: {
                                                         curve: "smooth",
                                                         width: 3
                                                     },
-
                                                     xaxis: {
-                                                        categories: [
-                                                            "Sen",
-                                                            "Sel",
-                                                            "Rab",
-                                                            "Kam",
-                                                            "Jum",
-                                                            "Sab",
-                                                            "Min"
-                                                        ]
+                                                        categories: ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"]
                                                     },
-
                                                     tooltip: {
                                                         y: {
                                                             formatter: function (val) {
@@ -450,7 +409,6 @@
                                                             }
                                                         }
                                                     },
-
                                                     legend: {
                                                         position: "top"
                                                     }
@@ -460,6 +418,7 @@
                                         });
                                     </script>
                                     <!-- End Line Chart -->
+
                                 </div>
                             </div>
                         </div>
@@ -531,6 +490,7 @@
                                 <li><a class="dropdown-item" href="#">Before Covid</a></li>
                                 <li><a class="dropdown-item" href="#">Covid</a></li>
                                 <li><a class="dropdown-item" href="#">After Covid</a></li>
+                                <li><a class="dropdown-item" href="#">All Periods</a></li>
                             </ul>
                         </div>
 
@@ -602,8 +562,20 @@
                     <div class="card">
                         <div class="card-body pb-0">
                             <h5 class="card-title">
-                                Evaluasi Model
+                                Evaluasi Model <span>| IBT</span>
                             </h5>
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">IndoBERTweet</a></li>
+                                    <li><a class="dropdown-item" href="#">SVM</a></li>
+                                </ul>
+                            </div>
 
                             <div id="evaluasiModel" style="min-height: 400px" class="echart"></div>
                             <script>

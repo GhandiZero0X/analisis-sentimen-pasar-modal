@@ -1330,3 +1330,22 @@ h6 {
     gap: 8px;
   }
 }
+
+/* tambahan file dashboard.html */
+@media (max-width: 576px) {
+  .card-body .d-flex.flex-column.flex-lg-row {
+    gap: 0.75rem;
+  }
+
+  .card-body .d-flex.flex-wrap.gap-2 {
+    width: 100%;
+  }
+
+  .card-body .d-flex.flex-wrap.gap-2 .btn {
+    flex: 1 1 auto;
+  }
+
+  .card-body .dropdown {
+    align-self: flex-end;
+  }
+}
