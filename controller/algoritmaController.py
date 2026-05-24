@@ -249,6 +249,36 @@ def get_saham_detail():
         "sample"     : sample,
     })
 
+def _build_upload_trend(df: pd.DataFrame, date_col: str | None) -> list:
+    """
+    Build tren sentimen dari hasil labeling upload.
+    Output: [{label, positif, negatif, total}, ...]
+    """
+    if not date_col or date_col not in df.columns:
+        return []
+
+    tmp = df[[date_col, "sentiment_hasil"]].copy()
+    tmp[date_col] = pd.to_datetime(tmp[date_col], errors="coerce")
+    tmp = tmp.dropna(subset=[date_col])
+
+    if tmp.empty:
+        return []
+
+    # Default: harian
+    tmp["period_key"] = tmp[date_col].dt.strftime("%Y-%m-%d")
+
+    hasil = []
+    for key, grp in tmp.groupby("period_key", sort=True):
+        positif = int((grp["sentiment_hasil"].str.lower() == "positif").sum())
+        negatif = int((grp["sentiment_hasil"].str.lower() == "negatif").sum())
+        hasil.append({
+            "label": key,
+            "positif": positif,
+            "negatif": negatif,
+            "total": int(len(grp)),
+        })
+
+    return hasil
 
 def upload_csv():
     """
@@ -290,6 +320,9 @@ def upload_csv():
     sentiments = _predict_batch(texts, periode)
 
     df["sentiment_hasil"] = sentiments
+    
+    date_col = col_map.get("date")
+    trend_upload = _build_upload_trend(df, date_col)
 
     # Hitung distribusi hasil
     total   = len(df)
@@ -303,11 +336,12 @@ def upload_csv():
     preview = df[preview_cols].head(10).to_dict(orient="records")
 
     return jsonify({
-        "total"      : total,
-        "positif"    : positif,
-        "negatif"    : negatif,
+        "total": total,
+        "positif": positif,
+        "negatif": negatif,
         "pct_positif": round(positif / total * 100, 1) if total > 0 else 0,
         "pct_negatif": round(negatif / total * 100, 1) if total > 0 else 0,
-        "model_used" : f"IndoBERTweet ({PERIODE_LABEL.get(periode, periode)})",
-        "preview"    : preview,
+        "model_used": f"IndoBERTweet ({PERIODE_LABEL.get(periode, periode)})",
+        "preview": preview,
+        "trend_upload": trend_upload,
     })

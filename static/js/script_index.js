@@ -12,6 +12,7 @@ const state = {
 let trendChart = null;
 let comparisonChart = null;
 let uploadChart = null;
+let uploadTrendChart = null;
 
 // ── Chart.js default theme ───────────────────────────────
 Chart.defaults.color = "#8b949e";
@@ -192,8 +193,245 @@ function renderComparisonChart(distribusi) {
 }
 
 // ══════════════════════════════════════════════════════════
-//  TREND CHART
+//  TREND CHART — TradingView-like zoom & pan
 // ══════════════════════════════════════════════════════════
+let trendBaseData = null;
+let trendView = {
+  start: 0,
+  end: 0,
+};
+
+let trendDrag = {
+  active: false,
+  startX: 0,
+  startStart: 0,
+  startEnd: 0,
+};
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function getInitialTrendWindowSize(totalPoints) {
+  if (state.periodType === "daily") return Math.min(totalPoints, 120);
+  if (state.periodType === "weekly") return Math.min(totalPoints, 60);
+  return Math.min(totalPoints, 24);
+}
+
+function setInitialTrendWindow(totalPoints) {
+  const windowSize = getInitialTrendWindowSize(totalPoints);
+  trendView.start = Math.max(0, totalPoints - windowSize);
+  trendView.end = totalPoints - 1;
+}
+
+function getVisibleTrendCount() {
+  return trendView.end - trendView.start + 1;
+}
+
+function getTrendSlice() {
+  if (!trendBaseData) return null;
+
+  const s = trendView.start;
+  const e = trendView.end + 1;
+
+  return {
+    labels: trendBaseData.labels.slice(s, e),
+    positifs: trendBaseData.positifs.slice(s, e),
+    negatifs: trendBaseData.negatifs.slice(s, e),
+  };
+}
+
+function syncTrendChart() {
+  if (!trendChart || !trendBaseData) return;
+
+  const slice = getTrendSlice();
+  if (!slice) return;
+
+  trendChart.data.labels = slice.labels;
+  trendChart.data.datasets[0].data = slice.positifs;
+  trendChart.data.datasets[1].data = slice.negatifs;
+
+  const visibleCount = slice.labels.length;
+  const xTicks = trendChart.options.scales.x.ticks;
+
+  if (visibleCount <= 12) {
+    xTicks.autoSkip = false;
+    xTicks.maxTicksLimit = visibleCount;
+    xTicks.maxRotation = 0;
+  } else if (visibleCount <= 30) {
+    xTicks.autoSkip = true;
+    xTicks.maxTicksLimit = 12;
+    xTicks.maxRotation = 30;
+  } else {
+    xTicks.autoSkip = true;
+    xTicks.maxTicksLimit = 12;
+    xTicks.maxRotation = 45;
+  }
+
+  trendChart.update("none");
+}
+
+function zoomTrendAt(clientX, zoomFactor) {
+  if (!trendBaseData) return;
+
+  const total = trendBaseData.labels.length;
+  const currentSize = getVisibleTrendCount();
+  const nextSize = clamp(Math.round(currentSize * zoomFactor), 5, total);
+
+  const canvas = document.getElementById("trend-chart");
+  const rect = canvas.getBoundingClientRect();
+  const ratio = clamp((clientX - rect.left) / rect.width, 0, 1);
+
+  const anchorIndex = trendView.start + Math.round(ratio * Math.max(currentSize - 1, 1));
+  let newStart = anchorIndex - Math.floor(nextSize / 2);
+  let newEnd = newStart + nextSize - 1;
+
+  if (newStart < 0) {
+    newEnd += -newStart;
+    newStart = 0;
+  }
+  if (newEnd > total - 1) {
+    const shift = newEnd - (total - 1);
+    newStart = Math.max(0, newStart - shift);
+    newEnd = total - 1;
+  }
+
+  trendView.start = clamp(newStart, 0, total - 1);
+  trendView.end = clamp(newEnd, trendView.start, total - 1);
+
+  syncTrendChart();
+}
+
+function panTrendByPixels(deltaX) {
+  if (!trendBaseData) return;
+
+  const total = trendBaseData.labels.length;
+  const visibleCount = getVisibleTrendCount();
+  const canvas = document.getElementById("trend-chart");
+  const rect = canvas.getBoundingClientRect();
+
+  const pixelsPerPoint = rect.width / Math.max(visibleCount, 1);
+  const pointsShift = Math.round(-deltaX / pixelsPerPoint);
+
+  let newStart = trendDrag.startStart + pointsShift;
+  let newEnd = trendDrag.startEnd + pointsShift;
+
+  if (newStart < 0) {
+    newEnd += -newStart;
+    newStart = 0;
+  }
+  if (newEnd > total - 1) {
+    const overflow = newEnd - (total - 1);
+    newStart = Math.max(0, newStart - overflow);
+    newEnd = total - 1;
+  }
+
+  trendView.start = clamp(newStart, 0, total - 1);
+  trendView.end = clamp(newEnd, trendView.start, total - 1);
+
+  syncTrendChart();
+}
+
+function panTrendBySteps(direction) {
+  if (!trendBaseData) return;
+
+  const total = trendBaseData.labels.length;
+  const visibleCount = getVisibleTrendCount();
+
+  // semakin besar chart yang terlihat, semakin besar langkah gesernya
+  const stepSize = Math.max(1, Math.round(visibleCount / 20));
+  const shift = direction * stepSize;
+
+  let newStart = trendView.start + shift;
+  let newEnd = trendView.end + shift;
+
+  if (newStart < 0) {
+    newEnd += -newStart;
+    newStart = 0;
+  }
+
+  if (newEnd > total - 1) {
+    const overflow = newEnd - (total - 1);
+    newStart = Math.max(0, newStart - overflow);
+    newEnd = total - 1;
+  }
+
+  trendView.start = clamp(newStart, 0, total - 1);
+  trendView.end = clamp(newEnd, trendView.start, total - 1);
+
+  syncTrendChart();
+}
+
+function bindTrendInteractions() {
+  const canvas = document.getElementById("trend-chart");
+  if (!canvas || canvas.dataset.bound === "1") return;
+
+  const wrapper = document.querySelector(".trend-chart-wrapper");
+
+  canvas.addEventListener(
+    "wheel",
+    (e) => {
+      // Ctrl + scroll = zoom
+      if (e.ctrlKey) {
+        e.preventDefault();
+        const zoomFactor = e.deltaY < 0 ? 0.85 : 1.18;
+        zoomTrendAt(e.clientX, zoomFactor);
+        return;
+      }
+
+      // Shift + scroll = geser horizontal
+      if (e.shiftKey) {
+        e.preventDefault();
+
+        // scroll ke bawah -> geser ke kanan
+        // scroll ke atas  -> geser ke kiri
+        const direction = e.deltaY > 0 ? -1 : 1;
+        panTrendBySteps(direction);
+      }
+    },
+    { passive: false }
+  );
+
+  canvas.addEventListener("mousedown", (e) => {
+    if (!trendBaseData) return;
+
+    trendDrag.active = true;
+    trendDrag.startX = e.clientX;
+    trendDrag.startStart = trendView.start;
+    trendDrag.startEnd = trendView.end;
+
+    canvas.classList.add("is-dragging");
+    canvas.style.cursor = "grabbing";
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!trendDrag.active) return;
+    panTrendByPixels(e.clientX - trendDrag.startX);
+  });
+
+  window.addEventListener("mouseup", () => {
+    trendDrag.active = false;
+    canvas.classList.remove("is-dragging");
+    canvas.style.cursor = "grab";
+  });
+
+  canvas.addEventListener("mouseleave", () => {
+    if (!trendDrag.active) return;
+    trendDrag.active = false;
+    canvas.classList.remove("is-dragging");
+    canvas.style.cursor = "grab";
+  });
+
+  canvas.addEventListener("dblclick", () => {
+    if (!trendBaseData) return;
+    trendView.start = 0;
+    trendView.end = trendBaseData.labels.length - 1;
+    syncTrendChart();
+  });
+
+  canvas.dataset.bound = "1";
+}
+
 async function loadTrend() {
   showLoading("trend-loading");
   try {
@@ -213,32 +451,38 @@ function renderTrendChart(data) {
   const positifs = data.data.map(d => d.positif);
   const negatifs = data.data.map(d => d.negatif);
 
+  trendBaseData = { labels, positifs, negatifs };
+
   if (trendChart) trendChart.destroy();
 
+  const totalPoints = labels.length;
+  setInitialTrendWindow(totalPoints);
+
   const ctx = document.getElementById("trend-chart").getContext("2d");
+
   trendChart = new Chart(ctx, {
     type: "line",
     data: {
-      labels,
+      labels: [],
       datasets: [
         {
           label: "Positif",
-          data: positifs,
+          data: [],
           borderColor: "#3fb950",
           backgroundColor: "rgba(63,185,80,.1)",
           fill: true,
-          tension: 0.4,
+          tension: 0.35,
           pointRadius: 3,
           pointHoverRadius: 6,
           borderWidth: 2,
         },
         {
           label: "Negatif",
-          data: negatifs,
+          data: [],
           borderColor: "#f85149",
           backgroundColor: "rgba(248,81,73,.08)",
           fill: true,
-          tension: 0.4,
+          tension: 0.35,
           pointRadius: 3,
           pointHoverRadius: 6,
           borderWidth: 2,
@@ -249,6 +493,7 @@ function renderTrendChart(data) {
       responsive: true,
       maintainAspectRatio: false,
       interaction: { mode: "index", intersect: false },
+      animation: false,
       plugins: {
         legend: { position: "top" },
         tooltip: {
@@ -261,15 +506,35 @@ function renderTrendChart(data) {
       scales: {
         x: {
           grid: { color: "#e6ecf5" },
-          ticks: { maxTicksLimit: 12, maxRotation: 45 },
+          ticks: {
+            autoSkip: true,
+            maxTicksLimit: 12,
+            maxRotation: 45,
+          },
         },
         y: {
           grid: { color: "#e6ecf5" },
-          ticks: { callback: v => (v >= 1000 ? (v / 1000).toFixed(1) + "K" : v) },
+          ticks: {
+            callback: v => (v >= 1000 ? (v / 1000).toFixed(1) + "K" : v),
+          },
         },
       },
     },
   });
+
+  bindTrendInteractions();
+  syncTrendChart();
+
+  const resetBtn = document.getElementById("resetTrendZoom");
+  if (resetBtn && !resetBtn.dataset.bound) {
+    resetBtn.addEventListener("click", () => {
+      if (!trendBaseData) return;
+      trendView.start = 0;
+      trendView.end = trendBaseData.labels.length - 1;
+      syncTrendChart();
+    });
+    resetBtn.dataset.bound = "1";
+  }
 }
 
 // ══════════════════════════════════════════════════════════
@@ -412,6 +677,7 @@ document.getElementById("upload-form").addEventListener("submit", async function
     });
 
     // Preview table
+    // Preview table
     const tbody = document.querySelector("#upload-table tbody");
     tbody.innerHTML = data.preview.map(row => {
       const tweetKey = Object.keys(row).find(k =>
@@ -419,10 +685,94 @@ document.getElementById("upload-form").addEventListener("submit", async function
       ) || Object.keys(row)[0];
       const sent = row.sentiment_hasil || "";
       return `<tr>
-        <td style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${row[tweetKey] || "—"}</td>
-        <td><span class="${sent === "positif" ? "badge-pos" : "badge-neg"}">${sent}</span></td>
-      </tr>`;
+    <td style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${row[tweetKey] || "—"}</td>
+    <td><span class="${sent === "positif" ? "badge-pos" : "badge-neg"}">${sent}</span></td>
+  </tr>`;
     }).join("");
+
+    // Trend chart hasil upload
+    const uploadTrendSection = document.getElementById("upload-trend-section");
+    const uploadTrendEmpty = document.getElementById("upload-trend-empty");
+
+    if (uploadTrendChart) {
+      uploadTrendChart.destroy();
+      uploadTrendChart = null;
+    }
+
+    if (data.trend_upload && data.trend_upload.length > 0) {
+      uploadTrendSection.classList.remove("d-none");
+      uploadTrendEmpty.classList.add("d-none");
+
+      const trendLabels = data.trend_upload.map(x => x.label);
+      const trendPos = data.trend_upload.map(x => x.positif);
+      const trendNeg = data.trend_upload.map(x => x.negatif);
+
+      const trendCtx = document.getElementById("upload-trend-chart").getContext("2d");
+      uploadTrendChart = new Chart(trendCtx, {
+        type: "line",
+        data: {
+          labels: trendLabels,
+          datasets: [
+            {
+              label: "Positif",
+              data: trendPos,
+              borderColor: "#3fb950",
+              backgroundColor: "rgba(63,185,80,.12)",
+              fill: true,
+              tension: 0.35,
+              pointRadius: 3,
+              pointHoverRadius: 6,
+              borderWidth: 2,
+            },
+            {
+              label: "Negatif",
+              data: trendNeg,
+              borderColor: "#f85149",
+              backgroundColor: "rgba(248,81,73,.08)",
+              fill: true,
+              tension: 0.35,
+              pointRadius: 3,
+              pointHoverRadius: 6,
+              borderWidth: 2,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: "index", intersect: false },
+          plugins: {
+            legend: { position: "top" },
+            tooltip: {
+              callbacks: {
+                title: items => items[0].label,
+                label: ctx => ` ${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`,
+              },
+            },
+          },
+          scales: {
+            x: {
+              grid: { color: "#e6ecf5" },
+              ticks: {
+                autoSkip: true,
+                maxTicksLimit: 10,
+                maxRotation: 45,
+              },
+            },
+            y: {
+              beginAtZero: true,
+              grid: { color: "#e6ecf5" },
+              ticks: {
+                callback: v => (v >= 1000 ? (v / 1000).toFixed(1) + "K" : v),
+              },
+            },
+          },
+        },
+      });
+    } else {
+      uploadTrendSection.classList.add("d-none");
+      uploadTrendEmpty.classList.remove("d-none");
+    }
 
   } catch (err) {
     document.getElementById("upload-placeholder").classList.remove("d-none");
@@ -472,6 +822,19 @@ document.getElementById("trend-period-type").addEventListener("click", e => {
 
 // ── Init ─────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
+
+  // ambil tombol periode yang aktif
+  const activePeriodeBtn = document.querySelector(
+    "#filter-periode .btn-filter.active"
+  );
+
+  // sinkronkan state dengan tombol aktif
+  if (activePeriodeBtn) {
+    state.periode = activePeriodeBtn.dataset.value;
+  }
+
+  // load data awal
   loadDashboard();
   loadTrend();
+
 });

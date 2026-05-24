@@ -1,0 +1,149 @@
+<!-- partials/sidebar.html -->
+
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <!-- Dashboard -->
+    <li class="nav-item">
+      <a
+        class="nav-link {% if active_page == 'dashboard' %}active{% else %}collapsed{% endif %}"
+        href="{{ url_for('routes.dashboard_get') }}"
+      >
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li>
+
+    <!-- Dataset -->
+    <li class="nav-item">
+      <a
+        class="nav-link {% if active_menu == 'dataset' %}{% else %}collapsed{% endif %}"
+        data-bs-target="#database-nav"
+        data-bs-toggle="collapse"
+        href="#"
+      >
+        <i class="bi bi-database"></i>
+        <span>Dataset</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+
+      <ul
+        id="database-nav"
+        class="nav-content collapse {% if active_menu == 'dataset' %}show{% endif %}"
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a href="{{ url_for('routes.before_get') }}"
+             class="{% if active_page == 'before-covid' %}active{% endif %}">
+            <i class="bi bi-circle"></i>
+            <span>Before Covid</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('routes.covid_get') }}"
+             class="{% if active_page == 'covid' %}active{% endif %}">
+            <i class="bi bi-circle"></i>
+            <span>Covid</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('routes.after_get') }}"
+             class="{% if active_page == 'after-covid' %}active{% endif %}">
+            <i class="bi bi-circle"></i>
+            <span>After Covid</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('routes.all_period_get') }}"
+             class="{% if active_page == 'all-periods' %}active{% endif %}">
+            <i class="bi bi-circle"></i>
+            <span>All Periods</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Model -->
+    <li class="nav-item">
+      <a
+        class="nav-link {% if active_menu == 'model' %}{% else %}collapsed{% endif %}"
+        data-bs-target="#model-nav"
+        data-bs-toggle="collapse"
+        href="#"
+      >
+        <i class="bi bi-cpu"></i>
+        <span>Model Sentimen</span>
+        <i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+
+      <ul
+        id="model-nav"
+        class="nav-content collapse {% if active_menu == 'model' %}show{% endif %}"
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a href="{{ url_for('routes.modelDL_get') }}"
+             class="{% if active_page == 'modelDL' %}active{% endif %}">
+            <i class="bi bi-circle"></i>
+            <span>IndoBERTweet</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ url_for('routes.modelML_get') }}"
+             class="{% if active_page == 'modelML' %}active{% endif %}">
+            <i class="bi bi-circle"></i>
+            <span>SVM</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Komparasi -->
+    <li class="nav-item">
+      <a
+        class="nav-link {% if active_page == 'komparasi' %}active{% else %}collapsed{% endif %}"
+        href="{{ url_for('routes.komparasi_get') }}"
+      >
+        <i class="bi bi-bar-chart"></i>
+        <span>Komparasi Model</span>
+      </a>
+    </li>
+
+    <!-- Account -->
+    <li class="nav-heading">Account</li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link {% if active_page == 'list-accounts' %}active{% else %}collapsed{% endif %}"
+        href="{{ url_for('routes.list_accounts_get') }}"
+      >
+        <i class="bi bi-person"></i>
+        <span>List Account</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a
+        class="nav-link {% if active_page == 'profile' %}active{% else %}collapsed{% endif %}"
+        href="{{ url_for('routes.profile_get') }}"
+      >
+        <i class="bi bi-person"></i>
+        <span>Profile Admin</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{ url_for('routes.login_get') }}">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </a>
+    </li>
+
+  </ul>
+</aside>
+<!-- End Sidebar -->

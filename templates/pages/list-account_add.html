@@ -1,0 +1,242 @@
+<!-- pages/list-account_add.html -->
+{% extends "layout/baseAdmin.html" %}
+
+{% block title %}Add Account{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Add Account</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{{ url_for('routes.dashboard_get') }}">Home</a>
+      </li>
+
+      <li class="breadcrumb-item">
+        <a href="{{ url_for('routes.list_accounts_get') }}">List Account</a>
+      </li>
+
+      <li class="breadcrumb-item active">Add Account</li>
+    </ol>
+  </nav>
+</div>
+<!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <!-- Header -->
+          <div
+            class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4"
+          >
+            <div>
+              <h5 class="card-title mb-1">Tambah Akun Admin</h5>
+
+              <p class="text-muted small mb-0">
+                Tambahkan akun baru untuk administrator dashboard.
+              </p>
+            </div>
+
+            <div>
+              <span class="badge bg-primary-subtle text-primary px-3 py-2">
+                <i class="bi bi-person-plus-fill me-1"></i>
+                New Account
+              </span>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <form action="#" method="POST">
+            <div class="row g-4">
+              <!-- Full Name -->
+              <div class="col-md-6">
+                <label class="form-label">Full Name</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-person"></i>
+                  </span>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter full name"
+                  />
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="col-md-6">
+                <label class="form-label">Email Address</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-envelope"></i>
+                  </span>
+
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Enter email address"
+                  />
+                </div>
+              </div>
+
+              <!-- Phone -->
+              <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-telephone"></i>
+                  </span>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter phone number"
+                  />
+                </div>
+              </div>
+
+              <!-- Company -->
+              <div class="col-md-6">
+                <label class="form-label">Company</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-buildings"></i>
+                  </span>
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter company name"
+                    value="StockSenseID"
+                  />
+                </div>
+              </div>
+
+              <!-- Role -->
+              <div class="col-md-6">
+                <label class="form-label">Role</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-shield-lock"></i>
+                  </span>
+
+                  <select class="form-select">
+                    <option selected disabled>Select role</option>
+
+                    <option value="super-admin">Super Admin</option>
+
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Country -->
+              <div class="col-md-6">
+                <label class="form-label">Country</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-globe-asia-australia"></i>
+                  </span>
+
+                  <select class="form-select">
+                    <option selected>Indonesia</option>
+
+                    <option>Singapore</option>
+
+                    <option>Malaysia</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="col-md-6">
+                <label class="form-label">Password</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-lock"></i>
+                  </span>
+
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Enter password"
+                  />
+                </div>
+              </div>
+
+              <!-- Confirm Password -->
+              <div class="col-md-6">
+                <label class="form-label">Confirm Password</label>
+
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-shield-check"></i>
+                  </span>
+
+                  <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Re-enter password"
+                  />
+                </div>
+              </div>
+
+              <!-- Status -->
+              <div class="col-md-6">
+                <label class="form-label">Status Account</label>
+
+                <div class="d-flex gap-3 mt-2">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="status"
+                      checked
+                    />
+
+                    <label class="form-check-label">Active</label>
+                  </div>
+
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="status"
+                    />
+
+                    <label class="form-check-label">Pending</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer Button -->
+            <div class="d-flex justify-content-end gap-2 mt-5">
+              <a href="{{ url_for('routes.list_accounts_get') }}" class="btn btn-light border">Cancel</a>
+
+              <button
+                type="submit"
+                class="btn btn-primary d-flex align-items-center gap-2"
+              >
+                <i class="bi bi-save"></i>
+                Save Account
+              </button>
+            </div>
+          </form>
+          <!-- End Form -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

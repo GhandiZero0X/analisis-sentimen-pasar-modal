@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Halaman login admin
 def login_get():
-    return render_template("login.html")
+    return render_template("pages/login.html")
 
 def register_get():
-    return render_template("register.html")
+    return render_template("pages/register.html")

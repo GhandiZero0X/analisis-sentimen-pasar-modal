@@ -1,648 +1,405 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
-    <title>StockSenseID | Database</title>
-    <meta content="" name="description" />
-    <meta content="" name="keywords" />
-
-    <!-- Favicons -->
-    <link href="assets/img/Logo_StockSenseID.png" rel="icon" />
-    <link href="assets/img/Logo_StockSenseID.png" rel="apple-touch-icon" />
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet" />
-
-    <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
-    <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet" />
-    <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet" />
-    <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet" />
-    <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet" />
-    <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet" />
-
-    <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet" />
-</head>
-
-<body>
-    <!-- ======= Header ======= -->
-    <header id="header" class="header fixed-top d-flex align-items-center">
-        <!-- Start Logo -->
-        <div class="d-flex align-items-center justify-content-between">
-            <a href="dashboard.html" class="logo d-flex align-items-center">
-                <img src="assets/img/Logo_StockSenseID.png" alt="" />
-                <span class="d-none d-lg-flex align-items-center mb-0">
-                    StockSenseID
-                </span>
-            </a>
-            <i class="bi bi-list toggle-sidebar-btn"></i>
-        </div>
-        <!-- End Logo -->
-
-        <!-- Start Icons Navigation -->
-        <nav class="header-nav ms-auto">
-            <ul class="d-flex align-items-center">
-                <!-- Start Profile Dropdown Items -->
-                <li class="nav-item dropdown pe-3">
-                    <!-- Start Profile Image Icon -->
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="assets/img/avatar_1.jpg" alt="Profile" class="rounded-circle" />
-                        <span class="d-none d-md-block dropdown-toggle ps-2">Muhamad Ghandi Nur Setiawan</span>
-                    </a>
-                    <!-- End Profile Image Icon -->
-                    <!-- Start Profile Dropdown Items -->
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
-                        <li class="dropdown-header">
-                            <h6>Muhamad Ghandi Nur Setiawan</h6>
-                            <span>Super Admin</span>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="profile.html">
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- End Profile Dropdown Items -->
-                </li>
-                <!-- End Profile Nav -->
-            </ul>
-        </nav>
-        <!-- End Icons Navigation -->
-    </header>
-    <!-- End Header -->
-
-    <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar">
-        <ul class="sidebar-nav" id="sidebar-nav">
-
-            <!-- ===== Dashboard ===== -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="dashboard.html">
-                    <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-            <!-- End Dashboard -->
-
-            <!-- ===== Database ===== -->
-            <li class="nav-item">
-                <a class="nav-link" data-bs-target="#database-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-database"></i>
-                    <span>Dataset</span>
-                    <i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="database-nav" class="nav-content collapse show" data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="before-covid.html">
-                            <i class="bi bi-circle"></i>
-                            <span>Before Covid</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="covid.html">
-                            <i class="bi bi-circle"></i>
-                            <span>Covid</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="after-covid.html" class="active">
-                            <i class="bi bi-circle"></i>
-                            <span>After Covid</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="all-periods.html">
-                            <i class="bi bi-circle"></i>
-                            <span>All Periods</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </li>
-            <!-- End Database -->
-
-            <!-- ===== Model Sentiment ===== -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#model-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-cpu"></i>
-                    <span>Model Sentimen</span>
-                    <i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-
-                <ul id="model-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-                    <li>
-                        <a href="modelDL.html">
-                            <i class="bi bi-circle"></i>
-                            <span>IndoBERTweet</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="modelML.html">
-                            <i class="bi bi-circle"></i>
-                            <span>SVM</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </li>
-            <!-- End Model Sentiment -->
-
-            <!-- ===== Hasil Analisis ===== -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" data-bs-target="#analysis-nav" data-bs-toggle="collapse" href="#">
-                    <i class="bi bi-bar-chart-line"></i>
-                    <span>Hasil Analisis</span>
-                    <i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-
-                <ul id="analysis-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-
-                    <li>
-                        <a href="distribution.html">
-                            <i class="bi bi-circle"></i>
-                            <span>Distribusi Sentimen</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="trend.html">
-                            <i class="bi bi-circle"></i>
-                            <span>Tren Sentimen</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="prediction-result.html">
-                            <i class="bi bi-circle"></i>
-                            <span>Hasil Prediksi</span>
-                        </a>
-                    </li>
-
-                </ul>
-            </li>
-            <!-- End Hasil Analisis -->
-
-            <!-- ===== Admin ===== -->
-            <li class="nav-heading">Account</li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="list-account.html">
-                    <i class="bi bi-person collapsed"></i>
-                    <span>List Account</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="profile.html">
-                    <i class="bi bi-person"></i>
-                    <span>Profile Admin</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="login.html">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Logout</span>
-                </a>
-            </li>
-            <!-- End Admin -->
-
-        </ul>
-    </aside>
-    <!-- End Sidebar-->
-
-    <!-- ======= Main ======= -->
-    <main id="main" class="main">
-        <div class="pagetitle">
-            <h1>Database</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
-                    <li class="breadcrumb-item active">After Covid</li>
-                </ol>
-            </nav>
-        </div>
-        <!-- End Page Title -->
-
-        <section class="section dashboard">
-            <div class="row">
-                <!-- Total Tweet Card -->
-                <div class="col-xxl-4 col-md-6">
-                    <div class="card info-card shadow-sm">
-
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Total Tweet
-                            </h5>
-
-                            <div class="d-flex align-items-center">
-
-                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-                                    style="background-color: #4154f1;">
-                                    <i class="bi bi-chat-dots-fill"></i>
-                                </div>
-
-                                <div class="ps-3">
-                                    <h6>41.612</h6>
-                                    <span class="text-muted small">
-                                        Total data tweet yang dianalisis
-                                    </span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Total Tweet Card -->
-
-                <!-- Total Tweet Positif Card -->
-                <div class="col-xxl-4 col-md-6">
-                    <div class="card info-card shadow-sm">
-
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Sentimen Positif
-                            </h5>
-
-                            <div class="d-flex align-items-center">
-
-                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-                                    style="background-color: #28a745;">
-                                    <i class="bi bi-emoji-smile-fill"></i>
-                                </div>
-
-                                <div class="ps-3">
-                                    <h6>32.639</h6>
-                                    <span class="text-muted small">
-                                        Tweet dengan sentimen positif
-                                    </span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Positif Card -->
-
-                <!-- Total Tweet Negatif Card -->
-                <div class="col-xxl-4 col-md-6">
-                    <div class="card info-card shadow-sm">
-
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                Sentimen Negatif
-                            </h5>
-
-                            <div class="d-flex align-items-center">
-
-                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-                                    style="background-color: #ff4d4f;">
-                                    <i class="bi bi-emoji-frown-fill"></i>
-                                </div>
-
-                                <div class="ps-3">
-                                    <h6>8.973</h6>
-                                    <span class="text-muted small">
-                                        Tweet dengan sentimen negatif
-                                    </span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Negatif Card -->
-
-                <!-- ======= Distribusi Sentimen per Saham ======= -->
-                <div class="row pd-4 align-items-between">
-                    <div class="col-12">
-                        <div class="d-flex align-items-center mb-2">
-                            <h5 class="mb-0 section-title">
-                                Distribusi Sentimen persaham
-                            </h5>
-                        </div>
-                    </div>
-
-                    <div class="col-12">
-                        <div class="row g-4 ">
-
-                            <!-- BBRI -->
-                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                                <div class="stock-sentiment-card h-100">
-                                    <div class="stock-code-badge">BBRI</div>
-                                    <h6 class="stock-name">Bank BRI</h6>
-
-                                    <div class="progress stock-progress">
-                                        <div class="progress-bar" style="width: 73.7%; background-color: #28a745;">
-                                        </div>
-                                        <div class="progress-bar" style="width: 26.3%; background-color: #ff4d4f;">
-                                        </div>
-                                    </div>
-
-                                    <div class="sentiment-footer">
-                                        <div class="sentiment-stats align-items-center">
-                                            <span class="sentiment-up">↑ 73.7%</span>
-                                            <span class="sentiment-down">↓ 26.3%</span>
-                                        </div>
-                                        <div class="stock-total">20.061 Tweet</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- BMRI -->
-                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                                <div class="stock-sentiment-card h-100">
-                                    <div class="stock-code-badge">BMRI</div>
-                                    <h6 class="stock-name">Bank Mandiri</h6>
-
-                                    <div class="progress stock-progress">
-                                        <div class="progress-bar" style="width: 83.6%; background-color: #28a745;">
-                                        </div>
-                                        <div class="progress-bar" style="width: 16.4%; background-color: #ff4d4f;">
-                                        </div>
-                                    </div>
-
-                                    <div class="sentiment-footer">
-                                        <div class="sentiment-stats align-items-center">
-                                            <span class="sentiment-up">↑ 83.6%</span>
-                                            <span class="sentiment-down">↓ 16.4%</span>
-                                        </div>
-                                        <div class="stock-total">8.186 Tweet</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- ICBP -->
-                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                                <div class="stock-sentiment-card h-100">
-                                    <div class="stock-code-badge">ICBP</div>
-                                    <h6 class="stock-name">Indofood CBP</h6>
-
-                                    <div class="progress stock-progress">
-                                        <div class="progress-bar" style="width: 91.9%; background-color: #28a745;">
-                                        </div>
-                                        <div class="progress-bar" style="width: 8.1%; background-color: #ff4d4f;"></div>
-                                    </div>
-
-                                    <div class="sentiment-footer">
-                                        <div class="sentiment-stats align-items-center">
-                                            <span class="sentiment-up">↑ 91.9%</span>
-                                            <span class="sentiment-down">↓ 8.1%</span>
-                                        </div>
-                                        <div class="stock-total">1.686 Tweet</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- ISAT -->
-                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                                <div class="stock-sentiment-card h-100">
-                                    <div class="stock-code-badge">ISAT</div>
-                                    <h6 class="stock-name">Indosat</h6>
-
-                                    <div class="progress stock-progress">
-                                        <div class="progress-bar" style="width: 85.6%; background-color: #28a745;">
-                                        </div>
-                                        <div class="progress-bar" style="width: 14.4%; background-color: #ff4d4f;">
-                                        </div>
-                                    </div>
-
-                                    <div class="sentiment-footer">
-                                        <div class="sentiment-stats align-items-center">
-                                            <span class="sentiment-up">↑ 85.6%</span>
-                                            <span class="sentiment-down">↓ 14.4%</span>
-                                        </div>
-                                        <div class="stock-total">647 Tweet</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- TLKM -->
-                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                                <div class="stock-sentiment-card h-100">
-                                    <div class="stock-code-badge">TLKM</div>
-                                    <h6 class="stock-name">Telkom</h6>
-
-                                    <div class="progress stock-progress">
-                                        <div class="progress-bar" style="width: 85.9%; background-color: #28a745;">
-                                        </div>
-                                        <div class="progress-bar" style="width: 14.1%; background-color: #ff4d4f;">
-                                        </div>
-                                    </div>
-
-                                    <div class="sentiment-footer">
-                                        <div class="sentiment-stats align-items-center">
-                                            <span class="sentiment-up">↑ 85.9%</span>
-                                            <span class="sentiment-down">↓ 14.1%</span>
-                                        </div>
-                                        <div class="stock-total">7.126 Tweet</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- UNVR -->
-                            <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-                                <div class="stock-sentiment-card h-100">
-                                    <div class="stock-code-badge">UNVR</div>
-                                    <h6 class="stock-name">Unilever</h6>
-
-                                    <div class="progress stock-progress">
-                                        <div class="progress-bar" style="width: 71.4%; background-color: #28a745;">
-                                        </div>
-                                        <div class="progress-bar" style="width: 28.6%; background-color: #ff4d4f;">
-                                        </div>
-                                    </div>
-
-                                    <div class="sentiment-footer">
-                                        <div class="sentiment-stats align-items-center">
-                                            <span class="sentiment-up">↑ 71.4%</span>
-                                            <span class="sentiment-down">↓ 28.6%</span>
-                                        </div>
-                                        <div class="stock-total">3.906 Tweet</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <!-- ======= End Distribusi Sentimen per Saham ======= -->
-
-                <div class="col-lg-12 pt-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                <h5 class="card-title mb-0">Data Tweet Sentimen Saham</h5>
-
-                                <div class="d-flex align-items-center gap-2">
-                                    <label for="filterSaham" class="mb-0 text-muted small">Filter Saham:</label>
-                                    <select id="filterSaham" class="form-select form-select-sm" style="width: 140px;">
-                                        <option value="all">Semua</option>
-                                        <option value="BBRI">BBRI</option>
-                                        <option value="BMRI">BMRI</option>
-                                        <option value="ICBP">ICBP</option>
-                                        <option value="ISAT">ISAT</option>
-                                        <option value="TLKM">TLKM</option>
-                                        <option value="UNVR">UNVR</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="table-responsive mt-3">
-                                <table class="table table-hover align-middle">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Tanggal</th>
-                                            <th scope="col">Tweet</th>
-                                            <th scope="col">Sentimen</th>
-                                            <th scope="col">Saham</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody id="tweetTableBody">
-                                        <tr data-saham="BBRI">
-                                            <th scope="row">1</th>
-                                            <td>2023-01-01</td>
-                                            <td>Saham BBRI diprediksi mengalami kenaikan setelah laporan keuangan
-                                                positif...</td>
-                                            <td><span class="badge bg-success">Positif</span></td>
-                                            <td><span class="badge bg-primary">BBRI</span></td>
-                                        </tr>
-
-                                        <tr data-saham="UNVR">
-                                            <th scope="row">2</th>
-                                            <td>2023-01-02</td>
-                                            <td>Investor khawatir terhadap penurunan performa saham UNVR pada kuartal
-                                                ini...</td>
-                                            <td><span class="badge bg-danger">Negatif</span></td>
-                                            <td><span class="badge bg-primary">UNVR</span></td>
-                                        </tr>
-
-                                        <tr data-saham="BMRI">
-                                            <th scope="row">3</th>
-                                            <td>2023-01-03</td>
-                                            <td>BMRI menunjukkan tren penguatan di tengah sentimen pasar yang positif...
-                                            </td>
-                                            <td><span class="badge bg-success">Positif</span></td>
-                                            <td><span class="badge bg-primary">BMRI</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
-                                <small class="text-muted" id="tableInfo">
-                                    Menampilkan 1-50 dari 13.595 data
-                                </small>
-
-                                <nav>
-                                    <ul class="pagination pagination-sm mb-0">
-                                        <li class="page-item disabled">
-                                            <a class="page-link" href="#">Previous</a>
-                                        </li>
-                                        <li class="page-item active">
-                                            <a class="page-link" href="#">1</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">2</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">3</a>
-                                        </li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="before-covid.html?page=2">Next</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{% extends "layout/baseAdmin.html" %}
+
+{% block title %}After Covid{% endblock %}
+
+{% block content %}
+<div class="pagetitle">
+  <h1>Database</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+      <li class="breadcrumb-item active">After Covid</li>
+    </ol>
+  </nav>
+</div>
+<!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="row">
+    <!-- Total Tweet Card -->
+    <div class="col-xxl-4 col-md-6">
+      <div class="card info-card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Total Tweet</h5>
+
+          <div class="d-flex align-items-center">
+            <div
+              class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+              style="background-color: #4154f1"
+            >
+              <i class="bi bi-chat-dots-fill"></i>
             </div>
-        </section>
-    </main>
-    <!-- End #main -->
 
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; 2026 <strong><span>StockSenseID</span></strong>. Seluruh Hak Cipta Dilindungi.
+            <div class="ps-3">
+              <h6>41.612</h6>
+              <span class="text-muted small">
+                Total data tweet yang dianalisis
+              </span>
+            </div>
+          </div>
         </div>
+      </div>
+    </div>
+    <!-- End Total Tweet Card -->
 
-        <div class="credits">
-            Platform analisis sentimen saham berbasis data media sosial X untuk membantu memperoleh wawasan Sentimen
-            pasar
-            yang lebih
-            baik.
+    <!-- Total Tweet Positif Card -->
+    <div class="col-xxl-4 col-md-6">
+      <div class="card info-card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Sentimen Positif</h5>
+
+          <div class="d-flex align-items-center">
+            <div
+              class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+              style="background-color: #28a745"
+            >
+              <i class="bi bi-emoji-smile-fill"></i>
+            </div>
+
+            <div class="ps-3">
+              <h6>32.639</h6>
+              <span class="text-muted small">
+                Tweet dengan sentimen positif
+              </span>
+            </div>
+          </div>
         </div>
-    </footer>
-    <!-- End Footer -->
+      </div>
+    </div>
+    <!-- End Positif Card -->
 
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
+    <!-- Total Tweet Negatif Card -->
+    <div class="col-xxl-4 col-md-6">
+      <div class="card info-card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Sentimen Negatif</h5>
 
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
+          <div class="d-flex align-items-center">
+            <div
+              class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+              style="background-color: #ff4d4f"
+            >
+              <i class="bi bi-emoji-frown-fill"></i>
+            </div>
 
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
+            <div class="ps-3">
+              <h6>8.973</h6>
+              <span class="text-muted small">
+                Tweet dengan sentimen negatif
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Negatif Card -->
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const filterSaham = document.getElementById("filterSaham");
-            const rows = document.querySelectorAll("#tweetTableBody tr");
+    <!-- ======= Distribusi Sentimen per Saham ======= -->
+    <div class="row pd-4 align-items-between">
+      <div class="col-12">
+        <div class="d-flex align-items-center mb-2">
+          <h5 class="mb-0 section-title">Distribusi Sentimen persaham</h5>
+        </div>
+      </div>
 
-            filterSaham.addEventListener("change", () => {
-                const selected = filterSaham.value.toUpperCase();
+      <div class="col-12">
+        <div class="row g-4">
+          <!-- BBRI -->
+          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="stock-sentiment-card h-100">
+              <div class="stock-code-badge">BBRI</div>
+              <h6 class="stock-name">Bank BRI</h6>
 
-                rows.forEach((row) => {
-                    const saham = row.getAttribute("data-saham");
+              <div class="progress stock-progress">
+                <div
+                  class="progress-bar"
+                  style="width: 73.7%; background-color: #28a745"
+                ></div>
+                <div
+                  class="progress-bar"
+                  style="width: 26.3%; background-color: #ff4d4f"
+                ></div>
+              </div>
 
-                    if (selected === "ALL" || saham === selected) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
-                    }
-                });
-            });
-        });
-    </script>
-</body>
+              <div class="sentiment-footer">
+                <div class="sentiment-stats align-items-center">
+                  <span class="sentiment-up">↑ 73.7%</span>
+                  <span class="sentiment-down">↓ 26.3%</span>
+                </div>
+                <div class="stock-total">20.061 Tweet</div>
+              </div>
+            </div>
+          </div>
 
-</html>
+          <!-- BMRI -->
+          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="stock-sentiment-card h-100">
+              <div class="stock-code-badge">BMRI</div>
+              <h6 class="stock-name">Bank Mandiri</h6>
+
+              <div class="progress stock-progress">
+                <div
+                  class="progress-bar"
+                  style="width: 83.6%; background-color: #28a745"
+                ></div>
+                <div
+                  class="progress-bar"
+                  style="width: 16.4%; background-color: #ff4d4f"
+                ></div>
+              </div>
+
+              <div class="sentiment-footer">
+                <div class="sentiment-stats align-items-center">
+                  <span class="sentiment-up">↑ 83.6%</span>
+                  <span class="sentiment-down">↓ 16.4%</span>
+                </div>
+                <div class="stock-total">8.186 Tweet</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ICBP -->
+          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="stock-sentiment-card h-100">
+              <div class="stock-code-badge">ICBP</div>
+              <h6 class="stock-name">Indofood CBP</h6>
+
+              <div class="progress stock-progress">
+                <div
+                  class="progress-bar"
+                  style="width: 91.9%; background-color: #28a745"
+                ></div>
+                <div
+                  class="progress-bar"
+                  style="width: 8.1%; background-color: #ff4d4f"
+                ></div>
+              </div>
+
+              <div class="sentiment-footer">
+                <div class="sentiment-stats align-items-center">
+                  <span class="sentiment-up">↑ 91.9%</span>
+                  <span class="sentiment-down">↓ 8.1%</span>
+                </div>
+                <div class="stock-total">1.686 Tweet</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ISAT -->
+          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="stock-sentiment-card h-100">
+              <div class="stock-code-badge">ISAT</div>
+              <h6 class="stock-name">Indosat</h6>
+
+              <div class="progress stock-progress">
+                <div
+                  class="progress-bar"
+                  style="width: 85.6%; background-color: #28a745"
+                ></div>
+                <div
+                  class="progress-bar"
+                  style="width: 14.4%; background-color: #ff4d4f"
+                ></div>
+              </div>
+
+              <div class="sentiment-footer">
+                <div class="sentiment-stats align-items-center">
+                  <span class="sentiment-up">↑ 85.6%</span>
+                  <span class="sentiment-down">↓ 14.4%</span>
+                </div>
+                <div class="stock-total">647 Tweet</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TLKM -->
+          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="stock-sentiment-card h-100">
+              <div class="stock-code-badge">TLKM</div>
+              <h6 class="stock-name">Telkom</h6>
+
+              <div class="progress stock-progress">
+                <div
+                  class="progress-bar"
+                  style="width: 85.9%; background-color: #28a745"
+                ></div>
+                <div
+                  class="progress-bar"
+                  style="width: 14.1%; background-color: #ff4d4f"
+                ></div>
+              </div>
+
+              <div class="sentiment-footer">
+                <div class="sentiment-stats align-items-center">
+                  <span class="sentiment-up">↑ 85.9%</span>
+                  <span class="sentiment-down">↓ 14.1%</span>
+                </div>
+                <div class="stock-total">7.126 Tweet</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- UNVR -->
+          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
+            <div class="stock-sentiment-card h-100">
+              <div class="stock-code-badge">UNVR</div>
+              <h6 class="stock-name">Unilever</h6>
+
+              <div class="progress stock-progress">
+                <div
+                  class="progress-bar"
+                  style="width: 71.4%; background-color: #28a745"
+                ></div>
+                <div
+                  class="progress-bar"
+                  style="width: 28.6%; background-color: #ff4d4f"
+                ></div>
+              </div>
+
+              <div class="sentiment-footer">
+                <div class="sentiment-stats align-items-center">
+                  <span class="sentiment-up">↑ 71.4%</span>
+                  <span class="sentiment-down">↓ 28.6%</span>
+                </div>
+                <div class="stock-total">3.906 Tweet</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ======= End Distribusi Sentimen per Saham ======= -->
+
+    <div class="col-lg-12 pt-4">
+      <div class="card">
+        <div class="card-body">
+          <div
+            class="d-flex justify-content-between align-items-center flex-wrap gap-2"
+          >
+            <h5 class="card-title mb-0">Data Tweet Sentimen Saham</h5>
+
+            <div class="d-flex align-items-center gap-2">
+              <label for="filterSaham" class="mb-0 text-muted small">
+                Filter Saham:
+              </label>
+              <select
+                id="filterSaham"
+                class="form-select form-select-sm"
+                style="width: 140px"
+              >
+                <option value="all">Semua</option>
+                <option value="BBRI">BBRI</option>
+                <option value="BMRI">BMRI</option>
+                <option value="ICBP">ICBP</option>
+                <option value="ISAT">ISAT</option>
+                <option value="TLKM">TLKM</option>
+                <option value="UNVR">UNVR</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive mt-3">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Tanggal</th>
+                  <th scope="col">Tweet</th>
+                  <th scope="col">Sentimen</th>
+                  <th scope="col">Saham</th>
+                </tr>
+              </thead>
+
+              <tbody id="tweetTableBody">
+                <tr data-saham="BBRI">
+                  <th scope="row">1</th>
+                  <td>2023-01-01</td>
+                  <td>
+                    Saham BBRI diprediksi mengalami kenaikan setelah laporan
+                    keuangan positif...
+                  </td>
+                  <td><span class="badge bg-success">Positif</span></td>
+                  <td><span class="badge bg-primary">BBRI</span></td>
+                </tr>
+
+                <tr data-saham="UNVR">
+                  <th scope="row">2</th>
+                  <td>2023-01-02</td>
+                  <td>
+                    Investor khawatir terhadap penurunan performa saham UNVR
+                    pada kuartal ini...
+                  </td>
+                  <td><span class="badge bg-danger">Negatif</span></td>
+                  <td><span class="badge bg-primary">UNVR</span></td>
+                </tr>
+
+                <tr data-saham="BMRI">
+                  <th scope="row">3</th>
+                  <td>2023-01-03</td>
+                  <td>
+                    BMRI menunjukkan tren penguatan di tengah sentimen pasar
+                    yang positif...
+                  </td>
+                  <td><span class="badge bg-success">Positif</span></td>
+                  <td><span class="badge bg-primary">BMRI</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2"
+          >
+            <small class="text-muted" id="tableInfo">
+              Menampilkan 1-50 dari 13.595 data
+            </small>
+
+            <nav>
+              <ul class="pagination pagination-sm mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#">Previous</a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="before-covid.html?page=2">Next</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const filterSaham = document.getElementById("filterSaham");
+    const rows = document.querySelectorAll("#tweetTableBody tr");
+
+    filterSaham.addEventListener("change", () => {
+      const selected = filterSaham.value.toUpperCase();
+
+      rows.forEach((row) => {
+        const saham = row.getAttribute("data-saham");
+
+        if (selected === "ALL" || saham === selected) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}
