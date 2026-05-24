@@ -6,7 +6,7 @@ from pathlib import Path
 
 # ── Konstanta ──────────────────────────────────────────────
 BASE_DIR   = Path(__file__).resolve().parents[1]
-CSV_DIR    = BASE_DIR / "data" / "csv"
+CSV_DIR    = BASE_DIR / "data" / "csv" / "dl"
 
 VALID_SAHAM   = ["bbri", "bmri", "tlkm", "isat", "icbp", "unvr"]
 VALID_PERIODE = ["before", "covid", "after", "all_periods"]
