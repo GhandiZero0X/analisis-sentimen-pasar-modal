@@ -31,11 +31,11 @@ SAHAM_LABEL = {
 def load_csv(periode: str) -> pd.DataFrame | None:
     """
     Muat file CSV hasil labelling untuk periode tertentu.
-    File diasumsikan ada di:  data/csv/tweets_{periode}_labelling.csv
+    File diasumsikan ada di:  data/csv/tweets_{periode}_labelling_analisisDL.csv
     atau                      data/csv/tweets_{periode}.csv
     """
     kandidat = [
-        CSV_DIR / f"tweets_{periode}_labelling.csv",
+        CSV_DIR / f"tweets_{periode}_labelling_analisisDL.csv",
         CSV_DIR / f"tweets_{periode}.csv",
     ]
     for path in kandidat:
