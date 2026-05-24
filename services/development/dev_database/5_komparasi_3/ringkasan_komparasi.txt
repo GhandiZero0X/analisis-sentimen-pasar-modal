@@ -1,6 +1,6 @@
 RINGKASAN KOMPARASI MODEL — 2 TAHAP
 ======================================================================
-Tanggal    : 2026-05-20 17:28:16
+Tanggal    : 2026-05-25 02:58:14
 
 ALUR PEMILIHAN:
   Tahap 1: Pilih pemenang per skenario
@@ -13,10 +13,6 @@ ALUR PEMILIHAN:
 
   Threshold 'hampir sama' : selisih accuracy < 0.001
 
-  Scenario 1 : netral buang jadi 2 class
-  Scenario 2 : netralnya masukkan saja kelass salah satu negatif/positif
-  Scenario 3 : netralnya masukkan ke model 3 class
-
 ──────────────────────────────────────────────────────────────────────
 TAHAP 1 — HASIL PER SKENARIO:
 ──────────────────────────────────────────────────────────────────────
@@ -24,8 +20,8 @@ TAHAP 1 — HASIL PER SKENARIO:
   [Scenario 1 (Lexicon, 2 kls)]
   Model            Mean Acc  Mean F1   Mean RT
   ────────────────────────────────────────────
-  SVM                0.9469   0.9312    14.08s
-  IndoBERTweet       0.9828   0.9781  3785.50s
+  SVM                0.9469   0.9312    11.94s
+  IndoBERTweet       0.9828   0.9781  3473.49s
   ────────────────────────────────────────────
   🏆 Pemenang : IndoBERTweet
   Alasan     : accuracy lebih tinggi (SVM:0.9469 vs IndoBERTweet:0.9828, selisih 0.0359)
@@ -55,10 +51,10 @@ TAHAP 1 — DETAIL PER PERIODE:
   [Scenario 1 (Lexicon, 2 kls)]
   Periode                SVM Acc   IBT Acc    SVM RT    IBT RT        Pemenang
   ────────────────────────────────────────────────────────────────────────────
-  Sebelum COVID           0.9531    0.9612      3.35    758.04    IndoBERTweet
-  Masa COVID              0.9403    0.9916     11.50   4223.89    IndoBERTweet
-  Setelah COVID           0.9457    0.9840      7.81   2634.81    IndoBERTweet
-  Semua Periode           0.9486    0.9944     33.67   7525.25    IndoBERTweet
+  Sebelum COVID           0.9531    0.9612      2.99    784.55    IndoBERTweet
+  Masa COVID              0.9403    0.9916     12.17   3491.14    IndoBERTweet
+  Setelah COVID           0.9457    0.9840      7.75   2703.22    IndoBERTweet
+  Semua Periode           0.9486    0.9944     24.85   6915.04    IndoBERTweet
 
   [Scenario 2 (Lexicon, 2 kls)]
   Periode                SVM Acc   IBT Acc    SVM RT    IBT RT        Pemenang
@@ -81,7 +77,7 @@ TAHAP 2 — KOMPARASI FINAL (3 PEMENANG SKENARIO):
 ──────────────────────────────────────────────────────────────────────
   No  Skenario                         Model             MeanAcc   MeanF1   MeanRT
   ───────────────────────────────────────────────────────────────────────────
-  1   Scenario 1 (Lexicon, 2 kls)      IndoBERTweet       0.9828   0.9781  3785.50s ← 🏆 TERBAIK
+  1   Scenario 1 (Lexicon, 2 kls)      IndoBERTweet       0.9828   0.9781  3473.49s ← 🏆 TERBAIK
   2   Scenario 3 (Lexicon, 3 kls)      IndoBERTweet       0.9671   0.9653  6220.17s
   3   Scenario 2 (Lexicon, 2 kls)      IndoBERTweet       0.9483   0.9193  6146.30s
 
@@ -91,7 +87,7 @@ KESIMPULAN FINAL:
   Model terbaik   : IndoBERTweet (Scenario 1 (Lexicon, 2 kls))
   Mean Accuracy   : 0.9828
   Mean F1 macro   : 0.9781
-  Mean Runtime    : 3785.50 detik
+  Mean Runtime    : 3473.49 detik
 
   → Direkomendasikan untuk sistem (Tujuan Penelitian #1)
 ======================================================================
@@ -101,14 +97,14 @@ TABEL LENGKAP SEMUA METRIK:
   Skn  Model           Periode                 Acc     F1w     F1m     TrRt     EvRt    TotRt
 ──────────────────────────────────────────────────────────────────────
   [Scenario 1 (Lexicon, 2 kls)]
-  S1   SVM             Sebelum COVID        0.9531  0.9533  0.9451     2.78     0.57     3.35
-  S1   IndoBERTweet    Sebelum COVID        0.9612  0.9609  0.9535   747.34    10.70   758.04
-  S1   SVM             Masa COVID           0.9403  0.9410  0.9219    10.91     0.59    11.50
-  S1   IndoBERTweet    Masa COVID           0.9916  0.9916  0.9887  4192.74    31.15  4223.89
-  S1   SVM             Setelah COVID        0.9457  0.9464  0.9253     7.14     0.67     7.81
-  S1   IndoBERTweet    Setelah COVID        0.9840  0.9841  0.9775  2611.94    22.87  2634.81
-  S1   SVM             Semua Periode        0.9486  0.9491  0.9323    32.32     1.35    33.67
-  S1   IndoBERTweet    Semua Periode        0.9944  0.9944  0.9925  7458.96    66.29  7525.25
+  S1   SVM             Sebelum COVID        0.9531  0.9533  0.9451     2.43     0.56     2.99
+  S1   IndoBERTweet    Sebelum COVID        0.9612  0.9609  0.9535   769.23    15.32   784.55
+  S1   SVM             Masa COVID           0.9403  0.9410  0.9219    11.61     0.56    12.17
+  S1   IndoBERTweet    Masa COVID           0.9916  0.9916  0.9887  3462.32    28.82  3491.14
+  S1   SVM             Setelah COVID        0.9457  0.9464  0.9253     7.18     0.57     7.75
+  S1   IndoBERTweet    Setelah COVID        0.9840  0.9841  0.9775  2679.68    23.54  2703.22
+  S1   SVM             Semua Periode        0.9486  0.9491  0.9323    23.94     0.91    24.85
+  S1   IndoBERTweet    Semua Periode        0.9944  0.9944  0.9925  6861.45    53.59  6915.04
 ──────────────────────────────────────────────────────────────────────
   [Scenario 2 (Lexicon, 2 kls)]
   S2   SVM             Sebelum COVID        0.9092  0.9127  0.8625     5.75     0.75     6.50

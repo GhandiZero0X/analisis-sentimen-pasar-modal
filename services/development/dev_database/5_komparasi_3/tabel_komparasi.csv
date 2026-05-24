@@ -1,12 +1,12 @@
 ﻿scenario,period,model,accuracy,f1_weighted,f1_macro,train_rt,eval_rt,infer_rt,total_rt,scenario_label,period_label
-S1,before,SVM,0.9531,0.9533,0.9451,2.78,0.57,0.0,3.3499999999999996,"Scenario 1 (Lexicon, 2 kls)",Sebelum COVID
-S1,before,IndoBERTweet,0.9612,0.9609,0.9535,747.34,10.7,5.5,758.0400000000001,"Scenario 1 (Lexicon, 2 kls)",Sebelum COVID
-S1,covid,SVM,0.9403,0.941,0.9219,10.91,0.59,0.0,11.5,"Scenario 1 (Lexicon, 2 kls)",Masa COVID
-S1,covid,IndoBERTweet,0.9916,0.9916,0.9887,4192.74,31.15,24.75,4223.889999999999,"Scenario 1 (Lexicon, 2 kls)",Masa COVID
-S1,after,SVM,0.9457,0.9464,0.9253,7.14,0.67,0.0,7.81,"Scenario 1 (Lexicon, 2 kls)",Setelah COVID
-S1,after,IndoBERTweet,0.984,0.9841,0.9775,2611.94,22.87,17.97,2634.81,"Scenario 1 (Lexicon, 2 kls)",Setelah COVID
-S1,all_periods,SVM,0.9486,0.9491,0.9323,32.32,1.35,0.0,33.67,"Scenario 1 (Lexicon, 2 kls)",Semua Periode
-S1,all_periods,IndoBERTweet,0.9944,0.9944,0.9925,7458.96,66.29,52.14,7525.25,"Scenario 1 (Lexicon, 2 kls)",Semua Periode
+S1,before,SVM,0.9531,0.9533,0.9451,2.43,0.56,0.0,2.99,"Scenario 1 (Lexicon, 2 kls)",Sebelum COVID
+S1,before,IndoBERTweet,0.9612,0.9609,0.9535,769.23,15.32,5.83,784.5500000000001,"Scenario 1 (Lexicon, 2 kls)",Sebelum COVID
+S1,covid,SVM,0.9403,0.941,0.9219,11.61,0.56,0.0,12.17,"Scenario 1 (Lexicon, 2 kls)",Masa COVID
+S1,covid,IndoBERTweet,0.9916,0.9916,0.9887,3462.32,28.82,24.31,3491.1400000000003,"Scenario 1 (Lexicon, 2 kls)",Masa COVID
+S1,after,SVM,0.9457,0.9464,0.9253,7.18,0.57,0.0,7.75,"Scenario 1 (Lexicon, 2 kls)",Setelah COVID
+S1,after,IndoBERTweet,0.984,0.9841,0.9775,2679.68,23.54,18.89,2703.22,"Scenario 1 (Lexicon, 2 kls)",Setelah COVID
+S1,all_periods,SVM,0.9486,0.9491,0.9323,23.94,0.91,0.0,24.85,"Scenario 1 (Lexicon, 2 kls)",Semua Periode
+S1,all_periods,IndoBERTweet,0.9944,0.9944,0.9925,6861.45,53.59,48.81,6915.04,"Scenario 1 (Lexicon, 2 kls)",Semua Periode
 S2,before,SVM,0.9092,0.9127,0.8625,5.75,0.75,0.0,6.5,"Scenario 2 (Lexicon, 2 kls)",Sebelum COVID
 S2,before,IndoBERTweet,0.9293,0.927,0.8765,1412.4,54.23,43.15,1466.63,"Scenario 2 (Lexicon, 2 kls)",Sebelum COVID
 S2,covid,SVM,0.8953,0.8985,0.8595,26.33,0.6,0.0,26.93,"Scenario 2 (Lexicon, 2 kls)",Masa COVID
