@@ -429,6 +429,133 @@ function bindTrendInteractions() {
     syncTrendChart();
   });
 
+  // ═══════════════════════════════════════
+  // MOBILE TOUCH SUPPORT
+  // pinch zoom + swipe pan
+  // ═══════════════════════════════════════
+
+  let touchStartDistance = null;
+  let touchStartWindow = null;
+
+  canvas.addEventListener(
+    "touchstart",
+    (e) => {
+
+      // PAN 1 JARI
+      if (e.touches.length === 1) {
+        trendDrag.active = true;
+        trendDrag.startX = e.touches[0].clientX;
+        trendDrag.startStart = trendView.start;
+        trendDrag.startEnd = trendView.end;
+      }
+
+      // PINCH 2 JARI
+      if (e.touches.length === 2) {
+        trendDrag.active = false;
+
+        const dx =
+          e.touches[0].clientX - e.touches[1].clientX;
+
+        const dy =
+          e.touches[0].clientY - e.touches[1].clientY;
+
+        touchStartDistance = Math.sqrt(dx * dx + dy * dy);
+
+        touchStartWindow = {
+          start: trendView.start,
+          end: trendView.end,
+        };
+      }
+    },
+    { passive: false }
+  );
+
+  canvas.addEventListener(
+    "touchmove",
+    (e) => {
+
+      // PAN
+      if (e.touches.length === 1 && trendDrag.active) {
+
+        const currentX = e.touches[0].clientX;
+
+        panTrendByPixels(currentX - trendDrag.startX);
+      }
+
+      // PINCH ZOOM
+      if (
+        e.touches.length === 2 &&
+        touchStartDistance &&
+        touchStartWindow
+      ) {
+
+        e.preventDefault();
+
+        const dx =
+          e.touches[0].clientX - e.touches[1].clientX;
+
+        const dy =
+          e.touches[0].clientY - e.touches[1].clientY;
+
+        const currentDistance = Math.sqrt(dx * dx + dy * dy);
+
+        const scale =
+          touchStartDistance / currentDistance;
+
+        const total = trendBaseData.labels.length;
+
+        const originalSize =
+          touchStartWindow.end -
+          touchStartWindow.start +
+          1;
+
+        const newSize = clamp(
+          Math.round(originalSize * scale),
+          5,
+          total
+        );
+
+        const center =
+          Math.round(
+            (touchStartWindow.start +
+              touchStartWindow.end) / 2
+          );
+
+        let newStart =
+          center - Math.floor(newSize / 2);
+
+        let newEnd =
+          newStart + newSize - 1;
+
+        if (newStart < 0) {
+          newEnd += -newStart;
+          newStart = 0;
+        }
+
+        if (newEnd > total - 1) {
+          const overflow = newEnd - (total - 1);
+          newStart = Math.max(
+            0,
+            newStart - overflow
+          );
+          newEnd = total - 1;
+        }
+
+        trendView.start = newStart;
+        trendView.end = newEnd;
+
+        syncTrendChart();
+      }
+    },
+    { passive: false }
+  );
+
+  canvas.addEventListener("touchend", () => {
+    trendDrag.active = false;
+    touchStartDistance = null;
+    touchStartWindow = null;
+  });
+
   canvas.dataset.bound = "1";
 }
 
