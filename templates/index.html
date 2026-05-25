@@ -75,11 +75,11 @@
 
               <li>
                 <a
-                  class="dropdown-item text-primary"
+                  class="dropdown-item"
                   href="#"
                   onclick="changeModel('SVM', this)"
                 >
-                  <i class="bi bi-diagram-3 me-2 text-primary"></i>
+                  <i class="bi bi-diagram-3 me-2"></i>
                   SVM
                 </a>
               </li>
@@ -136,6 +136,18 @@
                   </div>
                   <div class="stat-value" id="total-positif">—</div>
                   <div class="stat-label">Tweet Positif</div>
+                </div>
+              </div>
+              <div class="col-6" id="stat-card-netral" style="display: none">
+                <div class="stat-card">
+                  <div
+                    class="stat-icon"
+                    style="background: rgba(227, 179, 65, 0.15); color: #e3b341"
+                  >
+                    <i class="bi bi-dash-circle"></i>
+                  </div>
+                  <div class="stat-value" id="total-netral">—</div>
+                  <div class="stat-label">Tweet Netral</div>
                 </div>
               </div>
               <div class="col-6">
@@ -339,12 +351,21 @@
                   </div>
                 </div>
                 <div class="mb-3">
+                  <label class="form-label">Gunakan Model</label>
+                  <select class="form-select" id="upload-model">
+                    <option value="dl">IndoBERTweet (2 label)</option>
+                    <option value="svm">
+                      Support Vector Machine (3 label)
+                    </option>
+                  </select>
+                </div>
+                <div class="mb-3">
                   <label class="form-label">Gunakan Model Periode</label>
                   <select class="form-select" id="upload-periode">
-                    <option value="all_periods">Semua Periode</option>
                     <option value="before">Sebelum COVID</option>
                     <option value="covid">Masa COVID</option>
                     <option value="after">Setelah COVID</option>
+                    <option value="all_periods">Semua Periode</option>
                   </select>
                 </div>
                 <button

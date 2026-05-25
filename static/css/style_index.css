@@ -981,3 +981,47 @@ main {
     height: 360px;
   }
 }
+
+/* ── Tri-color bar untuk SVM ─────────────────────────────── */
+.saham-bar-multi {
+  display        : flex;
+  height         : 6px;
+  border-radius  : 999px;
+  overflow       : hidden;
+  background     : #e6ecf5;
+}
+ 
+.saham-bar-pos,
+.saham-bar-net,
+.saham-bar-neg {
+  height     : 100%;
+  transition : width .6s ease;
+}
+ 
+.saham-bar-pos { background: #3fb950; }
+.saham-bar-net { background: #e3b341; }
+.saham-bar-neg { background: #f85149; }
+ 
+/* ── Badge netral ────────────────────────────────────────── */
+.badge-net {
+  display          : inline-block;
+  padding          : 2px 8px;
+  border-radius    : 999px;
+  font-size        : .72rem;
+  font-weight      : 600;
+  background-color : rgba(227,179,65,.15);
+  color            : #e3b341;
+  border           : 1px solid rgba(227,179,65,.4);
+}
+ 
+/* ── Saham-stats tambahan warna netral ───────────────────── */
+.saham-stats .net {
+  color      : #e3b341;
+  font-size  : .75rem;
+  font-weight: 600;
+}
+ 
+/* ── CSS variable netral (opsional, jika dipakai di JS) ──── */
+:root {
+  --netral: #e3b341;
+}

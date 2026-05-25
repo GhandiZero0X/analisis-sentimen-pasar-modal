@@ -7,9 +7,11 @@ from pathlib import Path
 # ── Konstanta ──────────────────────────────────────────────
 BASE_DIR   = Path(__file__).resolve().parents[1]
 CSV_DIR    = BASE_DIR / "data" / "csv" / "dl"
+CSV_DIR_ML = BASE_DIR / "data" / "csv" / "ml"
 
 VALID_SAHAM   = ["bbri", "bmri", "tlkm", "isat", "icbp", "unvr"]
 VALID_PERIODE = ["before", "covid", "after", "all_periods"]
+VALID_MODEL   = ["dl", "svm"]
 
 PERIODE_LABEL = {
     "before"     : "Sebelum COVID",
@@ -28,31 +30,49 @@ SAHAM_LABEL = {
 }
 
 # ── Load CSV ───────────────────────────────────────────────
-def load_csv(periode: str) -> pd.DataFrame | None:
+def load_csv(periode: str, model: str = "dl") -> pd.DataFrame | None:
     """
-    Muat file CSV hasil labelling untuk periode tertentu.
-    File diasumsikan ada di:  data/csv/tweets_{periode}_labelling_analisisDL.csv
-    atau                      data/csv/tweets_{periode}.csv
+    Muat file CSV hasil labelling untuk periode dan model tertentu.
+    model: 'dl' | 'svm'
     """
-    kandidat = [
-        CSV_DIR / f"tweets_{periode}_labelling_analisisDL.csv",
-        CSV_DIR / f"tweets_{periode}.csv",
-    ]
-    for path in kandidat:
+    if model == "svm":
+        # Mapping periode ke nama file ML
+        name_map = {
+            "before"     : "tweets_before_labelling_analisisML.csv",
+            "covid"      : "tweets_covid_labelling_analisisML.csv",
+            "after"      : "tweets_after_labelling_analisisML.csv",
+            "all_periods": "tweets_all_periods_labelling_analisisML.csv",
+        }
+        filename = name_map.get(periode)
+        if not filename:
+            return None
+        path = CSV_DIR_ML / filename
         if path.exists():
             df = pd.read_csv(path, dtype=str).fillna("")
-            # Pastikan kolom wajib ada
             required = {"date", "tweet", "sentiment", "saham"}
             if required.issubset(set(df.columns)):
                 return df
-    return None
+        return None
+    else:
+        # DL — path lama
+        kandidat = [
+            CSV_DIR / f"tweets_{periode}_labelling_analisisDL.csv",
+            CSV_DIR / f"tweets_{periode}.csv",
+        ]
+        for path in kandidat:
+            if path.exists():
+                df = pd.read_csv(path, dtype=str).fillna("")
+                required = {"date", "tweet", "sentiment", "saham"}
+                if required.issubset(set(df.columns)):
+                    return df
+        return None
 
 
-def load_all_csv() -> pd.DataFrame:
+def load_all_csv(model: str = "dl") -> pd.DataFrame:
     """Gabungkan semua periode ke satu DataFrame."""
     frames = []
     for periode in VALID_PERIODE:
-        df = load_csv(periode)
+        df = load_csv(periode, model)
         if df is not None:
             df["periode"] = periode
             frames.append(df)
@@ -62,39 +82,45 @@ def load_all_csv() -> pd.DataFrame:
 
 
 # ── Statistik sentimen ─────────────────────────────────────
-def hitung_distribusi(df: pd.DataFrame) -> dict:
+def hitung_distribusi(df: pd.DataFrame, model: str = "dl") -> dict:
     """
-    Hitung jumlah & persentase positif / negatif per saham.
-    Return: {saham: {positif: N, negatif: N, total: N, pct_positif: F}}
+    Hitung jumlah & persentase positif / negatif (+ netral untuk SVM) per saham.
+    Return: {saham: {positif: N, negatif: N, netral: N, total: N, pct_*: F}}
     """
     result = {}
     for saham in VALID_SAHAM:
         sub = df[df["saham"].str.lower() == saham]
-        total    = len(sub)
-        positif  = (sub["sentiment"].str.lower() == "positif").sum()
-        negatif  = (sub["sentiment"].str.lower() == "negatif").sum()
-        result[saham] = {
+        total   = len(sub)
+        positif = int((sub["sentiment"].str.lower() == "positif").sum())
+        negatif = int((sub["sentiment"].str.lower() == "negatif").sum())
+        netral  = int((sub["sentiment"].str.lower() == "netral").sum()) if model == "svm" else 0
+
+        entry = {
             "label"      : SAHAM_LABEL.get(saham, saham.upper()),
-            "total"      : int(total),
-            "positif"    : int(positif),
-            "negatif"    : int(negatif),
+            "total"      : total,
+            "positif"    : positif,
+            "negatif"    : negatif,
             "pct_positif": round(positif / total * 100, 1) if total > 0 else 0,
             "pct_negatif": round(negatif / total * 100, 1) if total > 0 else 0,
         }
+        if model == "svm":
+            entry["netral"]     = netral
+            entry["pct_netral"] = round(netral / total * 100, 1) if total > 0 else 0
+
+        result[saham] = entry
     return result
 
 
-def hitung_tren(df: pd.DataFrame, saham: str, period_type: str = "monthly") -> list:
+def hitung_tren(df: pd.DataFrame, saham: str, period_type: str = "monthly", model: str = "dl") -> list:
     """
     Hitung tren sentimen per periode waktu untuk satu saham.
     period_type: 'daily' | 'weekly' | 'monthly'
-    Return: list of {label, positif, negatif, total}
+    Return: list of {label, positif, negatif, netral (SVM only), total}
     """
     sub = df[df["saham"].str.lower() == saham].copy()
     if sub.empty:
         return []
 
-    # Parse tanggal
     sub["date"] = pd.to_datetime(sub["date"], errors="coerce")
     sub = sub.dropna(subset=["date"])
 
@@ -102,30 +128,29 @@ def hitung_tren(df: pd.DataFrame, saham: str, period_type: str = "monthly") -> l
         sub["period_key"] = sub["date"].dt.strftime("%Y-%m-%d")
     elif period_type == "weekly":
         sub["period_key"] = sub["date"].dt.strftime("%Y-W%W")
-    else:  # monthly (default)
+    else:
         sub["period_key"] = sub["date"].dt.strftime("%Y-%m")
 
     hasil = []
     for key, grp in sub.groupby("period_key", sort=True):
         total   = len(grp)
-        positif = (grp["sentiment"].str.lower() == "positif").sum()
-        negatif = (grp["sentiment"].str.lower() == "negatif").sum()
-        hasil.append({
+        positif = int((grp["sentiment"].str.lower() == "positif").sum())
+        negatif = int((grp["sentiment"].str.lower() == "negatif").sum())
+        entry = {
             "label"  : key,
-            "positif": int(positif),
-            "negatif": int(negatif),
-            "total"  : int(total),
-        })
+            "positif": positif,
+            "negatif": negatif,
+            "total"  : total,
+        }
+        if model == "svm":
+            entry["netral"] = int((grp["sentiment"].str.lower() == "netral").sum())
+        hasil.append(entry)
 
     return hasil
 
 
 # ── Validasi & bersihkan CSV upload ───────────────────────
 def validasi_csv_upload(df: pd.DataFrame) -> tuple[bool, str]:
-    """
-    Pastikan CSV yang diupload memiliki kolom minimum.
-    Return: (valid: bool, pesan: str)
-    """
     required = {"tweet"}
     cols = set(df.columns.str.lower())
     missing = required - cols
@@ -139,7 +164,7 @@ def validasi_csv_upload(df: pd.DataFrame) -> tuple[bool, str]:
 
 
 def clean_tweet_for_inference(text: str) -> str:
-    """Bersihkan teks untuk inferensi model (sama dengan preprocessing DL)."""
+    """Bersihkan teks untuk inferensi model."""
     if not isinstance(text, str) or text.strip() == "":
         return ""
     t = text
