@@ -970,6 +970,7 @@ main {
 .trend-chart-wrapper canvas {
   cursor: grab;
   user-select: none;
+  touch-action: none;
 }
 
 .trend-chart-wrapper canvas.is-dragging {
@@ -1024,4 +1025,99 @@ main {
 /* ── CSS variable netral (opsional, jika dipakai di JS) ──── */
 :root {
   --netral: #e3b341;
+}
+
+/* ── Upload Result — Mobile Responsive ─────────────────── */
+
+/* Stat card: font adaptif */
+.stat-card {
+  padding: 10px 6px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(1,41,112,.08);
+  height: 100%;
+}
+
+.stat-card .stat-value {
+  font-size: clamp(1.1rem, 4vw, 1.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  word-break: break-all;
+}
+
+.stat-card .stat-label {
+  font-size: clamp(0.65rem, 2.5vw, 0.78rem);
+  color: #899bbd;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-top: 4px;
+  line-height: 1.3;
+}
+
+.stat-card .stat-label small {
+  font-size: 0.85em;
+  opacity: 0.85;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Row summary: pastikan wrap dengan benar */
+#upload-summary {
+  row-gap: 0.5rem !important;
+}
+
+/* Tombol CSV/Excel: lebih kompak di mobile */
+@media (max-width: 480px) {
+  #upload-result .d-flex.justify-content-between {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  #upload-result .d-flex.gap-2 .btn {
+    font-size: 0.72rem;
+    padding: 4px 8px;
+  }
+
+  /* Chart donut lebih kecil di HP */
+  .chart-container-sm {
+    height: 160px !important;
+  }
+}
+
+/* Doughnut chart legend: stack vertikal di layar sangat kecil */
+@media (max-width: 380px) {
+  .chart-container-sm {
+    height: 140px !important;
+  }
+}
+
+/* ── Hero decorations: SVM mode ─────────────────────────── */
+.svm-active .stock-unvr {
+  display: none;
+}
+
+.svm-active .stock-icbp {
+  top: 220px;
+  left: 62%;
+}
+
+/* Geser semua dekorasi ke kiri saat SVM agar tidak overlap stat cards */
+.svm-active .hero-decorations {
+  left: -40px;
+}
+
+.svm-active .stock-unvr {
+  top: 200px;
+  left: 2%;
+}
+
+.svm-active .stock-icbp {
+  top: 140px;
+  left: 50%;
+}
+
+.svm-active .stock-isat {
+  top: 340px;
+  left: 10%;
 }

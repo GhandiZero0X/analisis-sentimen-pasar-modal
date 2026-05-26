@@ -321,7 +321,7 @@
         </h2>
         <p class="section-sub">
           Unggah file CSV berisi tweet untuk dianalisis menggunakan model
-          IndoBERTweet
+          pilihan
         </p>
       </div>
 
@@ -329,64 +329,97 @@
         <div class="card-body">
           <div class="row g-4">
             <div class="col-lg-5">
-              <form id="upload-form" novalidate>
-                <div class="mb-3">
-                  <label class="form-label">
-                    File CSV
-                    <span class="text-danger">*</span>
-                  </label>
-                  <input
-                    type="file"
-                    class="form-control"
-                    id="upload-file"
-                    accept=".csv"
-                    required
-                  />
-                  <div class="form-text">
-                    Format: kolom
-                    <code>tweet</code>
-                    atau
-                    <code>text</code>
-                    wajib ada. Maks. 10.000 baris.
-                  </div>
+              <div class="mb-3">
+                <label class="form-label">
+                  File CSV
+                  <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="upload-file"
+                  accept=".csv"
+                  required
+                />
+                <div class="form-text">
+                  Kolom wajib:
+                  <code>tweet</code>
+                  /
+                  <code>text</code>
+                  /
+                  <code>teks</code>
+                  . Kolom opsional:
+                  <code>date</code>
+                  (untuk grafik tren). Maks. 10.000 baris.
                 </div>
-                <div class="mb-3">
-                  <label class="form-label">Gunakan Model</label>
-                  <select class="form-select" id="upload-model">
-                    <option value="dl">IndoBERTweet (2 label)</option>
-                    <option value="svm">
-                      Support Vector Machine (3 label)
-                    </option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Gunakan Model Periode</label>
-                  <select class="form-select" id="upload-periode">
-                    <option value="before">Sebelum COVID</option>
-                    <option value="covid">Masa COVID</option>
-                    <option value="after">Setelah COVID</option>
-                    <option value="all_periods">Semua Periode</option>
-                  </select>
-                </div>
-                <button
-                  type="submit"
-                  class="btn btn-accent w-100"
-                  id="upload-btn"
-                >
-                  <span class="btn-text">
-                    <i class="bi bi-cpu me-2"></i>
-                    Analisis Sekarang
-                  </span>
-                  <span class="btn-loading d-none">
-                    <div class="spinner-border spinner-border-sm me-2"></div>
-                    Memproses…
-                  </span>
-                </button>
-              </form>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Gunakan Model</label>
+                <select class="form-select" id="upload-model">
+                  <option value="dl">IndoBERTweet (DL — 2 label)</option>
+                  <option value="svm">
+                    Support Vector Machine (SVM — 3 label)
+                  </option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Gunakan Model Periode</label>
+                <select class="form-select" id="upload-periode">
+                  <option value="before">Sebelum COVID</option>
+                  <option value="covid">Masa COVID</option>
+                  <option value="after">Setelah COVID</option>
+                  <option value="all_periods">Semua Periode</option>
+                </select>
+              </div>
+
+              <button
+                type="button"
+                class="btn btn-accent w-100"
+                id="upload-btn"
+                onclick="submitUpload()"
+              >
+                <span class="btn-text">
+                  <i class="bi bi-cpu me-2"></i>
+                  Analisis Sekarang
+                </span>
+                <span class="btn-loading d-none">
+                  <div class="spinner-border spinner-border-sm me-2"></div>
+                  Memproses…
+                </span>
+              </button>
             </div>
+
             <div class="col-lg-7">
               <div id="upload-result" class="d-none">
-                <h6 class="mb-3">Hasil Analisis</h6>
+                <div
+                  class="d-flex align-items-start justify-content-between mb-1"
+                >
+                  <h6 class="mb-0">Hasil Analisis</h6>
+                  <div class="d-flex gap-2">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-success"
+                      onclick="downloadHasil('csv')"
+                      title="Download CSV"
+                    >
+                      <i class="bi bi-filetype-csv me-1"></i>
+                      CSV
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-success"
+                      onclick="downloadHasil('xlsx')"
+                      title="Download Excel"
+                    >
+                      <i class="bi bi-file-earmark-excel me-1"></i>
+                      Excel
+                    </button>
+                  </div>
+                </div>
+                <p class="small text-muted mb-3" id="upload-model-used"></p>
+
                 <div class="row g-3 mb-3" id="upload-summary"></div>
 
                 <div class="chart-container-sm mb-4">
@@ -409,23 +442,8 @@
                     </table>
                   </div>
                 </div>
-
-                <div class="mt-4" id="upload-trend-section">
-                  <h6 class="mb-2 small text-muted">
-                    Tren Sentimen Hasil Upload
-                  </h6>
-                  <div class="chart-container-sm">
-                    <canvas id="upload-trend-chart"></canvas>
-                  </div>
-                  <div
-                    id="upload-trend-empty"
-                    class="small text-muted mt-2 d-none"
-                  >
-                    Kolom tanggal tidak ditemukan, jadi tren waktu belum bisa
-                    dibuat.
-                  </div>
-                </div>
               </div>
+
               <div id="upload-placeholder" class="upload-placeholder">
                 <i class="bi bi-file-earmark-bar-graph"></i>
                 <p>Hasil analisis akan tampil di sini</p>
@@ -435,68 +453,85 @@
         </div>
       </div>
 
-      <!-- Hasil Upload Grafik tren -->
-      <div class="section-header">
-        <h2 class="section-title">
-          <i class="bi bi-graph-up"></i>
-          Tren Sentimen
-        </h2>
-      </div>
+      <!-- Tren Sentimen Hasil Upload (muncul setelah upload berhasil) -->
+      <div id="upload-trend-section" class="d-none">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="bi bi-graph-up"></i>
+            Tren Sentimen Hasil Upload
+          </h2>
+        </div>
 
-      <div class="card dashboard-card mb-5">
-        <div class="card-body">
-          <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
-            <div>
-              <label class="form-label mb-1 small text-muted">
-                Pilih Saham
-              </label>
-              <select class="form-select form-select-sm" id="trend-saham">
-                <option value="bbri">BBRI — Bank BRI</option>
-                <option value="bmri">BMRI — Bank Mandiri</option>
-                <option value="tlkm">TLKM — Telkom</option>
-                <option value="isat">ISAT — Indosat</option>
-                <option value="icbp">ICBP — Indofood CBP</option>
-                <option value="unvr">UNVR — Unilever</option>
-              </select>
-            </div>
+        <div class="card dashboard-card mb-4">
+          <div class="card-body">
+            <div class="d-flex flex-wrap gap-3 align-items-center mb-4">
+              <div>
+                <label class="form-label mb-1 small text-muted">
+                  Pilih Saham
+                </label>
+                <select
+                  class="form-select form-select-sm"
+                  id="upload-trend-saham"
+                >
+                  <option value="bbri">BBRI — Bank BRI</option>
+                  <option value="bmri">BMRI — Bank Mandiri</option>
+                  <option value="tlkm">TLKM — Telkom</option>
+                  <option value="isat">ISAT — Indosat</option>
+                  <option value="icbp">ICBP — Indofood CBP</option>
+                  <option value="unvr">UNVR — Unilever</option>
+                </select>
+              </div>
 
-            <div>
-              <label class="form-label mb-1 small text-muted">Interval :</label>
-              <div class="btn-group gap-2" role="group" id="trend-period-type">
-                <button class="btn btn-filter-sm" data-value="daily">
-                  Harian
-                </button>
-                <button class="btn btn-filter-sm" data-value="weekly">
-                  Mingguan
-                </button>
-                <button class="btn btn-filter-sm active" data-value="monthly">
-                  Bulanan
-                </button>
+              <div>
+                <label class="form-label mb-1 small text-muted">
+                  Interval :
+                </label>
+                <div
+                  class="btn-group gap-2"
+                  role="group"
+                  id="upload-trend-period-type"
+                >
+                  <button class="btn btn-filter-sm" data-value="daily">
+                    Harian
+                  </button>
+                  <button class="btn btn-filter-sm" data-value="weekly">
+                    Mingguan
+                  </button>
+                  <button class="btn btn-filter-sm active" data-value="monthly">
+                    Bulanan
+                  </button>
+                </div>
+              </div>
+
+              <div class="ms-auto d-flex gap-2">
                 <button
                   type="button"
                   class="btn btn-sm btn-outline-secondary"
-                  id="resetTrendZoom"
+                  id="resetUploadTrendZoom"
                 >
                   Reset Zoom
                 </button>
               </div>
             </div>
 
-            <div id="trend-loading" class="d-none ms-auto">
-              <div
-                class="spinner-border spinner-border-sm text-accent"
-                role="status"
-              ></div>
+            <div class="chart-container trend-chart-wrapper">
+              <canvas id="upload-trend-chart"></canvas>
+            </div>
+
+            <div class="mt-2 small text-muted">
+              Tips: drag untuk geser chart, scroll untuk zoom, dan di HP bisa
+              pinch 2 jari.
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="chart-container trend-chart-wrapper">
-            <canvas id="trend-chart"></canvas>
-          </div>
-
-          <div class="mt-2 small text-muted">
-            Tips: drag untuk geser chart, scroll di atas chart untuk zoom.
-          </div>
+      <div id="upload-trend-empty" class="d-none">
+        <div class="alert alert-secondary small mt-2">
+          <i class="bi bi-info-circle me-1"></i>
+          Kolom
+          <code>date</code>
+          tidak ditemukan — grafik tren tidak tersedia.
         </div>
       </div>
     </main>

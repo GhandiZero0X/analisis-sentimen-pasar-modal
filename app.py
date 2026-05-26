@@ -11,7 +11,6 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = "sentimen-saham-secret-key"
 
-    # Daftarkan blueprint
     app.register_blueprint(routes_bp)
 
     return app
@@ -20,5 +19,10 @@ def create_app():
 if __name__ == "__main__":
     app = create_app()
 
-    # supaya bisa diakses dari HP lewat jaringan WiFi yang sama
-    app.run(host="0.0.0.0", port=5000, debug=True, threaded=True)
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=True,
+        threaded=True,
+        use_reloader=False,   # ← tambahan ini saja
+    )
