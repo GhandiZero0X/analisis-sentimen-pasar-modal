@@ -515,7 +515,7 @@ def step_evaluasi(
         "recall":     binary_recall,
         "f1_score":   binary_f1,
         "best_epoch": best_epoch,
-    }]).to_csv(str(model_dir / "evaluation_metrics.csv"), index=False, encoding="utf-8-sig")
+    }]).to_csv(str(model_dir / "evaluation_metrics.csv"), index=False, encoding="utf-8")
 
     set_status(job_id, "Evaluasi: membuat training curve...", 76)
 

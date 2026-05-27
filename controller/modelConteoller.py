@@ -32,7 +32,7 @@ _job_status: dict = {}
 def _read_csv(filepath: str) -> list[dict]:
     rows = []
     if os.path.exists(filepath):
-        with open(filepath, newline="", encoding="utf-8") as f:
+        with open(filepath, newline="", encoding="utf-8-sig") as f:
             reader = csv.DictReader(f)
             for row in reader:
                 rows.append(row)
@@ -86,7 +86,7 @@ def _build_dl_context(period: str) -> dict:
         "periods":       PERIOD_LABELS,
         "active_period": period,
         "period_label":  PERIOD_LABELS.get(period, "Before Covid"),
-        "period_folder": PERIOD_MAP.get(period, PERIOD_MAP["before"]),
+        "period_folder": PERIOD_MAP.get(period, PERIOD_MAP["before"]).replace("data/", "", 1),
         "metrics":       _get_metrics(period),
         "runtime":       _get_runtime(period),
     }
