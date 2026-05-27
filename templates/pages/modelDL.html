@@ -315,7 +315,6 @@
 </section>
 {% endblock %}
 
-
 {% block scripts %}
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -325,7 +324,6 @@
     function setStep(activeStep) {
       steps.forEach((step) => {
         const stepNum = parseInt(step.dataset.step, 10);
-
         step.classList.remove("active", "completed");
 
         if (stepNum < activeStep) {
@@ -336,7 +334,11 @@
       });
 
       const width = ((activeStep - 1) / (steps.length - 1)) * 100;
-      if (progress) progress.style.width = `${width}%`;
+
+      if (progress) {
+        progress.style.width = `${width}%`;
+        progress.classList.toggle("done", activeStep === steps.length);
+      }
     }
 
     steps.forEach((step) => {
@@ -345,7 +347,7 @@
       });
     });
 
-    setStep(1);
+    setStep(5);
   });
 </script>
 {% endblock %}
