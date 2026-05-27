@@ -54,26 +54,6 @@
       </div>
     </div>
 
-    <!-- Pipeline -->
-    <div class="col-12">
-      <div class="pipeline-card">
-        <div class="pipeline-header">
-          <h5 class="mb-1">Proses Update Model</h5>
-          <small class="text-muted">Alur kerja update model</small>
-        </div>
-        <div class="pipeline-steps">
-          <div class="pipeline-track"></div>
-          <div class="pipeline-progress" id="pipelineProgress"></div>
-          {% for num, label in [('1','Preprocessing'),('2','Modelling'),('3','Evaluasi'),('4','Komparasi'),('5','Analisis')] %}
-          <div class="pipeline-step {% if loop.last %}active{% endif %}" data-step="{{ num }}">
-            <div class="step-dot">{{ num }}</div>
-            <div class="step-label">{{ label }}</div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-
     <!-- Ringkasan Model -->
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
@@ -242,29 +222,132 @@
 
 {% block scripts %}
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const steps    = document.querySelectorAll(".pipeline-step");
-    const progress = document.getElementById("pipelineProgress");
+document.addEventListener("DOMContentLoaded", () => {
+  // ── Pipeline step indicator ──
+  const steps    = document.querySelectorAll(".pipeline-step");
+  const progress = document.getElementById("pipelineProgress");
 
-    function setStep(activeStep) {
-      steps.forEach((step) => {
-        const n = parseInt(step.dataset.step, 10);
-        step.classList.remove("active", "completed");
-        if (n < activeStep)      step.classList.add("completed");
-        else if (n === activeStep) step.classList.add("active");
-      });
-      if (progress) {
-        const pct = (activeStep - 1) / (steps.length - 1);
-        progress.style.transform = `scaleX(${pct})`;
-        progress.classList.toggle("done", activeStep === steps.length);
-      }
+  function setStep(n) {
+    steps.forEach(s => {
+      const sn = parseInt(s.dataset.step, 10);
+      s.classList.remove("active", "completed");
+      if (sn < n) s.classList.add("completed");
+      else if (sn === n) s.classList.add("active");
+    });
+    if (progress) {
+      progress.style.transform = `scaleX(${(n - 1) / (steps.length - 1)})`;
+      progress.classList.toggle("done", n === steps.length);
     }
+  }
+  steps.forEach(s => s.addEventListener("click", () => setStep(parseInt(s.dataset.step, 10))));
+  setStep(5);
 
-    steps.forEach((s) =>
-      s.addEventListener("click", () => setStep(parseInt(s.dataset.step, 10)))
-    );
+  // ── Preview File ──
+  document.getElementById("btnPreviewFile").addEventListener("click", async () => {
+    const file = document.getElementById("csvUpload").files[0];
+    if (!file) { alert("Pilih file CSV terlebih dahulu."); return; }
 
-    setStep(5);
+    const fd = new FormData();
+    fd.append("csv_file", file);
+
+    const res  = await fetch("{{ url_for('routes.preview_csv_post') }}", { method: "POST", body: fd });
+    const data = await res.json();
+
+    if (data.error) { alert("Error: " + data.error); return; }
+
+    // Render tabel preview
+    let html = `<div class="table-responsive mt-3">
+      <p class="text-muted small mb-1">Preview 5 baris pertama — <strong>${file.name}</strong></p>
+      <table class="table table-sm table-bordered table-hover small">
+        <thead class="table-light"><tr>`;
+    data.columns.forEach(c => html += `<th>${c}</th>`);
+    html += `</tr></thead><tbody>`;
+    data.rows.forEach(r => {
+      html += "<tr>";
+      data.columns.forEach(c => html += `<td>${r[c] ?? ""}</td>`);
+      html += "</tr>";
+    });
+    html += `</tbody></table></div>`;
+
+    let previewEl = document.getElementById("csvPreview");
+    if (!previewEl) {
+      previewEl = document.createElement("div");
+      previewEl.id = "csvPreview";
+      document.querySelector(".card-body form").insertAdjacentElement("afterend", previewEl);
+    }
+    previewEl.innerHTML = html;
   });
+
+  // ── Update Model dengan progress polling ──
+  document.getElementById("btnUpdateModel").addEventListener("click", async () => {
+    const file   = document.getElementById("csvUpload").files[0];
+    const period = document.getElementById("modelTarget").value;
+    if (!file) { alert("Pilih file CSV terlebih dahulu."); return; }
+
+    if (!confirm(`Update model periode "${period}" dengan file "${file.name}"?`)) return;
+
+    const fd = new FormData();
+    fd.append("csv_file", file);
+    fd.append("model_target", period);
+
+    // Tampilkan progress bar
+    showProgressBar();
+
+    const res  = await fetch("{{ url_for('routes.update_model_post') }}", { method: "POST", body: fd });
+    const data = await res.json();
+    if (data.error) { alert("Error: " + data.error); hideProgressBar(); return; }
+
+    pollStatus(data.job_id);
+  });
+
+  function showProgressBar() {
+    let el = document.getElementById("updateProgressWrap");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "updateProgressWrap";
+      el.className = "mt-3";
+      el.innerHTML = `
+        <div class="d-flex justify-content-between mb-1">
+          <small id="updateStepLabel" class="text-muted">Menunggu...</small>
+          <small id="updatePctLabel" class="text-muted">0%</small>
+        </div>
+        <div class="progress" style="height:10px">
+          <div id="updateProgressBar" class="progress-bar progress-bar-striped progress-bar-animated"
+               role="progressbar" style="width:0%"></div>
+        </div>`;
+      document.querySelector(".card-body form").insertAdjacentElement("afterend", el);
+    }
+    el.style.display = "block";
+  }
+
+  function hideProgressBar() {
+    const el = document.getElementById("updateProgressWrap");
+    if (el) el.style.display = "none";
+  }
+
+  function pollStatus(jobId) {
+    const interval = setInterval(async () => {
+      const res  = await fetch(`{{ url_for('routes.job_status_get') }}?job_id=${jobId}`);
+      const data = await res.json();
+
+      document.getElementById("updateStepLabel").textContent = data.step;
+      document.getElementById("updatePctLabel").textContent  = data.progress + "%";
+      document.getElementById("updateProgressBar").style.width = data.progress + "%";
+
+      if (data.done) {
+        clearInterval(interval);
+        if (data.error) {
+          document.getElementById("updateProgressBar").classList.add("bg-danger");
+          alert("Pipeline gagal: " + data.error);
+        } else {
+          document.getElementById("updateProgressBar").classList.remove("progress-bar-animated");
+          document.getElementById("updateProgressBar").classList.add("bg-success");
+          alert("✅ Model berhasil diperbarui! Halaman akan di-reload.");
+          location.reload();
+        }
+      }
+    }, 2000);  // polling tiap 2 detik
+  }
+});
 </script>
 {% endblock %}
