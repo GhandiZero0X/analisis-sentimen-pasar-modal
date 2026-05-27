@@ -15,7 +15,7 @@ from flask import request, jsonify, render_template, current_app
 from transformers import AutoConfig, AutoTokenizer, AutoModelForSequenceClassification
 from utils.util import (
     load_csv, load_all_csv,
-    hitung_distribusi, hitung_tren,
+    hitung_distribusi, hitung_tren, hitung_tren_all,
     validasi_csv_upload, clean_tweet_for_inference,
     VALID_SAHAM, VALID_PERIODE, VALID_MODEL,
     PERIODE_LABEL, SAHAM_LABEL,
@@ -539,7 +539,8 @@ def get_trend_data():
     period_type = request.args.get("period_type", "monthly")
     model       = _get_model_param()
 
-    if saham not in VALID_SAHAM:
+    # "all" berarti semua saham digabung
+    if saham != "all" and saham not in VALID_SAHAM:
         return jsonify({"error": "saham tidak valid"}), 400
     if periode not in VALID_PERIODE:
         return jsonify({"error": "periode tidak valid"}), 400
@@ -550,11 +551,16 @@ def get_trend_data():
     if df is None:
         return jsonify({"error": "Data tidak ditemukan"}), 404
 
-    tren = hitung_tren(df, saham, period_type, model)
+    if saham == "all":
+        tren       = hitung_tren_all(df, period_type, model)
+        saham_label = "Semua Saham"
+    else:
+        tren       = hitung_tren(df, saham, period_type, model)
+        saham_label = SAHAM_LABEL.get(saham, saham.upper())
 
     return jsonify({
         "saham"      : saham,
-        "saham_label": SAHAM_LABEL.get(saham, saham.upper()),
+        "saham_label": saham_label,
         "periode"    : periode,
         "period_type": period_type,
         "model"      : model,

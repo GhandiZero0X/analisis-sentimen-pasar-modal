@@ -148,6 +148,41 @@ def hitung_tren(df: pd.DataFrame, saham: str, period_type: str = "monthly", mode
 
     return hasil
 
+def hitung_tren_all(df: pd.DataFrame, period_type: str = "monthly", model: str = "dl") -> list:
+    """
+    Hitung tren sentimen per periode waktu untuk SEMUA saham digabung.
+    """
+    sub = df.copy()
+    if sub.empty:
+        return []
+
+    sub["date"] = pd.to_datetime(sub["date"], errors="coerce")
+    sub = sub.dropna(subset=["date"])
+
+    if period_type == "daily":
+        sub["period_key"] = sub["date"].dt.strftime("%Y-%m-%d")
+    elif period_type == "weekly":
+        sub["period_key"] = sub["date"].dt.strftime("%Y-W%W")
+    else:
+        sub["period_key"] = sub["date"].dt.strftime("%Y-%m")
+
+    hasil = []
+    for key, grp in sub.groupby("period_key", sort=True):
+        total   = len(grp)
+        positif = int((grp["sentiment"].str.lower() == "positif").sum())
+        negatif = int((grp["sentiment"].str.lower() == "negatif").sum())
+        entry = {
+            "label"  : key,
+            "positif": positif,
+            "negatif": negatif,
+            "total"  : total,
+        }
+        if model == "svm":
+            entry["netral"] = int((grp["sentiment"].str.lower() == "netral").sum())
+        hasil.append(entry)
+
+    return hasil
+
 
 # ── Validasi & bersihkan CSV upload ───────────────────────
 def validasi_csv_upload(df: pd.DataFrame) -> tuple[bool, str]:

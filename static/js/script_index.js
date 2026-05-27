@@ -3,13 +3,12 @@
 
 // ── State ────────────────────────────────────────────────
 const state = {
-  periode: "before",
-  trendSaham: "bbri",
-  periodType: "monthly",
-  model: "dl",
-  // Upload trend state
+  periode        : "before",
+  trendSaham     : "all",
+  periodType     : "monthly",
+  model          : "dl",
   uploadPeriodType: "monthly",
-  uploadSaham: "bbri",
+  uploadSaham    : "all",
 };
 
 // ── Chart instances ──────────────────────────────────────
@@ -1124,6 +1123,10 @@ document.getElementById("trend-period-type")?.addEventListener("click", e => {
 document.addEventListener("DOMContentLoaded", () => {
   const activePeriodeBtn = document.querySelector("#filter-periode .btn-filter.active");
   if (activePeriodeBtn) state.periode = activePeriodeBtn.dataset.value;
+
+  // Sync dropdown saham dengan state default
+  const trendSahamEl = document.getElementById("trend-saham");
+  if (trendSahamEl) trendSahamEl.value = state.trendSaham;
 
   const netralCard = document.getElementById("stat-card-netral");
   if (netralCard) netralCard.style.display = "none";
