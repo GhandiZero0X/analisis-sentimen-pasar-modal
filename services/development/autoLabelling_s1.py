@@ -10,14 +10,11 @@ from tqdm import tqdm
 BASE_DIR = Path(__file__).resolve().parent
 
 INPUT_DIR = BASE_DIR / "dev_database" / "1_raw"
-OUTPUT_DIR = BASE_DIR / "dev_database" / "2_labellingLexicon"
+OUTPUT_DIR = BASE_DIR / "dev_database" / "2_labelling_S1S3"
 KAMUS_FILE = BASE_DIR / "kamus" / "kamuskatabaku.xlsx"
 
 FILES = [
-    "tweets_before_covid.csv",
-    "tweets_covid.csv",
-    "tweets_after_covid.csv",
-    "tweets_all_periods.csv"
+    "tweets_after_covid_baru.csv",
 ]
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
