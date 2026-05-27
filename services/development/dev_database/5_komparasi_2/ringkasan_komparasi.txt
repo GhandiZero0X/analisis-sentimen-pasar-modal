@@ -1,87 +1,23 @@
-RINGKASAN KOMPARASI — SVM vs IndoBERTweet
-==========================================================================================
-Tanggal : 2026-05-20 04:32:19
+RINGKASAN KOMPARASI MODEL — S1 DL vs S3 ML
+======================================================================
+Tanggal    : 2026-05-27 18:02:19
 
-PRIORITAS PEMILIHAN MODEL:
-1) Accuracy dari confusion matrix
-2) Runtime (semakin kecil semakin baik)
+Kolom CSV yang disimpan:
+period, model, accuracy, f1_weighted, f1_macro, train_rt, eval_rt, total_rt, period_label
 
-HASIL PER KOMBINASI SCENARIO x PERIOD:
-──────────────────────────────────────────────────────────────────────────────────────────
+HASIL PER PERIODE:
+- Sebelum COVID: S1 DL (accuracy lebih tinggi (S1 DL:0.9612 vs S3 ML:0.8545, selisih 0.1067))
+- Masa COVID: S1 DL (accuracy lebih tinggi (S1 DL:0.9916 vs S3 ML:0.8287, selisih 0.1629))
+- Setelah COVID: S1 DL (accuracy lebih tinggi (S1 DL:0.9840 vs S3 ML:0.8362, selisih 0.1478))
+- Semua Periode: S1 DL (accuracy lebih tinggi (S1 DL:0.9944 vs S3 ML:0.8512, selisih 0.1432))
 
-[Scenario 1 | Before]
-SVM          → Acc: 0.9531 | Runtime: 3.35 detik
-IndoBERTweet → Acc: 0.9612 | Runtime: 758.04 detik
-Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0081))
-
-[Scenario 1 | Covid]
-SVM          → Acc: 0.9403 | Runtime: 11.50 detik
-IndoBERTweet → Acc: 0.9916 | Runtime: 4223.89 detik
-Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0513))
-
-[Scenario 1 | After]
-SVM          → Acc: 0.9457 | Runtime: 7.81 detik
-IndoBERTweet → Acc: 0.9840 | Runtime: 2634.81 detik
-Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0383))
-
-[Scenario 2 | Before]
-SVM          → Acc: 0.9092 | Runtime: 6.50 detik
-IndoBERTweet → Acc: 0.9293 | Runtime: 1466.63 detik
-Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0201))
-
-[Scenario 2 | Covid]
-SVM          → Acc: 0.8953 | Runtime: 26.93 detik
-IndoBERTweet → Acc: 0.9552 | Runtime: 6464.89 detik
-Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0599))
-
-[Scenario 2 | After]
-SVM          → Acc: 0.9051 | Runtime: 20.32 detik
-IndoBERTweet → Acc: 0.9355 | Runtime: 4324.31 detik
-Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0304))
-
-[Scenario 3 | Before]
-SVM          → Acc: 0.8545 | Runtime: 7.68 detik
-IndoBERTweet → Acc: 0.9116 | Runtime: 1426.07 detik
-Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.0571))
-
-[Scenario 3 | Covid]
-SVM          → Acc: 0.8287 | Runtime: 87.23 detik
-IndoBERTweet → Acc: 0.9883 | Runtime: 6470.15 detik
-Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.1596))
-
-[Scenario 3 | After]
-SVM          → Acc: 0.8362 | Runtime: 68.53 detik
-IndoBERTweet → Acc: 0.9742 | Runtime: 4447.74 detik
-Rekomendasi  : IndoBERTweet (accuracy lebih tinggi (0.1380))
-
-──────────────────────────────────────────────────────────────────────────────────────────
-KESIMPULAN KESELURUHAN:
-SVM unggul di          : 0 kombinasi
-IndoBERTweet unggul di : 9 kombinasi
-
-SCENARIO TERBAIK OVERALL:
-Scenario 1
-
-MODEL TERBAIK OVERALL:
-IndoBERTweet
-
-Alasan ringkas model terbaik overall:
-- mean accuracy : 0.9590
-- mean F1 macro : 0.9449
-- mean runtime  : 3579.61 detik
-- win count     : 9
-
-SCENARIO TERBAIK:
-- Scenario 1
-- model pemenang : IndoBERTweet
-- accuracy       : 0.9789
-- runtime        : 2538.91 detik
-
-Detail model terbaik scenario terbaik:
-- Accuracy        : 0.9590
-- F1 weighted     : 0.9587
-- F1 macro        : 0.9449
-- Train runtime   : 3478.34 detik
-- Eval runtime    : 101.28 detik
-- Total runtime   : 3579.61 detik
-==========================================================================================
+DATA YANG DISIMPAN:
+======================================================================
+Sebelum COVID    | S1 DL  | acc=0.9612 | f1w=0.9609 | f1m=0.9535 | train_rt=769.23 | eval_rt=15.23 | total_rt=784.46
+Sebelum COVID    | S3 ML  | acc=0.8545 | f1w=0.8545 | f1m=0.8540 | train_rt=6.98 | eval_rt=0.65 | total_rt=7.63
+Masa COVID       | S1 DL  | acc=0.9916 | f1w=0.9916 | f1m=0.9887 | train_rt=3462.32 | eval_rt=37.34 | total_rt=3499.66
+Masa COVID       | S3 ML  | acc=0.8287 | f1w=0.8295 | f1m=0.8148 | train_rt=86.51 | eval_rt=0.64 | total_rt=87.15
+Setelah COVID    | S1 DL  | acc=0.9840 | f1w=0.9841 | f1m=0.9775 | train_rt=2679.68 | eval_rt=26.80 | total_rt=2706.48
+Setelah COVID    | S3 ML  | acc=0.8362 | f1w=0.8369 | f1m=0.8172 | train_rt=67.61 | eval_rt=0.67 | total_rt=68.28
+Semua Periode    | S1 DL  | acc=0.9944 | f1w=0.9944 | f1m=0.9925 | train_rt=6861.45 | eval_rt=62.12 | total_rt=6923.57
+Semua Periode    | S3 ML  | acc=0.8512 | f1w=0.8518 | f1m=0.8395 | train_rt=112.45 | eval_rt=0.69 | total_rt=113.14

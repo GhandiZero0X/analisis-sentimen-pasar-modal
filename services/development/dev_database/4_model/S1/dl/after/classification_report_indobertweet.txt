@@ -1,6 +1,6 @@
 EVALUATION REPORT — IndoBERTweet Fine-tuning (Binary)
 ======================================================
-Tanggal      : 2026-05-25 02:54:23
+Tanggal      : 2026-05-27 17:45:12
 Model        : indolem/indobertweet-base-uncased
 Test set     : 2,569 baris
 Kelas        : ['negatif', 'positif']  ← hanya positif & negatif
@@ -21,20 +21,22 @@ CLASSIFICATION REPORT
 weighted avg     0.9841    0.9840    0.9841      2569
 
 
+OVERALL BINARY METRICS
+----------------------
+Accuracy  : 0.9840
+Precision : 0.9909
+Recall    : 0.9884
+F1-score  : 0.9896
+
 PER-CLASS DETAIL
 ----------------
   negatif      precision: 0.9614 | recall: 0.9695 | f1: 0.9655 | support: 591
   positif      precision: 0.9909 | recall: 0.9884 | f1: 0.9896 | support: 1978
 
-
-Binary F1
----------
-0.9896  (pos_label=positif)
-
 RUNTIME
 -------
-Load model     : 3.98 detik
-Inferensi test : 18.89 detik
-Plot CM        : 0.31 detik
-Plot curve     : 0.34 detik
-Total runtime  : 23.54 detik
+Load model     : 6.18 detik
+Inferensi test : 20.08 detik
+Plot CM        : 0.26 detik
+Plot curve     : 0.26 detik
+Total runtime  : 26.80 detik

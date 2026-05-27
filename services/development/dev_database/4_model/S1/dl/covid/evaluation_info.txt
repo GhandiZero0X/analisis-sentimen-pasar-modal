@@ -1,12 +1,14 @@
 EVALUATION INFO — IndoBERTweet
 ==============================
-Tanggal        : 2026-05-25 02:51:55
+Tanggal        : 2026-05-27 17:42:11
 Model          : indolem/indobertweet-base-uncased
 Test set       : 3,335 baris
 Accuracy       : 0.9916
-Binary F1      : 0.9944
-Runtime load   : 3.94 detik
-Runtime infer  : 24.31 detik
-Runtime cm     : 0.27 detik
-Runtime curve  : 0.29 detik
-Total runtime  : 28.82 detik
+Precision      : 0.9928
+Recall         : 0.9960
+F1-score       : 0.9944
+Runtime load   : 10.29 detik
+Runtime infer  : 25.78 detik
+Runtime cm     : 0.57 detik
+Runtime curve  : 0.64 detik
+Total runtime  : 37.34 detik
