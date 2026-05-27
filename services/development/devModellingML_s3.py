@@ -13,11 +13,9 @@ Scenario 3:
     - Label NEGATIF, NETRAL, POSITIF semuanya dipakai
     - Tidak ada label yang dibuang
 
-Input  : dev_database/3_preprocessing/ml/
-         tweets_all_periods_labellingLexicon_preprocessingML.csv
+Input  : 
 
-Output : dev_database/4_model/ml/all_periods/
-         svm_model.joblib
+Output : svm_model.joblib
          tfidf_vectorizer.joblib
          label_encoder.joblib
          X_test.joblib

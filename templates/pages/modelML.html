@@ -84,148 +84,128 @@
     </div>
 
     <!-- Ringkasan Model -->
-    <!-- 4 Card Atas -->
     <div class="col-12">
-      <h5 class="card-title">Ringkasan Model</h5>
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h5 class="card-title mb-0 p-0">Ringkasan Model</h5>
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                  id="dropdownPeriodeModel" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ period_label }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownPeriodeModel">
+            {% for key, label in periods.items() %}
+            <li>
+              <a class="dropdown-item {% if key == active_period %}active{% endif %}"
+                href="{{ url_for('routes.modelML_get', period=key) }}">
+                {{ label }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
       <div class="row g-4">
-        <!-- Accuracy -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">Accuracy</h5>
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-primary text-white"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-primary text-white">
                   <i class="bi bi-bullseye"></i>
                 </div>
                 <div class="ps-3">
-                  <h6 id="accuracyValue">83.62%</h6>
-                  <span class="text-muted small">
-                    Persentase prediksi benar dari total data
-                  </span>
+                  <h6>{{ metrics.accuracy }}</h6>
+                  <span class="text-muted small">Persentase prediksi benar dari total data</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- End Accuracy -->
 
-        <!-- Precision -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">Precision</h5>
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-success text-white"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-success text-white">
                   <i class="bi bi-crosshair"></i>
                 </div>
                 <div class="ps-3">
-                  <h6 id="precisionValue">83.81%</h6>
-                  <span class="text-muted small">
-                    Kemampuan model mendeteksi kelas positif dengan benar
-                  </span>
+                  <h6>{{ metrics.precision }}</h6>
+                  <span class="text-muted small">Kemampuan model mendeteksi kelas positif dengan benar</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- End Precision -->
 
-        <!-- Recall -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">Recall</h5>
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-warning text-white"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-warning text-white">
                   <i class="bi bi-search"></i>
                 </div>
                 <div class="ps-3">
-                  <h6 id="recallValue">83.62%</h6>
-                  <span class="text-muted small">
-                    Kemampuan model untuk mendeteksi kelas positif
-                  </span>
+                  <h6>{{ metrics.recall }}</h6>
+                  <span class="text-muted small">Kemampuan model untuk mendeteksi kelas positif</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- End Test Set -->
 
-        <!-- F1-Score -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">F1-Score</h5>
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-info text-white"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-info text-white">
                   <i class="bi bi-bar-chart-line"></i>
                 </div>
                 <div class="ps-3">
-                  <h6 id="f1Value">83.69%</h6>
-                  <span class="text-muted small">
-                    Keseimbangan Precision dan Recall
-                  </span>
+                  <h6>{{ metrics.f1_score }}</h6>
+                  <span class="text-muted small">Keseimbangan Precision dan Recall</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- End F1-Score -->
       </div>
-      <!-- 2 Card Bawah -->
+
       <div class="row g-4 justify-content-center mt-1">
-        <!-- AUC-ROC -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">AUC-ROC</h5>
-
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-                  style="background-color: #8b5fdd"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+                    style="background-color: #8b5fdd">
                   <i class="bi bi-graph-up-arrow"></i>
                 </div>
-
                 <div class="ps-3">
-                  <h6 id="aucValue">93.51%</h6>
-                  <span class="text-muted small">
-                    Macro AUC dari One-vs-Rest
-                  </span>
+                  <h6>{{ metrics.auc_roc }}</h6>
+                  <span class="text-muted small">Macro AUC dari One-vs-Rest</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Run Time -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">Run Time</h5>
-
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-                  style="background-color: #ff4d4f"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+                    style="background-color: #ff4d4f">
                   <i class="bi bi-clock-history"></i>
                 </div>
-
                 <div class="ps-3">
-                  <h6 id="runtimeValue">0.92 detik</h6>
-                  <span class="text-muted small">
-                    Total waktu evaluasi model
-                  </span>
+                  <h6>{{ runtime }}</h6>
+                  <span class="text-muted small">Total waktu evaluasi model</span>
                 </div>
               </div>
             </div>
@@ -233,8 +213,6 @@
         </div>
       </div>
     </div>
-
-    <!-- End Ringkasan Model -->
 
     <!-- Hasil Evaluasi -->
     <div class="col-12">
@@ -244,29 +222,22 @@
           <div class="row g-4">
             <div class="col-12 col-lg-6">
               <div class="ratio ratio-1x1">
-                <img
-                  src="{{ url_for('routes.data_file', filename='modelML/after/confusion_matrix_svm.png') }}"
-                  class="img-fluid rounded"
-                  alt="Confusion Matrix SVM"
-                  style="object-fit: contain"
-                />
+                <img src="{{ url_for('routes.data_file', filename=period_folder ~ '/confusion_matrix_svm.png') }}"
+                    class="img-fluid rounded" alt="Confusion Matrix SVM"
+                    style="object-fit: contain" />
               </div>
             </div>
             <div class="col-12 col-lg-6">
               <div class="ratio ratio-1x1">
-                <img
-                  src="{{ url_for('routes.data_file', filename='modelML/after/roc_curve_svm.png') }}"
-                  class="img-fluid rounded"
-                  alt="ROC Curve SVM"
-                  style="object-fit: contain"
-                />
+                <img src="{{ url_for('routes.data_file', filename=period_folder ~ '/roc_curve_svm.png') }}"
+                    class="img-fluid rounded" alt="ROC Curve SVM"
+                    style="object-fit: contain" />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- End Hasil Evaluasi -->
   </div>
 </section>
 {% endblock %}

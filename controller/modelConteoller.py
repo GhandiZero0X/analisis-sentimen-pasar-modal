@@ -13,6 +13,13 @@ PERIOD_MAP = {
     "all_periods": "data/modelDL/all_periods",
 }
 
+PERIOD_MAP_ML = {
+    "before":      "data/modelML/before",
+    "covid":       "data/modelML/covid",
+    "after":       "data/modelML/after",
+    "all_periods": "data/modelML/all_periods",
+}
+
 PERIOD_LABELS = {
     "before":      "Before Covid",
     "covid":       "Covid",
@@ -91,6 +98,45 @@ def _build_dl_context(period: str) -> dict:
         "runtime":       _get_runtime(period),
     }
 
+def _get_metrics_ml(period: str) -> dict:
+    folder = PERIOD_MAP_ML.get(period, PERIOD_MAP_ML["before"])
+    path = os.path.join(current_app.root_path, folder, "evaluation_metrics.csv")
+    rows = _read_csv(path)
+    if not rows:
+        return {k: "-" for k in ["accuracy", "precision", "recall", "f1_score", "auc_roc"]}
+    row = rows[0]
+    return {
+        "accuracy":  _fmt_pct(row.get("accuracy", "")),
+        "precision": _fmt_pct(row.get("precision", "")),
+        "recall":    _fmt_pct(row.get("recall", "")),
+        "f1_score":  _fmt_pct(row.get("f1_score", "")),
+        "auc_roc":   _fmt_pct(row.get("auc_roc", "")),
+    }
+
+def _get_runtime_ml(period: str) -> str:
+    path = os.path.join(current_app.root_path, KOMPARASI_CSV)
+    rows = _read_csv(path)
+    for row in rows:
+        if (row.get("period", "").lower() == period.lower() and
+                "s2 ml" in row.get("model", "").lower()):
+            val = row.get("total_rt", "")
+            try:
+                return f"{float(val):,.2f} detik"
+            except (ValueError, TypeError):
+                return val or "-"
+    return "-"
+
+def _build_ml_context(period: str) -> dict:
+    return {
+        "active_menu":   "model",
+        "active_page":   "modelML",
+        "periods":       PERIOD_LABELS,
+        "active_period": period,
+        "period_label":  PERIOD_LABELS.get(period, "Before Covid"),
+        "period_folder": PERIOD_MAP_ML.get(period, PERIOD_MAP_ML["before"]).replace("data/", "", 1),
+        "metrics":       _get_metrics_ml(period),
+        "runtime":       _get_runtime_ml(period),
+    }
 
 # ══════════════════════════════════════════════════════════════
 #  VIEW FUNCTIONS
@@ -103,11 +149,10 @@ def modelDL_get():
 
 
 def modelML_get():
-    return render_template(
-        "pages/modelML.html",
-        active_menu="model",
-        active_page="modelML",
-    )
+    period = request.args.get("period", "before")
+    if period not in PERIOD_MAP_ML:
+        period = "before"
+    return render_template("pages/modelML.html", **_build_ml_context(period))
 
 
 # ══════════════════════════════════════════════════════════════
