@@ -1,80 +1,78 @@
+# middlewares/auth_middlewares.py
 from functools import wraps
-from flask import request, jsonify, session, redirect, url_for
+from flask import request, session, redirect, url_for, flash
 from utils.jwt_utils import decode_token
+from jwt import ExpiredSignatureError
 
-def token_required(f):
+
+def _get_current_user() -> dict | None:
     """
-    Middleware untuk memastikan user sudah login.
-    Bisa baca token dari Authorization header ATAU session Flask.
+    Ambil data user dari session + validasi token JWT.
+    Return dict payload jika valid, None jika tidak.
+    """
+    token = session.get("token")
+    if not token:
+        return None
+    try:
+        payload = decode_token(token)
+        return payload
+    except ExpiredSignatureError:
+        session.clear()
+        return None
+    except Exception:
+        return None
+
+
+def login_required(f):
+    """
+    Decorator: pastikan user sudah login.
+    Jika belum, redirect ke halaman login.
     """
     @wraps(f)
     def decorated(*args, **kwargs):
-        # 1️⃣ Ambil token dari header Authorization
-        auth_header = request.headers.get("Authorization")
-
-        if auth_header:
-            parts = auth_header.split()
-            if len(parts) == 2 and parts[0].lower() == "bearer":
-                token = parts[1]
-            else:
-                token = auth_header.strip()
-        else:
-            # 2️⃣ Kalau gak ada header, ambil token dari session Flask
-            token = session.get("token")
-
-        # 3️⃣ Kalau token gak ditemukan → redirect ke login
-        if not token:
-            # Kalau request dari API (JSON), kirim error JSON
-            if request.path.startswith("/api") or request.is_json:
-                return jsonify({"error": "Authorization header missing"}), 401
-            # Kalau dari halaman web → redirect ke login
-            return redirect(url_for("routes.login_page"))
-
-        # 4️⃣ Decode token JWT
-        data = decode_token(token)
-        if "error" in data:
-            session.clear()  # hapus session biar gak nyangkut
-            # kalau token invalid/expired, arahkan ke login
-            if request.path.startswith("/api") or request.is_json:
-                return jsonify(data), 401
-            return redirect(url_for("routes.login_page"))
-
-        # 5️⃣ Simpan user info ke request
-        request.user = data
+        user = _get_current_user()
+        if not user:
+            flash("Silakan login terlebih dahulu.", "warning")
+            return redirect(url_for("routes.login_get"))
         return f(*args, **kwargs)
-
     return decorated
 
 
-def role_required(required_role):
+def superadmin_required(f):
     """
-    Middleware untuk validasi role user (bisa single atau list).
-    Contoh:
-    @role_required("superadmin")
-    @role_required(["admin", "superadmin"])
+    Decorator: hanya superadmin yang boleh akses.
     """
-    def wrapper(f):
-        @wraps(f)
-        def decorated(*args, **kwargs):
-            user = getattr(request, "user", None)
-            if not user:
-                return jsonify({"error": "Authentication required"}), 401
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        user = _get_current_user()
+        if not user:
+            flash("Silakan login terlebih dahulu.", "warning")
+            return redirect(url_for("routes.login_get"))
+        if user.get("role") != "superadmin":
+            flash("Anda tidak memiliki akses ke halaman ini.", "danger")
+            return redirect(url_for("routes.list_accounts_get"))
+        return f(*args, **kwargs)
+    return decorated
 
-            user_role = str(user.get("role", "")).lower()
 
-            # 🔹 Bisa handle list atau string
-            if isinstance(required_role, list):
-                allowed_roles = [r.lower() for r in required_role]
-                if user_role not in allowed_roles:
-                    return jsonify({
-                        "error": f"Forbidden: role {required_role} required"
-                    }), 403
-            else:
-                if user_role != str(required_role).lower():
-                    return jsonify({
-                        "error": f"Forbidden: role '{required_role}' required"
-                    }), 403
+def admin_or_superadmin_required(f):
+    """
+    Decorator: superadmin dan admin yang sudah approved boleh akses.
+    """
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        user = _get_current_user()
+        if not user:
+            flash("Silakan login terlebih dahulu.", "warning")
+            return redirect(url_for("routes.login_get"))
+        role = user.get("role", "")
+        if role not in ("superadmin", "admin"):
+            flash("Anda tidak memiliki akses ke halaman ini.", "danger")
+            return redirect(url_for("routes.login_get"))
+        return f(*args, **kwargs)
+    return decorated
 
-            return f(*args, **kwargs)
-        return decorated
-    return wrapper
+
+def get_session_user() -> dict | None:
+    """Helper: ambil payload user saat ini (untuk dipakai di view)."""
+    return _get_current_user()

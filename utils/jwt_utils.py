@@ -7,27 +7,38 @@ from jwt import ExpiredSignatureError, InvalidTokenError
 
 load_dotenv()
 
-SECRET_KEY = os.getenv("JWT_SECRET_KEY")  # gunakan env di prod
-ALGORITHM = "HS256"
+SECRET_KEY = os.getenv("JWT_SECRET_KEY", "fallback-secret-ganti-di-env")
+ALGORITHM  = "HS256"
+# Token berlaku 8 jam
+TOKEN_EXPIRE_HOURS = 8
 
-def generate_token(user_id: int, role: str, expires_hours: int = 1) -> str:
-    """Generate JWT dengan masa berlaku tertentu (default: 1 jam)"""
-    payload = {
-        "user_id": int(user_id),
-        "role": role,
-        "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=expires_hours),
-        "iat": datetime.datetime.utcnow(),  # issued at
+
+def create_token(payload: dict) -> str:
+    """
+    Buat JWT token dari payload dict.
+    Otomatis menambahkan:
+        iat  — issued at (waktu dibuat)
+        exp  — expiry    (8 jam dari sekarang)
+    """
+    now = datetime.datetime.utcnow()
+    data = {
+        **payload,
+        "iat": now,
+        "exp": now + datetime.timedelta(hours=TOKEN_EXPIRE_HOURS),
     }
-    token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
-    return token if isinstance(token, str) else token.decode("utf-8")
+    return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
 
-def decode_token(token: str):
-    """Decode dan validasi token"""
+
+def decode_token(token: str) -> dict | None:
+    """
+    Decode dan verifikasi JWT token.
+    Return payload dict jika valid, None jika tidak.
+    Raise ExpiredSignatureError jika token sudah kadaluarsa.
+    """
     try:
-        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload
     except ExpiredSignatureError:
-        return {"error": "Token expired"}
+        raise   # biarkan caller handle expired
     except InvalidTokenError:
-        return {"error": "Token invalid"}
-    except Exception as e:
-        return {"error": f"Token decode error: {str(e)}"}
+        return None

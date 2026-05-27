@@ -3,14 +3,61 @@
 {% block title %}Before Covid{% endblock %}
 
 {% block content %}
-<div class="pagetitle">
-  <h1>Database</h1>
-  <nav>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
-      <li class="breadcrumb-item active">Before Covid</li>
-    </ol>
-  </nav>
+<div
+  class="pagetitle d-flex justify-content-between align-items-center flex-wrap gap-3"
+>
+  <!-- LEFT -->
+  <div>
+    <h1 class="mb-1">Database</h1>
+
+    <nav>
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="{{ url_for('routes.dashboard_get') }}">Home</a>
+        </li>
+
+        <li class="breadcrumb-item active">Before Covid</li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="dropdown">
+    <!-- Dropdown Model -->
+    <div class="dropdown">
+      <button
+        class="btn btn-sm model-dropdown dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <span class="model-badge" id="selectedModel">
+          <i class="bi bi-cpu me-1"></i>
+          IndoBERTTweet
+        </span>
+      </button>
+
+      <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+        <li>
+          <a
+            class="dropdown-item active"
+            href="#"
+            onclick="changeModel('IndoBERTweet', this)"
+          >
+            <i class="bi bi-cpu me-1"></i>
+            IndoBERTweet
+          </a>
+        </li>
+
+        <li>
+          <a class="dropdown-item" href="#" onclick="changeModel('SVM', this)">
+            <i class="bi bi-cpu me-1"></i>
+            SVM
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <!-- End Page Title -->
 

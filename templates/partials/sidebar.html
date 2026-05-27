@@ -117,6 +117,7 @@
     <!-- Account -->
     <li class="nav-heading">Account</li>
 
+    {% if session.get('user_role') == 'superadmin' %}
     <li class="nav-item">
       <a
         class="nav-link {% if active_page == 'list-accounts' %}active{% else %}collapsed{% endif %}"
@@ -126,6 +127,7 @@
         <span>List Account</span>
       </a>
     </li>
+    {% endif %}
 
     <li class="nav-item">
       <a
@@ -138,12 +140,13 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="{{ url_for('routes.login_get') }}">
-        <i class="bi bi-box-arrow-right"></i>
-        <span>Logout</span>
-      </a>
+      <form action="{{ url_for('routes.logout') }}" method="POST" class="m-0 p-0">
+        <button type="submit" class="nav-link collapsed w-100 text-start border-0 bg-transparent">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Logout</span>
+        </button>
+      </form>
     </li>
-
   </ul>
 </aside>
 <!-- End Sidebar -->

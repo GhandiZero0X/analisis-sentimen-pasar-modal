@@ -22,21 +22,17 @@
           href="#"
           data-bs-toggle="dropdown"
         >
-          <img
-            src="{{ url_for('static', filename='img/avatar_1.jpg') }}"
-            alt="Profile"
-            class="rounded-circle"
-          />
+          <img src="{{ url_for('static', filename='img/' + session.get('user_photo', 'avatar_default.jpg')) }}" alt="Profile" class="rounded-circle" />
           <span class="d-none d-md-block dropdown-toggle ps-2">
-            Muhamad Ghandi Nur Setiawan
+            {{ session.get('user_name', 'Guest') }}
           </span>
         </a>
         <!-- End Profile Image Icon -->
         <!-- Start Profile Dropdown Items -->
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
-            <h6>Muhamad Ghandi Nur Setiawan</h6>
-            <span>Super Admin</span>
+            <h6>{{ session.get('user_name', 'Guest') }}</h6>
+            <span>{{ session.get('user_role', 'User')|title }}</span>
           </li>
           <li>
             <hr class="dropdown-divider" />
@@ -56,10 +52,12 @@
           </li>
 
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <i class="bi bi-box-arrow-right"></i>
-              <span>Sign Out</span>
-            </a>
+            <form action="{{ url_for('routes.logout') }}" method="POST" class="m-0 p-0">
+              <button type="submit" class="dropdown-item d-flex align-items-center">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+              </button>
+            </form>
           </li>
         </ul>
         <!-- End Profile Dropdown Items -->

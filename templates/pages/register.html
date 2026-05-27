@@ -1,4 +1,5 @@
-{% extends "layout/baseAuthAdmin.html" %} 
+<!-- templates/pages/register.html -->
+{% extends "layout/baseAuthAdmin.html" %}
 
 {% block title %}Register{% endblock %}
 
@@ -11,11 +12,31 @@
     </p>
   </div>
 
+  <!-- ── Flash Messages ── -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show py-2" role="alert">
+          <i class="bi bi-{% if category == 'success' %}check-circle{% elif category == 'danger' %}x-circle{% else %}info-circle{% endif %} me-2"></i>
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <!--
+    Perubahan dari versi lama:
+    - method="POST" ditambahkan
+    - action ke routes.register_post
+    - value diisi ulang dari form_data jika ada error server
+  -->
   <form
     class="row g-3 needs-validation"
     novalidate
     id="registerForm"
-    action="{{ url_for('routes.login_get') }}"
+    method="POST"
+    action="{{ url_for('routes.register') }}"
   >
     <div class="col-12">
       <label for="fullName" class="form-label">Full Name</label>
@@ -28,8 +49,9 @@
         minlength="3"
         autocomplete="name"
         placeholder="Enter your full name"
+        value="{{ form_data.name if form_data else '' }}"
       />
-      <div class="invalid-feedback">Please enter your full name.</div>
+      <div class="invalid-feedback">Please enter your full name (min. 3 characters).</div>
     </div>
 
     <div class="col-12">
@@ -43,8 +65,9 @@
         pattern="^[0-9+\-\s]{10,15}$"
         autocomplete="tel"
         placeholder="Enter your phone number"
+        value="{{ form_data.phone if form_data else '' }}"
       />
-      <div class="invalid-feedback">Please enter a valid phone number.</div>
+      <div class="invalid-feedback">Please enter a valid phone number (10–15 digits).</div>
     </div>
 
     <div class="col-12">
@@ -57,52 +80,79 @@
         required
         autocomplete="email"
         placeholder="Enter your email"
+        value="{{ form_data.email if form_data else '' }}"
       />
       <div class="invalid-feedback">Please enter a valid email address.</div>
     </div>
 
     <div class="col-12">
       <label for="yourPassword" class="form-label">Password</label>
-      <input
-        type="password"
-        name="password"
-        class="form-control"
-        id="yourPassword"
-        required
-        minlength="8"
-        autocomplete="new-password"
-        placeholder="Create a password"
-      />
-      <div class="invalid-feedback">
-        Password must be at least 8 characters.
+      <div class="input-group">
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          id="yourPassword"
+          required
+          minlength="8"
+          autocomplete="new-password"
+          placeholder="Create a password (min. 8 characters)"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          id="togglePassword"
+          tabindex="-1"
+          title="Tampilkan/sembunyikan password"
+        >
+          <i class="bi bi-eye" id="togglePasswordIcon"></i>
+        </button>
       </div>
+      <div class="invalid-feedback">Password must be at least 8 characters.</div>
     </div>
 
     <div class="col-12">
       <label for="confirmPassword" class="form-label">Re-enter Password</label>
-      <input
-        type="password"
-        name="confirm_password"
-        class="form-control"
-        id="confirmPassword"
-        required
-        minlength="8"
-        autocomplete="new-password"
-        placeholder="Re-enter your password"
-      />
+      <div class="input-group">
+        <input
+          type="password"
+          name="confirm_password"
+          class="form-control"
+          id="confirmPassword"
+          required
+          minlength="8"
+          autocomplete="new-password"
+          placeholder="Re-enter your password"
+        />
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          id="toggleConfirm"
+          tabindex="-1"
+          title="Tampilkan/sembunyikan password"
+        >
+          <i class="bi bi-eye" id="toggleConfirmIcon"></i>
+        </button>
+      </div>
       <div class="invalid-feedback" id="confirmPasswordFeedback">
         Please re-enter your password.
       </div>
     </div>
 
     <div class="col-12">
-      <button class="btn btn-primary w-100" type="submit">
-        Create Account
+      <button class="btn btn-primary w-100" type="submit" id="submitBtn">
+        <span class="btn-text">
+          <i class="bi bi-person-plus me-1"></i> Create Account
+        </span>
+        <span class="btn-loading d-none">
+          <span class="spinner-border spinner-border-sm me-1"></span>
+          Processing…
+        </span>
       </button>
     </div>
 
     <div class="col-12">
-      <p class="small mb-0">
+      <p class="small mb-0 text-center">
         Already have an account?
         <a href="{{ url_for('routes.login_get') }}">Log in</a>
       </p>
@@ -116,15 +166,45 @@
   (function () {
     "use strict";
 
-    const form = document.getElementById("registerForm");
-    const password = document.getElementById("yourPassword");
-    const confirmPassword = document.getElementById("confirmPassword");
-    const confirmPasswordFeedback = document.getElementById(
-      "confirmPasswordFeedback",
-    );
+    const form                   = document.getElementById("registerForm");
+    const password               = document.getElementById("yourPassword");
+    const confirmPassword        = document.getElementById("confirmPassword");
+    const confirmPasswordFeedback= document.getElementById("confirmPasswordFeedback");
+    const submitBtn              = document.getElementById("submitBtn");
 
+    // ── Toggle visibility password ──────────────────────
+    function bindToggle(btnId, inputId, iconId) {
+      const btn   = document.getElementById(btnId);
+      const input = document.getElementById(inputId);
+      const icon  = document.getElementById(iconId);
+      if (!btn) return;
+      btn.addEventListener("click", () => {
+        const show = input.type === "password";
+        input.type = show ? "text" : "password";
+        icon.className = show ? "bi bi-eye-slash" : "bi bi-eye";
+      });
+    }
+
+    bindToggle("togglePassword", "yourPassword", "togglePasswordIcon");
+    bindToggle("toggleConfirm",  "confirmPassword", "toggleConfirmIcon");
+
+    // ── Validasi konfirmasi password secara real-time ───
+    confirmPassword.addEventListener("input", function () {
+      if (password.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity("Passwords do not match");
+        confirmPasswordFeedback.textContent = "Passwords do not match.";
+      } else {
+        confirmPassword.setCustomValidity("");
+        confirmPasswordFeedback.textContent = "Please re-enter your password.";
+      }
+    });
+
+    // ── Submit handler ──────────────────────────────────
     form.addEventListener("submit", function (event) {
       let isValid = true;
+
+      // Reset custom validity dulu sebelum re-check
+      confirmPassword.setCustomValidity("");
 
       if (!form.checkValidity()) {
         isValid = false;
@@ -134,25 +214,21 @@
         confirmPassword.setCustomValidity("Passwords do not match");
         confirmPasswordFeedback.textContent = "Passwords do not match.";
         isValid = false;
-      } else {
-        confirmPassword.setCustomValidity("");
-        confirmPasswordFeedback.textContent = "Please re-enter your password.";
       }
 
       if (!isValid) {
         event.preventDefault();
         event.stopPropagation();
+        form.classList.add("was-validated");
+        return;
       }
 
       form.classList.add("was-validated");
-    });
 
-    confirmPassword.addEventListener("input", function () {
-      if (password.value !== confirmPassword.value) {
-        confirmPassword.setCustomValidity("Passwords do not match");
-      } else {
-        confirmPassword.setCustomValidity("");
-      }
+      // Tampilkan loading state di tombol
+      submitBtn.querySelector(".btn-text").classList.add("d-none");
+      submitBtn.querySelector(".btn-loading").classList.remove("d-none");
+      submitBtn.disabled = true;
     });
   })();
 </script>
