@@ -4,19 +4,19 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<!-- start Page Title -->
+<!-- Page Title -->
 <div class="pagetitle d-flex justify-content-between align-items-center flex-wrap gap-3">
   <div>
     <h1>Dashboard</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="routes.dashboard_get">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('routes.dashboard_get') }}">Home</a></li>
         <li class="breadcrumb-item active">Dashboard</li>
       </ol>
     </nav>
   </div>
 
-   <!-- Dropdown Model -->
+  <!-- Dropdown pilih model (DL / ML) -->
   <div class="dropdown">
     <button class="btn btn-sm model-dropdown dropdown-toggle"
             type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,13 +28,13 @@
     <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
       <li>
         <a class="dropdown-item {{ 'active' if model == 'dl' }}"
-           href="{{ url_for('routes.after_get') }}?model=dl&saham={{ filter_saham }}&page=1">
+           href="{{ url_for('routes.dashboard_get') }}?model=dl&period={{ period }}">
           <i class="bi bi-cpu me-1"></i> IndoBERTweet
         </a>
       </li>
       <li>
         <a class="dropdown-item {{ 'active' if model == 'ml' }}"
-           href="{{ url_for('routes.after_get') }}?model=ml&saham={{ filter_saham }}&page=1">
+           href="{{ url_for('routes.dashboard_get') }}?model=ml&period={{ period }}">
           <i class="bi bi-cpu me-1"></i> SVM
         </a>
       </li>
@@ -45,24 +45,22 @@
 
 <section class="section dashboard">
   <div class="row">
-    <!-- Left side columns -->
+
+    <!-- ═══════════════════════ LEFT SIDE ═══════════════════════ -->
     <div class="col-lg-8">
       <div class="row">
-        <!-- Total Saham Card -->
+
+        <!-- ── Total Saham Card ── -->
         <div class="col-xxl-4 col-md-6">
           <div class="card info-card revenue-card">
             <div class="card-body">
               <h5 class="card-title">Total Saham</h5>
-
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                   <i class="bi bi-graph-up-arrow"></i>
                 </div>
-
                 <div class="ps-3">
-                  <h6>6</h6>
+                  <h6>{{ total_saham }}</h6>
                 </div>
               </div>
             </div>
@@ -70,7 +68,7 @@
         </div>
         <!-- End Total Saham Card -->
 
-        <!-- Total Tweet Card -->
+        <!-- ── Total Tweet Card ── -->
         <div class="col-xxl-4 col-md-6">
           <div class="card info-card sales-card">
             <div class="filter">
@@ -78,28 +76,44 @@
                 <i class="bi bi-three-dots"></i>
               </a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filter</h6>
+                <li class="dropdown-header text-start"><h6>Filter</h6></li>
+                <li>
+                  <a class="dropdown-item {{ 'fw-bold' if period == 'before' }}"
+                     href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=before">
+                    Before Covid
+                  </a>
                 </li>
-                <li><a class="dropdown-item" href="#">Before Covid</a></li>
-                <li><a class="dropdown-item" href="#">Covid</a></li>
-                <li><a class="dropdown-item" href="#">After Covid</a></li>
+                <li>
+                  <a class="dropdown-item {{ 'fw-bold' if period == 'covid' }}"
+                     href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=covid">
+                    Covid
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item {{ 'fw-bold' if period == 'after' }}"
+                     href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=after">
+                    After Covid
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item {{ 'fw-bold' if period == 'all' }}"
+                     href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=all">
+                    All Periods
+                  </a>
+                </li>
               </ul>
             </div>
-
             <div class="card-body">
               <h5 class="card-title">
                 Total Tweet
-                <span>| All</span>
+                <span>| {{ period | capitalize if period != 'all' else 'All' }}</span>
               </h5>
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                   <i class="bi bi-chat-dots-fill"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>117.054</h6>
+                  <h6>{{ "{:,}".format(total_tweet) }}</h6>
                 </div>
               </div>
             </div>
@@ -107,163 +121,100 @@
         </div>
         <!-- End Total Tweet Card -->
 
-        <!-- Akurasi Model Card -->
+        <!-- ── Akurasi Terbaik Card ── -->
         <div class="col-xxl-4 col-md-6">
           <div class="card info-card customers-card">
             <div class="card-body">
               <h5 class="card-title">
                 Akurasi Terbaik
-                <span>| IBT</span>
+                <span>| {{ "IBT" if model == "dl" else "SVM" }}</span>
               </h5>
-
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                   <i class="bi bi-bullseye"></i>
                 </div>
-
                 <div class="ps-3">
-                  <h6>98.41%</h6>
+                  <h6>{{ best_accuracy }}%</h6>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- End Akurasi Model Card -->
+        <!-- End Akurasi Terbaik Card -->
 
-        <!-- Statistik Dataset -->
+        <!-- ── Statistik Sentimen ── -->
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <div
-                class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3 mb-3"
-              >
+              <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3 mb-3">
                 <h5 class="card-title mb-0">
                   Statistik Sentimen
-                  <span>| All</span>
+                  <span>| {{ period | capitalize if period != 'all' else 'All' }}</span>
                 </h5>
 
-                <!-- Filter Harian Mingguan Bulanan -->
+                <!-- Filter Harian / Mingguan / Bulanan (UI toggle, handled by JS) -->
                 <div class="d-flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-primary active px-3"
-                  >
+                  <button type="button" class="btn btn-sm btn-outline-primary active px-3" data-granularity="daily">
                     Harian
                   </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-primary px-3"
-                  >
+                  <button type="button" class="btn btn-sm btn-outline-primary px-3" data-granularity="weekly">
                     Mingguan
                   </button>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-primary px-3"
-                  >
+                  <button type="button" class="btn btn-sm btn-outline-primary px-3" data-granularity="monthly">
                     Bulanan
                   </button>
                 </div>
 
-                <!-- Dropdown -->
+                <!-- Dropdown periode -->
                 <div class="dropdown ms-lg-auto">
                   <a class="icon" href="#" data-bs-toggle="dropdown">
                     <i class="bi bi-three-dots"></i>
                   </a>
-                  <ul
-                    class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                  >
-                    <li><a class="dropdown-item" href="#">Before Covid</a></li>
-                    <li><a class="dropdown-item" href="#">Covid</a></li>
-                    <li><a class="dropdown-item" href="#">After Covid</a></li>
-                    <li><a class="dropdown-item" href="#">All Periods</a></li>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li>
+                      <a class="dropdown-item {{ 'fw-bold' if period == 'before' }}"
+                         href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=before">
+                        Before Covid
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item {{ 'fw-bold' if period == 'covid' }}"
+                         href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=covid">
+                        Covid
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item {{ 'fw-bold' if period == 'after' }}"
+                         href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=after">
+                        After Covid
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item {{ 'fw-bold' if period == 'all' }}"
+                         href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=all">
+                        All Periods
+                      </a>
+                    </li>
                   </ul>
                 </div>
               </div>
 
-              <!-- Line Chart -->
-              <div id="reportsChart"></div>
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  const chart = new ApexCharts(
-                    document.querySelector("#reportsChart"),
-                    {
-                      series: [
-                        {
-                          name: "Positif",
-                          data: [120, 135, 150, 170, 165, 180, 210],
-                        },
-                        {
-                          name: "Negatif",
-                          data: [80, 72, 65, 60, 75, 68, 55],
-                        },
-                      ],
-                      chart: {
-                        height: 350,
-                        type: "area",
-                        toolbar: {
-                          show: false,
-                        },
-                      },
-                      markers: {
-                        size: 4,
-                      },
-                      colors: ["#2eca6a", "#ff4d4f"],
-                      fill: {
-                        type: "gradient",
-                        gradient: {
-                          shadeIntensity: 1,
-                          opacityFrom: 0.4,
-                          opacityTo: 0.2,
-                          stops: [0, 90, 100],
-                        },
-                      },
-                      dataLabels: {
-                        enabled: false,
-                      },
-                      stroke: {
-                        curve: "smooth",
-                        width: 3,
-                      },
-                      xaxis: {
-                        categories: [
-                          "Sen",
-                          "Sel",
-                          "Rab",
-                          "Kam",
-                          "Jum",
-                          "Sab",
-                          "Min",
-                        ],
-                      },
-                      tooltip: {
-                        y: {
-                          formatter: function (val) {
-                            return val + " Tweet";
-                          },
-                        },
-                      },
-                      legend: {
-                        position: "top",
-                      },
-                    },
-                  );
-                  chart.render();
-                });
-              </script>
-              <!-- End Line Chart -->
+              <!-- Area Chart -->
+              <div id="reportsChart" style="cursor:grab;"></div>
+              <div class="mt-1 small text-muted">
+                <i class="bi bi-info-circle me-1"></i>
+                <kbd>Ctrl</kbd>+scroll untuk zoom · <kbd>Shift</kbd>+scroll untuk geser · drag mouse untuk pan · double-click untuk reset
+              </div>
             </div>
           </div>
         </div>
-        <!-- End Statistik Dataset -->
+        <!-- End Statistik Sentimen -->
 
-        <!-- Akun Admin -->
+        <!-- ── Akun Admin ── -->
         <div class="col-12">
           <div class="card recent-sales overflow-auto">
             <div class="card-body">
               <h5 class="card-title">Akun Admin</h5>
-
               <table class="table table-borderless">
                 <thead>
                   <tr>
@@ -275,221 +226,519 @@
                   </tr>
                 </thead>
                 <tbody>
+                  {% for acc in accounts %}
                   <tr>
-                    <th scope="row">#1</th>
-                    <td>Muhamad Ghandi Nur Setiawan</td>
-                    <td class="text-primary">hgrphantom01@gmail.com</td>
-                    <td>Super Admin</td>
+                    <th scope="row">#{{ acc.id }}</th>
+                    <td>{{ acc.name }}</td>
+                    <td class="text-primary">{{ acc.email }}</td>
+                    <td>{{ acc.role }}</td>
                     <td>
-                      <span class="badge bg-success">Active</span>
+                      {% set s = acc.status | lower %}
+                      {% if s == 'active' or s == 'approved' %}
+                        <span class="badge bg-success">Active</span>
+                      {% elif s == 'pending' %}
+                        <span class="badge bg-warning text-dark">Pending</span>
+                      {% else %}
+                        <span class="badge bg-secondary">{{ acc.status }}</span>
+                      {% endif %}
                     </td>
                   </tr>
+                  {% else %}
                   <tr>
-                    <th scope="row">#1</th>
-                    <td>Rafi Khan</td>
-                    <td class="text-primary">rafi01@gmail.com</td>
-                    <td>Admin</td>
-                    <td>
-                      <span class="badge badge bg-warning">Pending</span>
-                    </td>
+                    <td colspan="5" class="text-center text-muted">Tidak ada data akun.</td>
                   </tr>
+                  {% endfor %}
                 </tbody>
               </table>
             </div>
           </div>
         </div>
         <!-- End Akun Admin -->
+
       </div>
     </div>
-    <!-- End Left side columns -->
+    <!-- End Left side -->
 
-    <!-- Right side columns -->
+    <!-- ═══════════════════════ RIGHT SIDE ═══════════════════════ -->
     <div class="col-lg-4">
-      <!-- Distribusi Sentimen -->
+
+      <!-- ── Distribusi Sentimen ── -->
       <div class="card">
         <div class="filter">
           <a class="icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-three-dots"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-            <li class="dropdown-header text-start">
-              <h6>Filter</h6>
+            <li class="dropdown-header text-start"><h6>Filter</h6></li>
+            <li>
+              <a class="dropdown-item {{ 'fw-bold' if period == 'before' }}"
+                 href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=before">
+                Before Covid
+              </a>
             </li>
-
-            <li><a class="dropdown-item" href="#">Before Covid</a></li>
-            <li><a class="dropdown-item" href="#">Covid</a></li>
-            <li><a class="dropdown-item" href="#">After Covid</a></li>
-            <li><a class="dropdown-item" href="#">All Periods</a></li>
+            <li>
+              <a class="dropdown-item {{ 'fw-bold' if period == 'covid' }}"
+                 href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=covid">
+                Covid
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item {{ 'fw-bold' if period == 'after' }}"
+                 href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=after">
+                After Covid
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item {{ 'fw-bold' if period == 'all' }}"
+                 href="{{ url_for('routes.dashboard_get') }}?model={{ model }}&period=all">
+                All Periods
+              </a>
+            </li>
           </ul>
         </div>
-
         <div class="card-body pb-0">
           <h5 class="card-title">
             Distribusi Sentimen
-            <span>| Before Covid</span>
+            <span>| {{ period | capitalize if period != 'all' else 'All' }}</span>
           </h5>
-
-          <div
-            id="distribusiSentimen"
-            style="min-height: 400px"
-            class="echart"
-          ></div>
-          <script>
-            document.addEventListener("DOMContentLoaded", () => {
-              echarts
-                .init(document.querySelector("#distribusiSentimen"))
-                .setOption({
-                  color: ["#2eca6a", "#ff4d4f"],
-
-                  tooltip: {
-                    trigger: "item",
-                  },
-
-                  legend: {
-                    top: "5%",
-                    left: "center",
-                  },
-
-                  series: [
-                    {
-                      name: "Distribusi Sentimen",
-                      type: "pie",
-                      radius: ["40%", "70%"],
-                      avoidLabelOverlap: false,
-
-                      label: {
-                        show: false,
-                        position: "center",
-                      },
-
-                      emphasis: {
-                        label: {
-                          show: true,
-                          fontSize: 18,
-                          fontWeight: "bold",
-                        },
-                      },
-
-                      labelLine: {
-                        show: false,
-                      },
-
-                      data: [
-                        {
-                          value: 1048,
-                          name: "Positif",
-                        },
-                        {
-                          value: 735,
-                          name: "Negatif",
-                        },
-                      ],
-                    },
-                  ],
-                });
-            });
-          </script>
+          <div id="distribusiSentimen" style="min-height: 400px" class="echart"></div>
         </div>
       </div>
       <!-- End Distribusi Sentimen -->
 
-      <!-- Evaluasi Model -->
+      <!-- ── Evaluasi Model ── -->
       <div class="card">
         <div class="card-body pb-0">
           <h5 class="card-title">
             Evaluasi Model
-            <span>| IBT</span>
+            <span>| {{ "IBT" if model == "dl" else "SVM" }}</span>
           </h5>
-
           <div class="filter">
             <a class="icon" href="#" data-bs-toggle="dropdown">
               <i class="bi bi-three-dots"></i>
             </a>
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-              <li class="dropdown-header text-start">
-                <h6>Filter</h6>
+              <li class="dropdown-header text-start"><h6>Model</h6></li>
+              <li>
+                <a class="dropdown-item {{ 'fw-bold' if model == 'dl' }}"
+                   href="{{ url_for('routes.dashboard_get') }}?model=dl&period={{ period }}">
+                  IndoBERTweet
+                </a>
               </li>
-
-              <li><a class="dropdown-item" href="#">IndoBERTweet</a></li>
-              <li><a class="dropdown-item" href="#">SVM</a></li>
+              <li>
+                <a class="dropdown-item {{ 'fw-bold' if model == 'ml' }}"
+                   href="{{ url_for('routes.dashboard_get') }}?model=ml&period={{ period }}">
+                  SVM
+                </a>
+              </li>
             </ul>
           </div>
-
-          <div
-            id="evaluasiModel"
-            style="min-height: 400px"
-            class="echart"
-          ></div>
-          <script>
-            document.addEventListener("DOMContentLoaded", () => {
-              const chartDom = document.querySelector("#evaluasiModel");
-              if (!chartDom) return;
-
-              const evaluasiChart = echarts.init(chartDom);
-
-              evaluasiChart.setOption({
-                tooltip: {
-                  trigger: "item",
-                  formatter: function (params) {
-                    const values = params.value.map(
-                      (v) => (v * 100).toFixed(2) + "%",
-                    );
-
-                    return `
-                        <strong>${params.name}</strong><br/>
-                        Precision: ${values[0]}<br/>
-                        Recall: ${values[1]}<br/>
-                        F1-score: ${values[2]}<br/>
-                        Accuracy: ${values[3]}
-                      `;
-                  },
-                },
-
-                legend: {
-                  data: ["Before Covid", "Covid", "After Covid"],
-                  top: 10,
-                  left: "center",
-                },
-
-                radar: {
-                  radius: "65%",
-                  indicator: [
-                    { name: "Precision", max: 1 },
-                    { name: "Recall", max: 1 },
-                    { name: "F1-score", max: 1 },
-                    { name: "Accuracy", max: 1 },
-                  ],
-                },
-
-                series: [
-                  {
-                    name: "Classification Performance",
-                    type: "radar",
-
-                    data: [
-                      {
-                        name: "Before Covid",
-                        value: [0.9613, 0.9612, 0.9609, 0.9612],
-                      },
-                      {
-                        name: "Covid",
-                        value: [0.9916, 0.9916, 0.9916, 0.9916],
-                      },
-                      {
-                        name: "After Covid",
-                        value: [0.9841, 0.984, 0.9841, 0.984],
-                      },
-                    ],
-                  },
-                ],
-              });
-            });
-          </script>
+          <div id="evaluasiModel" style="min-height: 400px" class="echart"></div>
         </div>
       </div>
       <!-- End Evaluasi Model -->
+
     </div>
-    <!-- End Right side columns -->
+    <!-- End Right side -->
   </div>
 </section>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+// ─── Data dari Flask ────────────────────────────────────────────────────────
+const chartLabels   = {{ chart_labels   | tojson }};
+const chartPositif  = {{ chart_positif  | tojson }};
+const chartNegatif  = {{ chart_negatif  | tojson }};
+const chartNetral   = {{ chart_netral   | tojson }};
+const distPositif   = {{ dist_positif   | tojson }};
+const distNegatif   = {{ dist_negatif   | tojson }};
+const distNetral    = {{ dist_netral    | tojson }};
+const hasNetral     = {{ 'true' if has_netral else 'false' }};
+const evalBefore    = {{ eval_periods.before | tojson }};
+const evalCovid     = {{ eval_periods.covid  | tojson }};
+const evalAfter     = {{ eval_periods.after  | tojson }};
+
+// Helper: aggregate labels by week / month
+function aggregateSeries(labels, pos, neg, net, granularity) {
+  if (granularity === "daily" || labels.length === 0) {
+    return { labels, pos, neg, net };
+  }
+
+  const bucket = {};
+  labels.forEach((label, i) => {
+    const d    = new Date(label);
+    let key;
+    if (granularity === "weekly") {
+      const jan1  = new Date(d.getFullYear(), 0, 1);
+      const week  = Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+      key = `${d.getFullYear()}-W${String(week).padStart(2, "0")}`;
+    } else {
+      key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+    }
+    if (!bucket[key]) bucket[key] = { pos: 0, neg: 0, net: 0 };
+    bucket[key].pos += pos[i];
+    bucket[key].neg += neg[i];
+    bucket[key].net += net[i];
+  });
+
+  const keys = Object.keys(bucket).sort();
+  return {
+    labels: keys,
+    pos:    keys.map(k => bucket[k].pos),
+    neg:    keys.map(k => bucket[k].neg),
+    net:    keys.map(k => bucket[k].net),
+  };
+}
+
+// ─── Area Chart (Statistik Sentimen) ────────────────────────────────────────
+let reportsChart = null;
+
+// ── Zoom+Pan state (mirip createZoomPanEngine di script_index.js) ────────────
+const trendView  = { start: 0, end: 0 };
+const trendDrag  = { active: false, startX: 0, startStart: 0, startEnd: 0 };
+let   trendBase  = null;   // { labels, pos, neg, net }
+
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+function syncChart() {
+  if (!reportsChart || !trendBase) return;
+  const s = trendView.start, e = trendView.end + 1;
+  const labels = trendBase.labels.slice(s, e);
+  const pos    = trendBase.pos.slice(s, e);
+  const neg    = trendBase.neg.slice(s, e);
+  const net    = trendBase.net.slice(s, e);
+
+  const series = [
+    { name: "Positif", data: pos },
+    { name: "Negatif", data: neg },
+  ];
+  if (hasNetral) series.push({ name: "Netral", data: net });
+
+  reportsChart.updateOptions({ xaxis: { categories: labels } }, false, false);
+  reportsChart.updateSeries(series, false);
+}
+
+function zoomAtCursor(clientX, factor) {
+  if (!trendBase) return;
+  const total = trendBase.labels.length;
+  const currentSize = trendView.end - trendView.start + 1;
+  const nextSize = clamp(Math.round(currentSize * factor), 5, total);
+
+  const canvas = document.querySelector("#reportsChart");
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const ratio = clamp((clientX - rect.left) / rect.width, 0, 1);
+  const anchor = trendView.start + Math.round(ratio * Math.max(currentSize - 1, 1));
+
+  let ns = anchor - Math.floor(nextSize / 2);
+  let ne = ns + nextSize - 1;
+  if (ns < 0)            { ne += -ns; ns = 0; }
+  if (ne > total - 1)    { const sh = ne - (total - 1); ns = Math.max(0, ns - sh); ne = total - 1; }
+
+  trendView.start = clamp(ns, 0, total - 1);
+  trendView.end   = clamp(ne, trendView.start, total - 1);
+  syncChart();
+}
+
+function panByPixels(deltaX) {
+  if (!trendBase) return;
+  const total = trendBase.labels.length;
+  const visibleCount = trendView.end - trendView.start + 1;
+  const canvas = document.querySelector("#reportsChart");
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const ppp  = rect.width / Math.max(visibleCount, 1);
+  const shift = Math.round(-deltaX / ppp);
+
+  let ns = trendDrag.startStart + shift;
+  let ne = trendDrag.startEnd   + shift;
+  if (ns < 0)         { ne += -ns; ns = 0; }
+  if (ne > total - 1) { const ov = ne - (total - 1); ns = Math.max(0, ns - ov); ne = total - 1; }
+
+  trendView.start = clamp(ns, 0, total - 1);
+  trendView.end   = clamp(ne, trendView.start, total - 1);
+  syncChart();
+}
+
+function panBySteps(direction) {
+  if (!trendBase) return;
+  const total = trendBase.labels.length;
+  const visibleCount = trendView.end - trendView.start + 1;
+  const step = Math.max(1, Math.round(visibleCount / 10));
+
+  let ns = trendView.start + direction * step;
+  let ne = trendView.end   + direction * step;
+  if (ns < 0)         { ne += -ns; ns = 0; }
+  if (ne > total - 1) { const ov = ne - (total - 1); ns = Math.max(0, ns - ov); ne = total - 1; }
+
+  trendView.start = clamp(ns, 0, total - 1);
+  trendView.end   = clamp(ne, trendView.start, total - 1);
+  syncChart();
+}
+
+function resetView() {
+  if (!trendBase) return;
+  trendView.start = 0;
+  trendView.end   = trendBase.labels.length - 1;
+  syncChart();
+}
+
+function bindChartInteractions() {
+  const el = document.querySelector("#reportsChart");
+  if (!el || el.dataset.zoomBound === "1") return;
+
+  // ── Ctrl+Scroll → zoom, Shift+Scroll → pan ────────────────────────────────
+  el.addEventListener("wheel", (e) => {
+    if (e.ctrlKey) {
+      e.preventDefault();
+      zoomAtCursor(e.clientX, e.deltaY < 0 ? 0.85 : 1.18);
+    } else if (e.shiftKey) {
+      e.preventDefault();
+      panBySteps(e.deltaY > 0 ? 1 : -1);
+    }
+  }, { passive: false });
+
+  // ── Mouse drag → pan ──────────────────────────────────────────────────────
+  el.addEventListener("mousedown", (e) => {
+    if (!trendBase) return;
+    Object.assign(trendDrag, {
+      active: true,
+      startX: e.clientX,
+      startStart: trendView.start,
+      startEnd:   trendView.end,
+    });
+    el.style.cursor = "grabbing";
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!trendDrag.active) return;
+    panByPixels(e.clientX - trendDrag.startX);
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!trendDrag.active) return;
+    trendDrag.active = false;
+    const elem = document.querySelector("#reportsChart");
+    if (elem) elem.style.cursor = "grab";
+  });
+
+  el.addEventListener("mouseleave", () => {
+    if (!trendDrag.active) return;
+    trendDrag.active = false;
+    el.style.cursor = "grab";
+  });
+
+  // ── Double-click → reset view ─────────────────────────────────────────────
+  el.addEventListener("dblclick", resetView);
+
+  // ── Touch: swipe = pan, pinch = zoom ──────────────────────────────────────
+  let touchStartDist = null, touchStartWindow = null;
+
+  el.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1) {
+      Object.assign(trendDrag, {
+        active: true,
+        startX: e.touches[0].clientX,
+        startStart: trendView.start,
+        startEnd:   trendView.end,
+      });
+    }
+    if (e.touches.length === 2) {
+      trendDrag.active = false;
+      const dx = e.touches[0].clientX - e.touches[1].clientX;
+      const dy = e.touches[0].clientY - e.touches[1].clientY;
+      touchStartDist   = Math.sqrt(dx * dx + dy * dy);
+      touchStartWindow = { start: trendView.start, end: trendView.end };
+    }
+  }, { passive: false });
+
+  el.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 1 && trendDrag.active) {
+      panByPixels(e.touches[0].clientX - trendDrag.startX);
+    }
+    if (e.touches.length === 2 && touchStartDist && touchStartWindow && trendBase) {
+      e.preventDefault();
+      const dx   = e.touches[0].clientX - e.touches[1].clientX;
+      const dy   = e.touches[0].clientY - e.touches[1].clientY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const scale = touchStartDist / dist;
+      const total = trendBase.labels.length;
+      const origSize = touchStartWindow.end - touchStartWindow.start + 1;
+      const newSize  = clamp(Math.round(origSize * scale), 5, total);
+      const center   = Math.round((touchStartWindow.start + touchStartWindow.end) / 2);
+
+      let ns = center - Math.floor(newSize / 2);
+      let ne = ns + newSize - 1;
+      if (ns < 0)         { ne += -ns; ns = 0; }
+      if (ne > total - 1) { const ov = ne - (total - 1); ns = Math.max(0, ns - ov); ne = total - 1; }
+
+      trendView.start = ns; trendView.end = ne;
+      syncChart();
+    }
+  }, { passive: false });
+
+  el.addEventListener("touchend", () => {
+    trendDrag.active = false;
+    touchStartDist   = null;
+    touchStartWindow = null;
+  });
+
+  el.style.cursor  = "grab";
+  el.dataset.zoomBound = "1";
+}
+
+// ── Render (inisialisasi chart) ───────────────────────────────────────────────
+function renderReportsChart(granularity) {
+  const agg = aggregateSeries(chartLabels, chartPositif, chartNegatif, chartNetral, granularity);
+
+  // Simpan base data untuk engine zoom+pan
+  trendBase = { labels: agg.labels, pos: agg.pos, neg: agg.neg, net: agg.net };
+
+  // Set window awal
+  const total = agg.labels.length;
+  const windowSize = granularity === "daily"   ? Math.min(total, 30)
+                   : granularity === "weekly"  ? Math.min(total, 24)
+                   : total;   // bulanan: tampilkan semua
+  trendView.start = Math.max(0, total - windowSize);
+  trendView.end   = total - 1;
+
+  const isDaily    = granularity === "daily";
+  const colors = ["#2eca6a", "#ff4d4f"];
+  if (hasNetral) colors.push("#faad14");
+
+  const series = [
+    { name: "Positif", data: agg.pos.slice(trendView.start, trendView.end + 1) },
+    { name: "Negatif", data: agg.neg.slice(trendView.start, trendView.end + 1) },
+  ];
+  if (hasNetral) series.push({ name: "Netral", data: agg.net.slice(trendView.start, trendView.end + 1) });
+
+  const options = {
+    series,
+    chart: {
+      id: "statsChart",
+      height: 350,
+      type: "area",
+      // Matikan toolbar bawaan ApexCharts — kita pakai engine sendiri
+      toolbar: { show: false },
+      zoom: { enabled: false },
+      animations: { enabled: false },
+    },
+    markers: { size: isDaily ? 3 : 4 },
+    colors,
+    fill: {
+      type: "gradient",
+      gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.2, stops: [0, 90, 100] },
+    },
+    dataLabels: { enabled: false },
+    stroke: { curve: "smooth", width: isDaily ? 2 : 3 },
+    xaxis: {
+      categories: agg.labels.slice(trendView.start, trendView.end + 1),
+      labels: {
+        rotate: -45,
+        style: { fontSize: "11px" },
+      },
+    },
+    tooltip: { y: { formatter: val => val + " Tweet" } },
+    legend: { position: "top" },
+    noData: { text: "Tidak ada data tersedia." },
+  };
+
+  // Destroy & re-render
+  const mainEl = document.querySelector("#reportsChart");
+  if (reportsChart) { reportsChart.destroy(); reportsChart = null; }
+  mainEl.innerHTML = "";
+
+  reportsChart = new ApexCharts(mainEl, options);
+  reportsChart.render().then(() => {
+    // Bind interaction setelah chart selesai render
+    bindChartInteractions();
+  });
+}
+
+// ─── Granularity toggle buttons ─────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  renderReportsChart("daily");
+
+  document.querySelectorAll("[data-granularity]").forEach(btn => {
+    btn.addEventListener("click", function () {
+      document.querySelectorAll("[data-granularity]").forEach(b => b.classList.remove("active"));
+      this.classList.add("active");
+      renderReportsChart(this.dataset.granularity);
+    });
+  });
+
+  // ─── Distribusi Sentimen (Pie/Donut) ──────────────────────────────────────
+  const pieData = [
+    { value: distPositif, name: "Positif" },
+    { value: distNegatif, name: "Negatif" },
+  ];
+  const pieColors = ["#2eca6a", "#ff4d4f"];
+  if (hasNetral) {
+    pieData.push({ value: distNetral, name: "Netral" });
+    pieColors.push("#faad14");
+  }
+
+  echarts.init(document.querySelector("#distribusiSentimen")).setOption({
+    color: pieColors,
+    tooltip: { trigger: "item" },
+    legend: { top: "5%", left: "center" },
+    series: [{
+      name: "Distribusi Sentimen",
+      type: "pie",
+      radius: ["40%", "70%"],
+      avoidLabelOverlap: false,
+      label:     { show: false, position: "center" },
+      emphasis:  { label: { show: true, fontSize: 18, fontWeight: "bold" } },
+      labelLine: { show: false },
+      data: pieData,
+    }],
+  });
+
+  // ─── Evaluasi Model (Radar) ───────────────────────────────────────────────
+  const evalChart = echarts.init(document.querySelector("#evaluasiModel"));
+
+  function evalToValues(e) {
+    return [e.precision, e.recall, e.f1_score, e.accuracy];
+  }
+
+  evalChart.setOption({
+    tooltip: {
+      trigger: "item",
+      formatter: function (params) {
+        const v = params.value.map(x => (x * 100).toFixed(2) + "%");
+        return `<strong>${params.name}</strong><br/>
+                Precision: ${v[0]}<br/>
+                Recall: ${v[1]}<br/>
+                F1-score: ${v[2]}<br/>
+                Accuracy: ${v[3]}`;
+      },
+    },
+    legend: {
+      data: ["Before Covid", "Covid", "After Covid"],
+      top: 10,
+      left: "center",
+    },
+    radar: {
+      radius: "65%",
+      indicator: [
+        { name: "Precision", max: 1 },
+        { name: "Recall",    max: 1 },
+        { name: "F1-score",  max: 1 },
+        { name: "Accuracy",  max: 1 },
+      ],
+    },
+    series: [{
+      name: "Classification Performance",
+      type: "radar",
+      data: [
+        { name: "Before Covid", value: evalToValues(evalBefore) },
+        { name: "Covid",        value: evalToValues(evalCovid)  },
+        { name: "After Covid",  value: evalToValues(evalAfter)  },
+      ],
+    }],
+  });
+});
+</script>
 {% endblock %}
