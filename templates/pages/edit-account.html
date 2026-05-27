@@ -4,10 +4,12 @@
 
 {% block content %}
 <div class="pagetitle">
-  <h1>List Account</h1>
+  <h1>Edit Account</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ url_for('routes.dashboard_get') }}">Home</a></li>
+      <li class="breadcrumb-item">
+        <a href="{{ url_for('routes.dashboard_get') }}">Home</a>
+      </li>
       <li class="breadcrumb-item">
         <a href="{{ url_for('routes.list_accounts_get') }}">List Account</a>
       </li>
@@ -15,240 +17,290 @@
     </ol>
   </nav>
 </div>
-<!-- End Page Title -->
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
 <section class="section dashboard">
   <div class="row">
-    <div class="col-xl-16">
+    <div class="col-xl-12">
       <div class="card">
         <div class="card-body pt-3">
-          <!-- Bordered Tabs -->
+
           <ul class="nav nav-tabs nav-tabs-bordered">
             <li class="nav-item">
-              <button
-                class="nav-link active"
-                data-bs-toggle="tab"
-                data-bs-target="#profile-edit"
-              >
-                Edit Account
+              <button class="nav-link active"
+                      data-bs-toggle="tab"
+                      data-bs-target="#profile-edit">
+                Edit Profil
               </button>
             </li>
             <li class="nav-item">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#profile-change-password"
-              >
-                Change Password
+              <button class="nav-link"
+                      data-bs-toggle="tab"
+                      data-bs-target="#profile-change-password">
+                Ganti Password
               </button>
             </li>
           </ul>
 
           <div class="tab-content pt-2">
+
+            <!-- ── Tab Edit Profil ───────────────────────────────────────── -->
             <div class="tab-pane fade show active pt-3" id="profile-edit">
-              <!-- Profile Edit Form -->
-              <form
-                action="{{ url_for('routes.list_accounts_get') }}"
-                enctype="multipart/form-data"
-                class="row g-3 needs-validation"
-                novalidate
-              >
+              <form action="{{ url_for('routes.edit_account_post', account_id=account_id) }}"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    class="row g-3">
+
+                <input type="hidden" name="action" value="profile">
+
+                <!-- Foto Profil -->
                 <div class="row mb-3">
-                  <label
-                    for="profileImage"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    Profile Image
-                  </label>
-                  <div class="col-md-8 col-lg-9">
-                    <img
-                      src="{{ url_for('static', filename='img/avatar_1.jpg') }}"
-                      style="max-width: 20%"
-                      alt="Profile"
-                    />
-                    <div class="pt-2">
-                      <a
-                        href="#"
-                        class="btn btn-primary btn-sm"
-                        title="Upload new profile image"
-                      >
-                        <i class="bi bi-upload"></i>
-                      </a>
-                      <a
-                        href="#"
-                        class="btn btn-danger btn-sm"
-                        title="Remove my profile image"
-                      >
+                  <label class="col-md-3 col-form-label">Profile Image</label>
+                  <div class="col-md-9">
+                    <img id="previewImg"
+                         src="{{ url_for('static', filename='img/' ~ user.photo_profile) }}"
+                         style="max-width:100px; max-height:100px; border-radius:50%; object-fit:cover;"
+                         alt="Profile"
+                         onerror="this.src='{{ url_for('static', filename='img/avatar_1.jpg') }}'">
+                    <div class="pt-2 d-flex gap-2">
+                      <label for="profileImage" class="btn btn-primary btn-sm">
+                        <i class="bi bi-upload me-1"></i> Upload
+                      </label>
+                      <input type="file" id="profileImage" name="profileImage"
+                             accept="image/*" class="d-none"
+                             onchange="previewImage(this)">
+                      <button type="button" class="btn btn-danger btn-sm"
+                              onclick="removeImage()">
                         <i class="bi bi-trash"></i>
-                      </a>
+                      </button>
                     </div>
+                    <small class="text-muted d-block mt-1">
+                      Format: JPG, PNG, GIF, WEBP. Disimpan sebagai
+                      <code>avatar_{{ account_id }}.(ext)</code>
+                    </small>
                   </div>
                 </div>
-                <div class="row mb-3">
-                  <label
-                    for="fullName"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    Full Name
-                  </label>
-                  <div class="col-md-8 col-lg-9">
-                    <input
-                      name="fullName"
-                      type="text"
-                      class="form-control"
-                      id="fullName"
-                      value="Muhamad Ghandi Nur Setiawan"
-                    />
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="company" class="col-md-4 col-lg-3 col-form-label">
-                    Company
-                  </label>
-                  <div class="col-md-8 col-lg-9">
-                    <input
-                      name="company"
-                      type="text"
-                      class="form-control"
-                      id="company"
-                      value="StockSenseID"
-                    />
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="Role" class="col-md-4 col-lg-3 col-form-label">
-                    Role
-                  </label>
 
-                  <div class="col-md-8 col-lg-9">
+                <!-- Full Name -->
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-3 col-form-label">Full Name</label>
+                  <div class="col-md-9">
+                    <input name="fullName" type="text" class="form-control"
+                           id="fullName" value="{{ user.full_name }}" required>
+                  </div>
+                </div>
+
+                <!-- Company -->
+                <div class="row mb-3">
+                  <label for="company" class="col-md-3 col-form-label">Company</label>
+                  <div class="col-md-9">
+                    <input name="company" type="text" class="form-control"
+                           id="company" value="{{ user.company }}">
+                  </div>
+                </div>
+
+                <!-- Role -->
+                <div class="row mb-3">
+                  <label for="Role" class="col-md-3 col-form-label">Role</label>
+                  <div class="col-md-9">
                     <select name="role" class="form-select" id="Role">
-                      <option value="superadmin" selected>Super Admin</option>
-
-                      <option value="admin">Admin</option>
+                      <option value="superadmin"
+                              {% if user.role == 'superadmin' %}selected{% endif %}>
+                        Super Admin
+                      </option>
+                      <option value="admin"
+                              {% if user.role == 'admin' %}selected{% endif %}>
+                        Admin
+                      </option>
                     </select>
                   </div>
                 </div>
+
+                <!-- Country -->
                 <div class="row mb-3">
-                  <label for="Country" class="col-md-4 col-lg-3 col-form-label">
-                    Country
-                  </label>
-                  <div class="col-md-8 col-lg-9">
-                    <input
-                      name="country"
-                      type="text"
-                      class="form-control"
-                      id="Country"
-                      value="IDN"
-                    />
+                  <label for="Country" class="col-md-3 col-form-label">Country</label>
+                  <div class="col-md-9">
+                    <input name="country" type="text" class="form-control"
+                           id="Country" value="{{ user.country }}">
                   </div>
                 </div>
+
+                <!-- Phone -->
                 <div class="row mb-3">
-                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">
-                    Phone
-                  </label>
-                  <div class="col-md-8 col-lg-9">
-                    <input
-                      name="phone"
-                      type="text"
-                      class="form-control"
-                      id="Phone"
-                      value="085856490085"
-                    />
+                  <label for="Phone" class="col-md-3 col-form-label">Phone</label>
+                  <div class="col-md-9">
+                    <input name="phone" type="text" class="form-control"
+                           id="Phone" value="{{ user.phone_number }}">
                   </div>
                 </div>
+
+                <!-- Email -->
                 <div class="row mb-3">
-                  <label for="Email" class="col-md-4 col-lg-3 col-form-label">
-                    Email
-                  </label>
-                  <div class="col-md-8 col-lg-9">
-                    <input
-                      name="email"
-                      type="email"
-                      class="form-control"
-                      id="Email"
-                      value="hgrphantom01@gmail.com"
-                    />
+                  <label for="Email" class="col-md-3 col-form-label">Email</label>
+                  <div class="col-md-9">
+                    <input name="email" type="email" class="form-control"
+                           id="Email" value="{{ user.email }}" required>
                   </div>
                 </div>
-                <div class="text-center">
+
+                <!-- Status Akun -->
+                <div class="row mb-3">
+                  <label for="status_akun" class="col-md-3 col-form-label">Status Akun</label>
+                  <div class="col-md-9">
+                    <select name="status_akun" class="form-select" id="status_akun">
+                      <option value="1"
+                              {% if user.status_approval == '1' or user.status_approval == 'active' %}selected{% endif %}>
+                        Active
+                      </option>
+                      <option value="0"
+                              {% if user.status_approval == '0' or user.status_approval == 'pending' %}selected{% endif %}>
+                        Pending
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="text-center d-flex gap-2 justify-content-center">
+                  <a href="{{ url_for('routes.list_accounts_get') }}"
+                     class="btn btn-light border">Batal</a>
                   <button type="submit" class="btn btn-primary">
-                    Save Changes
+                    <i class="bi bi-save me-1"></i> Simpan Perubahan
                   </button>
                 </div>
+
               </form>
-              <!-- End Profile Edit Form -->
             </div>
+
+            <!-- ── Tab Ganti Password ─────────────────────────────────────── -->
             <div class="tab-pane fade pt-3" id="profile-change-password">
-              <!-- Change Password Form -->
-              <form
-                action="{{ url_for('routes.list_accounts_get') }}"
-                class="row g-3 needs-validation"
-                novalidate
-              >
+              <form action="{{ url_for('routes.edit_account_post', account_id=account_id) }}"
+                    method="POST"
+                    class="row g-3">
+
+                <input type="hidden" name="action" value="password">
+
+                <!-- Current Password -->
                 <div class="row mb-3">
-                  <label
-                    for="currentPassword"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    Current Password
+                  <label for="currentPassword" class="col-md-3 col-form-label">
+                    Password Saat Ini
                   </label>
-                  <div class="col-md-8 col-lg-9">
-                    <input
-                      name="password"
-                      type="password"
-                      class="form-control"
-                      id="currentPassword"
-                    />
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <input name="currentPassword" type="password"
+                             class="form-control" id="currentPassword"
+                             placeholder="Masukkan password saat ini" required>
+                      <button class="btn btn-outline-secondary" type="button"
+                              onclick="togglePw('currentPassword', this)">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
 
+                <!-- New Password -->
                 <div class="row mb-3">
-                  <label
-                    for="newPassword"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    New Password
+                  <label for="newPassword" class="col-md-3 col-form-label">
+                    Password Baru
                   </label>
-                  <div class="col-md-8 col-lg-9">
-                    <input
-                      name="newpassword"
-                      type="password"
-                      class="form-control"
-                      id="newPassword"
-                    />
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <input name="newPassword" type="password"
+                             class="form-control" id="newPassword"
+                             placeholder="Minimal 6 karakter" required>
+                      <button class="btn btn-outline-secondary" type="button"
+                              onclick="togglePw('newPassword', this)">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
 
+                <!-- Re-enter New Password -->
                 <div class="row mb-3">
-                  <label
-                    for="renewPassword"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    Re-enter New Password
+                  <label for="renewPassword" class="col-md-3 col-form-label">
+                    Konfirmasi Password Baru
                   </label>
-                  <div class="col-md-8 col-lg-9">
-                    <input
-                      name="renewpassword"
-                      type="password"
-                      class="form-control"
-                      id="renewPassword"
-                    />
+                  <div class="col-md-9">
+                    <div class="input-group">
+                      <input name="renewPassword" type="password"
+                             class="form-control" id="renewPassword"
+                             placeholder="Ulangi password baru" required>
+                      <button class="btn btn-outline-secondary" type="button"
+                              onclick="togglePw('renewPassword', this)">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                    <div id="pwMatchMsg" class="form-text"></div>
                   </div>
                 </div>
 
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">
-                    Change Password
+                  <button type="submit" class="btn btn-warning">
+                    <i class="bi bi-shield-lock me-1"></i> Ganti Password
                   </button>
                 </div>
+
               </form>
-              <!-- End Change Password Form -->
             </div>
+
           </div>
-          <!-- End Bordered Tabs -->
+          <!-- End Tab Content -->
+
         </div>
       </div>
     </div>
   </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Preview foto sebelum upload
+function previewImage(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = e => document.getElementById('previewImg').src = e.target.result;
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+// Reset foto ke default
+function removeImage() {
+  document.getElementById('profileImage').value = '';
+  document.getElementById('previewImg').src =
+    "{{ url_for('static', filename='img/avatar_1.jpg') }}";
+}
+
+// Toggle show/hide password
+function togglePw(fieldId, btn) {
+  const input = document.getElementById(fieldId);
+  const isText = input.type === 'text';
+  input.type = isText ? 'password' : 'text';
+  btn.innerHTML = isText
+    ? '<i class="bi bi-eye"></i>'
+    : '<i class="bi bi-eye-slash"></i>';
+}
+
+// Validasi password match live
+document.getElementById('renewPassword').addEventListener('input', function () {
+  const msg = document.getElementById('pwMatchMsg');
+  if (this.value === document.getElementById('newPassword').value) {
+    msg.textContent = '✓ Password cocok';
+    msg.className = 'form-text text-success';
+  } else {
+    msg.textContent = '✗ Password tidak cocok';
+    msg.className = 'form-text text-danger';
+  }
+});
+</script>
 {% endblock %}

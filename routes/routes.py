@@ -31,7 +31,10 @@ from controller.komparasiController import komparasi_get
 from controller.accountController import (
     list_accounts_get,
     edit_account_get,
+    edit_account_post,
     add_account_get,
+    add_account_post,
+    delete_account_post,
 )
 from middlewares.auth_middleware import (
     login_required,
@@ -47,7 +50,6 @@ def data_file(filename):
     data_dir = os.path.join(current_app.root_path, "data")
     return send_from_directory(data_dir, filename)
 
-# ── Autentikasi ────────────────────────────────────────────
 # ── Autentikasi ────────────────────────────────────────────
 routes_bp.add_url_rule("/admin/login", view_func=login_get, methods=["GET"])
 routes_bp.add_url_rule("/admin/login", view_func=login_post, methods=["POST"])
@@ -78,10 +80,30 @@ routes_bp.add_url_rule("/admin/model/ml", view_func=modelML_get, methods=["GET"]
 # ── Komparasi ──────────────────────────────────────────────
 routes_bp.add_url_rule("/admin/komparasi", view_func=komparasi_get, methods=["GET"])
 
-# ── Manajemen akun ─────────────────────────────────────────
-routes_bp.add_url_rule("/admin/accounts",                       view_func=superadmin_required(list_accounts_get), methods=["GET"])
-routes_bp.add_url_rule("/admin/accounts/edit/<int:account_id>", view_func=superadmin_required(edit_account_get),  methods=["GET"])
-routes_bp.add_url_rule("/admin/accounts/add_account",           view_func=superadmin_required(add_account_get),   methods=["GET"])
+# ── Manajemen Akun (khusus superadmin) ────────────────────────────────────────
+routes_bp.add_url_rule("/admin/accounts",
+                       endpoint="list_accounts_get",
+                       view_func=superadmin_required(list_accounts_get), methods=["GET"])
+ 
+routes_bp.add_url_rule("/admin/accounts/edit/<int:account_id>",
+                       endpoint="edit_account_get",
+                       view_func=superadmin_required(edit_account_get),  methods=["GET"])
+ 
+routes_bp.add_url_rule("/admin/accounts/edit/<int:account_id>",
+                       endpoint="edit_account_post",
+                       view_func=superadmin_required(edit_account_post), methods=["POST"])
+ 
+routes_bp.add_url_rule("/admin/accounts/add_account",
+                       endpoint="add_account_get",
+                       view_func=superadmin_required(add_account_get),  methods=["GET"])
+ 
+routes_bp.add_url_rule("/admin/accounts/add_account",
+                       endpoint="add_account_post",
+                       view_func=superadmin_required(add_account_post), methods=["POST"])
+ 
+routes_bp.add_url_rule("/admin/accounts/delete/<int:account_id>",
+                       endpoint="delete_account_post",
+                       view_func=superadmin_required(delete_account_post), methods=["POST"])
 
 # ── Profile ────────────────────────────────────────────────
 routes_bp.add_url_rule("/admin/profile", view_func=profile_get, methods=["GET"])

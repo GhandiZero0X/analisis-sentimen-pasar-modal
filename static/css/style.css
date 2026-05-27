@@ -1349,3 +1349,140 @@ h6 {
     align-self: flex-end;
   }
 }
+
+/* loading proses */
+.pipeline-card {
+  background: #fff;
+  border: 1px solid rgba(65, 84, 241, 0.12);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(1, 41, 112, 0.06);
+  overflow: hidden;
+}
+
+.pipeline-header {
+  margin-bottom: 20px;
+}
+
+.pipeline-header h5 {
+  color: #012970;
+  font-weight: 700;
+}
+
+.pipeline-steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: start;
+  padding: 0 18px 8px;
+  min-height: 110px;
+}
+
+.pipeline-track,
+.pipeline-progress {
+  position: absolute;
+  top: 20px;
+  height: 6px;
+  border-radius: 999px;
+}
+
+.pipeline-track {
+  left: 10%;
+  right: 10%;
+  background: #e9eef7;
+  z-index: 0;
+}
+
+.pipeline-progress {
+  left: 10%;
+  width: 0%;
+  background: linear-gradient(90deg, #4154f1, #6f8cff);
+  box-shadow: 0 0 18px rgba(65, 84, 241, 0.35);
+  transition: width 0.5s ease;
+  z-index: 1;
+}
+
+.pipeline-step {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  padding-top: 0;
+}
+
+.step-dot {
+  width: 46px;
+  height: 46px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #d7def0;
+  color: #8b99b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.35s ease;
+  box-shadow: 0 4px 14px rgba(1, 41, 112, 0.05);
+}
+
+.step-label {
+  font-size: 0.88rem;
+  color: #5e6f92;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.pipeline-step.active .step-dot {
+  background: #4154f1;
+  border-color: #4154f1;
+  color: #fff;
+}
+
+.pipeline-step.completed .step-dot {
+  background: #21c55d;
+  border-color: #21c55d;
+  color: #fff;
+}
+
+.pipeline-step.active .step-label,
+.pipeline-step.completed .step-label {
+  color: #012970;
+}
+
+.pipeline-step:hover .step-dot {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .pipeline-steps {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    min-height: auto;
+    padding: 0;
+  }
+
+  .pipeline-track,
+  .pipeline-progress {
+    display: none;
+  }
+
+  .pipeline-step {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0;
+  }
+
+  .step-dot {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .step-label {
+    font-size: 0.95rem;
+  }
+}

@@ -89,6 +89,45 @@
       </div>
     </div>
 
+    <div class="col-12">
+      <div class="pipeline-card">
+        <div class="pipeline-header">
+          <h5 class="mb-1">Pipeline Proses</h5>
+          <small class="text-muted">Alur kerja analisis sentimen</small>
+        </div>
+
+        <div class="pipeline-steps">
+          <div class="pipeline-track"></div>
+          <div class="pipeline-progress" id="pipelineProgress"></div>
+
+          <div class="pipeline-step active" data-step="1">
+            <div class="step-dot">1</div>
+            <div class="step-label">Preprocessing</div>
+          </div>
+
+          <div class="pipeline-step" data-step="2">
+            <div class="step-dot">2</div>
+            <div class="step-label">Modelling</div>
+          </div>
+
+          <div class="pipeline-step" data-step="3">
+            <div class="step-dot">3</div>
+            <div class="step-label">Evaluasi</div>
+          </div>
+
+          <div class="pipeline-step" data-step="4">
+            <div class="step-dot">4</div>
+            <div class="step-label">Komparasi</div>
+          </div>
+
+          <div class="pipeline-step" data-step="5">
+            <div class="step-dot">5</div>
+            <div class="step-label">Analisis</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Ringkasan Model -->
     <!-- 4 Card Atas -->
     <div class="col-12">
@@ -274,4 +313,39 @@
     <!-- End Hasil Evaluasi -->
   </div>
 </section>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const steps = document.querySelectorAll(".pipeline-step");
+    const progress = document.getElementById("pipelineProgress");
+
+    function setStep(activeStep) {
+      steps.forEach((step) => {
+        const stepNum = parseInt(step.dataset.step, 10);
+
+        step.classList.remove("active", "completed");
+
+        if (stepNum < activeStep) {
+          step.classList.add("completed");
+        } else if (stepNum === activeStep) {
+          step.classList.add("active");
+        }
+      });
+
+      const width = ((activeStep - 1) / (steps.length - 1)) * 100;
+      if (progress) progress.style.width = `${width}%`;
+    }
+
+    steps.forEach((step) => {
+      step.addEventListener("click", () => {
+        setStep(parseInt(step.dataset.step, 10));
+      });
+    });
+
+    setStep(1);
+  });
+</script>
 {% endblock %}
