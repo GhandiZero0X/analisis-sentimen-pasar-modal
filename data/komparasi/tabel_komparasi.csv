@@ -1,0 +1,9 @@
+﻿period,model,accuracy,f1_weighted,f1_macro,train_rt,eval_rt,total_rt,period_label
+before,S1 DL,0.9612,0.9609,0.9535,769.23,15.23,784.46,Sebelum COVID
+before,S3 ML,0.8545,0.8545,0.854,6.98,0.65,7.630000000000001,Sebelum COVID
+covid,S1 DL,0.9916,0.9916,0.9887,3462.32,37.34,3499.6600000000003,Masa COVID
+covid,S3 ML,0.8287,0.8295,0.8148,86.51,0.64,87.15,Masa COVID
+after,S1 DL,0.984,0.9841,0.9775,2679.68,26.8,2706.48,Setelah COVID
+after,S3 ML,0.8362,0.8369,0.8172,67.61,0.67,68.28,Setelah COVID
+all_periods,S1 DL,0.9944,0.9944,0.9925,6861.45,62.12,6923.57,Semua Periode
+all_periods,S3 ML,0.8512,0.8518,0.8395,112.45,0.69,113.14,Semua Periode

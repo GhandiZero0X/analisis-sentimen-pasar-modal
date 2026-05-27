@@ -1,0 +1,23 @@
+RINGKASAN KOMPARASI MODEL — S1 DL vs S3 ML
+======================================================================
+Tanggal    : 2026-05-27 18:02:19
+
+Kolom CSV yang disimpan:
+period, model, accuracy, f1_weighted, f1_macro, train_rt, eval_rt, total_rt, period_label
+
+HASIL PER PERIODE:
+- Sebelum COVID: S1 DL (accuracy lebih tinggi (S1 DL:0.9612 vs S3 ML:0.8545, selisih 0.1067))
+- Masa COVID: S1 DL (accuracy lebih tinggi (S1 DL:0.9916 vs S3 ML:0.8287, selisih 0.1629))
+- Setelah COVID: S1 DL (accuracy lebih tinggi (S1 DL:0.9840 vs S3 ML:0.8362, selisih 0.1478))
+- Semua Periode: S1 DL (accuracy lebih tinggi (S1 DL:0.9944 vs S3 ML:0.8512, selisih 0.1432))
+
+DATA YANG DISIMPAN:
+======================================================================
+Sebelum COVID    | S1 DL  | acc=0.9612 | f1w=0.9609 | f1m=0.9535 | train_rt=769.23 | eval_rt=15.23 | total_rt=784.46
+Sebelum COVID    | S3 ML  | acc=0.8545 | f1w=0.8545 | f1m=0.8540 | train_rt=6.98 | eval_rt=0.65 | total_rt=7.63
+Masa COVID       | S1 DL  | acc=0.9916 | f1w=0.9916 | f1m=0.9887 | train_rt=3462.32 | eval_rt=37.34 | total_rt=3499.66
+Masa COVID       | S3 ML  | acc=0.8287 | f1w=0.8295 | f1m=0.8148 | train_rt=86.51 | eval_rt=0.64 | total_rt=87.15
+Setelah COVID    | S1 DL  | acc=0.9840 | f1w=0.9841 | f1m=0.9775 | train_rt=2679.68 | eval_rt=26.80 | total_rt=2706.48
+Setelah COVID    | S3 ML  | acc=0.8362 | f1w=0.8369 | f1m=0.8172 | train_rt=67.61 | eval_rt=0.67 | total_rt=68.28
+Semua Periode    | S1 DL  | acc=0.9944 | f1w=0.9944 | f1m=0.9925 | train_rt=6861.45 | eval_rt=62.12 | total_rt=6923.57
+Semua Periode    | S3 ML  | acc=0.8512 | f1w=0.8518 | f1m=0.8395 | train_rt=112.45 | eval_rt=0.69 | total_rt=113.14
