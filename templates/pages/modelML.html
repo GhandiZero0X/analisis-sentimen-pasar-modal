@@ -15,17 +15,15 @@
 
 <section class="section dashboard">
   <div class="row g-4">
+
     <!-- Upload & Update Model -->
     <div class="col-12">
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <div
-            class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3"
-          >
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
             <div>
               <h5 class="card-title mb-1">Update Model SVM</h5>
             </div>
-
             <span class="badge bg-primary px-3 py-2">Model SVM</span>
           </div>
 
@@ -35,43 +33,21 @@
                 Pilih Model yang Akan Diupdate
               </label>
               <select class="form-select" id="modelTarget" name="model_target">
-                <option value="before" data-path="data/modelML/before">
-                  Before Covid
-                </option>
-                <option value="covid" data-path="data/modelML/covid">
-                  Covid
-                </option>
-                <option value="after" data-path="data/modelML/after">
-                  After Covid
-                </option>
-                <option
-                  value="all_periods"
-                  data-path="data/modelML/all_periods"
-                >
-                  All Periods
-                </option>
+                <option value="before"      data-path="data/modelML/before">Before Covid</option>
+                <option value="covid"       data-path="data/modelML/covid">Covid</option>
+                <option value="after"       data-path="data/modelML/after">After Covid</option>
+                <option value="all_periods" data-path="data/modelML/all_periods">All Periods</option>
               </select>
             </div>
 
             <div class="col-12 col-lg-6">
-              <label for="csvUpload" class="form-label">
-                Upload CSV Terbaru
-              </label>
-              <input
-                class="form-control"
-                type="file"
-                id="csvUpload"
-                name="csv_file"
-                accept=".csv"
-              />
+              <label for="csvUpload" class="form-label">Upload CSV Terbaru</label>
+              <input class="form-control" type="file" id="csvUpload"
+                     name="csv_file" accept=".csv" />
             </div>
 
             <div class="col-12 d-flex flex-wrap gap-2">
-              <button
-                type="button"
-                class="btn btn-outline-primary"
-                id="btnPreviewFile"
-              >
+              <button type="button" class="btn btn-outline-primary" id="btnPreviewFile">
                 Preview File
               </button>
               <button type="button" class="btn btn-primary" id="btnUpdateModel">
@@ -96,7 +72,7 @@
             {% for key, label in periods.items() %}
             <li>
               <a class="dropdown-item {% if key == active_period %}active{% endif %}"
-                href="{{ url_for('routes.modelML_get', period=key) }}">
+                 href="{{ url_for('routes.modelML_get', period=key) }}">
                 {{ label }}
               </a>
             </li>
@@ -105,6 +81,7 @@
         </div>
       </div>
 
+      <!-- 4 Kartu Metrik Atas -->
       <div class="row g-4">
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
@@ -175,6 +152,7 @@
         </div>
       </div>
 
+      <!-- 2 Kartu Bawah: AUC-ROC & Run Time -->
       <div class="row g-4 justify-content-center mt-1">
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
@@ -182,7 +160,7 @@
               <h5 class="card-title">AUC-ROC</h5>
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-                    style="background-color: #8b5fdd">
+                     style="background-color: #8b5fdd">
                   <i class="bi bi-graph-up-arrow"></i>
                 </div>
                 <div class="ps-3">
@@ -200,7 +178,7 @@
               <h5 class="card-title">Run Time</h5>
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-                    style="background-color: #ff4d4f">
+                     style="background-color: #ff4d4f">
                   <i class="bi bi-clock-history"></i>
                 </div>
                 <div class="ps-3">
@@ -213,6 +191,7 @@
         </div>
       </div>
     </div>
+    <!-- End Ringkasan Model -->
 
     <!-- Hasil Evaluasi -->
     <div class="col-12">
@@ -223,21 +202,190 @@
             <div class="col-12 col-lg-6">
               <div class="ratio ratio-1x1">
                 <img src="{{ url_for('routes.data_file', filename=period_folder ~ '/confusion_matrix_svm.png') }}"
-                    class="img-fluid rounded" alt="Confusion Matrix SVM"
-                    style="object-fit: contain" />
+                     class="img-fluid rounded" alt="Confusion Matrix SVM"
+                     style="object-fit: contain" />
               </div>
             </div>
             <div class="col-12 col-lg-6">
               <div class="ratio ratio-1x1">
                 <img src="{{ url_for('routes.data_file', filename=period_folder ~ '/roc_curve_svm.png') }}"
-                    class="img-fluid rounded" alt="ROC Curve SVM"
-                    style="object-fit: contain" />
+                     class="img-fluid rounded" alt="ROC Curve SVM"
+                     style="object-fit: contain" />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- End Hasil Evaluasi -->
+
   </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ══════════════════════════════════════════════
+  //  Preview File
+  // ══════════════════════════════════════════════
+  document.getElementById("btnPreviewFile").addEventListener("click", async () => {
+    const file = document.getElementById("csvUpload").files[0];
+    if (!file) { alert("Pilih file CSV terlebih dahulu."); return; }
+
+    const fd = new FormData();
+    fd.append("csv_file", file);
+
+    try {
+      const res  = await fetch("{{ url_for('routes.preview_csv_ml_post') }}", {
+        method: "POST",
+        body: fd,
+      });
+      const data = await res.json();
+
+      if (data.error) { alert("Error: " + data.error); return; }
+
+      // Render tabel preview
+      let html = `
+        <div class="table-responsive mt-3">
+          <p class="text-muted small mb-1">
+            Preview 5 baris pertama — <strong>${file.name}</strong>
+          </p>
+          <table class="table table-sm table-bordered table-hover small">
+            <thead class="table-light"><tr>`;
+      data.columns.forEach(c => { html += `<th>${c}</th>`; });
+      html += `</tr></thead><tbody>`;
+      data.rows.forEach(r => {
+        html += "<tr>";
+        data.columns.forEach(c => { html += `<td>${r[c] ?? ""}</td>`; });
+        html += "</tr>";
+      });
+      html += `</tbody></table></div>`;
+
+      let previewEl = document.getElementById("csvPreview");
+      if (!previewEl) {
+        previewEl = document.createElement("div");
+        previewEl.id = "csvPreview";
+        document.querySelector(".card-body form").insertAdjacentElement("afterend", previewEl);
+      }
+      previewEl.innerHTML = html;
+
+    } catch (err) {
+      alert("Gagal preview: " + err.message);
+    }
+  });
+
+  // ══════════════════════════════════════════════
+  //  Update Model + Progress Polling
+  // ══════════════════════════════════════════════
+  document.getElementById("btnUpdateModel").addEventListener("click", async () => {
+    const file   = document.getElementById("csvUpload").files[0];
+    const period = document.getElementById("modelTarget").value;
+
+    if (!file) { alert("Pilih file CSV terlebih dahulu."); return; }
+    if (!confirm(`Update model SVM periode "${period}" dengan file "${file.name}"?`)) return;
+
+    const fd = new FormData();
+    fd.append("csv_file", file);
+    fd.append("model_target", period);
+
+    showProgressBar();
+
+    try {
+      const res  = await fetch("{{ url_for('routes.update_model_ml_post') }}", {
+        method: "POST",
+        body: fd,
+      });
+      const data = await res.json();
+
+      if (data.error) {
+        alert("Error: " + data.error);
+        hideProgressBar();
+        return;
+      }
+
+      pollStatus(data.job_id);
+
+    } catch (err) {
+      alert("Gagal mengirim request: " + err.message);
+      hideProgressBar();
+    }
+  });
+
+  // ── Progress bar helpers ──────────────────────
+  function showProgressBar() {
+    let el = document.getElementById("updateProgressWrap");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "updateProgressWrap";
+      el.className = "mt-3";
+      el.innerHTML = `
+        <div class="d-flex justify-content-between mb-1">
+          <small id="updateStepLabel" class="text-muted">Menunggu...</small>
+          <small id="updatePctLabel"  class="text-muted">0%</small>
+        </div>
+        <div class="progress" style="height:10px">
+          <div id="updateProgressBar"
+               class="progress-bar progress-bar-striped progress-bar-animated"
+               role="progressbar" style="width:0%"></div>
+        </div>`;
+      document.querySelector(".card-body form").insertAdjacentElement("afterend", el);
+    }
+    // Reset state
+    const bar = document.getElementById("updateProgressBar");
+    bar.style.width = "0%";
+    bar.className = "progress-bar progress-bar-striped progress-bar-animated";
+    document.getElementById("updateStepLabel").textContent = "Menunggu...";
+    document.getElementById("updatePctLabel").textContent  = "0%";
+    el.style.display = "block";
+  }
+
+  function hideProgressBar() {
+    const el = document.getElementById("updateProgressWrap");
+    if (el) el.style.display = "none";
+  }
+
+  // ── Status polling ────────────────────────────
+  function pollStatus(jobId) {
+    const statusUrl = "{{ url_for('routes.job_status_ml_get') }}";
+
+    const interval = setInterval(async () => {
+      try {
+        const res  = await fetch(`${statusUrl}?job_id=${jobId}`);
+        const data = await res.json();
+
+        if (data.error) {
+          clearInterval(interval);
+          alert("Polling error: " + data.error);
+          return;
+        }
+
+        document.getElementById("updateStepLabel").textContent = data.step     ?? "-";
+        document.getElementById("updatePctLabel").textContent  = (data.progress ?? 0) + "%";
+        document.getElementById("updateProgressBar").style.width = (data.progress ?? 0) + "%";
+
+        if (data.done) {
+          clearInterval(interval);
+          const bar = document.getElementById("updateProgressBar");
+          bar.classList.remove("progress-bar-animated");
+
+          if (data.error) {
+            bar.classList.add("bg-danger");
+            alert("❌ Pipeline gagal:\n" + data.error);
+          } else {
+            bar.classList.add("bg-success");
+            alert("✅ Model SVM berhasil diperbarui! Halaman akan di-reload.");
+            location.reload();
+          }
+        }
+      } catch (err) {
+        clearInterval(interval);
+        alert("Polling gagal: " + err.message);
+      }
+    }, 2000); // polling tiap 2 detik
+  }
+
+});
+</script>
 {% endblock %}

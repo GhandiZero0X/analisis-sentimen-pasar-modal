@@ -28,7 +28,8 @@ from controller.modelConteoller import (
     modelML_get,
     preview_csv_post,  
     update_model_post, 
-    job_status_get,    
+    job_status_get,
+    update_model_ml_post,
 )
 from controller.komparasiController import komparasi_get
 from controller.accountController import (
@@ -80,14 +81,17 @@ routes_bp.add_url_rule("/admin/dataset/after-covid",  view_func=login_required(a
 routes_bp.add_url_rule("/admin/dataset/covid",        view_func=login_required(covid_get),      methods=["GET"])
 routes_bp.add_url_rule("/admin/dataset/all-periods",  view_func=login_required(all_period_get), methods=["GET"])
 
-# ── Model ──────────────────────────────────────────────────
+# ── Model DL ───────────────────────────────────────────────
 routes_bp.add_url_rule("/admin/model/dl", endpoint="modelDL_get", view_func=login_required(modelDL_get), methods=["GET"])
-routes_bp.add_url_rule("/admin/model/ml", endpoint="modelML_get", view_func=login_required(modelML_get), methods=["GET"])
-
-# Endpoint AJAX untuk update model
-routes_bp.add_url_rule("/admin/model/dl/preview", endpoint="preview_csv_post", view_func=login_required(preview_csv_post), methods=["POST"])
+routes_bp.add_url_rule("/admin/model/dl/preview", endpoint="preview_csv_post",view_func=login_required(preview_csv_post), methods=["POST"])
 routes_bp.add_url_rule("/admin/model/dl/update", endpoint="update_model_post", view_func=login_required(update_model_post), methods=["POST"])
 routes_bp.add_url_rule("/admin/model/dl/status", endpoint="job_status_get", view_func=login_required(job_status_get), methods=["GET"])
+
+# ── Model ML (SVM) ─────────────────────────────────────────
+routes_bp.add_url_rule("/admin/model/ml", endpoint="modelML_get", view_func=login_required(modelML_get), methods=["GET"])
+routes_bp.add_url_rule("/admin/model/ml/preview", endpoint="preview_csv_ml_post", view_func=login_required(preview_csv_post), methods=["POST"])
+routes_bp.add_url_rule("/admin/model/ml/update", endpoint="update_model_ml_post", view_func=login_required(update_model_ml_post), methods=["POST"])
+routes_bp.add_url_rule("/admin/model/ml/status", endpoint="job_status_ml_get", view_func=login_required(job_status_get), methods=["GET"])
 
 # ── Komparasi ──────────────────────────────────────────────
 routes_bp.add_url_rule("/admin/komparasi", view_func=login_required(komparasi_get), methods=["GET"])

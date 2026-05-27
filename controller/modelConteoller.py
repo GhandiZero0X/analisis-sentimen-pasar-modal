@@ -29,7 +29,7 @@ PERIOD_LABELS = {
 
 KOMPARASI_CSV = "data/komparasi/tabel_komparasi.csv"
 
-# Status job per session (in-memory, cukup untuk 1 worker)
+# Status job per session (in-memory)
 _job_status: dict = {}
 
 
@@ -56,6 +56,7 @@ def _fmt_pct(val: str) -> str:
         return val or "-"
 
 
+# ── DL helpers ────────────────────────────────────────────────
 def _get_metrics(period: str) -> dict:
     folder = PERIOD_MAP.get(period, PERIOD_MAP["before"])
     path = os.path.join(current_app.root_path, folder, "evaluation_metrics.csv")
@@ -98,6 +99,8 @@ def _build_dl_context(period: str) -> dict:
         "runtime":       _get_runtime(period),
     }
 
+
+# ── ML helpers ────────────────────────────────────────────────
 def _get_metrics_ml(period: str) -> dict:
     folder = PERIOD_MAP_ML.get(period, PERIOD_MAP_ML["before"])
     path = os.path.join(current_app.root_path, folder, "evaluation_metrics.csv")
@@ -113,6 +116,7 @@ def _get_metrics_ml(period: str) -> dict:
         "auc_roc":   _fmt_pct(row.get("auc_roc", "")),
     }
 
+
 def _get_runtime_ml(period: str) -> str:
     path = os.path.join(current_app.root_path, KOMPARASI_CSV)
     rows = _read_csv(path)
@@ -126,6 +130,7 @@ def _get_runtime_ml(period: str) -> str:
                 return val or "-"
     return "-"
 
+
 def _build_ml_context(period: str) -> dict:
     return {
         "active_menu":   "model",
@@ -137,6 +142,7 @@ def _build_ml_context(period: str) -> dict:
         "metrics":       _get_metrics_ml(period),
         "runtime":       _get_runtime_ml(period),
     }
+
 
 # ══════════════════════════════════════════════════════════════
 #  VIEW FUNCTIONS
@@ -156,7 +162,7 @@ def modelML_get():
 
 
 # ══════════════════════════════════════════════════════════════
-#  UPLOAD PREVIEW
+#  UPLOAD PREVIEW  (shared — dipakai DL & ML)
 # ══════════════════════════════════════════════════════════════
 def preview_csv_post():
     """Return 5 baris pertama CSV yang diupload sebagai JSON."""
@@ -179,45 +185,10 @@ def preview_csv_post():
 
 
 # ══════════════════════════════════════════════════════════════
-#  UPDATE MODEL — background job
+#  STATUS POLLING  (shared — dipakai DL & ML)
 # ══════════════════════════════════════════════════════════════
-def update_model_post():
-    """
-    Terima CSV + period, jalankan pipeline di background thread,
-    kembalikan job_id untuk polling status.
-    """
-    period = request.form.get("model_target", "before")
-    if period not in PERIOD_MAP:
-        return jsonify({"error": "Period tidak valid."}), 400
-
-    file = request.files.get("csv_file")
-    if not file or not file.filename.endswith(".csv"):
-        return jsonify({"error": "File CSV tidak ditemukan atau bukan .csv"}), 400
-
-    # Simpan CSV upload sementara
-    root = current_app.root_path
-    upload_dir = os.path.join(root, "data", "uploads_temp")
-    os.makedirs(upload_dir, exist_ok=True)
-    filename = secure_filename(file.filename)
-    csv_path = os.path.join(upload_dir, f"{period}_{filename}")
-    file.save(csv_path)
-
-    job_id = str(uuid.uuid4())
-    _job_status[job_id] = {"step": "Menunggu", "progress": 0, "done": False, "error": None}
-
-    # Jalankan pipeline di thread terpisah agar response tidak block
-    thread = threading.Thread(
-        target=_run_pipeline,
-        args=(job_id, period, csv_path, root),
-        daemon=True,
-    )
-    thread.start()
-
-    return jsonify({"job_id": job_id})
-
-
 def job_status_get():
-    """Polling status pipeline."""
+    """Polling status pipeline (DL maupun ML)."""
     job_id = request.args.get("job_id", "")
     status = _job_status.get(job_id)
     if not status:
@@ -226,20 +197,99 @@ def job_status_get():
 
 
 # ══════════════════════════════════════════════════════════════
-#  PIPELINE RUNNER (background)
+#  INTERNAL HELPERS
 # ══════════════════════════════════════════════════════════════
 def _set_status(job_id: str, step: str, progress: int, done=False, error=None):
     _job_status[job_id] = {
-        "step": step,
+        "step":     step,
         "progress": progress,
-        "done": done,
-        "error": error,
+        "done":     done,
+        "error":    error,
     }
 
 
-def _run_pipeline(job_id: str, period: str, csv_path: str, root_path: str):
+def _save_csv_temp(period: str, file) -> tuple[str, str]:
+    """Simpan file upload ke folder temp, return (root, csv_path)."""
+    root = current_app.root_path
+    upload_dir = os.path.join(root, "data", "uploads_temp")
+    os.makedirs(upload_dir, exist_ok=True)
+    filename = secure_filename(file.filename)
+    csv_path = os.path.join(upload_dir, f"{period}_{filename}")
+    file.save(csv_path)
+    return root, csv_path
+
+
+# ══════════════════════════════════════════════════════════════
+#  UPDATE MODEL DL
+# ══════════════════════════════════════════════════════════════
+def update_model_post():
+    """Terima CSV + period, jalankan pipeline DL di background thread."""
+    period = request.form.get("model_target", "before")
+    if period not in PERIOD_MAP:
+        return jsonify({"error": "Period tidak valid."}), 400
+
+    file = request.files.get("csv_file")
+    if not file or not file.filename.endswith(".csv"):
+        return jsonify({"error": "File CSV tidak ditemukan atau bukan .csv"}), 400
+
+    root, csv_path = _save_csv_temp(period, file)
+
+    job_id = str(uuid.uuid4())
+    _job_status[job_id] = {"step": "Menunggu", "progress": 0, "done": False, "error": None}
+
+    threading.Thread(
+        target=_run_pipeline_dl,
+        args=(job_id, period, csv_path, root),
+        daemon=True,
+    ).start()
+
+    return jsonify({"job_id": job_id})
+
+
+def _run_pipeline_dl(job_id: str, period: str, csv_path: str, root_path: str):
     try:
         from services.updateModelDL import run_full_pipeline
+        run_full_pipeline(
+            job_id=job_id,
+            period=period,
+            csv_path=csv_path,
+            root_path=root_path,
+            set_status=_set_status,
+        )
+    except Exception as e:
+        _set_status(job_id, f"Error: {e}", 0, done=True, error=str(e))
+
+
+# ══════════════════════════════════════════════════════════════
+#  UPDATE MODEL ML  (SVM)
+# ══════════════════════════════════════════════════════════════
+def update_model_ml_post():
+    """Terima CSV + period, jalankan pipeline SVM di background thread."""
+    period = request.form.get("model_target", "before")
+    if period not in PERIOD_MAP_ML:
+        return jsonify({"error": "Period tidak valid."}), 400
+
+    file = request.files.get("csv_file")
+    if not file or not file.filename.endswith(".csv"):
+        return jsonify({"error": "File CSV tidak ditemukan atau bukan .csv"}), 400
+
+    root, csv_path = _save_csv_temp(period, file)
+
+    job_id = str(uuid.uuid4())
+    _job_status[job_id] = {"step": "Menunggu", "progress": 0, "done": False, "error": None}
+
+    threading.Thread(
+        target=_run_pipeline_ml,
+        args=(job_id, period, csv_path, root),
+        daemon=True,
+    ).start()
+
+    return jsonify({"job_id": job_id})
+
+
+def _run_pipeline_ml(job_id: str, period: str, csv_path: str, root_path: str):
+    try:
+        from services.updateModelML import run_full_pipeline
         run_full_pipeline(
             job_id=job_id,
             period=period,
