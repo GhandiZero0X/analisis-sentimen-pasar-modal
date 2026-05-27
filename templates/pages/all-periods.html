@@ -3,298 +3,186 @@
 {% block title %}All Periods{% endblock %}
 
 {% block content %}
-<!-- Page Title -->
-<div class="pagetitle">
-  <h1>Database</h1>
-  <nav>
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
-      <li class="breadcrumb-item active">All Periods</li>
-    </ol>
-  </nav>
+<div class="pagetitle d-flex justify-content-between align-items-center flex-wrap gap-3">
+  <div>
+    <h1 class="mb-1">Database</h1>
+    <nav>
+      <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item">
+          <a href="{{ url_for('routes.dashboard_get') }}">Home</a>
+        </li>
+        <li class="breadcrumb-item active">All Periods</li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- Dropdown Model -->
+  <div class="dropdown">
+    <button class="btn btn-sm model-dropdown dropdown-toggle"
+            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <span class="model-badge" id="selectedModel">
+        <i class="bi bi-cpu me-1"></i>
+        {{ "IndoBERTweet" if model == "dl" else "SVM" }}
+      </span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0">
+      <li>
+        <a class="dropdown-item {{ 'active' if model == 'dl' }}"
+           href="{{ url_for('routes.all_period_get') }}?model=dl&saham={{ filter_saham }}&page=1">
+          <i class="bi bi-cpu me-1"></i> IndoBERTweet
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item {{ 'active' if model == 'ml' }}"
+           href="{{ url_for('routes.all_period_get') }}?model=ml&saham={{ filter_saham }}&page=1">
+          <i class="bi bi-cpu me-1"></i> SVM
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>
-<!-- End Page Title -->
 
 <section class="section dashboard">
   <div class="row">
-    <!-- Total Tweet Card -->
-    <div class="col-xxl-4 col-md-6">
+
+    <!-- Info Cards -->
+    <div class="col-xxl-3 col-md-6">
       <div class="card info-card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Total Tweet</h5>
-
           <div class="d-flex align-items-center">
-            <div
-              class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-              style="background-color: #4154f1"
-            >
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+                 style="background-color:#4154f1">
               <i class="bi bi-chat-dots-fill"></i>
             </div>
-
             <div class="ps-3">
-              <h6>117.054</h6>
-              <span class="text-muted small">
-                Total data tweet yang dianalisis
-              </span>
+              <h6>{{ "{:,}".format(total).replace(",", ".") }}</h6>
+              <span class="text-muted small">Total data tweet yang dianalisis</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- End Total Tweet Card -->
 
-    <!-- Total Tweet Positif Card -->
-    <div class="col-xxl-4 col-md-6">
+    <div class="col-xxl-3 col-md-6">
       <div class="card info-card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Sentimen Positif</h5>
-
           <div class="d-flex align-items-center">
-            <div
-              class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-              style="background-color: #28a745"
-            >
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+                 style="background-color:#28a745">
               <i class="bi bi-emoji-smile-fill"></i>
             </div>
-
             <div class="ps-3">
-              <h6>91.360</h6>
-              <span class="text-muted small">
-                Tweet dengan sentimen positif
-              </span>
+              <h6>{{ "{:,}".format(positif).replace(",", ".") }}</h6>
+              <span class="text-muted small">Tweet dengan sentimen positif</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- End Positif Card -->
 
-    <!-- Total Tweet Negatif Card -->
-    <div class="col-xxl-4 col-md-6">
+    <div class="col-xxl-3 col-md-6">
       <div class="card info-card shadow-sm">
         <div class="card-body">
           <h5 class="card-title">Sentimen Negatif</h5>
-
           <div class="d-flex align-items-center">
-            <div
-              class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-              style="background-color: #ff4d4f"
-            >
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+                 style="background-color:#ff4d4f">
               <i class="bi bi-emoji-frown-fill"></i>
             </div>
-
             <div class="ps-3">
-              <h6>25.694</h6>
-              <span class="text-muted small">
-                Tweet dengan sentimen negatif
-              </span>
+              <h6>{{ "{:,}".format(negatif).replace(",", ".") }}</h6>
+              <span class="text-muted small">Tweet dengan sentimen negatif</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- End Negatif Card -->
 
-    <!-- ======= Distribusi Sentimen per Saham ======= -->
-    <div class="row pd-4 align-items-between">
-      <div class="col-12">
-        <div class="d-flex align-items-center mb-2">
-          <h5 class="mb-0 section-title">Distribusi Sentimen persaham</h5>
+    {% if model == "ml" %}
+    <div class="col-xxl-3 col-md-6">
+      <div class="card info-card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">Sentimen Netral</h5>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+                 style="background-color:#f0ad4e">
+              <i class="bi bi-emoji-neutral-fill"></i>
+            </div>
+            <div class="ps-3">
+              <h6>{{ "{:,}".format(netral).replace(",", ".") }}</h6>
+              <span class="text-muted small">Tweet dengan sentimen netral</span>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+    {% endif %}
 
+    <!-- Distribusi Sentimen per Saham -->
+    <div class="row pt-4">
+      <div class="col-12 mb-2">
+        <h5 class="mb-0 section-title">Distribusi Sentimen per Saham</h5>
+      </div>
       <div class="col-12">
         <div class="row g-4">
-          <!-- BBRI -->
+          {% for s in distribusi %}
           <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
             <div class="stock-sentiment-card h-100">
-              <div class="stock-code-badge">BBRI</div>
-              <h6 class="stock-name">Bank BRI</h6>
+              <div class="stock-code-badge">{{ s.kode }}</div>
 
               <div class="progress stock-progress">
-                <div
-                  class="progress-bar"
-                  style="width: 73.6%; background-color: #28a745"
-                ></div>
-                <div
-                  class="progress-bar"
-                  style="width: 26.4%; background-color: #ff4d4f"
-                ></div>
+                <div class="progress-bar"
+                     style="width:{{ s.pct_positif }}%; background-color:#28a745"
+                     title="Positif {{ s.pct_positif }}%"></div>
+                {% if model == "ml" %}
+                <div class="progress-bar"
+                     style="width:{{ s.pct_netral }}%; background-color:#f0ad4e"
+                     title="Netral {{ s.pct_netral }}%"></div>
+                {% endif %}
+                <div class="progress-bar"
+                     style="width:{{ s.pct_negatif }}%; background-color:#ff4d4f"
+                     title="Negatif {{ s.pct_negatif }}%"></div>
               </div>
 
               <div class="sentiment-footer">
                 <div class="sentiment-stats align-items-center">
-                  <span class="sentiment-up">↑ 73.6%</span>
-                  <span class="sentiment-down">↓ 26.4%</span>
+                  <span class="sentiment-up">↑ {{ s.pct_positif }}%</span>
+                  {% if model == "ml" %}
+                  <span class="sentiment-neutral" style="color:#f0ad4e">
+                    – {{ s.pct_netral }}%
+                  </span>
+                  {% endif %}
+                  <span class="sentiment-down">↓ {{ s.pct_negatif }}%</span>
                 </div>
-                <div class="stock-total">38.616 Tweet</div>
+                <div class="stock-total">
+                  {{ "{:,}".format(s.total).replace(",", ".") }} Tweet
+                </div>
               </div>
             </div>
           </div>
-
-          <!-- BMRI -->
-          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-            <div class="stock-sentiment-card h-100">
-              <div class="stock-code-badge">BMRI</div>
-              <h6 class="stock-name">Bank Mandiri</h6>
-
-              <div class="progress stock-progress">
-                <div
-                  class="progress-bar"
-                  style="width: 85.6%; background-color: #28a745"
-                ></div>
-                <div
-                  class="progress-bar"
-                  style="width: 14.4%; background-color: #ff4d4f"
-                ></div>
-              </div>
-
-              <div class="sentiment-footer">
-                <div class="sentiment-stats align-items-center">
-                  <span class="sentiment-up">↑ 85.6%</span>
-                  <span class="sentiment-down">↓ 14.4%</span>
-                </div>
-                <div class="stock-total">23.668 Tweet</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ICBP -->
-          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-            <div class="stock-sentiment-card h-100">
-              <div class="stock-code-badge">ICBP</div>
-              <h6 class="stock-name">Indofood CBP</h6>
-
-              <div class="progress stock-progress">
-                <div
-                  class="progress-bar"
-                  style="width: 87%; background-color: #28a745"
-                ></div>
-                <div
-                  class="progress-bar"
-                  style="width: 13%; background-color: #ff4d4f"
-                ></div>
-              </div>
-
-              <div class="sentiment-footer">
-                <div class="sentiment-stats align-items-center">
-                  <span class="sentiment-up">↑ 87%</span>
-                  <span class="sentiment-down">↓ 13%</span>
-                </div>
-                <div class="stock-total">7.526 Tweet</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- ISAT -->
-          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-            <div class="stock-sentiment-card h-100">
-              <div class="stock-code-badge">ISAT</div>
-              <h6 class="stock-name">Indosat</h6>
-
-              <div class="progress stock-progress">
-                <div
-                  class="progress-bar"
-                  style="width: 66.8%; background-color: #28a745"
-                ></div>
-                <div
-                  class="progress-bar"
-                  style="width: 33.2%; background-color: #ff4d4f"
-                ></div>
-              </div>
-
-              <div class="sentiment-footer">
-                <div class="sentiment-stats align-items-center">
-                  <span class="sentiment-up">↑ 66.8%</span>
-                  <span class="sentiment-down">↓ 33.2%</span>
-                </div>
-                <div class="stock-total">2.139 Tweet</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- TLKM -->
-          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-            <div class="stock-sentiment-card h-100">
-              <div class="stock-code-badge">TLKM</div>
-              <h6 class="stock-name">Telkom</h6>
-
-              <div class="progress stock-progress">
-                <div
-                  class="progress-bar"
-                  style="width: 83.5%; background-color: #28a745"
-                ></div>
-                <div
-                  class="progress-bar"
-                  style="width: 16.5%; background-color: #ff4d4f"
-                ></div>
-              </div>
-
-              <div class="sentiment-footer">
-                <div class="sentiment-stats align-items-center">
-                  <span class="sentiment-up">↑ 83.5%</span>
-                  <span class="sentiment-down">↓ 16.5%</span>
-                </div>
-                <div class="stock-total">28.548 Tweet</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- UNVR -->
-          <div class="col-12 col-sm-6 col-lg-4 col-xl-2">
-            <div class="stock-sentiment-card h-100">
-              <div class="stock-code-badge">UNVR</div>
-              <h6 class="stock-name">Unilever</h6>
-
-              <div class="progress stock-progress">
-                <div
-                  class="progress-bar"
-                  style="width: 65.6%; background-color: #28a745"
-                ></div>
-                <div
-                  class="progress-bar"
-                  style="width: 34.4%; background-color: #ff4d4f"
-                ></div>
-              </div>
-
-              <div class="sentiment-footer">
-                <div class="sentiment-stats align-items-center">
-                  <span class="sentiment-up">↑ 65.6%</span>
-                  <span class="sentiment-down">↓ 34.4%</span>
-                </div>
-                <div class="stock-total">16.557 Tweet</div>
-              </div>
-            </div>
-          </div>
+          {% endfor %}
         </div>
       </div>
     </div>
-    <!-- ======= End Distribusi Sentimen per Saham ======= -->
 
+    <!-- Tabel Tweet -->
     <div class="col-lg-12 pt-4">
       <div class="card">
         <div class="card-body">
-          <div
-            class="d-flex justify-content-between align-items-center flex-wrap gap-2"
-          >
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h5 class="card-title mb-0">Data Tweet Sentimen Saham</h5>
-
             <div class="d-flex align-items-center gap-2">
-              <label for="filterSaham" class="mb-0 text-muted small">
-                Filter Saham:
-              </label>
-              <select
-                id="filterSaham"
-                class="form-select form-select-sm"
-                style="width: 140px"
-              >
-                <option value="all">Semua</option>
-                <option value="BBRI">BBRI</option>
-                <option value="BMRI">BMRI</option>
-                <option value="ICBP">ICBP</option>
-                <option value="ISAT">ISAT</option>
-                <option value="TLKM">TLKM</option>
-                <option value="UNVR">UNVR</option>
+              <label for="filterSaham" class="mb-0 text-muted small">Filter Saham:</label>
+              <select id="filterSaham" class="form-select form-select-sm"
+                      style="width:140px" onchange="applyFilter(this.value)">
+                <option value="all" {% if filter_saham == 'ALL' %}selected{% endif %}>Semua</option>
+                {% for kode in saham_list %}
+                <option value="{{ kode }}" {% if filter_saham == kode %}selected{% endif %}>
+                  {{ kode }}
+                </option>
+                {% endfor %}
               </select>
             </div>
           </div>
@@ -303,104 +191,117 @@
             <table class="table table-hover align-middle">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Tanggal</th>
-                  <th scope="col">Tweet</th>
-                  <th scope="col">Sentimen</th>
-                  <th scope="col">Saham</th>
+                  <th>#</th>
+                  <th>Tanggal</th>
+                  <th>Tweet</th>
+                  <th>Sentimen</th>
+                  <th>Saham</th>
                 </tr>
               </thead>
-
-              <tbody id="tweetTableBody">
-                <tr data-saham="BBRI">
-                  <th scope="row">1</th>
-                  <td>2023-01-01</td>
+              <tbody>
+                {% for row in rows %}
+                <tr>
+                  <td>{{ row.no }}</td>
+                  <td class="text-nowrap">{{ row.date }}</td>
+                  <td>{{ row.tweet }}</td>
                   <td>
-                    Saham BBRI diprediksi mengalami kenaikan setelah laporan
-                    keuangan positif...
+                    {% if row.sentiment == "positif" %}
+                      <span class="badge bg-success">Positif</span>
+                    {% elif row.sentiment == "negatif" %}
+                      <span class="badge bg-danger">Negatif</span>
+                    {% else %}
+                      <span class="badge bg-warning text-dark">Netral</span>
+                    {% endif %}
                   </td>
-                  <td><span class="badge bg-success">Positif</span></td>
-                  <td><span class="badge bg-primary">BBRI</span></td>
+                  <td><span class="badge bg-primary">{{ row.saham }}</span></td>
                 </tr>
-
-                <tr data-saham="UNVR">
-                  <th scope="row">2</th>
-                  <td>2023-01-02</td>
-                  <td>
-                    Investor khawatir terhadap penurunan performa saham UNVR
-                    pada kuartal ini...
-                  </td>
-                  <td><span class="badge bg-danger">Negatif</span></td>
-                  <td><span class="badge bg-primary">UNVR</span></td>
+                {% else %}
+                <tr>
+                  <td colspan="5" class="text-center text-muted">Tidak ada data.</td>
                 </tr>
-
-                <tr data-saham="BMRI">
-                  <th scope="row">3</th>
-                  <td>2023-01-03</td>
-                  <td>
-                    BMRI menunjukkan tren penguatan di tengah sentimen pasar
-                    yang positif...
-                  </td>
-                  <td><span class="badge bg-success">Positif</span></td>
-                  <td><span class="badge bg-primary">BMRI</span></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
 
-          <div
-            class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2"
-          >
-            <small class="text-muted" id="tableInfo">
-              Menampilkan 1-50 dari 13.595 data
+          <!-- Paginasi -->
+          <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap gap-2">
+            <small class="text-muted">
+              Menampilkan {{ start_row }}–{{ end_row }} dari
+              {{ "{:,}".format(total_filtered).replace(",", ".") }} data
             </small>
-
             <nav>
               <ul class="pagination pagination-sm mb-0">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#">Previous</a>
+
+                <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                  <a class="page-link"
+                     href="{{ url_for('routes.all_period_get') }}?model={{ model }}&saham={{ filter_saham }}&page={{ page - 1 }}">
+                    Previous
+                  </a>
                 </li>
-                <li class="page-item active">
-                  <a class="page-link" href="#">1</a>
-                </li>
+
+                {% set p_start = [1, page - 2] | max %}
+                {% set p_end   = [total_pages, page + 2] | min %}
+
+                {% if p_start > 1 %}
                 <li class="page-item">
-                  <a class="page-link" href="#">2</a>
+                  <a class="page-link"
+                     href="{{ url_for('routes.all_period_get') }}?model={{ model }}&saham={{ filter_saham }}&page=1">
+                    1
+                  </a>
                 </li>
+                {% if p_start > 2 %}
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+                {% endif %}
+                {% endif %}
+
+                {% for p in range(p_start, p_end + 1) %}
+                <li class="page-item {% if p == page %}active{% endif %}">
+                  <a class="page-link"
+                     href="{{ url_for('routes.all_period_get') }}?model={{ model }}&saham={{ filter_saham }}&page={{ p }}">
+                    {{ p }}
+                  </a>
+                </li>
+                {% endfor %}
+
+                {% if p_end < total_pages %}
+                {% if p_end < total_pages - 1 %}
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+                {% endif %}
                 <li class="page-item">
-                  <a class="page-link" href="#">3</a>
+                  <a class="page-link"
+                     href="{{ url_for('routes.all_period_get') }}?model={{ model }}&saham={{ filter_saham }}&page={{ total_pages }}">
+                    {{ total_pages }}
+                  </a>
                 </li>
-                <li class="page-item">
-                  <a class="page-link" href="before-covid.html?page=2">Next</a>
+                {% endif %}
+
+                <li class="page-item {% if page >= total_pages %}disabled{% endif %}">
+                  <a class="page-link"
+                     href="{{ url_for('routes.all_period_get') }}?model={{ model }}&saham={{ filter_saham }}&page={{ page + 1 }}">
+                    Next
+                  </a>
                 </li>
+
               </ul>
             </nav>
           </div>
+
         </div>
       </div>
     </div>
+
   </div>
 </section>
 {% endblock %}
 
 {% block scripts %}
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const filterSaham = document.getElementById("filterSaham");
-    const rows = document.querySelectorAll("#tweetTableBody tr");
-
-    filterSaham.addEventListener("change", () => {
-      const selected = filterSaham.value.toUpperCase();
-
-      rows.forEach((row) => {
-        const saham = row.getAttribute("data-saham");
-
-        if (selected === "ALL" || saham === selected) {
-          row.style.display = "";
-        } else {
-          row.style.display = "none";
-        }
-      });
-    });
-  });
+function applyFilter(saham) {
+  const url = new URL(window.location.href);
+  url.searchParams.set("saham", saham);
+  url.searchParams.set("page", "1");
+  window.location.href = url.toString();
+}
 </script>
 {% endblock %}

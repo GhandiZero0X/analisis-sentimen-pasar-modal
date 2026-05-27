@@ -66,10 +66,10 @@ routes_bp.add_url_rule("/admin/logout", view_func=logout, methods=["POST"])
 routes_bp.add_url_rule("/admin/dashboard", view_func=dashboard_get, methods=["GET"])
 
 # ── Dataset ────────────────────────────────────────────────
-routes_bp.add_url_rule("/admin/dataset/before-covid",  view_func=before_get,     methods=["GET"])
-routes_bp.add_url_rule("/admin/dataset/after-covid",   view_func=after_get,      methods=["GET"])
-routes_bp.add_url_rule("/admin/dataset/covid",         view_func=covid_get,      methods=["GET"])
-routes_bp.add_url_rule("/admin/dataset/all-periods",   view_func=all_period_get, methods=["GET"])
+routes_bp.add_url_rule("/admin/dataset/before-covid", view_func=login_required(before_get),     methods=["GET"])
+routes_bp.add_url_rule("/admin/dataset/after-covid",  view_func=login_required(after_get),      methods=["GET"])
+routes_bp.add_url_rule("/admin/dataset/covid",        view_func=login_required(covid_get),      methods=["GET"])
+routes_bp.add_url_rule("/admin/dataset/all-periods",  view_func=login_required(all_period_get), methods=["GET"])
 
 # ── Model ──────────────────────────────────────────────────
 routes_bp.add_url_rule("/admin/model/dl", view_func=modelDL_get, methods=["GET"])
