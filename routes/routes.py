@@ -69,7 +69,7 @@ def register():
 routes_bp.add_url_rule("/admin/logout", view_func=logout, methods=["POST"])
 
 # ── Dashboard admin ────────────────────────────────────────
-routes_bp.add_url_rule("/admin/dashboard", view_func=dashboard_get, methods=["GET"])
+routes_bp.add_url_rule("/admin/dashboard", view_func=login_required(dashboard_get), methods=["GET"])
 
 # ── Dataset ────────────────────────────────────────────────
 routes_bp.add_url_rule("/admin/dataset/before-covid", view_func=login_required(before_get),     methods=["GET"])
@@ -82,7 +82,7 @@ routes_bp.add_url_rule("/admin/model/dl", view_func=modelDL_get, methods=["GET"]
 routes_bp.add_url_rule("/admin/model/ml", view_func=modelML_get, methods=["GET"])
 
 # ── Komparasi ──────────────────────────────────────────────
-routes_bp.add_url_rule("/admin/komparasi", view_func=komparasi_get, methods=["GET"])
+routes_bp.add_url_rule("/admin/komparasi", view_func=login_required(komparasi_get), methods=["GET"])
 
 # ── Manajemen Akun (khusus superadmin) ────────────────────────────────────────
 routes_bp.add_url_rule("/admin/accounts",

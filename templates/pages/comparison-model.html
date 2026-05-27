@@ -1,3 +1,4 @@
+<!-- pages/comparison-model.html -->
 {% extends "layout/baseAdmin.html" %}
 
 {% block title %}Perbandingan Model{% endblock %}
@@ -7,7 +8,7 @@
   <h1>Komparasi Model</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="dashboard.html">Home</a></li>
+      <li class="breadcrumb-item"><a href="{{ url_for('routes.dashboard_get') }}">Home</a></li>
       <li class="breadcrumb-item active">Komparasi Model</li>
     </ol>
   </nav>
@@ -15,13 +16,12 @@
 
 <section class="section dashboard">
   <div class="row g-4">
-    <!-- Header Info -->
+
+    <!-- ── Header Info ── -->
     <div class="col-12">
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <div
-            class="d-flex justify-content-between align-items-center flex-wrap gap-3"
-          >
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
               <h5 class="card-title mb-1">Perbandingan Kinerja Model</h5>
               <p class="text-muted mb-0">
@@ -29,10 +29,8 @@
                 pengujian masing-masing.
               </p>
             </div>
-
             <span class="badge bg-primary px-3 py-2">Model Comparison</span>
           </div>
-
           <div class="alert alert-info mt-3 mb-0">
             <small>
               Catatan: perbandingan ini menampilkan hasil evaluasi masing-masing
@@ -44,23 +42,18 @@
       </div>
     </div>
 
-    <!-- Summary Cards -->
+    <!-- ── Summary Cards ── -->
     <div class="col-12 col-md-6">
       <div class="card info-card shadow-sm h-100">
         <div class="card-body">
           <h5 class="card-title">Model Lebih Akurat</h5>
-
           <div class="d-flex align-items-center">
-            <div
-              class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-primary text-white"
-            >
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-primary text-white">
               <i class="bi bi-bullseye"></i>
             </div>
-
             <div class="ps-3">
-              <h6>IndoBERTweet</h6>
-
-              <span class="text-muted small">Accuracy 96.12%</span>
+              <h6>{{ best_acc_model }}</h6>
+              <span class="text-muted small">Rata-rata Accuracy {{ best_acc_value }}%</span>
             </div>
           </div>
         </div>
@@ -71,29 +64,35 @@
       <div class="card info-card shadow-sm h-100">
         <div class="card-body">
           <h5 class="card-title">Model Tercepat</h5>
-
           <div class="d-flex align-items-center">
-            <div
-              class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-warning text-white"
-            >
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-warning text-white">
               <i class="bi bi-clock-history"></i>
             </div>
-
             <div class="ps-3">
-              <h6>SVM</h6>
-
-              <span class="text-muted small">Runtime 7.68 detik</span>
+              <h6>{{ fastest_model }}</h6>
+              <span class="text-muted small">Rata-rata Runtime {{ fastest_rt }} detik</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Comparison Chart -->
+    <!-- ── Comparison Chart ── -->
     <div class="col-12">
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <h5 class="card-title mb-3">Grafik Perbandingan</h5>
+          <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <h5 class="card-title mb-0">Grafik Perbandingan</h5>
+            <!-- Toggle Accuracy / Runtime -->
+            <div class="btn-group btn-group-sm" role="group" id="chartToggle">
+              <button type="button" class="btn btn-primary active" data-metric="accuracy">
+                Accuracy (%)
+              </button>
+              <button type="button" class="btn btn-outline-primary" data-metric="runtime">
+                Runtime (detik)
+              </button>
+            </div>
+          </div>
           <div style="height: 360px">
             <canvas id="comparisonChart"></canvas>
           </div>
@@ -101,12 +100,11 @@
       </div>
     </div>
 
-    <!-- Comparison Table -->
+    <!-- ── Comparison Table ── -->
     <div class="col-12">
       <div class="card shadow-sm border-0">
         <div class="card-body">
           <h5 class="card-title mb-3">Tabel Perbandingan Model</h5>
-
           <div class="table-responsive">
             <table class="table table-hover align-middle">
               <thead>
@@ -117,165 +115,39 @@
                   <th>F1 Weighted</th>
                   <th>F1 Macro</th>
                   <th>Train Runtime</th>
-                  <th>Evaluation Runtime</th>
+                  <th>Eval Runtime</th>
                   <th>Total Runtime</th>
                 </tr>
               </thead>
-
               <tbody>
-                <!-- IndoBERTweet -->
+                {% for r in rows %}
                 <tr>
                   <td>
-                    <span class="badge bg-primary">Sebelum COVID</span>
+                    {% if r.model_type == 'dl' %}
+                      <span class="badge bg-primary">{{ r.period_label }}</span>
+                    {% else %}
+                      <span class="badge bg-success">{{ r.period_label }}</span>
+                    {% endif %}
                   </td>
-
+                  <td><strong>{{ r.model_label }}</strong></td>
+                  <td>{{ r.accuracy }}%</td>
+                  <td>{{ r.f1_weighted }}%</td>
+                  <td>{{ r.f1_macro }}%</td>
+                  <td>{{ r.train_rt }} detik</td>
+                  <td>{{ r.eval_rt }} detik</td>
                   <td>
-                    <strong>IndoBERTweet</strong>
-                  </td>
-
-                  <td>96.12%</td>
-                  <td>96.09%</td>
-                  <td>95.35%</td>
-                  <td>747.34 detik</td>
-                  <td>10.70 detik</td>
-                  <td>
-                    <span class="fw-bold text-primary">758.04 detik</span>
+                    {% if r.model_type == 'dl' %}
+                      <span class="fw-bold text-primary">{{ r.total_rt }} detik</span>
+                    {% else %}
+                      <span class="fw-bold text-success">{{ r.total_rt }} detik</span>
+                    {% endif %}
                   </td>
                 </tr>
-
+                {% else %}
                 <tr>
-                  <td>
-                    <span class="badge bg-primary">Masa COVID</span>
-                  </td>
-
-                  <td>
-                    <strong>IndoBERTweet</strong>
-                  </td>
-
-                  <td>99.16%</td>
-                  <td>99.16%</td>
-                  <td>98.87%</td>
-                  <td>4192.74 detik</td>
-                  <td>31.15 detik</td>
-                  <td>
-                    <span class="fw-bold text-primary">4223.89 detik</span>
-                  </td>
+                  <td colspan="8" class="text-center text-muted">Data tidak tersedia.</td>
                 </tr>
-
-                <tr>
-                  <td>
-                    <span class="badge bg-primary">Setelah COVID</span>
-                  </td>
-
-                  <td>
-                    <strong>IndoBERTweet</strong>
-                  </td>
-
-                  <td>98.40%</td>
-                  <td>98.41%</td>
-                  <td>97.75%</td>
-                  <td>2611.94 detik</td>
-                  <td>22.87 detik</td>
-                  <td>
-                    <span class="fw-bold text-primary">2634.81 detik</span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <span class="badge bg-primary">Semua Periode</span>
-                  </td>
-
-                  <td>
-                    <strong>IndoBERTweet</strong>
-                  </td>
-
-                  <td>99.44%</td>
-                  <td>99.44%</td>
-                  <td>99.25%</td>
-                  <td>7458.96 detik</td>
-                  <td>66.29 detik</td>
-                  <td>
-                    <span class="fw-bold text-primary">7525.25 detik</span>
-                  </td>
-                </tr>
-
-                <!-- SVM -->
-                <tr>
-                  <td>
-                    <span class="badge bg-success">Sebelum COVID</span>
-                  </td>
-
-                  <td>
-                    <strong>SVM</strong>
-                  </td>
-
-                  <td>85.45%</td>
-                  <td>85.45%</td>
-                  <td>85.40%</td>
-                  <td>6.98 detik</td>
-                  <td>0.70 detik</td>
-                  <td>
-                    <span class="fw-bold text-success">7.68 detik</span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <span class="badge bg-success">Masa COVID</span>
-                  </td>
-
-                  <td>
-                    <strong>SVM</strong>
-                  </td>
-
-                  <td>82.87%</td>
-                  <td>82.95%</td>
-                  <td>81.48%</td>
-                  <td>86.51 detik</td>
-                  <td>0.72 detik</td>
-                  <td>
-                    <span class="fw-bold text-success">87.23 detik</span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <span class="badge bg-success">Setelah COVID</span>
-                  </td>
-
-                  <td>
-                    <strong>SVM</strong>
-                  </td>
-
-                  <td>83.62%</td>
-                  <td>83.69%</td>
-                  <td>81.72%</td>
-                  <td>67.61 detik</td>
-                  <td>0.92 detik</td>
-                  <td>
-                    <span class="fw-bold text-success">68.53 detik</span>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>
-                    <span class="badge bg-success">Semua Periode</span>
-                  </td>
-
-                  <td>
-                    <strong>SVM</strong>
-                  </td>
-
-                  <td>85.12%</td>
-                  <td>85.18%</td>
-                  <td>83.95%</td>
-                  <td>112.45 detik</td>
-                  <td>0.72 detik</td>
-                  <td>
-                    <span class="fw-bold text-success">113.17 detik</span>
-                  </td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>
@@ -283,7 +155,7 @@
       </div>
     </div>
 
-    <!-- Insight Box -->
+    <!-- ── Insight Box ── -->
     <div class="col-12">
       <div class="card shadow-sm border-0">
         <div class="card-body">
@@ -302,17 +174,17 @@
               <div class="p-3 border rounded h-100 bg-light">
                 <div class="fw-semibold mb-1">Kecepatan</div>
                 <div class="text-muted small">
-                  SVM jauh lebih cepat dalam runtime, jadi lebih ringan untuk
-                  inference.
+                  SVM jauh lebih cepat dalam runtime, sehingga lebih ringan
+                  untuk inference.
                 </div>
               </div>
             </div>
             <div class="col-12 col-lg-4">
               <div class="p-3 border rounded h-100 bg-light">
-                <div class="fw-semibold mb-1">AUC</div>
+                <div class="fw-semibold mb-1">F1 Macro</div>
                 <div class="text-muted small">
-                  SVM menunjukkan Macro AUC yang tinggi, jadi bagus untuk
-                  pemisahan kelas.
+                  SVM menunjukkan F1 Macro yang kompetitif, cocok untuk
+                  pemisahan kelas yang seimbang.
                 </div>
               </div>
             </div>
@@ -320,112 +192,122 @@
         </div>
       </div>
     </div>
+
   </div>
 </section>
 {% endblock %}
 
+
 {% block scripts %}
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const ctx = document.getElementById("comparisonChart");
+// ─── Data dari Flask ─────────────────────────────────────────────────────────
+const chartData = {
+  labels: {{ chart_data.labels | tojson }},
+  dl_acc: {{ chart_data.dl_acc | tojson }},
+  ml_acc: {{ chart_data.ml_acc | tojson }},
+  dl_rt:  {{ chart_data.dl_rt  | tojson }},
+  ml_rt:  {{ chart_data.ml_rt  | tojson }},
+};
 
-    new Chart(ctx, {
-      type: "bar",
+// ─── Chart setup ─────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  const ctx = document.getElementById("comparisonChart").getContext("2d");
 
-      data: {
-        labels: [
-          "Sebelum COVID",
-          "Masa COVID",
-          "Setelah COVID",
-          "Semua Periode",
-        ],
+  const accuracyDatasets = [
+    {
+      label: "IndoBERTweet Accuracy",
+      data: chartData.dl_acc,
+      backgroundColor: "rgba(13, 110, 253, 0.75)",
+      borderColor: "#0d6efd",
+      borderWidth: 1,
+      borderRadius: 8,
+    },
+    {
+      label: "SVM Accuracy",
+      data: chartData.ml_acc,
+      backgroundColor: "rgba(46, 202, 106, 0.75)",
+      borderColor: "#2eca6a",
+      borderWidth: 1,
+      borderRadius: 8,
+    },
+  ];
 
-        datasets: [
-          // IndoBERTweet Accuracy
-          {
-            label: "IndoBERTweet Accuracy",
-            data: [96.12, 99.16, 98.4, 99.44],
+  const runtimeDatasets = [
+    {
+      label: "IndoBERTweet Runtime",
+      data: chartData.dl_rt,
+      backgroundColor: "rgba(255, 193, 7, 0.75)",
+      borderColor: "#ffc107",
+      borderWidth: 1,
+      borderRadius: 8,
+    },
+    {
+      label: "SVM Runtime",
+      data: chartData.ml_rt,
+      backgroundColor: "rgba(220, 53, 69, 0.75)",
+      borderColor: "#dc3545",
+      borderWidth: 1,
+      borderRadius: 8,
+    },
+  ];
 
-            backgroundColor: "rgba(13, 110, 253, 0.75)",
-            borderColor: "#0d6efd",
-            borderWidth: 1,
-            borderRadius: 8,
-          },
+  let currentMetric = "accuracy";
 
-          // SVM Accuracy
-          {
-            label: "SVM Accuracy",
-            data: [85.45, 82.87, 83.62, 85.12],
-
-            backgroundColor: "rgba(46, 202, 106, 0.75)",
-            borderColor: "#2eca6a",
-            borderWidth: 1,
-            borderRadius: 8,
-          },
-
-          // IndoBERTweet Runtime
-          {
-            label: "IndoBERTweet Runtime",
-            data: [758.04, 4223.89, 2634.81, 7525.25],
-
-            backgroundColor: "rgba(255, 193, 7, 0.75)",
-            borderColor: "#ffc107",
-            borderWidth: 1,
-            borderRadius: 8,
-          },
-
-          // SVM Runtime
-          {
-            label: "SVM Runtime",
-            data: [7.68, 87.23, 68.53, 113.17],
-
-            backgroundColor: "rgba(220, 53, 69, 0.75)",
-            borderColor: "#dc3545",
-            borderWidth: 1,
-            borderRadius: 8,
-          },
-        ],
-      },
-
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-
-        plugins: {
-          legend: {
-            position: "top",
-          },
-
-          tooltip: {
-            callbacks: {
-              label: function (context) {
-                const label = context.dataset.label || "";
-                const value = context.raw;
-
-                if (label.includes("Runtime")) {
-                  return `${label}: ${value} detik`;
-                }
-
-                return `${label}: ${value}%`;
-              },
-            },
-          },
-        },
-
-        scales: {
-          y: {
-            beginAtZero: true,
-
-            ticks: {
-              callback: function (value) {
-                return value;
-              },
+  const chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: chartData.labels,
+      datasets: accuracyDatasets,
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "top" },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              const label = context.dataset.label || "";
+              const value = context.raw;
+              return label.includes("Runtime")
+                ? `${label}: ${value} detik`
+                : `${label}: ${value}%`;
             },
           },
         },
       },
-    });
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: (v) => currentMetric === "accuracy" ? v + "%" : v + "s",
+          },
+        },
+      },
+    },
   });
+
+  // ── Toggle Accuracy / Runtime ─────────────────────────────────────────────
+  document.getElementById("chartToggle").addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-metric]");
+    if (!btn) return;
+
+    document.querySelectorAll("#chartToggle .btn").forEach(b => {
+      b.classList.remove("btn-primary", "active");
+      b.classList.add("btn-outline-primary");
+    });
+    btn.classList.remove("btn-outline-primary");
+    btn.classList.add("btn-primary", "active");
+
+    currentMetric = btn.dataset.metric;
+
+    if (currentMetric === "accuracy") {
+      chart.data.datasets = accuracyDatasets;
+    } else {
+      chart.data.datasets = runtimeDatasets;
+    }
+    chart.update();
+  });
+});
 </script>
-<!-- End #main -->
 {% endblock %}
