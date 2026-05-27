@@ -78,8 +78,9 @@ routes_bp.add_url_rule("/admin/dataset/covid",        view_func=login_required(c
 routes_bp.add_url_rule("/admin/dataset/all-periods",  view_func=login_required(all_period_get), methods=["GET"])
 
 # ── Model ──────────────────────────────────────────────────
-routes_bp.add_url_rule("/admin/model/dl", view_func=modelDL_get, methods=["GET"])
-routes_bp.add_url_rule("/admin/model/ml", view_func=modelML_get, methods=["GET"])
+# Menjadi (tambahkan endpoint= agar url_for bisa dipanggil):
+routes_bp.add_url_rule("/admin/model/dl", endpoint="modelDL_get", view_func=login_required(modelDL_get), methods=["GET"])
+routes_bp.add_url_rule("/admin/model/ml", endpoint="modelML_get", view_func=login_required(modelML_get), methods=["GET"])
 
 # ── Komparasi ──────────────────────────────────────────────
 routes_bp.add_url_rule("/admin/komparasi", view_func=login_required(komparasi_get), methods=["GET"])

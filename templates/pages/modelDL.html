@@ -7,7 +7,9 @@
   <h1>Model</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ url_for('routes.dashboard_get') }}">Home</a></li>
+      <li class="breadcrumb-item">
+        <a href="{{ url_for('routes.dashboard_get') }}">Home</a>
+      </li>
       <li class="breadcrumb-item active">Model IndoBERTweet</li>
     </ol>
   </nav>
@@ -15,258 +17,189 @@
 
 <section class="section dashboard">
   <div class="row g-4">
+
     <!-- Upload & Update Model -->
     <div class="col-12">
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <div
-            class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3"
-          >
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
             <div>
               <h5 class="card-title mb-1">Update Model IndoBERTweet</h5>
             </div>
-
-            <span class="badge bg-primary px-3 py-2">
-              Model Fine-tuning Ready
-            </span>
+            <span class="badge bg-primary px-3 py-2">Model Fine-tuning Ready</span>
           </div>
 
           <form class="row g-3" action="#" onsubmit="return false;">
             <div class="col-12 col-lg-6">
-              <label for="modelTarget" class="form-label">
-                Pilih Model yang Akan Diupdate
-              </label>
+              <label for="modelTarget" class="form-label">Pilih Model yang Akan Diupdate</label>
               <select class="form-select" id="modelTarget" name="model_target">
-                <option value="before" data-path="data/modelDL/before">
-                  Before Covid
-                </option>
-                <option value="covid" data-path="data/modelDL/covid">
-                  Covid
-                </option>
-                <option value="after" data-path="data/modelDL/after">
-                  After Covid
-                </option>
-                <option
-                  value="all_periods"
-                  data-path="data/modelDL/all_periods"
-                >
-                  All Periods
-                </option>
+                <option value="before" data-path="data/modelDL/before">Before Covid</option>
+                <option value="covid"  data-path="data/modelDL/covid">Covid</option>
+                <option value="after"  data-path="data/modelDL/after">After Covid</option>
+                <option value="all_periods" data-path="data/modelDL/all_periods">All Periods</option>
               </select>
             </div>
 
             <div class="col-12 col-lg-6">
-              <label for="csvUpload" class="form-label">
-                Upload CSV Terbaru
-              </label>
-              <input
-                class="form-control"
-                type="file"
-                id="csvUpload"
-                name="csv_file"
-                accept=".csv"
-              />
+              <label for="csvUpload" class="form-label">Upload CSV Terbaru</label>
+              <input class="form-control" type="file" id="csvUpload" name="csv_file" accept=".csv" />
             </div>
 
             <div class="col-12 d-flex flex-wrap gap-2">
-              <button
-                type="button"
-                class="btn btn-outline-primary"
-                id="btnPreviewFile"
-              >
-                Preview File
-              </button>
-              <button type="button" class="btn btn-primary" id="btnUpdateModel">
-                Update Model
-              </button>
+              <button type="button" class="btn btn-outline-primary" id="btnPreviewFile">Preview File</button>
+              <button type="button" class="btn btn-primary"         id="btnUpdateModel">Update Model</button>
             </div>
           </form>
-
-          <!-- <div class="alert alert-info mt-3 mb-0" id="targetFolderInfo">
-                                Model terpilih: <strong>Before Covid</strong> — folder: <code>data/modelDL/before</code>
-                            </div> -->
         </div>
       </div>
     </div>
 
+    <!-- Pipeline -->
     <div class="col-12">
       <div class="pipeline-card">
         <div class="pipeline-header">
-          <h5 class="mb-1">Pipeline Proses</h5>
-          <small class="text-muted">Alur kerja analisis sentimen</small>
+          <h5 class="mb-1">Proses Update Model</h5>
+          <small class="text-muted">Alur kerja update model</small>
         </div>
-
         <div class="pipeline-steps">
           <div class="pipeline-track"></div>
           <div class="pipeline-progress" id="pipelineProgress"></div>
-
-          <div class="pipeline-step active" data-step="1">
-            <div class="step-dot">1</div>
-            <div class="step-label">Preprocessing</div>
+          {% for num, label in [('1','Preprocessing'),('2','Modelling'),('3','Evaluasi'),('4','Komparasi'),('5','Analisis')] %}
+          <div class="pipeline-step {% if loop.last %}active{% endif %}" data-step="{{ num }}">
+            <div class="step-dot">{{ num }}</div>
+            <div class="step-label">{{ label }}</div>
           </div>
-
-          <div class="pipeline-step" data-step="2">
-            <div class="step-dot">2</div>
-            <div class="step-label">Modelling</div>
-          </div>
-
-          <div class="pipeline-step" data-step="3">
-            <div class="step-dot">3</div>
-            <div class="step-label">Evaluasi</div>
-          </div>
-
-          <div class="pipeline-step" data-step="4">
-            <div class="step-dot">4</div>
-            <div class="step-label">Komparasi</div>
-          </div>
-
-          <div class="pipeline-step" data-step="5">
-            <div class="step-dot">5</div>
-            <div class="step-label">Analisis</div>
-          </div>
+          {% endfor %}
         </div>
       </div>
     </div>
 
     <!-- Ringkasan Model -->
-    <!-- 4 Card Atas -->
     <div class="col-12">
-      <h5 class="card-title">Ringkasan Model</h5>
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h5 class="card-title mb-0 p-0">Ringkasan Model</h5>
+
+        <!-- Dropdown: reload halaman dengan period yang dipilih -->
+        <div class="dropdown">
+          <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                  id="dropdownPeriodeModel" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ period_label }}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownPeriodeModel">
+            {% for key, label in periods.items() %}
+            <li>
+              <a class="dropdown-item {% if key == active_period %}active{% endif %}"
+                 href="{{ url_for('routes.modelDL_get', period=key) }}">
+                {{ label }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      <!-- 4 Kartu Metrik -->
       <div class="row g-4">
-        <!-- Accuracy -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">Accuracy</h5>
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-primary text-white"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-primary text-white">
                   <i class="bi bi-bullseye"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>93.55%</h6>
-                  <span class="text-muted small">
-                    Persentase prediksi benar dari total data
-                  </span>
+                  <h6>{{ metrics.accuracy }}</h6>
+                  <span class="text-muted small">Persentase prediksi benar dari total data</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- End Accuracy -->
 
-        <!-- Precision -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">Precision</h5>
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-success text-white"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-success text-white">
                   <i class="bi bi-crosshair"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>93.65%</h6>
-                  <span class="text-muted small">
-                    Kemampuan model mendeteksi kelas positif dengan benar
-                  </span>
+                  <h6>{{ metrics.precision }}</h6>
+                  <span class="text-muted small">Kemampuan model mendeteksi kelas positif dengan benar</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- End Precision -->
 
-        <!-- Recall -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">Recall</h5>
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-warning text-white"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-warning text-white">
                   <i class="bi bi-search"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>93.55%</h6>
-                  <span class="text-muted small">
-                    Kemampuan model untuk mendeteksi kelas positif
-                  </span>
+                  <h6>{{ metrics.recall }}</h6>
+                  <span class="text-muted small">Kemampuan model untuk mendeteksi kelas positif</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- End Test Set -->
 
-        <!-- F1-Score -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">F1-Score</h5>
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-info text-white"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-info text-white">
                   <i class="bi bi-bar-chart-line"></i>
                 </div>
                 <div class="ps-3">
-                  <h6>93.59%</h6>
-                  <span class="text-muted small">
-                    Keseimbangan Precision dan Recall
-                  </span>
+                  <h6>{{ metrics.f1_score }}</h6>
+                  <span class="text-muted small">Keseimbangan Precision dan Recall</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- End F1-Score -->
       </div>
-      <!-- 2 Card Bawah  -->
+
+      <!-- 2 Kartu Bawah -->
       <div class="row g-4 justify-content-center mt-1">
-        <!-- Best Epoch -->
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">Best Epoch</h5>
-
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-                  style="background-color: #8b5fdd"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+                     style="background-color: #8b5fdd">
                   <i class="bi bi-award"></i>
                 </div>
-
                 <div class="ps-3">
-                  <h6>1</h6>
-                  <span class="text-muted small">
-                    Epoch dengan performa terbaik selama pelatihan
-                  </span>
+                  <h6>{{ metrics.best_epoch }}</h6>
+                  <span class="text-muted small">Epoch dengan performa terbaik selama pelatihan</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- Run Time -->
+
         <div class="col-12 col-md-6 col-xl-3">
           <div class="card info-card shadow-sm h-100">
             <div class="card-body">
               <h5 class="card-title">Run Time</h5>
-
               <div class="d-flex align-items-center">
-                <div
-                  class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
-                  style="background-color: #ff4d4f"
-                >
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center text-white"
+                     style="background-color: #ff4d4f">
                   <i class="bi bi-clock-history"></i>
                 </div>
-
                 <div class="ps-3">
-                  <h6>4324.31 detik</h6>
+                  <h6>{{ runtime }}</h6>
                   <span class="text-muted small">Waktu pelatihan model</span>
                 </div>
               </div>
@@ -275,35 +208,26 @@
         </div>
       </div>
     </div>
-
     <!-- End Ringkasan Model -->
 
     <!-- Hasil Evaluasi -->
     <div class="col-12">
       <div class="card shadow-sm border-0">
         <div class="card-body">
-          <h5 class="card-title mb-3 text-center">
-            Hasil Evaluasi IndoBERTweet
-          </h5>
+          <h5 class="card-title mb-3 text-center">Hasil Evaluasi IndoBERTweet</h5>
           <div class="row g-4">
             <div class="col-12 col-lg-6">
               <div class="ratio ratio-1x1">
-                <img
-                  src="{{ url_for('routes.data_file', filename='modelDL/after/confusion_matrix_indobertweet.png') }}"
-                  class="img-fluid rounded"
-                  alt="Confusion Matrix IndoBERTweet"
-                  style="object-fit: contain"
-                />
+                <img src="{{ url_for('routes.data_file', filename=period_folder ~ '/confusion_matrix_indobertweet.png') }}"
+                     class="img-fluid rounded" alt="Confusion Matrix IndoBERTweet"
+                     style="object-fit: contain" />
               </div>
             </div>
             <div class="col-12 col-lg-6">
               <div class="ratio ratio-1x1">
-                <img
-                  src="{{ url_for('routes.data_file', filename='modelDL/after/training_curve_indobertweet.png') }}"
-                  class="img-fluid rounded"
-                  alt="Training Curve IndoBERTweet"
-                  style="object-fit: contain"
-                />
+                <img src="{{ url_for('routes.data_file', filename=period_folder ~ '/training_curve_indobertweet.png') }}"
+                     class="img-fluid rounded" alt="Training Curve IndoBERTweet"
+                     style="object-fit: contain" />
               </div>
             </div>
           </div>
@@ -311,6 +235,7 @@
       </div>
     </div>
     <!-- End Hasil Evaluasi -->
+
   </div>
 </section>
 {% endblock %}
@@ -318,34 +243,26 @@
 {% block scripts %}
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const steps = document.querySelectorAll(".pipeline-step");
+    const steps    = document.querySelectorAll(".pipeline-step");
     const progress = document.getElementById("pipelineProgress");
 
     function setStep(activeStep) {
       steps.forEach((step) => {
-        const stepNum = parseInt(step.dataset.step, 10);
+        const n = parseInt(step.dataset.step, 10);
         step.classList.remove("active", "completed");
-
-        if (stepNum < activeStep) {
-          step.classList.add("completed");
-        } else if (stepNum === activeStep) {
-          step.classList.add("active");
-        }
+        if (n < activeStep)      step.classList.add("completed");
+        else if (n === activeStep) step.classList.add("active");
       });
-
-      const width = ((activeStep - 1) / (steps.length - 1)) * 100;
-
       if (progress) {
-        progress.style.width = `${width}%`;
+        const pct = (activeStep - 1) / (steps.length - 1);
+        progress.style.transform = `scaleX(${pct})`;
         progress.classList.toggle("done", activeStep === steps.length);
       }
     }
 
-    steps.forEach((step) => {
-      step.addEventListener("click", () => {
-        setStep(parseInt(step.dataset.step, 10));
-      });
-    });
+    steps.forEach((s) =>
+      s.addEventListener("click", () => setStep(parseInt(s.dataset.step, 10)))
+    );
 
     setStep(5);
   });

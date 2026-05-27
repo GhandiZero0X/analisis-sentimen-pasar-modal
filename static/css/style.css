@@ -1395,10 +1395,13 @@ h6 {
 
 .pipeline-progress {
   left: 23px;
-  width: 0%;
+  right: 23px;
+  width: auto;
   background: linear-gradient(90deg, #4154f1, #6f8cff);
   box-shadow: 0 0 18px rgba(65, 84, 241, 0.35);
-  transition: width 0.5s ease, background 0.35s ease;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.5s ease, background 0.35s ease;
   z-index: 1;
 }
 
