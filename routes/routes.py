@@ -41,7 +41,11 @@ from middlewares.auth_middleware import (
     superadmin_required,
     admin_or_superadmin_required,
 )
-from controller.profileController import profile_get
+from controller.profileController import (
+    profile_get,
+    profile_edit_post,
+    profile_change_password_post,
+)
 
 routes_bp = Blueprint("routes", __name__)
 
@@ -106,7 +110,9 @@ routes_bp.add_url_rule("/admin/accounts/delete/<int:account_id>",
                        view_func=superadmin_required(delete_account_post), methods=["POST"])
 
 # ── Profile ────────────────────────────────────────────────
-routes_bp.add_url_rule("/admin/profile", view_func=profile_get, methods=["GET"])
+routes_bp.add_url_rule("/admin/profile", endpoint="profile_get", view_func=login_required(profile_get), methods=["GET"])
+routes_bp.add_url_rule("/admin/profile/edit", endpoint="profile_edit_post", view_func=login_required(profile_edit_post), methods=["POST"])
+routes_bp.add_url_rule("/admin/profile/change-password", endpoint="profile_change_password_post", view_func=login_required(profile_change_password_post), methods=["POST"])
 
 # ── Halaman utama publik ───────────────────────────────────
 routes_bp.add_url_rule("/", view_func=index, methods=["GET"])

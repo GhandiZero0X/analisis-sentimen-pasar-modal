@@ -1,3 +1,4 @@
+<!-- templates/pages/profile.html -->
 {% extends "layout/baseAdmin.html" %}
 
 {% block title %}Profile{% endblock %}
@@ -8,287 +9,391 @@
   <h1>Profile</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ url_for('routes.dashboard_get') }}">Home</a></li>
+      <li class="breadcrumb-item">
+        <a href="{{ url_for('routes.dashboard_get') }}">Home</a>
+      </li>
       <li class="breadcrumb-item active">Profile</li>
     </ol>
   </nav>
 </div>
-<!-- End Page Title -->
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        <i class="bi bi-{% if category == 'success' %}check-circle{% elif category == 'danger' %}x-circle{% elif category == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %} me-2"></i>
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
 <section class="section profile">
   <div class="row">
+
+    <!-- ── Kartu Foto & Info Ringkas ── -->
     <div class="col-xl-4">
       <div class="card">
-        <div
-          class="card-body profile-card pt-4 d-flex flex-column align-items-center"
-        >
-          <img src="{{ url_for('static', filename='img/avatar_1.jpg') }}" alt="Profile" class="rounded-circle" />
-          <h2 class="text-center">Muhamad Ghandi Nur Setiawan</h2>
-          <h3 class="text-center" style="color: #007bff; padding: 5px">
-            Super Admin
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <img
+            src="{{ url_for('static', filename='img/' + (user.photo_profile or 'avatar_default.jpg')) }}"
+            alt="Profile"
+            class="rounded-circle"
+            id="previewPhotoMain"
+            style="width:120px;height:120px;object-fit:cover;"
+          />
+          <h2 class="text-center mt-2">{{ user.full_name }}</h2>
+          <h3 class="text-center" style="color:#007bff;padding:5px">
+            {{ user.role | replace('superadmin','Super Admin') | replace('admin','Admin') | title }}
           </h3>
-          <p class="text-center badge bg-success">Active</p>
+          <p class="text-center">
+            {% if user.status_approval == '1' %}
+              <span class="badge bg-success">Active</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Pending</span>
+            {% endif %}
+          </p>
         </div>
       </div>
     </div>
 
+    <!-- ── Tab Detail, Edit, Ganti Password ── -->
     <div class="col-xl-8">
       <div class="card">
         <div class="card-body pt-3">
-          <!-- Bordered Tabs -->
-          <ul class="nav nav-tabs nav-tabs-bordered">
+
+          <ul class="nav nav-tabs nav-tabs-bordered" id="profileTabs">
             <li class="nav-item">
-              <button
-                class="nav-link active"
-                data-bs-toggle="tab"
-                data-bs-target="#profile-overview"
-              >
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">
                 Overview
               </button>
             </li>
             <li class="nav-item">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#profile-edit"
-              >
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">
                 Edit Profile
               </button>
             </li>
             <li class="nav-item">
-              <button
-                class="nav-link"
-                data-bs-toggle="tab"
-                data-bs-target="#profile-change-password"
-              >
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">
                 Change Password
               </button>
             </li>
           </ul>
 
           <div class="tab-content pt-2">
-            <div
-              class="tab-pane fade show active profile-overview"
-              id="profile-overview"
-            >
+
+            <!-- ── Overview ── -->
+            <div class="tab-pane fade show active profile-overview" id="profile-overview">
               <h5 class="card-title">Profile Details</h5>
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Full Name</div>
-                <div class="col-lg-9 col-md-8">Muhamad Ghandi Nur Setiawan</div>
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-4 label fw-semibold">Full Name</div>
+                <div class="col-lg-9 col-md-8">{{ user.full_name or '—' }}</div>
               </div>
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Company</div>
-                <div class="col-lg-9 col-md-8">StockSenseID</div>
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-4 label fw-semibold">Company</div>
+                <div class="col-lg-9 col-md-8">{{ user.company or '—' }}</div>
               </div>
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Role</div>
-                <div class="col-lg-9 col-md-8">Super Admin</div>
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-4 label fw-semibold">Role</div>
+                <div class="col-lg-9 col-md-8">
+                  {{ user.role | replace('superadmin','Super Admin') | replace('admin','Admin') | title }}
+                </div>
               </div>
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Country</div>
-                <div class="col-lg-9 col-md-8">IDN</div>
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-4 label fw-semibold">Country</div>
+                <div class="col-lg-9 col-md-8">{{ user.country or '—' }}</div>
               </div>
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Phone</div>
-                <div class="col-lg-9 col-md-8">085856490085</div>
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-4 label fw-semibold">Phone</div>
+                <div class="col-lg-9 col-md-8">{{ user.phone_number or '—' }}</div>
               </div>
-              <div class="row">
-                <div class="col-lg-3 col-md-4 label">Email</div>
-                <div class="col-lg-9 col-md-8">hgrphantom01@gmail.com</div>
+              <div class="row mb-2">
+                <div class="col-lg-3 col-md-4 label fw-semibold">Email</div>
+                <div class="col-lg-9 col-md-8">{{ user.email or '—' }}</div>
               </div>
             </div>
+
+            <!-- ── Edit Profile ── -->
             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-              <!-- Profile Edit Form -->
-              <form>
+              <form
+                method="POST"
+                action="{{ url_for('routes.profile_edit_post') }}"
+                enctype="multipart/form-data"
+                id="editProfileForm"
+                class="needs-validation"
+                novalidate
+              >
+                <!-- Foto -->
                 <div class="row mb-3">
-                  <label
-                    for="profileImage"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    Profile Image
-                  </label>
+                  <label class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                   <div class="col-md-8 col-lg-9">
-                    <img src="{{ url_for('static', filename='img/avatar_1.jpg') }}" alt="Profile" />
-                    <div class="pt-2">
-                      <a
-                        href="#"
-                        class="btn btn-primary btn-sm"
-                        title="Upload new profile image"
-                      >
-                        <i class="bi bi-upload"></i>
-                      </a>
-                      <a
-                        href="#"
-                        class="btn btn-danger btn-sm"
-                        title="Remove my profile image"
-                      >
-                        <i class="bi bi-trash"></i>
-                      </a>
+                    <img
+                      src="{{ url_for('static', filename='img/' + (user.photo_profile or 'avatar_default.jpg')) }}"
+                      alt="Preview"
+                      class="rounded-circle mb-2"
+                      id="editPreviewPhoto"
+                      style="width:80px;height:80px;object-fit:cover;"
+                    />
+                    <div class="d-flex gap-2 align-items-center">
+                      <label class="btn btn-primary btn-sm mb-0" for="profileImage">
+                        <i class="bi bi-upload me-1"></i> Ganti Foto
+                      </label>
+                      <input
+                        type="file"
+                        name="profileImage"
+                        id="profileImage"
+                        accept="image/*"
+                        class="d-none"
+                      />
+                      <small class="text-muted">JPG, PNG, GIF, WEBP. Maks 2MB.</small>
                     </div>
                   </div>
                 </div>
+
+                <!-- Full Name -->
                 <div class="row mb-3">
-                  <label
-                    for="fullName"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    Full Name
-                  </label>
+                  <label for="editFullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="fullName"
-                      type="text"
-                      class="form-control"
-                      id="fullName"
-                      value="Muhamad Ghandi Nur Setiawan"
-                    />
+                    <input name="fullName" type="text" class="form-control" id="editFullName"
+                      value="{{ user.full_name }}" required minlength="3" />
+                    <div class="invalid-feedback">Nama minimal 3 karakter.</div>
                   </div>
                 </div>
+
+                <!-- Company -->
                 <div class="row mb-3">
-                  <label for="company" class="col-md-4 col-lg-3 col-form-label">
-                    Company
-                  </label>
+                  <label for="editCompany" class="col-md-4 col-lg-3 col-form-label">Company</label>
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="company"
-                      type="text"
-                      class="form-control"
-                      id="company"
-                      value="StockSenseID"
-                    />
+                    <input name="company" type="text" class="form-control" id="editCompany"
+                      value="{{ user.company }}" />
                   </div>
                 </div>
+
+                <!-- Role (read-only) -->
                 <div class="row mb-3">
-                  <label for="Role" class="col-md-4 col-lg-3 col-form-label">
-                    Role
-                  </label>
+                  <label class="col-md-4 col-lg-3 col-form-label">Role</label>
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="role"
-                      type="text"
-                      class="form-control"
-                      id="Role"
-                      value="Super Admin"
-                    />
+                    <input type="text" class="form-control"
+                      value="{{ user.role | replace('superadmin','Super Admin') | replace('admin','Admin') | title }}"
+                      readonly disabled />
+                    <div class="form-text">Role tidak dapat diubah dari halaman ini.</div>
                   </div>
                 </div>
+
+                <!-- Country -->
                 <div class="row mb-3">
-                  <label for="Country" class="col-md-4 col-lg-3 col-form-label">
-                    Country
-                  </label>
+                  <label for="editCountry" class="col-md-4 col-lg-3 col-form-label">Country</label>
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="country"
-                      type="text"
-                      class="form-control"
-                      id="Country"
-                      value="IDN"
-                    />
+                    <input name="country" type="text" class="form-control" id="editCountry"
+                      value="{{ user.country }}" placeholder="Contoh: Indonesia" />
                   </div>
                 </div>
+
+                <!-- Phone -->
                 <div class="row mb-3">
-                  <label for="Phone" class="col-md-4 col-lg-3 col-form-label">
-                    Phone
-                  </label>
+                  <label for="editPhone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="phone"
-                      type="text"
-                      class="form-control"
-                      id="Phone"
-                      value="085856490085"
-                    />
+                    <input name="phone" type="tel" class="form-control" id="editPhone"
+                      value="{{ user.phone_number }}" required pattern="^[0-9+\-\s]{10,15}$" />
+                    <div class="invalid-feedback">Nomor telepon tidak valid (10–15 digit).</div>
                   </div>
                 </div>
+
+                <!-- Email -->
                 <div class="row mb-3">
-                  <label for="Email" class="col-md-4 col-lg-3 col-form-label">
-                    Email
-                  </label>
+                  <label for="editEmail" class="col-md-4 col-lg-3 col-form-label">Email</label>
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="email"
-                      type="email"
-                      class="form-control"
-                      id="Email"
-                      value="hgrphantom01@gmail.com"
-                    />
+                    <input name="email" type="email" class="form-control" id="editEmail"
+                      value="{{ user.email }}" required />
+                    <div class="invalid-feedback">Email tidak valid.</div>
                   </div>
                 </div>
+
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">
-                    Save Changes
+                  <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+                    <span class="btn-text"><i class="bi bi-save me-1"></i> Save Changes</span>
+                    <span class="btn-loading d-none">
+                      <span class="spinner-border spinner-border-sm me-1"></span> Menyimpan…
+                    </span>
                   </button>
                 </div>
               </form>
-              <!-- End Profile Edit Form -->
             </div>
+
+            <!-- ── Change Password ── -->
             <div class="tab-pane fade pt-3" id="profile-change-password">
-              <!-- Change Password Form -->
-              <form action="#">
+              <form
+                method="POST"
+                action="{{ url_for('routes.profile_change_password_post') }}"
+                id="changePasswordForm"
+                class="needs-validation"
+                novalidate
+              >
+                <!-- Current Password -->
                 <div class="row mb-3">
-                  <label
-                    for="currentPassword"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    Current Password
-                  </label>
+                  <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="password"
-                      type="password"
-                      class="form-control"
-                      id="currentPassword"
-                    />
+                    <div class="input-group">
+                      <input name="currentPassword" type="password" class="form-control"
+                        id="currentPassword" required placeholder="Masukkan password saat ini" />
+                      <button class="btn btn-outline-secondary" type="button" id="toggleCurrent">
+                        <i class="bi bi-eye" id="iconCurrent"></i>
+                      </button>
+                    </div>
+                    <div class="invalid-feedback">Password saat ini wajib diisi.</div>
                   </div>
                 </div>
 
+                <!-- New Password -->
                 <div class="row mb-3">
-                  <label
-                    for="newPassword"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    New Password
-                  </label>
+                  <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="newpassword"
-                      type="password"
-                      class="form-control"
-                      id="newPassword"
-                    />
+                    <div class="input-group">
+                      <input name="newPassword" type="password" class="form-control"
+                        id="newPassword" required minlength="8" placeholder="Minimal 8 karakter" />
+                      <button class="btn btn-outline-secondary" type="button" id="toggleNew">
+                        <i class="bi bi-eye" id="iconNew"></i>
+                      </button>
+                    </div>
+                    <div class="invalid-feedback">Password minimal 8 karakter.</div>
                   </div>
                 </div>
 
+                <!-- Re-enter New Password -->
                 <div class="row mb-3">
-                  <label
-                    for="renewPassword"
-                    class="col-md-4 col-lg-3 col-form-label"
-                  >
-                    Re-enter New Password
-                  </label>
+                  <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
                   <div class="col-md-8 col-lg-9">
-                    <input
-                      name="renewpassword"
-                      type="password"
-                      class="form-control"
-                      id="renewPassword"
-                    />
+                    <div class="input-group">
+                      <input name="renewPassword" type="password" class="form-control"
+                        id="renewPassword" required minlength="8" placeholder="Ulangi password baru" />
+                      <button class="btn btn-outline-secondary" type="button" id="toggleRenew">
+                        <i class="bi bi-eye" id="iconRenew"></i>
+                      </button>
+                    </div>
+                    <div class="invalid-feedback" id="renewFeedback">
+                      Konfirmasi password wajib diisi.
+                    </div>
                   </div>
                 </div>
 
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">
-                    Change Password
+                  <button type="submit" class="btn btn-primary" id="changePassBtn">
+                    <span class="btn-text"><i class="bi bi-key me-1"></i> Change Password</span>
+                    <span class="btn-loading d-none">
+                      <span class="spinner-border spinner-border-sm me-1"></span> Menyimpan…
+                    </span>
                   </button>
                 </div>
               </form>
-              <!-- End Change Password Form -->
             </div>
-          </div>
-          <!-- End Bordered Tabs -->
+
+          </div><!-- end tab-content -->
         </div>
       </div>
     </div>
+
   </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  "use strict";
+
+  // ── Buka tab sesuai hash URL (misal #profile-change-password) ──
+  const hash = window.location.hash;
+  if (hash) {
+    const tabBtn = document.querySelector(`[data-bs-target="${hash}"]`);
+    if (tabBtn) new bootstrap.Tab(tabBtn).show();
+  }
+
+  // ── Preview foto sebelum upload ─────────────────────────
+  const fileInput   = document.getElementById("profileImage");
+  const previewMain = document.getElementById("previewPhotoMain");
+  const previewEdit = document.getElementById("editPreviewPhoto");
+
+  if (fileInput) {
+    fileInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (!file) return;
+      if (file.size > 2 * 1024 * 1024) {
+        alert("Ukuran file maksimal 2MB.");
+        this.value = "";
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (previewEdit) previewEdit.src = e.target.result;
+        if (previewMain) previewMain.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ── Toggle show/hide password ───────────────────────────
+  function bindToggle(btnId, inputId, iconId) {
+    const btn   = document.getElementById(btnId);
+    const input = document.getElementById(inputId);
+    const icon  = document.getElementById(iconId);
+    if (!btn || !input || !icon) return;
+    btn.addEventListener("click", () => {
+      const isPass   = input.type === "password";
+      input.type     = isPass ? "text" : "password";
+      icon.className = isPass ? "bi bi-eye-slash" : "bi bi-eye";
+    });
+  }
+
+  bindToggle("toggleCurrent", "currentPassword", "iconCurrent");
+  bindToggle("toggleNew",     "newPassword",     "iconNew");
+  bindToggle("toggleRenew",   "renewPassword",   "iconRenew");
+
+  // ── Validasi konfirmasi password real-time ──────────────
+  const newPass  = document.getElementById("newPassword");
+  const renewPass = document.getElementById("renewPassword");
+  const renewFb  = document.getElementById("renewFeedback");
+
+  if (renewPass) {
+    renewPass.addEventListener("input", () => {
+      if (newPass && newPass.value !== renewPass.value) {
+        renewPass.setCustomValidity("tidak cocok");
+        if (renewFb) renewFb.textContent = "Konfirmasi password tidak cocok.";
+      } else {
+        renewPass.setCustomValidity("");
+        if (renewFb) renewFb.textContent = "Konfirmasi password wajib diisi.";
+      }
+    });
+  }
+
+  // ── Submit dengan loading state ─────────────────────────
+  function bindSubmit(formId, btnId) {
+    const form = document.getElementById(formId);
+    const btn  = document.getElementById(btnId);
+    if (!form || !btn) return;
+    form.addEventListener("submit", function (e) {
+      // Reset sebelum re-check
+      if (renewPass) renewPass.setCustomValidity("");
+      if (newPass && renewPass && newPass.value !== renewPass.value) {
+        renewPass.setCustomValidity("tidak cocok");
+        if (renewFb) renewFb.textContent = "Konfirmasi password tidak cocok.";
+      }
+      if (!form.checkValidity()) {
+        e.preventDefault();
+        e.stopPropagation();
+        form.classList.add("was-validated");
+        return;
+      }
+      form.classList.add("was-validated");
+      btn.querySelector(".btn-text").classList.add("d-none");
+      btn.querySelector(".btn-loading").classList.remove("d-none");
+      btn.disabled = true;
+    });
+  }
+
+  bindSubmit("editProfileForm",    "saveProfileBtn");
+  bindSubmit("changePasswordForm", "changePassBtn");
+})();
+</script>
 {% endblock %}
