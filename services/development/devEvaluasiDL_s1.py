@@ -302,12 +302,29 @@ cm_plot_time = time.time() - cm_plot_start
 # ══════════════════════════════════════════════════════════════
 #  SIMPAN METRICS KE CSV
 # ══════════════════════════════════════════════════════════════
+
+# Ambil best epoch dari train log
+best_epoch = None
+
+if TRAIN_LOG_FILE.exists():
+    train_log_df = pd.read_csv(TRAIN_LOG_FILE)
+
+    # Cari epoch dengan val_f1 tertinggi
+    best_row = train_log_df.loc[train_log_df["val_f1"].idxmax()]
+    best_epoch = int(best_row["epoch"])
+
 metrics_df = pd.DataFrame([{
     "accuracy": acc,
     "precision": binary_precision,
     "recall": binary_recall,
     "f1_score": binary_f1,
+    "best_epoch": best_epoch,
 }])
+
+metrics_df.to_csv(METRIC_CSV_FILE, index=False, encoding="utf-8-sig")
+
+print(f"✅ Metrics CSV disimpan : {METRIC_CSV_FILE.name}")
+print(f"🏆 Best Epoch           : {best_epoch}")
 
 metrics_df.to_csv(METRIC_CSV_FILE, index=False, encoding="utf-8-sig")
 print(f"✅ Metrics CSV disimpan : {METRIC_CSV_FILE.name}")
