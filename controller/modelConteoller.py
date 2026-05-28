@@ -249,3 +249,81 @@ def _run_pipeline(job_id: str, period: str, csv_path: str, root_path: str):
         )
     except Exception as e:
         _set_status(job_id, f"Error: {e}", 0, done=True, error=str(e))
+
+# ══════════════════════════════════════════════════════════════
+#  UPDATE MODEL ML — background job
+# ══════════════════════════════════════════════════════════════
+def update_model_ml_post():
+    """
+    Terima CSV + period untuk ML, jalankan pipeline ML di background thread,
+    kembalikan job_id untuk polling status.
+    """
+    period = request.form.get("model_target", "before")
+    if period not in PERIOD_MAP_ML:
+        return jsonify({"error": "Period tidak valid."}), 400
+
+    file = request.files.get("csv_file")
+    if not file or not file.filename.endswith(".csv"):
+        return jsonify({"error": "File CSV tidak ditemukan atau bukan .csv"}), 400
+
+    root = current_app.root_path
+    upload_dir = os.path.join(root, "data", "uploads_temp")
+    os.makedirs(upload_dir, exist_ok=True)
+    filename = secure_filename(file.filename)
+    csv_path = os.path.join(upload_dir, f"ml_{period}_{filename}")
+    file.save(csv_path)
+
+    job_id = str(uuid.uuid4())
+    _job_status[job_id] = {"step": "Menunggu", "progress": 0, "done": False, "error": None}
+
+    thread = threading.Thread(
+        target=_run_pipeline_ml,
+        args=(job_id, period, csv_path, root),
+        daemon=True,
+    )
+    thread.start()
+
+    return jsonify({"job_id": job_id})
+
+
+def job_status_ml_get():
+    """Polling status pipeline ML — endpoint terpisah dari DL."""
+    job_id = request.args.get("job_id", "")
+    status = _job_status.get(job_id)
+    if not status:
+        return jsonify({"error": "Job tidak ditemukan."}), 404
+    return jsonify(status)
+
+
+def preview_csv_ml_post():
+    """Return 5 baris pertama CSV untuk preview ML."""
+    file = request.files.get("csv_file")
+    if not file or not file.filename.endswith(".csv"):
+        return jsonify({"error": "File CSV tidak valid."}), 400
+
+    try:
+        import io
+        content = file.read().decode("utf-8", errors="replace")
+        reader  = csv.DictReader(io.StringIO(content))
+        rows    = []
+        for i, row in enumerate(reader):
+            if i >= 5:
+                break
+            rows.append(dict(row))
+        return jsonify({"columns": reader.fieldnames or [], "rows": rows})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+def _run_pipeline_ml(job_id: str, period: str, csv_path: str, root_path: str):
+    try:
+        from services.updateModelML import run_full_pipeline
+        run_full_pipeline(
+            job_id=job_id,
+            period=period,
+            csv_path=csv_path,
+            root_path=root_path,
+            set_status=_set_status,
+        )
+    except Exception as e:
+        _set_status(job_id, f"Error: {e}", 0, done=True, error=str(e))

@@ -624,7 +624,7 @@ def step_komparasi(
 
     new_row = {
         "period":       period,
-        "model":        "S2 ML",
+        "model":        "SMV",
         "accuracy":     round(metrics["accuracy"],    4),
         "f1_weighted":  round(metrics["f1_weighted"], 4),
         "f1_macro":     round(metrics["f1_macro"],    4),
@@ -634,7 +634,7 @@ def step_komparasi(
         "period_label": PERIOD_LABELS.get(period, period),
     }
 
-    mask = (df_k["period"] == period) & (df_k["model"] == "S2 ML")
+    mask = (df_k["period"] == period) & (df_k["model"] == "SVM")
     if mask.any():
         for col, val in new_row.items():
             df_k.loc[mask, col] = val
@@ -646,7 +646,7 @@ def step_komparasi(
 
 
 # ══════════════════════════════════════════════════════════════
-#  STEP 5 — ANALISIS SENTIMEN & GABUNG DATA LAMA
+#  STEP 5 — ANALISIS SENTIMEN & GABUNG DATA LAMA  (FIXED)
 # ══════════════════════════════════════════════════════════════
 def step_analisis(
     df_new: pd.DataFrame,
@@ -669,24 +669,65 @@ def step_analisis(
     df_new = df_new.copy()
     df_new["sentiment_predict_ml"] = le.inverse_transform(y_pred)
 
+    # Bangun df_new_clean dengan kolom standar
+    tweet_col = "tweet_original" if "tweet_original" in df_new.columns else next(
+        (c for c in df_new.columns
+         if "tweet" in c.lower() and c != "tweet_preprocessed"), None
+    )
+    date_col  = next((c for c in df_new.columns if c in ("date", "tanggal")),  None)
+    saham_col = next((c for c in df_new.columns if c in ("saham", "stock", "ticker")), None)
+
+    df_new_clean = pd.DataFrame({
+        "date"                : df_new[date_col].values  if date_col  else [""] * len(df_new),
+        "tweet"               : df_new[tweet_col].values if tweet_col else [""] * len(df_new),
+        # ── PENTING: kolom "sentiment" yang dibaca datasetController harus
+        #    berisi hasil prediksi model SVM (bukan label lexicon asli).
+        #    SVM mengenal 3 kelas: positif / negatif / netral.
+        "sentiment"           : df_new["sentiment_predict_ml"].values,
+        "saham"               : df_new[saham_col].values if saham_col else [""] * len(df_new),
+        "tweet_preprocessed"  : df_new["tweet_preprocessed"].values,
+        "sentiment_predict_ml": df_new["sentiment_predict_ml"].values,
+        # simpan juga label asli lexicon sebagai referensi
+        "sentiment_label_asli": df_new["sentiment"].values,
+    })
+
     set_status(job_id, "Analisis: menggabungkan dengan data lama...", 94)
 
     analisis_path = Path(root_path) / ANALISIS_FILES[period]
     analisis_path.parent.mkdir(parents=True, exist_ok=True)
 
     if analisis_path.exists():
-        df_old      = pd.read_csv(str(analisis_path), dtype=str).fillna("")
-        df_combined = pd.concat([df_old, df_new], ignore_index=True)
-        if "tweet_original" in df_combined.columns:
-            # Deduplikasi: data baru menang (keep='last')
-            df_combined = df_combined.drop_duplicates(
-                subset=["tweet_original"], keep="last"
-            ).reset_index(drop=True)
+        try:
+            df_old = pd.read_csv(str(analisis_path), dtype=str, encoding="utf-8-sig").fillna("")
+        except Exception:
+            df_old = pd.read_csv(str(analisis_path), dtype=str, encoding="latin-1").fillna("")
+        print(f"   OLD DATA : {len(df_old):,} baris  kolom: {list(df_old.columns)}")
     else:
-        df_combined = df_new
+        df_old = pd.DataFrame()
+        print("   \u2139\ufe0f  Dataset analisis lama belum ada, mulai dari nol.")
 
+    print(f"   NEW DATA : {len(df_new_clean):,} baris")
+
+    if len(df_old) > 0:
+        for col in ["tweet_preprocessed", "sentiment_predict_ml"]:
+            if col not in df_old.columns:
+                df_old[col] = ""
+
+        if "tweet" in df_old.columns:
+            existing = set(df_old["tweet"].str.strip().str.lower())
+            mask_new = ~df_new_clean["tweet"].str.strip().str.lower().isin(existing)
+            df_truly_new = df_new_clean[mask_new].copy()
+        else:
+            df_truly_new = df_new_clean.copy()
+
+        print(f"   Tweet baru (belum ada di data lama): {len(df_truly_new):,}")
+        df_combined = pd.concat([df_old, df_truly_new], ignore_index=True)
+    else:
+        df_combined = df_new_clean.copy()
+
+    print(f"   TOTAL AKHIR : {len(df_combined):,} baris")
     df_combined.to_csv(str(analisis_path), index=False, encoding="utf-8-sig")
-    print(f"   ✅ Analisis disimpan: {analisis_path.name} ({len(df_combined):,} baris total)")
+    print(f"   \u2705 Analisis disimpan: {analisis_path.name} ({len(df_combined):,} baris total)")
 
     set_status(job_id, "Analisis selesai.", 98)
 

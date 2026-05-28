@@ -23,7 +23,7 @@ from typing import Callable
 
 import emoji
 import matplotlib
-matplotlib.use("Agg")  # non-interactive backend
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import numpy as np
@@ -55,9 +55,6 @@ from transformers import (
 
 warnings.filterwarnings("ignore")
 
-# ══════════════════════════════════════════════════════════════
-#  KONSTANTA
-# ══════════════════════════════════════════════════════════════
 PERIOD_TO_FOLDER = {
     "before":      "data/modelDL/before",
     "covid":       "data/modelDL/covid",
@@ -79,11 +76,10 @@ ANALISIS_FILES = {
     "all_periods": "data/csv/dl/tweets_all_periods_labelling_analisisDL.csv",
 }
 
-KOMPARASI_CSV   = "data/komparasi/tabel_komparasi.csv"
-KAMUS_FILE      = "data/kamus/kamuskatabaku.xlsx"
-MODEL_NAME      = "indolem/indobertweet-base-uncased"
+KOMPARASI_CSV = "data/komparasi/tabel_komparasi.csv"
+KAMUS_FILE    = "data/kamus/kamuskatabaku.xlsx"
+MODEL_NAME    = "indolem/indobertweet-base-uncased"
 
-# Hyperparameter fine-tuning update
 MAX_LENGTH    = 128
 BATCH_SIZE    = 16
 EPOCHS        = 5
@@ -101,14 +97,11 @@ if torch.cuda.is_available():
     torch.cuda.manual_seed_all(RANDOM_SEED)
 
 
-# ══════════════════════════════════════════════════════════════
-#  DATASET CLASS
-# ══════════════════════════════════════════════════════════════
 class TweetDataset(Dataset):
     def __init__(self, texts, labels, tokenizer, max_length):
-        self.texts     = texts
-        self.labels    = labels
-        self.tokenizer = tokenizer
+        self.texts      = texts
+        self.labels     = labels
+        self.tokenizer  = tokenizer
         self.max_length = max_length
 
     def __len__(self):
@@ -130,7 +123,6 @@ class TweetDataset(Dataset):
 
 
 class InferDataset(Dataset):
-    """Dataset tanpa label untuk inferensi."""
     def __init__(self, texts, tokenizer, max_length):
         self.texts      = texts
         self.tokenizer  = tokenizer
@@ -153,9 +145,6 @@ class InferDataset(Dataset):
         }
 
 
-# ══════════════════════════════════════════════════════════════
-#  STEP 1 — PREPROCESSING
-# ══════════════════════════════════════════════════════════════
 def _load_kamus(root_path: str) -> dict:
     kamus_path = os.path.join(root_path, KAMUS_FILE)
     if not os.path.exists(kamus_path):
@@ -191,15 +180,11 @@ def step_preprocessing(
     set_status: Callable,
 ) -> pd.DataFrame:
     set_status(job_id, "Preprocessing: membaca CSV...", 5)
-
     df = pd.read_csv(csv_path, dtype=str).fillna("")
 
-    # Deteksi kolom teks: cari kolom yang mengandung kata 'tweet'
     text_col = next(
-        (c for c in df.columns if "tweet" in c.lower()),
-        df.columns[0],
+        (c for c in df.columns if "tweet" in c.lower()), df.columns[0],
     )
-    # Kolom sentimen opsional (untuk training)
     sentiment_col = next(
         (c for c in df.columns if "sentiment" in c.lower() or "label" in c.lower()),
         None,
@@ -213,13 +198,11 @@ def step_preprocessing(
         lambda t: _preprocess_text(t, kamus)
     )
 
-    # Hapus baris kosong setelah preprocessing
     before = len(df)
     df = df[df["tweet_preprocessed_dl"].str.strip() != ""].reset_index(drop=True)
     after = len(df)
     print(f"   Preprocessing: {before} → {after} baris (hapus {before - after} kosong)")
 
-    # Pastikan kolom sentimen ada
     if sentiment_col and sentiment_col != "sentiment":
         df = df.rename(columns={sentiment_col: "sentiment"})
     elif not sentiment_col:
@@ -228,16 +211,11 @@ def step_preprocessing(
             "Pastikan CSV memiliki kolom bernama 'sentiment' atau 'label'."
         )
 
-    # Simpan kolom asli text jika perlu analisis
     df["tweet_original"] = df[text_col]
-
     set_status(job_id, "Preprocessing selesai.", 15)
     return df
 
 
-# ══════════════════════════════════════════════════════════════
-#  STEP 2 — MODELLING (load existing + fine-tune)
-# ══════════════════════════════════════════════════════════════
 def _train_one_epoch(model, loader, optimizer, scheduler, device):
     model.train()
     total_loss, total_correct, total_n = 0.0, 0, 0
@@ -287,16 +265,11 @@ def step_modelling(
     job_id: str,
     set_status: Callable,
 ) -> tuple[Path, LabelEncoder, dict]:
-    """
-    Load model .bin yang sudah ada (jika ada), fine-tune dengan data baru.
-    Return: (model_dir, label_encoder, split_data)
-    """
     set_status(job_id, "Modelling: menyiapkan data...", 18)
 
     model_dir = Path(root_path) / PERIOD_TO_FOLDER[period]
     model_dir.mkdir(parents=True, exist_ok=True)
 
-    # Filter hanya positif & negatif
     df_train = df[df["sentiment"].isin(["positif", "negatif"])].reset_index(drop=True)
     if len(df_train) == 0:
         raise ValueError("Tidak ada data berlabel 'positif' atau 'negatif' di CSV.")
@@ -306,7 +279,6 @@ def step_modelling(
     X  = df_train["tweet_preprocessed_dl"].tolist()
     pos_label = list(le.classes_).index("positif")
 
-    # Split 80/10/10
     X_tv, X_test, y_tv, y_test = train_test_split(
         X, y, test_size=TEST_RATIO, random_state=RANDOM_SEED, stratify=y
     )
@@ -316,8 +288,6 @@ def step_modelling(
     )
 
     set_status(job_id, "Modelling: memuat tokenizer...", 22)
-
-    # Load tokenizer — dari folder model jika ada, fallback ke HuggingFace
     tokenizer_dir = model_dir / "tokenizer"
     if tokenizer_dir.exists():
         tokenizer = AutoTokenizer.from_pretrained(str(tokenizer_dir))
@@ -326,19 +296,16 @@ def step_modelling(
     tokenizer.save_pretrained(str(tokenizer_dir))
 
     set_status(job_id, "Modelling: memuat model...", 26)
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device   = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     bin_file = model_dir / "best_model.bin"
 
     if bin_file.exists():
-        # Resume dari checkpoint yang sudah ada
         config = AutoConfig.from_pretrained(str(model_dir), num_labels=len(le.classes_))
         model  = AutoModelForSequenceClassification.from_config(config)
         state  = torch.load(str(bin_file), map_location=device)
         model.load_state_dict(state, strict=False)
         print(f"   ✅ Checkpoint dimuat dari {bin_file.name}")
     else:
-        # Model pertama kali — download dari HuggingFace
         model = AutoModelForSequenceClassification.from_pretrained(
             MODEL_NAME, num_labels=len(le.classes_)
         )
@@ -346,13 +313,11 @@ def step_modelling(
 
     model.to(device)
 
-    # DataLoader
     train_ds = TweetDataset(X_train, y_train, tokenizer, MAX_LENGTH)
     val_ds   = TweetDataset(X_val,   y_val,   tokenizer, MAX_LENGTH)
     train_dl = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,  num_workers=0)
     val_dl   = DataLoader(val_ds,   batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
 
-    # Optimizer & scheduler
     optimizer    = AdamW(model.parameters(), lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
     total_steps  = len(train_dl) * EPOCHS
     warmup_steps = int(total_steps * WARMUP_RATIO)
@@ -360,18 +325,18 @@ def step_modelling(
 
     set_status(job_id, "Modelling: fine-tuning...", 30)
 
-    best_val_loss = float("inf")
-    best_epoch    = 0
-    train_log     = []
+    best_val_loss  = float("inf")
+    best_epoch     = 0
+    train_log      = []
     training_start = time.time()
 
     for epoch in range(1, EPOCHS + 1):
-        pct = 30 + int((epoch / EPOCHS) * 30)   # progress 30→60
+        pct = 30 + int((epoch / EPOCHS) * 30)
         set_status(job_id, f"Modelling: epoch {epoch}/{EPOCHS}...", pct)
         ep_start = time.time()
 
-        t_loss, t_acc = _train_one_epoch(model, train_dl, optimizer, scheduler, device)
-        v_loss, v_acc, v_f1 = _eval_one_epoch(model, val_dl, device, pos_label)
+        t_loss, t_acc           = _train_one_epoch(model, train_dl, optimizer, scheduler, device)
+        v_loss, v_acc, v_f1     = _eval_one_epoch(model, val_dl, device, pos_label)
 
         ep_rt = time.time() - ep_start
         train_log.append({
@@ -392,14 +357,11 @@ def step_modelling(
 
     training_rt = time.time() - training_start
 
-    # Simpan artefak
     pd.DataFrame(train_log).to_csv(str(model_dir / "train_log.csv"), index=False)
     joblib.dump(le, str(model_dir / "label_encoder.joblib"))
-
     split_data = {"X_test": X_test, "y_test": y_test}
     joblib.dump(split_data, str(model_dir / "split_indices.joblib"))
 
-    # train_info.txt
     device_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
     info = (
         f"TRAINING INFO — IndoBERTweet Update\n"
@@ -419,9 +381,6 @@ def step_modelling(
     return model_dir, le, split_data, training_rt
 
 
-# ══════════════════════════════════════════════════════════════
-#  STEP 3 — EVALUASI
-# ══════════════════════════════════════════════════════════════
 def step_evaluasi(
     model_dir: Path,
     le: LabelEncoder,
@@ -431,12 +390,12 @@ def step_evaluasi(
 ) -> dict:
     set_status(job_id, "Evaluasi: memuat model terbaik...", 62)
 
-    X_test = split_data["X_test"]
-    y_test = split_data["y_test"]
+    X_test      = split_data["X_test"]
+    y_test      = split_data["y_test"]
     class_names = list(le.classes_)
     pos_label   = class_names.index("positif")
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = AutoTokenizer.from_pretrained(str(model_dir / "tokenizer"))
     config    = AutoConfig.from_pretrained(str(model_dir), num_labels=len(class_names))
     model     = AutoModelForSequenceClassification.from_config(config)
@@ -446,10 +405,9 @@ def step_evaluasi(
     model.eval()
 
     set_status(job_id, "Evaluasi: inferensi test set...", 65)
-
     eval_start = time.time()
-    test_ds = TweetDataset(X_test, y_test, tokenizer, MAX_LENGTH)
-    test_dl = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
+    test_ds    = TweetDataset(X_test, y_test, tokenizer, MAX_LENGTH)
+    test_dl    = DataLoader(test_ds, batch_size=BATCH_SIZE, shuffle=False, num_workers=0)
 
     all_preds, all_labels = [], []
     with torch.no_grad():
@@ -462,24 +420,23 @@ def step_evaluasi(
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(lbls.cpu().numpy())
 
-    eval_rt = time.time() - eval_start
+    eval_rt    = time.time() - eval_start
     all_preds  = np.array(all_preds)
     all_labels = np.array(all_labels)
 
-    acc               = accuracy_score(all_labels, all_preds)
-    binary_precision  = precision_score(all_labels, all_preds, average="binary", pos_label=pos_label, zero_division=0)
-    binary_recall     = recall_score(   all_labels, all_preds, average="binary", pos_label=pos_label, zero_division=0)
-    binary_f1         = f1_score(       all_labels, all_preds, average="binary", pos_label=pos_label, zero_division=0)
-    f1_weighted       = f1_score(       all_labels, all_preds, average="weighted", zero_division=0)
-    f1_macro          = f1_score(       all_labels, all_preds, average="macro",    zero_division=0)
+    acc              = accuracy_score(all_labels, all_preds)
+    binary_precision = precision_score(all_labels, all_preds, average="binary", pos_label=pos_label, zero_division=0)
+    binary_recall    = recall_score(   all_labels, all_preds, average="binary", pos_label=pos_label, zero_division=0)
+    binary_f1        = f1_score(       all_labels, all_preds, average="binary", pos_label=pos_label, zero_division=0)
+    f1_weighted      = f1_score(       all_labels, all_preds, average="weighted", zero_division=0)
+    f1_macro         = f1_score(       all_labels, all_preds, average="macro",    zero_division=0)
 
-    precision_pc, recall_pc, f1_pc, support_pc = precision_recall_fscore_support(
-        all_labels, all_preds, average=None, labels=list(range(len(class_names))), zero_division=0
+    precision_recall_fscore_support(
+        all_labels, all_preds, average=None,
+        labels=list(range(len(class_names))), zero_division=0
     )
 
     set_status(job_id, "Evaluasi: membuat confusion matrix...", 70)
-
-    # ── Confusion Matrix ──
     cm = confusion_matrix(all_labels, all_preds, labels=list(range(len(class_names))))
     fig, ax = plt.subplots(figsize=(6, 5))
     sns.heatmap(
@@ -501,12 +458,10 @@ def step_evaluasi(
     plt.close()
 
     set_status(job_id, "Evaluasi: menyimpan metrics CSV...", 73)
-
-    # ── Ambil best_epoch dari train_log ──
-    best_epoch = None
+    best_epoch     = None
     train_log_path = model_dir / "train_log.csv"
     if train_log_path.exists():
-        tl = pd.read_csv(str(train_log_path))
+        tl         = pd.read_csv(str(train_log_path))
         best_epoch = int(tl.loc[tl["val_f1"].idxmax(), "epoch"])
 
     pd.DataFrame([{
@@ -518,19 +473,15 @@ def step_evaluasi(
     }]).to_csv(str(model_dir / "evaluation_metrics.csv"), index=False, encoding="utf-8")
 
     set_status(job_id, "Evaluasi: membuat training curve...", 76)
-
-    # ── Training Curve ──
     if train_log_path.exists():
         log_df = pd.read_csv(str(train_log_path))
         fig, axes = plt.subplots(1, 2, figsize=(12, 5))
         fig.suptitle("Training Curve — IndoBERTweet Update", fontsize=13)
-
-        axes[0].plot(log_df["epoch"], log_df["train_loss"], "o-", label="Train Loss", linewidth=2)
-        axes[0].plot(log_df["epoch"], log_df["val_loss"],   "s--", label="Val Loss",  linewidth=2)
+        axes[0].plot(log_df["epoch"], log_df["train_loss"], "o-",  label="Train Loss", linewidth=2)
+        axes[0].plot(log_df["epoch"], log_df["val_loss"],   "s--", label="Val Loss",   linewidth=2)
         axes[0].set_xlabel("Epoch"); axes[0].set_ylabel("Loss")
         axes[0].set_title("Loss per Epoch"); axes[0].legend(); axes[0].grid(alpha=0.3)
         axes[0].xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
-
         axes[1].plot(log_df["epoch"], log_df["train_acc"], "o-",  label="Train Acc",    linewidth=2)
         axes[1].plot(log_df["epoch"], log_df["val_acc"],   "s--", label="Val Acc",      linewidth=2)
         axes[1].plot(log_df["epoch"], log_df["val_f1"],    "^:",  label="Val F1-binary", linewidth=2)
@@ -538,15 +489,11 @@ def step_evaluasi(
         axes[1].set_title("Accuracy & F1 per Epoch")
         axes[1].set_ylim([0, 1.05]); axes[1].legend(); axes[1].grid(alpha=0.3)
         axes[1].xaxis.set_major_locator(mticker.MaxNLocator(integer=True))
-
         plt.tight_layout()
         plt.savefig(str(model_dir / "training_curve_indobertweet.png"), dpi=150, bbox_inches="tight")
         plt.close()
 
-    # ── Classification Report ──
-    report = classification_report(
-        all_labels, all_preds, target_names=class_names, digits=4, zero_division=0
-    )
+    report = classification_report(all_labels, all_preds, target_names=class_names, digits=4, zero_division=0)
     report_text = (
         f"EVALUATION REPORT — IndoBERTweet Update\n"
         f"=========================================\n"
@@ -564,7 +511,6 @@ def step_evaluasi(
     )
     (model_dir / "classification_report_indobertweet.txt").write_text(report_text, encoding="utf-8")
 
-    # ── Evaluation info ──
     eval_info = (
         f"EVALUATION INFO — IndoBERTweet\n"
         f"==============================\n"
@@ -591,9 +537,6 @@ def step_evaluasi(
     }
 
 
-# ══════════════════════════════════════════════════════════════
-#  STEP 4 — KOMPARASI (update tabel_komparasi.csv)
-# ══════════════════════════════════════════════════════════════
 def step_komparasi(
     period: str,
     metrics: dict,
@@ -607,7 +550,6 @@ def step_komparasi(
     komparasi_path = Path(root_path) / KOMPARASI_CSV
     komparasi_path.parent.mkdir(parents=True, exist_ok=True)
 
-    # Baca tabel lama jika ada
     if komparasi_path.exists():
         df_k = pd.read_csv(str(komparasi_path))
     else:
@@ -630,7 +572,6 @@ def step_komparasi(
         "period_label": PERIOD_LABELS.get(period, period),
     }
 
-    # Update baris yang sudah ada atau append
     mask = (df_k["period"] == period) & (df_k["model"] == "S1 DL")
     if mask.any():
         for col, val in new_row.items():
@@ -643,7 +584,7 @@ def step_komparasi(
 
 
 # ══════════════════════════════════════════════════════════════
-#  STEP 5 — ANALISIS SENTIMEN & GABUNG DATA LAMA
+#  STEP 5 — ANALISIS SENTIMEN & GABUNG DATA LAMA  (FIXED)
 # ══════════════════════════════════════════════════════════════
 def step_analisis(
     df_new: pd.DataFrame,
@@ -656,6 +597,7 @@ def step_analisis(
 ):
     set_status(job_id, "Analisis: prediksi sentimen data baru...", 90)
 
+    # ── Load model & inferensi ────────────────────────────────
     device    = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     tokenizer = AutoTokenizer.from_pretrained(str(model_dir / "tokenizer"))
     config    = AutoConfig.from_pretrained(str(model_dir), num_labels=len(le.classes_))
@@ -681,20 +623,74 @@ def step_analisis(
     df_new = df_new.copy()
     df_new["sentiment_predict_dl"] = le.inverse_transform(all_preds)
 
-    set_status(job_id, "Analisis: menggabungkan dengan data lama...", 94)
+    # ── Bangun df_new_clean dengan kolom standar ──────────────
+    # Kolom standar yang dibaca datasetController:
+    #   date, tweet, sentiment, saham
+    # Kolom ekstra yang disimpan: tweet_preprocessed_dl, sentiment_predict_dl
 
-    # Load data lama & gabungkan
+    # Deteksi kolom asli di df_new
+    tweet_col = "tweet_original" if "tweet_original" in df_new.columns else next(
+        (c for c in df_new.columns
+         if "tweet" in c.lower() and c != "tweet_preprocessed_dl"), None
+    )
+    date_col  = next((c for c in df_new.columns if c in ("date", "tanggal")),  None)
+    saham_col = next((c for c in df_new.columns if c in ("saham", "stock", "ticker")), None)
+
+    df_new_clean = pd.DataFrame({
+        "date"                  : df_new[date_col].values  if date_col  else [""] * len(df_new),
+        "tweet"                 : df_new[tweet_col].values if tweet_col else [""] * len(df_new),
+        # ── PENTING: kolom "sentiment" yang dibaca datasetController harus
+        #    berisi hasil prediksi model DL (bukan label lexicon asli).
+        #    DL hanya mengenal 2 kelas: positif / negatif.
+        "sentiment"             : df_new["sentiment_predict_dl"].values,
+        "saham"                 : df_new[saham_col].values if saham_col else [""] * len(df_new),
+        "tweet_preprocessed_dl" : df_new["tweet_preprocessed_dl"].values,
+        "sentiment_predict_dl"  : df_new["sentiment_predict_dl"].values,
+        # simpan juga label asli lexicon sebagai referensi
+        "sentiment_label_asli"  : df_new["sentiment"].values,
+    })
+
+    set_status(job_id, "Analisis: menggabungkan data lama + baru...", 94)
+
+    # ── Load dataset lama ─────────────────────────────────────
     analisis_path = Path(root_path) / ANALISIS_FILES[period]
     analisis_path.parent.mkdir(parents=True, exist_ok=True)
 
     if analisis_path.exists():
-        df_old = pd.read_csv(str(analisis_path), dtype=str).fillna("")
-        df_combined = pd.concat([df_old, df_new], ignore_index=True)
-        # Buang duplikat berdasarkan teks asli jika kolom ada
-        if "tweet_original" in df_combined.columns:
-            df_combined = df_combined.drop_duplicates(subset=["tweet_original"]).reset_index(drop=True)
+        try:
+            df_old = pd.read_csv(str(analisis_path), dtype=str, encoding="utf-8-sig").fillna("")
+        except Exception:
+            df_old = pd.read_csv(str(analisis_path), dtype=str, encoding="latin-1").fillna("")
+        print(f"   OLD DATA : {len(df_old):,} baris  kolom: {list(df_old.columns)}")
     else:
-        df_combined = df_new
+        df_old = pd.DataFrame()
+        print("   ℹ️  Dataset analisis lama belum ada, mulai dari nol.")
+
+    print(f"   NEW DATA : {len(df_new_clean):,} baris")
+
+    # ── Gabung: tambahkan HANYA tweet yang belum ada di data lama ──
+    if len(df_old) > 0:
+        # Pastikan df_old punya kolom tweet_preprocessed_dl dan sentiment_predict_dl
+        for col in ["tweet_preprocessed_dl", "sentiment_predict_dl"]:
+            if col not in df_old.columns:
+                df_old[col] = ""
+
+        # Deduplikasi berdasarkan kolom 'tweet' (teks asli)
+        # Data lama DIPERTAHANKAN, data baru hanya ditambah jika belum ada
+        if "tweet" in df_old.columns:
+            existing = set(df_old["tweet"].str.strip().str.lower())
+            mask_new = ~df_new_clean["tweet"].str.strip().str.lower().isin(existing)
+            df_truly_new = df_new_clean[mask_new].copy()
+        else:
+            # Fallback: tidak bisa deduplikasi, tambahkan semua
+            df_truly_new = df_new_clean.copy()
+
+        print(f"   Tweet baru (belum ada di data lama): {len(df_truly_new):,}")
+        df_combined = pd.concat([df_old, df_truly_new], ignore_index=True)
+    else:
+        df_combined = df_new_clean.copy()
+
+    print(f"   TOTAL AKHIR : {len(df_combined):,} baris")
 
     df_combined.to_csv(str(analisis_path), index=False, encoding="utf-8-sig")
     print(f"   ✅ Analisis disimpan: {analisis_path.name} ({len(df_combined):,} baris total)")
@@ -702,9 +698,6 @@ def step_analisis(
     set_status(job_id, "Analisis selesai.", 98)
 
 
-# ══════════════════════════════════════════════════════════════
-#  ENTRY POINT
-# ══════════════════════════════════════════════════════════════
 def run_full_pipeline(
     job_id: str,
     period: str,
@@ -715,24 +708,18 @@ def run_full_pipeline(
     try:
         total_start = time.time()
 
-        # Step 1
         df = step_preprocessing(csv_path, root_path, job_id, set_status)
 
-        # Step 2
         model_dir, le, split_data, training_rt = step_modelling(
             df, period, root_path, job_id, set_status
         )
 
-        # Step 3
         metrics = step_evaluasi(model_dir, le, split_data, job_id, set_status)
 
-        # Step 4
         step_komparasi(period, metrics, training_rt, root_path, job_id, set_status)
 
-        # Step 5
         step_analisis(df, period, model_dir, le, root_path, job_id, set_status)
 
-        # Hapus file upload temp
         try:
             os.remove(csv_path)
         except OSError:
