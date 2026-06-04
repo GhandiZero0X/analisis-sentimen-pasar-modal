@@ -7,6 +7,8 @@ import joblib
 import emoji
 import pandas as pd
 import nltk
+import numpy as np
+import torch.nn.functional as F
 from nltk.corpus import stopwords
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
 from pathlib import Path
@@ -57,6 +59,8 @@ _stop_words          : set  = set()
 _stemmer                    = None
 _stanza_nlp                 = None
 _svm_resources_loaded: bool = False
+# Kata kunci saham yang wajib ada dalam kalimat
+_SAHAM_KEYWORDS = ["bbri", "bmri", "tlkm", "isat", "icbp", "unvr"]
 
 # ══════════════════════════════════════════════════════════════
 #  LOAD KAMUS SLANG (sekali saat startup)
@@ -771,3 +775,142 @@ def upload_csv():
         resp["pct_netral"] = round(netral / total * 100, 1) if total > 0 else 0
 
     return jsonify(resp)
+
+def analyze_kalimat():
+    # ── Parse JSON body ───────────────────────────────────────
+    body = request.get_json(silent=True)
+    if not body:
+        return jsonify({"error": "Request body harus berupa JSON"}), 400
+
+    text  = str(body.get("text", "")).strip()
+    model = str(body.get("model", "dl")).lower()
+
+    # Periode DIKUNCI ke "after" — user tidak bisa menggantinya
+    periode = "after"
+
+    # ── Validasi input ────────────────────────────────────────
+    if not text:
+        return jsonify({"error": "Field 'text' tidak boleh kosong"}), 400
+    if len(text) < 5:
+        return jsonify({"error": "Teks terlalu pendek (minimal 5 karakter)"}), 400
+    if len(text) > 1000:
+        return jsonify({"error": "Teks terlalu panjang (maks 1.000 karakter)"}), 400
+    if model not in VALID_MODEL:
+        model = "dl"
+
+    # ── Validasi kata kunci saham ─────────────────────────────
+    lower_text     = text.lower()
+    detected_saham = [k for k in _SAHAM_KEYWORDS if k in lower_text]
+    if not detected_saham:
+        return jsonify({
+            "error": (
+                "Kalimat harus mengandung minimal satu kata kunci saham: "
+                + ", ".join(k.upper() for k in _SAHAM_KEYWORDS)
+            )
+        }), 422
+
+    # ── Preprocessing ─────────────────────────────────────────
+    if model == "svm":
+        preprocessed = preprocess_tweet_svm(text)
+    else:
+        preprocessed = preprocess_tweet_dl(text)
+
+    if not preprocessed.strip():
+        preprocessed = "tidak ada informasi"
+
+    # ── Inferensi ─────────────────────────────────────────────
+    probabilities = {}
+    sentiment     = "negatif"   # default fallback
+
+    try:
+        if model == "svm":
+            # ── SVM path ──────────────────────────────────────
+            bundle = _get_model_svm(periode)
+            if bundle is None:
+                return jsonify({
+                    "error": f"Model SVM untuk periode '{periode}' tidak tersedia"
+                }), 503
+
+            svm_model  = bundle["model"]
+            vectorizer = bundle["vectorizer"]
+            le         = bundle["le"]
+
+            safe     = preprocessed or "tidak ada informasi"
+            X_sparse = vectorizer.transform([safe])
+
+            pred_idx  = svm_model.predict(X_sparse)[0]
+            sentiment = le.inverse_transform([pred_idx])[0] if le else str(pred_idx)
+
+            # Pseudo-probability via softmax atas decision scores
+            if hasattr(svm_model, "decision_function"):
+                scores   = svm_model.decision_function(X_sparse)[0]  # (n_classes,)
+                e_scores = np.exp(scores - scores.max())
+                probs    = e_scores / e_scores.sum()
+                classes  = list(le.classes_) if le else [str(i) for i in range(len(probs))]
+                probabilities = {
+                    cls: round(float(p), 4)
+                    for cls, p in zip(classes, probs)
+                }
+
+        else:
+            # ── DL / IndoBERTweet path ─────────────────────────
+            bundle = _get_model_dl(periode)
+            if bundle is None:
+                return jsonify({
+                    "error": f"Model DL untuk periode '{periode}' tidak tersedia"
+                }), 503
+
+            dl_model  = bundle["model"]
+            le        = bundle["le"]
+            tokenizer = _get_tokenizer(MODEL_PATHS[periode])
+
+            safe     = preprocessed or "tidak ada informasi"
+            encoding = tokenizer(
+                [safe],
+                max_length     = MAX_LENGTH,
+                padding        = "max_length",
+                truncation     = True,
+                return_tensors = "pt",
+            )
+            input_ids      = encoding["input_ids"].to(DEVICE)
+            attention_mask = encoding["attention_mask"].to(DEVICE)
+
+            with torch.no_grad():
+                logits = dl_model(
+                    input_ids      = input_ids,
+                    attention_mask = attention_mask,
+                ).logits  # (1, n_classes)
+
+            probs_tensor = F.softmax(logits, dim=1)[0].cpu().numpy()
+            pred_idx     = int(probs_tensor.argmax())
+
+            if le is not None:
+                sentiment = le.inverse_transform([pred_idx])[0]
+                classes   = list(le.classes_)
+            else:
+                sentiment = "positif" if pred_idx == 1 else "negatif"
+                classes   = ["negatif", "positif"]
+
+            probabilities = {
+                cls: round(float(p), 4)
+                for cls, p in zip(classes, probs_tensor)
+            }
+
+    except Exception as e:
+        return jsonify({"error": f"Inferensi model gagal: {str(e)}"}), 500
+
+    # ── Label model ───────────────────────────────────────────
+    model_label = (
+        f"IndoBERTweet — {PERIODE_LABEL.get(periode, periode)}"
+        if model == "dl"
+        else f"SVM — {PERIODE_LABEL.get(periode, periode)}"
+    )
+
+    return jsonify({
+        "sentiment"        : str(sentiment),
+        "preprocessed_text": preprocessed,
+        "model_used"       : model_label,
+        "model"            : model,
+        "detected_saham"   : detected_saham,
+        "probabilities"    : probabilities,
+    })

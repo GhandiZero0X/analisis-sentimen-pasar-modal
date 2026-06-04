@@ -8,6 +8,7 @@ from controller.algoritmaController import (
     get_trend_data,
     get_saham_detail,
     upload_csv,
+    analyze_kalimat,
 )
 from controller.authController import (
     login_get,
@@ -101,29 +102,12 @@ routes_bp.add_url_rule("/admin/model/ml/status", endpoint="job_status_ml_get", v
 routes_bp.add_url_rule("/admin/komparasi", view_func=login_required(komparasi_get), methods=["GET"])
 
 # ── Manajemen Akun (khusus superadmin) ────────────────────────────────────────
-routes_bp.add_url_rule("/admin/accounts",
-                       endpoint="list_accounts_get",
-                       view_func=superadmin_required(list_accounts_get), methods=["GET"])
- 
-routes_bp.add_url_rule("/admin/accounts/edit/<int:account_id>",
-                       endpoint="edit_account_get",
-                       view_func=superadmin_required(edit_account_get),  methods=["GET"])
- 
-routes_bp.add_url_rule("/admin/accounts/edit/<int:account_id>",
-                       endpoint="edit_account_post",
-                       view_func=superadmin_required(edit_account_post), methods=["POST"])
- 
-routes_bp.add_url_rule("/admin/accounts/add_account",
-                       endpoint="add_account_get",
-                       view_func=superadmin_required(add_account_get),  methods=["GET"])
- 
-routes_bp.add_url_rule("/admin/accounts/add_account",
-                       endpoint="add_account_post",
-                       view_func=superadmin_required(add_account_post), methods=["POST"])
- 
-routes_bp.add_url_rule("/admin/accounts/delete/<int:account_id>",
-                       endpoint="delete_account_post",
-                       view_func=superadmin_required(delete_account_post), methods=["POST"])
+routes_bp.add_url_rule("/admin/accounts", endpoint="list_accounts_get", view_func=superadmin_required(list_accounts_get), methods=["GET"])
+routes_bp.add_url_rule("/admin/accounts/edit/<int:account_id>", endpoint="edit_account_get", view_func=superadmin_required(edit_account_get),  methods=["GET"])
+routes_bp.add_url_rule("/admin/accounts/edit/<int:account_id>", endpoint="edit_account_post", view_func=superadmin_required(edit_account_post), methods=["POST"])
+routes_bp.add_url_rule("/admin/accounts/add_account", endpoint="add_account_get", view_func=superadmin_required(add_account_get),  methods=["GET"])
+routes_bp.add_url_rule("/admin/accounts/add_account", endpoint="add_account_post", view_func=superadmin_required(add_account_post), methods=["POST"])
+routes_bp.add_url_rule("/admin/accounts/delete/<int:account_id>", endpoint="delete_account_post", view_func=superadmin_required(delete_account_post), methods=["POST"])
 
 # ── Profile ────────────────────────────────────────────────
 routes_bp.add_url_rule("/admin/profile", endpoint="profile_get", view_func=login_required(profile_get), methods=["GET"])
@@ -138,3 +122,4 @@ routes_bp.add_url_rule("/api/dashboard", view_func=get_dashboard_data, methods=[
 routes_bp.add_url_rule("/api/trend",     view_func=get_trend_data,     methods=["GET"])
 routes_bp.add_url_rule("/api/saham",     view_func=get_saham_detail,   methods=["GET"])
 routes_bp.add_url_rule("/api/upload",    view_func=upload_csv,         methods=["POST"])
+routes_bp.add_url_rule("/api/kalimat",  view_func=analyze_kalimat,  methods=["POST"])

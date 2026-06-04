@@ -314,6 +314,147 @@
         </div>
       </div>
 
+      <!-- ANALISIS KALIMAT TUNGGAL -->
+      <div id="analisis-kalimat-section" class="section-header">
+        <h2 class="section-title">
+          <i class="bi bi-chat-square-text"></i>
+          Analisis Sentimen Kalimat
+        </h2>
+        <p class="section-sub">
+          Masukkan kalimat yang mengandung kata kunci saham (BBRI, BMRI, TLKM, ISAT, ICBP, atau UNVR)
+        </p>
+      </div>
+      <div class="card dashboard-card mb-5" id="kalimat-card">
+        <div class="card-body">
+          <div class="row g-4">
+            <!-- ── Panel Kiri: Input ───────────────────────────── -->
+            <div class="col-lg-5">
+              <!-- Textarea input kalimat -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold">
+                  Kalimat / Teks
+                  <span class="text-danger">*</span>
+                </label>
+                <textarea
+                  class="form-control"
+                  id="kalimat-input"
+                  rows="4"
+                  placeholder="Contoh: Saham BBRI hari ini naik signifikan setelah laporan keuangan yang positif..."
+                  maxlength="1000"
+                ></textarea>
+                <div class="d-flex justify-content-between mt-1">
+                  <div class="form-text text-danger d-none" id="kalimat-error-text"></div>
+                  <div class="form-text ms-auto">
+                    <span id="kalimat-char-count">0</span>/1000
+                  </div>
+                </div>
+              </div>
+              <!-- Pilih model -->
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Pilih Model</label>
+                <div class="d-flex gap-2 flex-wrap" id="kalimat-model-selector">
+                  <button
+                    class="btn btn-kalimat-model active"
+                    data-model="dl"
+                    onclick="selectKalimatModel('dl', this)"
+                  >
+                    <i class="bi bi-cpu me-1"></i>
+                    IndoBERTweet
+                    <span class="model-tag">2 Label</span>
+                  </button>
+                  <button
+                    class="btn btn-kalimat-model"
+                    data-model="svm"
+                    onclick="selectKalimatModel('svm', this)"
+                  >
+                    <i class="bi bi-diagram-3 me-1"></i>
+                    SVM
+                    <span class="model-tag">3 Label</span>
+                  </button>
+                </div>
+                <div class="form-text mt-2">
+                  <i class="bi bi-info-circle me-1"></i>
+                  Kedua model menggunakan periode <strong>After COVID</strong>
+                </div>
+              </div>
+              <!-- Chip keyword hint -->
+              <div class="mb-4">
+                <div class="form-text mb-1">Kata kunci yang harus ada dalam kalimat:</div>
+                <div class="d-flex flex-wrap gap-1" id="kalimat-keyword-chips">
+                  <span class="keyword-chip" id="chip-bbri">BBRI</span>
+                  <span class="keyword-chip" id="chip-bmri">BMRI</span>
+                  <span class="keyword-chip" id="chip-tlkm">TLKM</span>
+                  <span class="keyword-chip" id="chip-isat">ISAT</span>
+                  <span class="keyword-chip" id="chip-icbp">ICBP</span>
+                  <span class="keyword-chip" id="chip-unvr">UNVR</span>
+                </div>
+              </div>
+              <!-- Submit button -->
+              <button
+                type="button"
+                class="btn btn-accent w-100"
+                id="kalimat-submit-btn"
+                onclick="submitKalimat()">
+                <span class="btn-text">
+                  <i class="bi bi-magic me-2"></i>
+                  Analisis Sekarang
+                </span>
+                <span class="btn-loading d-none">
+                  <div class="spinner-border spinner-border-sm me-2"></div>
+                  Memproses&hellip;
+                </span>
+              </button>
+            </div>
+      
+            <!-- ── Panel Kanan: Hasil ─────────────────────────── -->
+            <div class="col-lg-7">
+              <!-- Placeholder awal -->
+              <div id="kalimat-placeholder" class="upload-placeholder">
+                <i class="bi bi-chat-dots" style="font-size:2.5rem;color:var(--accent)"></i>
+                <p class="mt-2 text-muted">Hasil analisis akan tampil di sini</p>
+              </div>
+              <!-- Hasil analisis -->
+              <div id="kalimat-result" class="d-none">
+                <!-- Badge model & periode -->
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                  <span class="badge bg-secondary px-3 py-2" id="kalimat-model-badge">
+                    <i class="bi bi-cpu me-1"></i> IndoBERTweet · After COVID
+                  </span>
+                  <span class="badge kalimat-saham-badge" id="kalimat-detected-saham">
+                    <i class="bi bi-buildings me-1"></i>
+                  </span>
+                </div>
+                <!-- Teks yang dianalisis -->
+                <div class="kalimat-preview-box mb-3" id="kalimat-preview-text"></div>
+                <!-- Kartu sentimen utama -->
+                <div class="kalimat-sentiment-card mb-3" id="kalimat-sentiment-display">
+                  <div class="sentiment-icon-wrap" id="kalimat-sent-icon">
+                    <i class="bi bi-emoji-smile"></i>
+                  </div>
+                  <div class="sentiment-label-wrap">
+                    <div class="sentiment-label" id="kalimat-sent-label">Positif</div>
+                    <div class="sentiment-sublabel" id="kalimat-sent-sublabel">Hasil Klasifikasi</div>
+                  </div>
+                </div>
+                <!-- Confidence / probabilitas (jika tersedia) -->
+                <div id="kalimat-confidence-section" class="d-none">
+                  <div class="form-text mb-1 fw-semibold">Distribusi Probabilitas:</div>
+                  <div id="kalimat-confidence-bars"></div>
+                </div>
+                <!-- Preprocessed teks -->
+                <div class="mt-3">
+                  <div class="form-text fw-semibold mb-1">
+                    <i class="bi bi-braces me-1"></i>Teks Setelah Preprocessing:
+                  </div>
+                  <div class="kalimat-preprocessed-box" id="kalimat-preprocessed-text"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END ANALISIS KALIMAT TUNGGAL -->
+
       <!-- Upload CSV -->
       <div id="upload-section" class="section-header">
         <h2 class="section-title">
@@ -537,7 +678,7 @@
       </div>
     </main>
 
-    <!-- ── MODAL DETAIL SAHAM ─────────────────────────────── -->
+    <!-- MODAL DETAIL SAHAM -->
     <div class="modal fade" id="saham-modal" tabindex="-1">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -558,7 +699,7 @@
       </div>
     </div>
 
-    <!-- ── FOOTER ─────────────────────────────────────────── -->
+    <!-- FOOTER -->
     <footer class="footer">
       <div class="container-fluid px-4">
         <div
@@ -583,5 +724,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.umd.min.js"></script>
 
     <script src="{{ url_for('static', filename='js/script_index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>
