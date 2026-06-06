@@ -1,7 +1,7 @@
 TRAINING INFO — SVM LinearSVC (Scenario 2)
 ==========================================
 
-Tanggal          : 2026-05-17 00:53:04
+Tanggal          : 2026-06-06 00:43:19
 Input file       : tweets_before_covid_labellingLexicon_preprocessingML.csv
 
 Total data       : 13,536
@@ -17,20 +17,20 @@ TF-IDF:
   min_df         : 5
   max_df         : 0.9
   sublinear_tf   : True
-  jumlah fitur   : 5,551
+  jumlah fitur   : 5,508
 
 GridSearch:
   C dicoba       : [0.01, 0.1, 1, 10, 100]
   C terbaik      : 1
-  F1 CV terbaik  : 0.9411
+  F1 CV terbaik  : 0.9281
   CV             : StratifiedKFold (5-fold)
 
 Akurasi:
-  Train          : 0.9717
-  Test           : 0.9092
-  Test F1        : 0.9426
+  Train          : 0.9684
+  Test           : 0.8966
+  Test F1        : 0.9264
 
 Runtime:
-  TF-IDF         : 0.31 detik
-  Training SVM   : 5.75 detik
-  Total Runtime  : 6.26 detik
+  TF-IDF         : 0.25 detik
+  Training SVM   : 5.67 detik
+  Total Runtime  : 6.08 detik

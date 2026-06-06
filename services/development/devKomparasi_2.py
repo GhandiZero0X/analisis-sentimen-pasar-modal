@@ -8,7 +8,7 @@ Tujuan:
       1) S1 DL
       2) S3 ML
   - Periode:
-      before, covid, after, all_periods
+      before, covid, after
   - Menyimpan CSV dengan kolom:
       period, model, accuracy, f1_weighted, f1_macro,
       train_rt, eval_rt, total_rt, period_label
@@ -40,13 +40,12 @@ MODEL_DIR  = BASE_DIR / "dev_database" / "4_model"
 OUTPUT_DIR = BASE_DIR / "dev_database" / "5_komparasi_2"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-PERIODS = ["before", "covid", "after", "all_periods"]
+PERIODS = ["before", "covid", "after"]
 
 PERIOD_LABELS = {
     "before"     : "Sebelum COVID",
     "covid"      : "Masa COVID",
     "after"      : "Setelah COVID",
-    "all_periods": "Semua Periode",
 }
 
 # Hanya 2 model yang dibandingkan
@@ -175,7 +174,7 @@ def pick_winner(a_acc, a_rt, b_acc, b_rt, a_label, b_label):
 # ══════════════════════════════════════════════════════════════
 print("=" * 70)
 print("  KOMPARASI MODEL — S1 DL vs S3 ML")
-print("  Periode: before, covid, after, all_periods")
+print("  Periode: before, covid, after")
 print("=" * 70)
 
 rows = []

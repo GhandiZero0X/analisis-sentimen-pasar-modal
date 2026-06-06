@@ -1,15 +1,15 @@
 EVALUATION INFO — IndoBERTweet (3 Class)
 =========================================
-Tanggal        : 2026-05-20 02:41:12
+Tanggal        : 2026-06-04 22:32:43
 Model          : indolem/indobertweet-base-uncased
 Test set       : 4,153 baris
-Accuracy       : 0.9742
-Macro F1       : 0.9692
-Weighted F1    : 0.9743
+Accuracy       : 0.7816
+Macro F1       : 0.7369
+Weighted F1    : 0.7820
 
 Runtime:
-  Load model   : 9.72 detik
-  Inferensi    : 135.82 detik
-  Plot CM      : 1.32 detik
-  Plot curve   : 0.98 detik
-  Total runtime: 147.96 detik
+  Load model   : 6.77 detik
+  Inferensi    : 29.40 detik
+  Plot CM      : 0.36 detik
+  Plot curve   : 0.29 detik
+  Total runtime: 36.84 detik

@@ -1,45 +1,45 @@
 EVALUATION REPORT — IndoBERTweet Fine-tuning (3 Class)
 ======================================================
-Tanggal      : 2026-05-20 02:41:12
+Tanggal      : 2026-06-04 22:32:43
 Model        : indolem/indobertweet-base-uncased
 Test set     : 4,153 baris
 Kelas        : ['negatif', 'netral', 'positif']  ← negatif, netral, positif
 
 ACCURACY
 --------
-0.9742
+0.7816
 
 MACRO F1
 --------
-0.9692
+0.7369
 
 WEIGHTED F1
 -----------
-0.9743
+0.7820
 
 CLASSIFICATION REPORT
 ---------------------
               precision    recall  f1-score   support
 
-     negatif     0.9543    0.9543    0.9543       591
-      netral     0.9643    0.9716    0.9679      1584
-     positif     0.9883    0.9823    0.9853      1978
+     negatif     0.6690    0.7802    0.7204       728
+      netral     0.8507    0.8308    0.8407      2607
+     positif     0.6755    0.6259    0.6497       818
 
-    accuracy                         0.9742      4153
-   macro avg     0.9690    0.9694    0.9692      4153
-weighted avg     0.9743    0.9742    0.9743      4153
+    accuracy                         0.7816      4153
+   macro avg     0.7317    0.7457    0.7369      4153
+weighted avg     0.7844    0.7816    0.7820      4153
 
 
 PER-CLASS DETAIL
 ----------------
-  negatif      precision: 0.9543 | recall: 0.9543 | f1: 0.9543 | support: 591
-  netral       precision: 0.9643 | recall: 0.9716 | f1: 0.9679 | support: 1584
-  positif      precision: 0.9883 | recall: 0.9823 | f1: 0.9853 | support: 1978
+  negatif      precision: 0.6690 | recall: 0.7802 | f1: 0.7204 | support: 728
+  netral       precision: 0.8507 | recall: 0.8308 | f1: 0.8407 | support: 2607
+  positif      precision: 0.6755 | recall: 0.6259 | f1: 0.6497 | support: 818
 
 RUNTIME
 -------
-Load model     : 9.72 detik
-Inferensi test : 135.82 detik
-Plot CM        : 1.32 detik
-Plot curve     : 0.98 detik
-Total runtime  : 147.96 detik
+Load model     : 6.77 detik
+Inferensi test : 29.40 detik
+Plot CM        : 0.36 detik
+Plot curve     : 0.29 detik
+Total runtime  : 36.84 detik

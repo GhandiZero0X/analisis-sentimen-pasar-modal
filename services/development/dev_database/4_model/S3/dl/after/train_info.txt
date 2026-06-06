@@ -1,6 +1,6 @@
 TRAINING INFO — IndoBERTweet Fine-tuning (3 Class)
 =====================================
-Tanggal          : 2026-05-17 06:31:37
+Tanggal          : 2026-06-04 22:29:23
 Model pretrained : indolem/indobertweet-base-uncased
 Input file       : tweets_after_covid_labellingLexicon_preprocessingDL.csv
 Total data       : 41,528
@@ -20,12 +20,12 @@ Hyperparameter:
   weight_decay   : 0.01
 
 Hasil:
-  Best epoch     : 3
-  Best val_loss  : 0.13430
+  Best epoch     : 2
+  Best val_loss  : 0.51495
 
 Runtime:
-  Load model     : 12.26 detik
-  Fine-tuning    : 4299.78 detik
-  Total runtime  : 4312.79 detik
+  Load model     : 10.85 detik
+  Fine-tuning    : 4253.89 detik
+  Total runtime  : 4265.39 detik
 
 Device: NVIDIA GeForce RTX 3050 Laptop GPU

@@ -1,61 +1,54 @@
-# services/development/autoLabelling_3_scenario2.py
+# services/development/autoLabelling.py
 """
 =============================================================
-AUTO LABELLING LEXICON — SKENARIO 2
+RELABELLING NETRAL → POSITIF/NEGATIF (Skenario 2)
 =============================================================
-Perbedaan dari versi sebelumnya (Skenario 1):
-  - Kelas NETRAL dihapus sepenuhnya
-  - Semua tweet diklasifikasikan ke POSITIF atau NEGATIF
-  
-Aturan klasifikasi:
-  - pos_score > neg_score              → positif
-  - neg_score >= pos_score             → negatif
-  - Jika keduanya 0 (tanpa sinyal)     → negatif (default)
-  - Jika |pos - neg| < 1 (ambiguous)   → ikut skor lebih tinggi,
-                                          jika sama persis → negatif
+Input  : dev_database/2_labelling_S1S3/
+         tweets_*_labellingLexicon.csv  (3 label: pos/neg/netral)
 
-Alasan default ke negatif:
-  Tweet tanpa kata sentimen apapun umumnya bersifat informatif/
-  netral-negatif di konteks saham (lebih aman konservatif).
+Proses :
+  - Baris yang sudah positif/negatif → TIDAK diubah
+  - Baris NETRAL → skor ulang pakai leksikon Skenario 2
+    (pos > neg → positif | neg >= pos → negatif | 0,0 → negatif)
+
+Output : dev_database/2_labelling_S2/
+         tweets_*_labellingLexicon.csv  (2 label: pos/neg saja)
 =============================================================
 """
 
-import pandas as pd
 import re
+import pandas as pd
 from pathlib import Path
 from tqdm import tqdm
 
-# =============================
-# PATH CONFIG
-# =============================
-BASE_DIR = Path(__file__).resolve().parent
-
-INPUT_DIR  = BASE_DIR / "dev_database" / "1_raw"
+# ══════════════════════════════════════════════════════════════
+#  PATH CONFIG
+# ══════════════════════════════════════════════════════════════
+BASE_DIR   = Path(__file__).resolve().parent
+INPUT_DIR  = BASE_DIR / "dev_database" / "2_labelling_S1S3"
 OUTPUT_DIR = BASE_DIR / "dev_database" / "2_labelling_S2"
 KAMUS_FILE = BASE_DIR / "kamus" / "kamuskatabaku.xlsx"
 
-FILES = [
-    "tweets_before_covid.csv",
-    "tweets_covid.csv",
-    "tweets_after_covid.csv",
-    "tweets_all_periods.csv"
-]
-
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-# =============================
-# LOAD KAMUS
-# =============================
-kamus_df = pd.read_excel(KAMUS_FILE)
+FILES = [
+    "tweets_after_covid_labellingLexicon.csv",
+    "tweets_before_covid_labellingLexicon.csv",
+    "tweets_covid_labellingLexicon.csv",
+]
 
+# ══════════════════════════════════════════════════════════════
+#  LOAD KAMUS
+# ══════════════════════════════════════════════════════════════
+kamus_df   = pd.read_excel(KAMUS_FILE)
 kamus_dict = dict(zip(
     kamus_df["tidak_baku"].astype(str).str.lower(),
     kamus_df["kata_baku"].astype(str).str.lower()
 ))
 
-# =============================
-# LEXICON (FULL MERGED)
-# =============================
+# ══════════════════════════════════════════════════════════════
+#  LEKSIKON (salin persis dari autoLabelling_3_scenario2.py)
+# ══════════════════════════════════════════════════════════════
 positive_lexicon = set([
     "accumulate","agresif","akumulasi","akumulasi beli","all time high","aman","apresiasi","ascending","ath","atraktif",
     "bagger","bagus","bagusnya","bahagia","baik","bangga","bangkit","berhasil","berkah","berkembang",
@@ -331,26 +324,25 @@ negative_lexicon = set([
     "likuidasi","selloff","panicbuy","marketcrash","drop","terpuruk","anjlok","kejatuhan","terlilit","bangkrutnya",
 ])
 
-# =============================
-# SPLIT LEXICON
-# =============================
+# ══════════════════════════════════════════════════════════════
+#  HELPER: SPLIT PHRASE vs SINGLE
+# ══════════════════════════════════════════════════════════════
 def split_lexicon(lexicon):
-    single  = set()
-    phrases = set()
+    single, phrases = set(), set()
     for w in lexicon:
-        if " " in w:
-            phrases.add(w)
-        else:
-            single.add(w)
+        (phrases if " " in w else single).add(w)
     return single, phrases
 
 pos_single, pos_phrases = split_lexicon(positive_lexicon)
 neg_single, neg_phrases = split_lexicon(negative_lexicon)
 
-# =============================
-# CLEAN TEXT
-# =============================
-def clean_text(text):
+NEGATIONS    = {"tidak", "ga", "gak", "nggak"}
+INTENSIFIERS = {"banget", "parah", "bgt"}
+
+# ══════════════════════════════════════════════════════════════
+#  TEXT PROCESSING
+# ══════════════════════════════════════════════════════════════
+def clean_text(text: str) -> str:
     text = str(text).lower()
     text = re.sub(r"http\S+|www\S+", " ", text)
     text = re.sub(r"@\w+|#\w+", " ", text)
@@ -360,25 +352,17 @@ def clean_text(text):
     text = re.sub(r"\s+", " ", text).strip()
     return text
 
-# =============================
-# NORMALIZE
-# =============================
-def normalize_text(text):
-    tokens = text.split()
-    return [kamus_dict.get(w, w) for w in tokens]
+def normalize_text(text: str) -> list:
+    return [kamus_dict.get(w, w) for w in text.split()]
 
-# =============================
-# CONFIG NLP
-# =============================
-NEGATIONS    = {"tidak", "ga", "gak", "nggak"}
-INTENSIFIERS = {"banget", "parah", "bgt"}
-
-# =============================
-# ✅ LEXICON LABELING — SKENARIO 2
-#    Tidak ada kelas netral.
-#    Semua tweet → positif atau negatif.
-# =============================
-def lexicon_label(text):
+# ══════════════════════════════════════════════════════════════
+#  SCORING: hanya untuk baris NETRAL
+#  Aturan Skenario 2 — tanpa kelas netral:
+#    pos > neg  → positif
+#    neg >= pos → negatif
+#    0, 0       → negatif (default konservatif)
+# ══════════════════════════════════════════════════════════════
+def relabel_netral(text: str) -> str:
     clean  = clean_text(text)
     tokens = normalize_text(clean)
     joined = " ".join(tokens)
@@ -386,89 +370,170 @@ def lexicon_label(text):
     pos_score = 0
     neg_score = 0
 
-    # ── Token match dengan negasi lokal ──
     for i, word in enumerate(tokens):
         negated = (i > 0 and tokens[i - 1] in NEGATIONS)
-
         if word in pos_single:
-            if negated:
-                neg_score += 1
-            else:
-                pos_score += 1
-
+            neg_score += 1 if negated else 0
+            pos_score += 0 if negated else 1
         elif word in neg_single:
-            if negated:
-                pos_score += 1
-            else:
-                neg_score += 1
+            pos_score += 1 if negated else 0
+            neg_score += 0 if negated else 1
 
-    # ── Phrase match (bobot lebih tinggi, tidak double count) ──
     for phrase in pos_phrases:
         if phrase in joined:
             pos_score += 2
-
     for phrase in neg_phrases:
         if phrase in joined:
             neg_score += 2
 
-    # ── Intensifier ──
     if any(w in tokens for w in INTENSIFIERS):
         pos_score *= 1.3
         neg_score *= 1.3
 
-    # ══════════════════════════════════════════════════════
-    # ✅ SKENARIO 2: TIDAK ADA NETRAL
-    # ══════════════════════════════════════════════════════
+    # Tidak ada netral: pos > neg → positif, sisanya → negatif
+    return "positif" if pos_score > neg_score else "negatif"
 
-    # Tidak ada sinyal sama sekali → default negatif
-    # (tweet tanpa kata sentimen cenderung informatif/konservatif)
-    if pos_score == 0 and neg_score == 0:
-        return "negatif"
+# ══════════════════════════════════════════════════════════════
+#  PROSES PER FILE
+# ══════════════════════════════════════════════════════════════
+def process_file(filename: str):
+    path = INPUT_DIR / filename
+    if not path.exists():
+        print(f"⚠️  File tidak ditemukan, skip: {filename}")
+        return
 
-    # Skor ambigu (selisih < 1) → ikut yang lebih tinggi
-    # jika benar-benar sama → default negatif
-    if pos_score > neg_score:
-        return "positif"
-    else:
-        return "negatif"   # neg >= pos → negatif (termasuk saat sama)
+    df = pd.read_csv(path, dtype=str).fillna("")
+    total = len(df)
 
-# =============================
-# PROCESS FILE
-# =============================
-def process_file(file):
-    path = INPUT_DIR / file
-    df   = pd.read_csv(path, dtype=str).fillna("")
+    # Pastikan kolom sentiment ada
+    if "sentiment" not in df.columns:
+        print(f"⚠️  Kolom 'sentiment' tidak ditemukan di {filename}, skip.")
+        return
 
-    print(f"\n📂 Processing: {file} | {len(df):,} rows")
+    # Normalisasi nilai (lowercase, strip spasi)
+    df["sentiment"] = df["sentiment"].str.strip().str.lower()
 
-    tqdm.pandas(desc="🏷️  Lexicon Labeling (Skenario 2)")
-    df["sentiment"] = df["tweet"].progress_apply(lexicon_label)
+    # Identifikasi baris netral
+    mask_netral = df["sentiment"] == "netral"
+    n_netral    = mask_netral.sum()
+    n_tetap     = total - n_netral
 
-    # Statistik distribusi
+    print(f"\n📂 {filename}")
+    print(f"   Total baris : {total:,}")
+    print(f"   Tetap (pos/neg) : {n_tetap:,}")
+    print(f"   Netral (akan direlabel) : {n_netral:,}")
+
+    if n_netral == 0:
+        print("   ℹ️  Tidak ada baris netral, file disalin langsung.")
+        df.to_csv(OUTPUT_DIR / filename, index=False, encoding="utf-8-sig")
+        return
+
+    # Relabel hanya baris netral
+    tqdm.pandas(desc="   🔄 Relabelling netral")
+    df.loc[mask_netral, "sentiment"] = (
+        df.loc[mask_netral, "tweet"]
+        .progress_apply(relabel_netral)
+    )
+
+    # Verifikasi: tidak boleh ada 'netral' tersisa
+    sisa_netral = (df["sentiment"] == "netral").sum()
+    assert sisa_netral == 0, f"Masih ada {sisa_netral} baris netral!"
+
+    # Distribusi hasil
     dist = df["sentiment"].value_counts()
+    print("   Distribusi setelah relabelling:")
     for label, count in dist.items():
-        pct = count / len(df) * 100
+        pct = count / total * 100
         bar = "█" * int(pct / 3)
-        print(f"   {label:<12} {count:>6,} ({pct:5.1f}%)  {bar}")
+        print(f"     {label:<12} {count:>6,} ({pct:5.1f}%)  {bar}")
 
-    # Simpan — nama file mencerminkan skenario
-    output_name = file.replace(".csv", "_labellingLexicon.csv")
-    output_path = OUTPUT_DIR / output_name
-    df.to_csv(output_path, index=False, encoding="utf-8-sig")
+    # Simpan
+    out_path = OUTPUT_DIR / filename
+    df.to_csv(out_path, index=False, encoding="utf-8-sig")
+    print(f"   ✅ Disimpan: {out_path}")
 
-    print(f"✅ Disimpan: {output_name}")
 
-# =============================
-# MAIN
-# =============================
+# ══════════════════════════════════════════════════════════════
+#  GABUNGKAN SEMUA PERIODE MENJADI ALL_PERIODS
+# ══════════════════════════════════════════════════════════════
+def create_all_periods():
+    print("\n📦 Menggabungkan seluruh periode...")
+
+    all_data = []
+
+    for filename in FILES:
+        file_path = OUTPUT_DIR / filename
+
+        if not file_path.exists():
+            print(f"⚠️  File tidak ditemukan: {file_path}")
+            continue
+
+        df = pd.read_csv(file_path)
+
+        # Tambahkan informasi periode
+        if "before_covid" in filename:
+            df["period"] = "before_covid"
+
+        elif "after_covid" in filename:
+            df["period"] = "after_covid"
+
+        elif "covid" in filename:
+            df["period"] = "covid"
+
+        all_data.append(df)
+
+    if len(all_data) == 0:
+        print("❌ Tidak ada file yang dapat digabung.")
+        return
+
+    df_all = pd.concat(all_data, ignore_index=True)
+
+    output_file = OUTPUT_DIR / "tweets_all_periods_labellingLexicon.csv"
+    df_all.to_csv(output_file, index=False, encoding="utf-8-sig")
+
+    print("\n📊 DISTRIBUSI ALL_PERIODS")
+    print("-" * 50)
+
+    sentiment_dist = df_all["sentiment"].value_counts()
+
+    for label, count in sentiment_dist.items():
+        pct = count / len(df_all) * 100
+        bar = "█" * int(pct / 3)
+        print(f"{label:<12} {count:>8,} ({pct:5.1f}%) {bar}")
+
+    print("-" * 50)
+    print(f"Total Data : {len(df_all):,}")
+
+    print("\n📊 DISTRIBUSI PER PERIODE")
+    print("-" * 50)
+
+    for period in ["before_covid", "covid", "after_covid"]:
+        n = (df_all["period"] == period).sum()
+        print(f"{period:<15} {n:>8,}")
+
+    print("-" * 50)
+
+    print(f"\n✅ File gabungan disimpan:")
+    print(f"   {output_file}")
+
+# ══════════════════════════════════════════════════════════════
+#  MAIN
+# ══════════════════════════════════════════════════════════════
 if __name__ == "__main__":
-    print("🚀 AUTO LABELLING LEXICON — SKENARIO 2 (tanpa kelas netral)\n")
-    print("   Aturan: pos > neg → positif | neg >= pos → negatif")
-    print("   Tanpa sinyal → default negatif\n")
-    print("─" * 55)
+    print("=" * 60)
+    print("  RELABELLING NETRAL → POSITIF/NEGATIF (Skenario 2)")
+    print("=" * 60)
+    print(f"  Input  : {INPUT_DIR}")
+    print(f"  Output : {OUTPUT_DIR}")
+    print("  Aturan : pos > neg → positif | neg >= pos → negatif")
+    print("           tanpa sinyal (0,0) → negatif (default)")
+    print("=" * 60)
 
-    for file in FILES:
-        process_file(file)
+    for f in FILES:
+        process_file(f)
 
-    print("\n" + "─" * 55)
-    print("✅ SELESAI SEMUA")
+    create_all_periods()
+
+    print("\n" + "=" * 60)
+    print("  ✅ SELESAI — semua file tersimpan di 2_labelling_S2/")
+    print("=" * 60)

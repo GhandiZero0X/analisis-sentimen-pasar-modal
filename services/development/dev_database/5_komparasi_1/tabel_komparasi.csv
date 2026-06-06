@@ -1,0 +1,19 @@
+﻿scenario,period,model,accuracy,f1_weighted,f1_macro,train_rt,eval_rt,infer_rt,total_rt,scenario_label,period_label
+S1,before,SVM,0.9531,0.9533,0.9451,2.43,0.56,0.0,2.99,"Scenario 1 (Lexicon, 2 kls)",Sebelum COVID
+S1,before,IndoBERTweet,0.9612,0.9609,0.9535,769.23,16.02,6.46,785.25,"Scenario 1 (Lexicon, 2 kls)",Sebelum COVID
+S1,covid,SVM,0.9403,0.941,0.9219,11.61,0.56,0.0,12.17,"Scenario 1 (Lexicon, 2 kls)",Masa COVID
+S1,covid,IndoBERTweet,0.9916,0.9916,0.9887,3462.32,30.55,25.19,3492.8700000000003,"Scenario 1 (Lexicon, 2 kls)",Masa COVID
+S1,after,SVM,0.8417,0.8417,0.8412,4.2,0.84,0.0,5.04,"Scenario 1 (Lexicon, 2 kls)",Setelah COVID
+S1,after,IndoBERTweet,0.8816,0.8817,0.8814,1583.54,21.48,10.81,1605.02,"Scenario 1 (Lexicon, 2 kls)",Setelah COVID
+S2,before,SVM,0.8966,0.8985,0.8763,5.67,1.75,0.0,7.42,"Scenario 2 (Lexicon, 2 kls)",Sebelum COVID
+S2,before,IndoBERTweet,0.9329,0.9315,0.9133,1356.47,29.47,18.53,1385.94,"Scenario 2 (Lexicon, 2 kls)",Sebelum COVID
+S2,covid,SVM,0.8732,0.8761,0.8479,32.83,0.64,0.0,33.47,"Scenario 2 (Lexicon, 2 kls)",Masa COVID
+S2,covid,IndoBERTweet,0.9473,0.947,0.9331,6163.21,94.08,83.3,6257.29,"Scenario 2 (Lexicon, 2 kls)",Masa COVID
+S2,after,SVM,0.8368,0.8411,0.8071,21.51,0.65,0.0,22.16,"Scenario 2 (Lexicon, 2 kls)",Setelah COVID
+S2,after,IndoBERTweet,0.8933,0.8928,0.8653,4216.48,62.66,55.9,4279.139999999999,"Scenario 2 (Lexicon, 2 kls)",Setelah COVID
+S3,before,SVM,0.8545,0.8545,0.854,6.98,0.65,0.0,7.630000000000001,"Scenario 3 (Lexicon, 3 kls)",Sebelum COVID
+S3,before,IndoBERTweet,0.9116,0.9116,0.9117,1373.54,52.53,43.2,1426.07,"Scenario 3 (Lexicon, 3 kls)",Sebelum COVID
+S3,covid,SVM,0.8287,0.8295,0.8148,86.51,0.64,0.0,87.15,"Scenario 3 (Lexicon, 3 kls)",Masa COVID
+S3,covid,IndoBERTweet,0.9883,0.9883,0.9864,6246.54,223.61,208.91,6470.15,"Scenario 3 (Lexicon, 3 kls)",Masa COVID
+S3,after,SVM,0.7231,0.7253,0.665,62.34,0.67,0.0,63.010000000000005,"Scenario 3 (Lexicon, 3 kls)",Setelah COVID
+S3,after,IndoBERTweet,0.7816,0.782,0.7369,4253.89,36.84,29.4,4290.7300000000005,"Scenario 3 (Lexicon, 3 kls)",Setelah COVID
