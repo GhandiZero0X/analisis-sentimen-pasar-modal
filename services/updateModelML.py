@@ -609,6 +609,11 @@ def step_komparasi(
 ):
     set_status(job_id, "Komparasi: memperbarui tabel...", 83)
 
+    # Skip all_periods dari komparasi
+    if period == "all_periods":
+        set_status(job_id, "Komparasi: all_periods dilewati.", 87)
+        return
+
     komparasi_path = Path(root_path) / KOMPARASI_CSV
     komparasi_path.parent.mkdir(parents=True, exist_ok=True)
 
