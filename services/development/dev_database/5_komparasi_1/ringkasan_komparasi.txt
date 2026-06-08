@@ -1,6 +1,6 @@
 RINGKASAN KOMPARASI MODEL — 2 TAHAP
 ======================================================================
-Tanggal    : 2026-06-07 00:23:05
+Tanggal    : 2026-06-08 08:43:12
 
 ALUR PEMILIHAN:
   Tahap 1: Pilih pemenang per skenario

@@ -1,3 +1,4 @@
+// services/scrap/scrapMerge.js
 const fs = require("fs");
 const path = require("path");
 
@@ -6,9 +7,6 @@ const path = require("path");
 // ══════════════════════════════════════════════════════════════
 
 // Folder induk tempat semua folder saham berada
-// Contoh: jika struktur kamu adalah ./data/bbri/, ./data/icbp/
-// ganti BASE_DIR = "./data"  → jika folder saham ada di subfolder
-// ganti BASE_DIR = "."       → jika folder saham langsung di sini
 const BASE_DIR = "./database";
 
 // Daftar file yang ingin digabung

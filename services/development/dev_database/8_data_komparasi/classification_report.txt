@@ -1,0 +1,13 @@
+CLASSIFICATION REPORT
+Auto Labelling (Lexicon) vs Expert — After COVID
+============================================================
+
+              precision    recall  f1-score   support
+
+     negatif     0.5913    0.4475    0.5095      7287
+      netral     0.7133    0.4226    0.5308     26140
+     positif     0.2800    0.7049    0.4008      8185
+
+    accuracy                         0.4825     41612
+   macro avg     0.5282    0.5250    0.4803     41612
+weighted avg     0.6067    0.4825    0.5015     41612

@@ -86,6 +86,47 @@ def count_rows(filepath: Path) -> int | str:
     except Exception as e:
         return f"ERROR: {e}"
 
+# ══════════════════════════════════════════════════════════════
+#  DISTRIBUSI SAHAM ALL_PERIODS
+# ══════════════════════════════════════════════════════════════
+def show_all_periods_distribution():
+    path = BASE_DIR / "dev_database/1_raw/tweets_all_periods.csv"
+
+    if not path.exists():
+        print("\n❌ File tweets_all_periods.csv tidak ditemukan")
+        return
+
+    try:
+        df = pd.read_csv(path)
+
+        if "saham" not in df.columns:
+            print("\n❌ Kolom 'saham' tidak ditemukan")
+            return
+
+        total = len(df)
+
+        print("\n" + "=" * 70)
+        print("  DISTRIBUSI TWEET PER SAHAM (ALL_PERIODS)")
+        print("=" * 70)
+        print(f"{'Saham':<15} {'Jumlah Tweet':>15} {'Persentase':>15}")
+        print("-" * 70)
+
+        dist = df["saham"].value_counts().sort_values(ascending=False)
+
+        for saham, jumlah in dist.items():
+            persen = jumlah / total * 100
+            print(
+                f"{saham:<15} "
+                f"{jumlah:>15,} "
+                f"{persen:>14.2f}%"
+            )
+
+        print("-" * 70)
+        print(f"{'TOTAL':<15} {total:>15,} {100:>14.2f}%")
+        print("=" * 70)
+
+    except Exception as e:
+        print(f"\n❌ Error membaca distribusi saham: {e}")
 
 def main():
     print("=" * 70)
@@ -116,6 +157,8 @@ def main():
                 print(f"  {filename:<52} {result:>10}")
 
         print(f"  {'─' * 66}")
+    
+    show_all_periods_distribution()
 
     print(f"\n{'=' * 70}")
     print(f"  RINGKASAN")
