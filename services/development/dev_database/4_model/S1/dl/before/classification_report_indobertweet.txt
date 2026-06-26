@@ -1,6 +1,6 @@
 EVALUATION REPORT — IndoBERTweet Fine-tuning (Binary)
 ======================================================
-Tanggal      : 2026-05-27 23:18:01
+Tanggal      : 2026-06-26 07:47:42
 Model        : indolem/indobertweet-base-uncased
 Test set     : 748 baris
 Kelas        : ['negatif', 'positif']  ← hanya positif & negatif
@@ -35,8 +35,8 @@ PER-CLASS DETAIL
 
 RUNTIME
 -------
-Load model     : 8.00 detik
-Inferensi test : 6.46 detik
-Plot CM        : 1.17 detik
-Plot curve     : 0.33 detik
-Total runtime  : 16.02 detik
+Load model     : 10.43 detik
+Inferensi test : 6.08 detik
+Plot CM        : 0.34 detik
+Plot curve     : 0.29 detik
+Total runtime  : 17.17 detik

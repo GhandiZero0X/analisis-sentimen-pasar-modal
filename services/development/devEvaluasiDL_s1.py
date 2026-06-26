@@ -64,7 +64,7 @@ from transformers import (
 #  PATH CONFIGURATION
 # ══════════════════════════════════════════════════════════════
 BASE_DIR = Path(__file__).resolve().parent
-MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S1" / "dl" / "all_periods"
+MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S1" / "dl" / "covid"
 
 MODEL_BIN_FILE = MODEL_DIR / "best_model.bin"
 TOKENIZER_DIR = MODEL_DIR / "tokenizer"
@@ -310,8 +310,9 @@ if TRAIN_LOG_FILE.exists():
     train_log_df = pd.read_csv(TRAIN_LOG_FILE)
 
     # Cari epoch dengan val_f1 tertinggi
-    best_row = train_log_df.loc[train_log_df["val_f1"].idxmax()]
+    best_row = train_log_df.loc[train_log_df["val_loss"].idxmin()]
     best_epoch = int(best_row["epoch"])
+    best_val_loss = float(best_row["val_loss"])
 
 metrics_df = pd.DataFrame([{
     "accuracy": acc,
@@ -319,6 +320,7 @@ metrics_df = pd.DataFrame([{
     "recall": binary_recall,
     "f1_score": binary_f1,
     "best_epoch": best_epoch,
+    "best_val_loss": best_val_loss,
 }])
 
 metrics_df.to_csv(METRIC_CSV_FILE, index=False, encoding="utf-8-sig")
