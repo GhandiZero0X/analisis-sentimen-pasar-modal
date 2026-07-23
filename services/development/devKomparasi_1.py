@@ -19,7 +19,7 @@ Alur 2 Tahap:
 
 Kriteria "hampir sama" = selisih accuracy < 0.001
 
-Output : dev_database/5_komparasi/
+Output : dev_database/5_komparasi_1/
          tabel_komparasi.csv
          tabel_komparasi.txt
          grafik_akurasi.png
@@ -377,26 +377,42 @@ def annotate_bars(ax, bars, fmt_str="{:.4f}"):
             ax.text(bar.get_x() + bar.get_width()/2, h + 0.003,
                     fmt_str.format(h), ha="center", va="bottom", fontsize=7, rotation=90)
 
-# Grafik 1: Accuracy
-svm_acc, dl_acc = get_vals("accuracy")
-fig, ax = plt.subplots(figsize=(20, 7))
-b1 = ax.bar(x - w/2, svm_acc, w, label="SVM",          color="#3498db", alpha=0.85)
-b2 = ax.bar(x + w/2, dl_acc,  w, label="IndoBERTweet", color="#e74c3c", alpha=0.85)
-annotate_bars(ax, b1)
-annotate_bars(ax, b2)
-ax.set_xlabel("Scenario | Periode", fontsize=11)
-ax.set_ylabel("Accuracy", fontsize=11)
-ax.set_title("Perbandingan Accuracy: SVM vs IndoBERTweet\n(Semua Skenario & Periode)", fontsize=13)
-ax.set_xticks(x)
-ax.set_xticklabels(combo_labels, rotation=30, ha="right", fontsize=8)
-ax.set_ylim([0, 1.2])
-ax.yaxis.set_major_locator(mticker.MultipleLocator(0.1))
-ax.legend(fontsize=10)
-ax.grid(axis="y", alpha=0.3)
-plt.tight_layout()
-plt.savefig(OUTPUT_DIR / "grafik_akurasi.png", dpi=150, bbox_inches="tight")
-plt.close()
-print(f"✅ Grafik disimpan : grafik_akurasi.png")
+def annotate_bars(ax, bars, fmt_str="{:.4f}"):
+    for bar in bars:
+        h = bar.get_height()
+        if not np.isnan(h) and h > 0:
+            ax.text(bar.get_x() + bar.get_width()/2, h + 0.003,
+                    fmt_str.format(h), ha="center", va="bottom", fontsize=7, rotation=90)
+
+# Grafik 1: Accuracy — dipisah per skenario (S1, S2, S3)
+periods_x = np.arange(len(PERIODS))
+
+for scenario in SCENARIOS:
+    svm_acc, dl_acc = [], []
+    for p in PERIODS:
+        r_svm = df[(df["scenario"]==scenario)&(df["period"]==p)&(df["model"]=="SVM")]
+        r_dl  = df[(df["scenario"]==scenario)&(df["period"]==p)&(df["model"]=="IndoBERTweet")]
+        svm_acc.append(float(r_svm.iloc[0]["accuracy"]) if not r_svm.empty and pd.notna(r_svm.iloc[0]["accuracy"]) else np.nan)
+        dl_acc.append(float(r_dl.iloc[0]["accuracy"])  if not r_dl.empty  and pd.notna(r_dl.iloc[0]["accuracy"])  else np.nan)
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    b1 = ax.bar(periods_x - w/2, svm_acc, w, label="SVM",          color="#3498db", alpha=0.85)
+    b2 = ax.bar(periods_x + w/2, dl_acc,  w, label="IndoBERTweet", color="#e74c3c", alpha=0.85)
+    annotate_bars(ax, b1)
+    annotate_bars(ax, b2)
+    ax.set_xlabel("Periode", fontsize=12)
+    ax.set_ylabel("Accuracy", fontsize=12)
+    ax.set_title(f"Perbandingan Accuracy: SVM vs IndoBERTweet\n{SCENARIO_LABELS[scenario]}", fontsize=14)
+    ax.set_xticks(periods_x)
+    ax.set_xticklabels([PERIOD_LABELS[p] for p in PERIODS], fontsize=11)
+    ax.set_ylim([0, 1.2])
+    ax.yaxis.set_major_locator(mticker.MultipleLocator(0.1))
+    ax.legend(fontsize=11)
+    ax.grid(axis="y", alpha=0.3)
+    plt.tight_layout()
+    plt.savefig(OUTPUT_DIR / f"grafik_akurasi_{scenario}.png", dpi=200, bbox_inches="tight")
+    plt.close()
+    print(f"✅ Grafik disimpan : grafik_akurasi_{scenario}.png")
 
 # Grafik 2: Runtime
 svm_rt, dl_rt = get_vals("total_rt")

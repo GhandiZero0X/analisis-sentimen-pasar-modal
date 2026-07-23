@@ -1,16 +1,20 @@
 EVALUATION INFO — IndoBERTweet (Skenario 2)
 ============================================
-Tanggal        : 2026-06-06 23:16:19
+Tanggal        : 2026-07-05 19:42:20
 Skenario       : 2 (tanpa kelas netral)
 Model          : indolem/indobertweet-base-uncased
 Test set       : 4,153 baris
 Kelas          : ['negatif', 'positif']
-Accuracy       : 0.8933
-Binary F1      : 0.9267
+Accuracy       : 0.8774
+Precision      : 0.9483
+Recall         : 0.8786
+Binary F1      : 0.9121
+Best Epoch     : 1
+Best Val Loss  : 0.35265
 
 Runtime:
-  Load model    : 6.09 detik
-  Inferensi     : 55.90 detik
-  Plot CM       : 0.33 detik
-  Plot curve    : 0.31 detik
-  Total runtime : 62.66 detik
+  Load model    : 5.52 detik
+  Inferensi     : 58.36 detik
+  Plot CM       : 0.39 detik
+  Plot curve    : 0.29 detik
+  Total runtime : 64.61 detik

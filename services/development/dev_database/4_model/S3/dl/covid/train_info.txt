@@ -1,15 +1,30 @@
-TRAINING INFO — IndoBERTweet Fine-tuning (3 Class)
+TRAINING INFO - IndoBERTweet Fine-tuning (3 Class - Skenario 3)
 =====================================
-Tanggal          : 2026-05-18 04:34:53
+Tanggal          : 2026-07-05 19:28:22
 Model pretrained : indolem/indobertweet-base-uncased
 Input file       : tweets_covid_labellingLexicon_preprocessingDL.csv
 Total data       : 61,629
-Kelas            : ['negatif', 'netral', 'positif']  ← negatif, netral, positif
+Kelas            : ['negatif', 'netral', 'positif']  <- negatif, netral, positif
 
 Split:
-  Train          : 49,303
-  Validation     : 6,163
-  Test           : 6,163
+  Train (asli)                 : 49,303
+  Train (setelah oversampling) : 67,878
+  Validation                   : 6,163
+  Test                         : 6,163
+
+Penanganan Imbalance (HYBRID):
+  1. Data-level      : Random Oversampling
+                        Setiap kelas yang jumlahnya lebih sedikit dari
+                        kelas dengan sampel terbanyak diduplikasi
+                        (with replacement) hingga seimbang. Diterapkan
+                        hanya pada data train, setelah split, sebelum
+                        tokenisasi. Val & test tidak diubah.
+  2. Algorithm-level : Weighted Cross-Entropy Loss
+                        Class weight dihitung dari distribusi TRAIN ASLI
+                        (sebelum oversampling), skema "balanced":
+    negatif   : 2.4825
+    netral    : 0.7263
+    positif   : 0.8194
 
 Hyperparameter:
   max_length     : 128
@@ -18,14 +33,17 @@ Hyperparameter:
   learning_rate  : 2e-05
   warmup_ratio   : 0.1
   weight_decay   : 0.01
+  random_seed    : 0
+  optimizer      : AdamW
+  gradient_clip  : 1.0
 
 Hasil:
-  Best epoch     : 4
-  Best val_loss  : 0.05656
+  Best epoch     : 5
+  Best val_loss  : 0.08119
 
 Runtime:
-  Load model     : 6.48 detik
-  Fine-tuning    : 6246.54 detik
-  Total runtime  : 6253.60 detik
+  Load model     : 7.15 detik
+  Fine-tuning    : 8529.36 detik
+  Total runtime  : 8537.78 detik
 
 Device: NVIDIA GeForce RTX 3050 Laptop GPU

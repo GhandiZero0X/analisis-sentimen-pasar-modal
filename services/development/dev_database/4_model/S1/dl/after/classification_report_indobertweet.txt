@@ -1,42 +1,42 @@
 EVALUATION REPORT — IndoBERTweet Fine-tuning (Binary)
 ======================================================
-Tanggal      : 2026-06-26 07:50:32
+Tanggal      : 2026-07-05 13:27:33
 Model        : indolem/indobertweet-base-uncased
 Test set     : 1,546 baris
 Kelas        : ['negatif', 'positif']  ← hanya positif & negatif
 
 ACCURACY
 --------
-0.8816
+0.8810
 
 CLASSIFICATION REPORT
 ---------------------
               precision    recall  f1-score   support
 
-     negatif     0.8628    0.8901    0.8763       728
-     positif     0.8994    0.8741    0.8865       818
+     negatif     0.8588    0.8942    0.8762       728
+     positif     0.9023    0.8692    0.8854       818
 
-    accuracy                         0.8816      1546
-   macro avg     0.8811    0.8821    0.8814      1546
-weighted avg     0.8822    0.8816    0.8817      1546
+    accuracy                         0.8810      1546
+   macro avg     0.8806    0.8817    0.8808      1546
+weighted avg     0.8818    0.8810    0.8811      1546
 
 
 OVERALL BINARY METRICS
 ----------------------
-Accuracy  : 0.8816
-Precision : 0.8994
-Recall    : 0.8741
-F1-score  : 0.8865
+Accuracy  : 0.8810
+Precision : 0.9023
+Recall    : 0.8692
+F1-score  : 0.8854
 
 PER-CLASS DETAIL
 ----------------
-  negatif      precision: 0.8628 | recall: 0.8901 | f1: 0.8763 | support: 728
-  positif      precision: 0.8994 | recall: 0.8741 | f1: 0.8865 | support: 818
+  negatif      precision: 0.8588 | recall: 0.8942 | f1: 0.8762 | support: 728
+  positif      precision: 0.9023 | recall: 0.8692 | f1: 0.8854 | support: 818
 
 RUNTIME
 -------
-Load model     : 7.34 detik
-Inferensi test : 11.66 detik
-Plot CM        : 0.89 detik
-Plot curve     : 0.65 detik
-Total runtime  : 20.63 detik
+Load model     : 6.01 detik
+Inferensi test : 11.04 detik
+Plot CM        : 0.26 detik
+Plot curve     : 0.30 detik
+Total runtime  : 17.65 detik

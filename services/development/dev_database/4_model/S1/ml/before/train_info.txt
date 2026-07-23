@@ -1,7 +1,7 @@
-TRAINING INFO — SVM LinearSVC
+TRAINING INFO - SVM LinearSVC (Hybrid Imbalance Handling)
 ==============================
 
-Tanggal          : 2026-05-23 00:14:16
+Tanggal          : 2026-07-05 13:13:15
 Input file       : tweets_before_covid_labellingLexicon_preprocessingML.csv
 
 Total data       : 7,469
@@ -9,7 +9,9 @@ Netral dibuang   : 6,067
 
 Kelas            : ['negatif', 'positif']
 
-Train/Test       : 5,975 / 1,494
+Train (sebelum SMOTE) : 5,975
+Train (sesudah SMOTE) : 8,306
+Test                  : 1,494
 
 TF-IDF:
   ngram_range    : (1, 2)
@@ -19,17 +21,26 @@ TF-IDF:
   sublinear_tf   : True
   jumlah fitur   : 3,696
 
+Penanganan Imbalance (HYBRID):
+  1. Data-level      : SMOTE
+                        k_neighbors    : 5
+                        random_state   : 0
+                        Diterapkan setelah TF-IDF, hanya pada data train.
+                        Test set tidak diubah.
+  2. Algorithm-level  : class_weight="balanced" (LinearSVC)
+
 GridSearch:
   C dicoba       : [0.01, 0.1, 1, 10, 100]
   C terbaik      : 1
-  F1 CV terbaik  : 0.9626
+  F1 CV terbaik  : 0.9707
   CV             : StratifiedKFold (5-fold)
 
 Akurasi:
-  Train          : 0.9931
-  Test           : 0.9531
+  Train          : 0.9939
+  Test           : 0.9525
 
 Runtime:
   TF-IDF         : 0.16 detik
-  Training SVM   : 2.43 detik
-  Total Runtime  : 2.75 detik
+  SMOTE          : 0.10 detik
+  Training SVM   : 2.34 detik
+  Total Runtime  : 2.72 detik

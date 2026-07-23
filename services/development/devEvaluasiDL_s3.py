@@ -28,6 +28,7 @@ Input  : dev_database/4_model/S3/dl/all_periods/
 
 Output : dev_database/4_model/S3/dl/all_periods/
          confusion_matrix_indobertweet.png
+         evaluation_metrics.csv
          training_curve_indobertweet.png
          classification_report_indobertweet.txt
          evaluation_info.txt
@@ -64,7 +65,7 @@ from transformers import (
 #  PATH CONFIGURATION
 # ══════════════════════════════════════════════════════════════
 BASE_DIR  = Path(__file__).resolve().parent
-MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S3" / "dl" / "all_periods"
+MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S3" / "dl" / "covid"
 
 MODEL_BIN_FILE = MODEL_DIR / "best_model.bin"
 TOKENIZER_DIR  = MODEL_DIR / "tokenizer"
@@ -72,10 +73,11 @@ ENCODER_FILE   = MODEL_DIR / "label_encoder.joblib"
 SPLIT_FILE     = MODEL_DIR / "split_indices.joblib"
 TRAIN_LOG_FILE = MODEL_DIR / "train_log.csv"
 
-CM_FILE        = MODEL_DIR / "confusion_matrix_indobertweet.png"
-CURVE_FILE     = MODEL_DIR / "training_curve_indobertweet.png"
-REPORT_FILE    = MODEL_DIR / "classification_report_indobertweet.txt"
-EVAL_INFO_FILE = MODEL_DIR / "evaluation_info.txt"
+CM_FILE         = MODEL_DIR / "confusion_matrix_indobertweet.png"
+METRIC_CSV_FILE = MODEL_DIR / "evaluation_metrics.csv"
+CURVE_FILE      = MODEL_DIR / "training_curve_indobertweet.png"
+REPORT_FILE     = MODEL_DIR / "classification_report_indobertweet.txt"
+EVAL_INFO_FILE  = MODEL_DIR / "evaluation_info.txt"
 
 MAX_LENGTH = 128
 BATCH_SIZE = 16
@@ -215,13 +217,15 @@ precision, recall, f1, support = precision_recall_fscore_support(
     zero_division = 0,
 )
 
-macro_f1 = f1_score(
+# Overall macro & weighted metrics (precision & recall ditambahkan
+# supaya evaluation_metrics.csv konsisten kolomnya dengan Skenario 1/2)
+macro_precision, macro_recall, macro_f1, _ = precision_recall_fscore_support(
     all_labels, all_preds,
     average       = "macro",
     zero_division = 0,
 )
 
-weighted_f1 = f1_score(
+weighted_precision, weighted_recall, weighted_f1, _ = precision_recall_fscore_support(
     all_labels, all_preds,
     average       = "weighted",
     zero_division = 0,
@@ -264,6 +268,57 @@ plt.close()
 print(f"✅ Confusion matrix disimpan : {CM_FILE.name}")
 
 cm_plot_time = time.time() - cm_plot_start
+
+# ══════════════════════════════════════════════════════════════
+#  SIMPAN METRICS KE CSV
+# ══════════════════════════════════════════════════════════════
+
+# Ambil best epoch dari train log (berdasarkan val_loss terendah,
+# konsisten dengan kriteria checkpoint terbaik pada devModellingDL.py)
+best_epoch    = None
+best_val_loss = None
+
+if TRAIN_LOG_FILE.exists():
+    train_log_df = pd.read_csv(TRAIN_LOG_FILE)
+
+    best_row      = train_log_df.loc[train_log_df["val_loss"].idxmin()]
+    best_epoch    = int(best_row["epoch"])
+    best_val_loss = float(best_row["val_loss"])
+else:
+    print("⚠️  train_log.csv tidak ditemukan, best_epoch/best_val_loss diisi None")
+
+# Baris ringkasan overall (macro & weighted)
+metrics_rows = [{
+    "accuracy"           : acc,
+    "precision_macro"    : macro_precision,
+    "recall_macro"       : macro_recall,
+    "f1_macro"           : macro_f1,
+    "precision_weighted" : weighted_precision,
+    "recall_weighted"    : weighted_recall,
+    "f1_weighted"        : weighted_f1,
+    "best_epoch"         : best_epoch,
+    "best_val_loss"      : best_val_loss,
+}]
+
+metrics_df = pd.DataFrame(metrics_rows)
+metrics_df.to_csv(METRIC_CSV_FILE, index=False, encoding="utf-8-sig")
+
+# Simpan juga rincian per-kelas dalam file CSV terpisah, supaya detail
+# precision/recall/f1/support tiap kelas (negatif/netral/positif) tetap
+# terdokumentasi tanpa membuat evaluation_metrics.csv jadi terlalu lebar.
+per_class_df = pd.DataFrame({
+    "class"     : class_names,
+    "precision" : precision,
+    "recall"    : recall,
+    "f1_score"  : f1,
+    "support"   : support,
+})
+PER_CLASS_CSV_FILE = MODEL_DIR / "evaluation_metrics_per_class.csv"
+per_class_df.to_csv(PER_CLASS_CSV_FILE, index=False, encoding="utf-8-sig")
+
+print(f"✅ Metrics CSV disimpan          : {METRIC_CSV_FILE.name}")
+print(f"✅ Metrics per-kelas CSV disimpan : {PER_CLASS_CSV_FILE.name}")
+print(f"🏆 Best Epoch                    : {best_epoch}")
 
 # ══════════════════════════════════════════════════════════════
 #  b. TRAINING CURVE
@@ -333,13 +388,17 @@ ACCURACY
 --------
 {acc:.4f}
 
-MACRO F1
---------
-{macro_f1:.4f}
+OVERALL METRICS (MACRO)
+------------------------
+Precision : {macro_precision:.4f}
+Recall    : {macro_recall:.4f}
+F1-score  : {macro_f1:.4f}
 
-WEIGHTED F1
------------
-{weighted_f1:.4f}
+OVERALL METRICS (WEIGHTED)
+---------------------------
+Precision : {weighted_precision:.4f}
+Recall    : {weighted_recall:.4f}
+F1-score  : {weighted_f1:.4f}
 
 CLASSIFICATION REPORT
 ---------------------
@@ -376,8 +435,12 @@ Tanggal        : {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
 Model          : indolem/indobertweet-base-uncased
 Test set       : {len(X_test):,} baris
 Accuracy       : {acc:.4f}
+Precision Macro: {macro_precision:.4f}
+Recall Macro   : {macro_recall:.4f}
 Macro F1       : {macro_f1:.4f}
 Weighted F1    : {weighted_f1:.4f}
+Best Epoch     : {best_epoch}
+Best Val Loss  : {best_val_loss}
 
 Runtime:
   Load model   : {load_time:.2f} detik
@@ -408,6 +471,8 @@ for i, cls in enumerate(class_names):
     print(f"   {cls:<12} P:{precision[i]:.4f}  R:{recall[i]:.4f}  F1:{f1[i]:.4f}")
 
 print(f"\n  🖼  {CM_FILE.name}")
+print(f"  📄  {METRIC_CSV_FILE.name}")
+print(f"  📄  {PER_CLASS_CSV_FILE.name}")
 print(f"  🖼  {CURVE_FILE.name}")
 print(f"  📄  {REPORT_FILE.name}")
 print(f"  📄  {EVAL_INFO_FILE.name}")

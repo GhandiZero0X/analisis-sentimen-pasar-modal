@@ -1,43 +1,43 @@
 EVALUATION REPORT — SVM LinearSVC (Skenario 2 — Binary)
 =========================================================
-Tanggal     : 2026-06-06 22:57:16
+Tanggal     : 2026-07-05 13:24:33
 Skenario    : 2 (tanpa kelas netral)
 Test set    : 2,708 baris
 Kelas       : ['negatif', 'positif']
 
 ACCURACY
 --------
-0.8966
+0.9055
 
 CLASSIFICATION REPORT
 ---------------------
               precision    recall  f1-score   support
 
-     negatif     0.7778    0.8808    0.8261       755
-     positif     0.9514    0.9027    0.9264      1953
+     negatif     0.8054    0.8715    0.8372       755
+     positif     0.9487    0.9186    0.9334      1953
 
-    accuracy                         0.8966      2708
-   macro avg     0.8646    0.8918    0.8763      2708
-weighted avg     0.9030    0.8966    0.8985      2708
+    accuracy                         0.9055      2708
+   macro avg     0.8770    0.8951    0.8853      2708
+weighted avg     0.9087    0.9055    0.9066      2708
 
 PER-CLASS DETAIL
 ----------------
-  negatif      precision: 0.7778 | recall: 0.8808 | f1: 0.8261 | support: 755
-  positif      precision: 0.9514 | recall: 0.9027 | f1: 0.9264 | support: 1953
+  negatif      precision: 0.8054 | recall: 0.8715 | f1: 0.8372 | support: 755
+  positif      precision: 0.9487 | recall: 0.9186 | f1: 0.9334 | support: 1953
 
 Binary F1
 ---------
-0.9264  (pos_label=positif)
+0.9334  (pos_label=positif)
 
 AUC-ROC (Binary)
 ----------------
-  AUC       : 0.9585
+  AUC       : 0.9565
   Pos label : positif
 
 RUNTIME
 -------
-  Load model    : 0.36 detik
+  Load model    : 0.07 detik
   Predict       : 0.00 detik
-  Plot CM       : 1.02 detik
-  Plot ROC      : 0.35 detik
-  Total runtime : 1.75 detik
+  Plot CM       : 0.26 detik
+  Plot ROC      : 0.18 detik
+  Total runtime : 0.53 detik

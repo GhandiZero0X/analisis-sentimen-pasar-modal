@@ -1,44 +1,44 @@
 EVALUATION REPORT — SVM LinearSVC (Binary)
 ===========================================
-Tanggal     : 2026-06-04 22:33:04
+Tanggal     : 2026-07-05 13:24:03
 Test set    : 3,090 baris
 Kelas       : ['negatif', 'positif']  ← hanya positif & negatif
 
 ACCURACY
 --------
-0.8417
+0.8375
 
 CLASSIFICATION REPORT
 ---------------------
               precision    recall  f1-score   support
 
-     negatif     0.8325    0.8308    0.8317      1454
-     positif     0.8499    0.8515    0.8507      1636
+     negatif     0.8216    0.8363    0.8289      1454
+     positif     0.8522    0.8386    0.8453      1636
 
-    accuracy                         0.8417      3090
-   macro avg     0.8412    0.8411    0.8412      3090
-weighted avg     0.8417    0.8417    0.8417      3090
+    accuracy                         0.8375      3090
+   macro avg     0.8369    0.8375    0.8371      3090
+weighted avg     0.8378    0.8375    0.8376      3090
 
 
 PER-CLASS DETAIL
 ----------------
-  negatif      precision: 0.8325 | recall: 0.8308 | f1: 0.8317 | support: 1454
-  positif      precision: 0.8499 | recall: 0.8515 | f1: 0.8507 | support: 1636
+  negatif      precision: 0.8216 | recall: 0.8363 | f1: 0.8289 | support: 1454
+  positif      precision: 0.8522 | recall: 0.8386 | f1: 0.8453 | support: 1636
 
 
 Binary F1
 ---------
-0.8507  (pos_label=positif)
+0.8453  (pos_label=positif)
 
 RUNTIME
 -------
-Load model     : 0.31 detik
+Load model     : 0.07 detik
 Predict        : 0.00 detik
-Plot CM        : 0.26 detik
-Plot ROC       : 0.25 detik
-Total runtime  : 0.84 detik
+Plot CM        : 0.27 detik
+Plot ROC       : 0.23 detik
+Total runtime  : 0.58 detik
 
 AUC-ROC (Binary)
 ----------------
-  AUC         : 0.9191
+  AUC         : 0.9183
   Pos label   : positif

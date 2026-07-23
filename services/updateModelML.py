@@ -1,25 +1,28 @@
 # services/updateModelML.py
 """
 Pipeline Update Model SVM (production):
-  1. Preprocessing   →
-       1. Casefolding
-       2. Text Cleaning:
-           i.   Hapus URL
-           ii.  Hapus hashtag (#), cashtag ($), mention (@)
-           iii. Hapus emoji dan emotikon
-           iv.  Hapus angka yang tidak memiliki makna kontekstual
-           v.   Hapus karakter selain alfabet
-           vi.  Normalisasi singkatan & slang → kata baku (kamus)
-       3. Tokenization  (Stanza)
-       4. Stopword Removal (NLTK)
-       5. Stemming (Sastrawi)
-  2. Modelling       → gabung data baru + data lama (analisis CSV),
-                       retrain TF-IDF + LinearSVC dari awal dengan data lengkap,
-                       label NEGATIF, NETRAL, POSITIF semuanya dipakai
-  3. Evaluasi        → confusion matrix, ROC curve, metrics CSV,
-                       classification report, AUC-ROC (OvR)
-  4. Komparasi       → update tabel_komparasi.csv
-  5. Analisis        → prediksi sentimen data baru, gabung dengan data lama
+    1. Preprocessing   ->
+        1. Casefolding
+        2. Text Cleaning:
+            i.   Hapus URL
+            ii.  Hapus hashtag (#), cashtag ($), mention (@)
+            iii. Hapus emoji dan emotikon
+            iv.  Hapus angka yang tidak memiliki makna kontekstual
+            v.   Hapus karakter selain alfabet
+            vi.  Normalisasi singkatan & slang -> kata baku (kamus)
+        3. Tokenization  (Stanza)
+        4. Stopword Removal (NLTK)
+        5. Stemming (Sastrawi)
+    2. Modelling       -> gabung data baru + data lama (analisis CSV),
+                            Penanganan imbalance (HYBRID):
+                            a. Data-level      -> SMOTE (hanya pada data train, setelah TF-IDF)
+                            b. Algorithm-level -> class_weight="balanced" pada LinearSVC
+                            retrain TF-IDF + LinearSVC dari awal dengan data lengkap,
+                            label NEGATIF, NETRAL, POSITIF semuanya dipakai
+    3. Evaluasi        -> confusion matrix, ROC curve, metrics CSV,
+                            classification report, AUC-ROC (OvR)
+    4. Komparasi       -> update tabel_komparasi.csv
+    5. Analisis        -> prediksi sentimen data baru, gabung dengan data lama
 """
 
 from __future__ import annotations
@@ -61,6 +64,8 @@ from sklearn.metrics import (
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, label_binarize
 from sklearn.svm import LinearSVC
+
+from imblearn.over_sampling import SMOTE
 
 warnings.filterwarnings("ignore")
 
@@ -107,6 +112,10 @@ TFIDF_PARAMS = {
 
 # C candidates untuk seleksi ringan
 C_CANDIDATES = [0.01, 0.1, 1, 10, 100]
+
+# -- Konfigurasi penanganan imbalance (HYBRID, sama seperti devModellingML.py) --
+SMOTE_RANDOM_SEED = RANDOM_SEED
+SMOTE_K_NEIGHBORS = 5   # default SMOTE; akan otomatis disesuaikan jika kelas minoritas < 6 sampel
 
 
 # ══════════════════════════════════════════════════════════════
@@ -254,7 +263,9 @@ def step_preprocessing(
 
 # ══════════════════════════════════════════════════════════════
 #  STEP 2 — MODELLING
-#  Strategi: gabung data baru + data lama → retrain TF-IDF + SVM
+#  Strategi: gabung data baru + data lama -> retrain TF-IDF + SVM
+#  Penanganan imbalance: SMOTE (data-level) + class_weight balanced
+#  (algorithm-level), sama seperti devModellingML.py Skenario 3
 # ══════════════════════════════════════════════════════════════
 def _load_historical_data(period: str, root_path: str) -> pd.DataFrame | None:
     """
@@ -290,6 +301,58 @@ def _load_historical_data(period: str, root_path: str) -> pd.DataFrame | None:
     return df_old
 
 
+def _smote_oversample_train(X_train, y_train, class_names, random_state):
+    """
+    Menyeimbangkan data TRAIN (hasil TF-IDF) dengan SMOTE.
+
+    Representasi TF-IDF berupa vektor numerik kontinu, sehingga
+    interpolasi linear antar sampel tetangga (prinsip kerja SMOTE)
+    valid secara matematis. imblearn.SMOTE mendukung multi-class
+    secara native: setiap kelas yang jumlahnya lebih sedikit dari
+    kelas dengan sampel terbanyak akan dibuatkan sampel sintetis
+    hingga seimbang.
+
+    HANYA diterapkan pada X_train/y_train (setelah TF-IDF fit_transform,
+    sebelum training) -- X_test TIDAK ikut di-SMOTE, supaya tetap
+    merepresentasikan distribusi data asli dan tidak terjadi data
+    leakage.
+
+    Returns
+    -------
+    tuple(scipy.sparse matrix, np.ndarray, int)
+        X_train dan y_train hasil SMOTE, serta k_neighbors yang dipakai.
+    """
+    unique, counts_before = np.unique(y_train, return_counts=True)
+    print(f"\n   SMOTE (data-level) — distribusi train SEBELUM:")
+    for cls_idx, cnt in zip(unique, counts_before):
+        print(f"      {class_names[cls_idx]:<10}: {cnt:,}")
+
+    # k_neighbors SMOTE tidak boleh >= jumlah sampel kelas minoritas.
+    minority_count = counts_before.min()
+    k_neighbors_adjusted = min(SMOTE_K_NEIGHBORS, minority_count - 1)
+    k_neighbors_adjusted = max(k_neighbors_adjusted, 1)
+
+    if k_neighbors_adjusted != SMOTE_K_NEIGHBORS:
+        print(
+            f"   Catatan: k_neighbors disesuaikan dari {SMOTE_K_NEIGHBORS} "
+            f"menjadi {k_neighbors_adjusted} (kelas minoritas hanya {minority_count} sampel)"
+        )
+
+    smote = SMOTE(
+        random_state = random_state,
+        k_neighbors  = k_neighbors_adjusted,
+    )
+    X_res, y_res = smote.fit_resample(X_train, y_train)
+
+    unique_after, counts_after = np.unique(y_res, return_counts=True)
+    print(f"   SMOTE (data-level) — distribusi train SESUDAH:")
+    for cls_idx, cnt in zip(unique_after, counts_after):
+        pct = cnt / len(y_res) * 100
+        print(f"      {class_names[cls_idx]:<10}: {cnt:,} ({pct:5.1f}%)")
+
+    return X_res, y_res, k_neighbors_adjusted
+
+
 def step_modelling(
     df_new: pd.DataFrame,
     period: str,
@@ -301,6 +364,7 @@ def step_modelling(
     1. Load data historis (analisis CSV lama)
     2. Gabungkan dengan data baru, buang duplikat
     3. Retrain TF-IDF + LinearSVC dengan data gabungan
+       (dengan penanganan imbalance HYBRID: SMOTE + class_weight balanced)
     4. Simpan semua artefak
     """
     set_status(job_id, "Modelling: menyiapkan data...", 18)
@@ -344,6 +408,7 @@ def step_modelling(
     le.fit(VALID_LABELS)  # urutan tetap: negatif=0, netral=1, positif=2
     y = le.transform(df_combined["sentiment"])
     X = df_combined["tweet_preprocessed"].tolist()
+    class_names = list(le.classes_)
 
     missing_cls = set(VALID_LABELS) - set(df_combined["sentiment"].unique())
     if missing_cls:
@@ -358,6 +423,8 @@ def step_modelling(
     print(f"   Split: train={len(X_train_raw):,}  test={len(X_test_raw):,}")
 
     # ── 5. TF-IDF (fit ulang dengan data gabungan) ──
+    # PENTING: fit HANYA pada X_train_raw, transform saja untuk X_test_raw,
+    # supaya tidak terjadi data leakage dari test set ke vocabulary/IDF.
     tfidf_start = time.time()
     vectorizer  = TfidfVectorizer(**TFIDF_PARAMS)
     X_train     = vectorizer.fit_transform(X_train_raw)
@@ -365,9 +432,26 @@ def step_modelling(
     tfidf_rt    = time.time() - tfidf_start
     print(f"   TF-IDF: {X_train.shape[1]:,} fitur  ({tfidf_rt:.2f}s)")
 
+    # ── 5b. PENANGANAN IMBALANCE - DATA LEVEL (SMOTE, multi-class) ──
+    # Diterapkan SETELAH TF-IDF, HANYA pada X_train. X_test tidak diubah.
+    set_status(job_id, "Modelling: menerapkan SMOTE...", 25)
+    smote_start = time.time()
+
+    n_train_before_smote = X_train.shape[0]
+    X_train, y_train, k_neighbors_used = _smote_oversample_train(
+        X_train, y_train,
+        class_names  = class_names,
+        random_state = SMOTE_RANDOM_SEED,
+    )
+
+    smote_rt = time.time() - smote_start
+    print(f"   Train sebelum SMOTE : {n_train_before_smote:,} baris")
+    print(f"   Train sesudah SMOTE : {X_train.shape[0]:,} baris")
+    print(f"   Runtime SMOTE       : {smote_rt:.2f} detik")
+
     set_status(job_id, "Modelling: seleksi C terbaik...", 28)
 
-    # ── 6. Seleksi C terbaik (val split ringan) ──
+    # ── 6. Seleksi C terbaik (val split ringan, dari data yang sudah di-SMOTE) ──
     train_start = time.time()
 
     X_sub_tr, X_sub_val, y_sub_tr, y_sub_val = train_test_split(
@@ -378,6 +462,9 @@ def step_modelling(
     best_C     = 1
     best_score = -1.0
     for c in C_CANDIDATES:
+        # class_weight="balanced" TETAP dipertahankan sebagai lapisan
+        # algorithm-level, meskipun data train sudah diseimbangkan SMOTE.
+        # Ini menjadikan penanganan imbalance bersifat HYBRID.
         svm_tmp = LinearSVC(C=c, class_weight="balanced",
                             random_state=RANDOM_SEED, max_iter=2000)
         svm_tmp.fit(X_sub_tr, y_sub_tr)
@@ -391,7 +478,7 @@ def step_modelling(
     print(f"   Best C: {best_C}  (val_f1_macro={best_score:.4f})")
     set_status(job_id, f"Modelling: final training C={best_C}...", 40)
 
-    # ── 7. Final training dengan seluruh X_train ──
+    # ── 7. Final training dengan seluruh X_train (hasil SMOTE) ──
     best_model = LinearSVC(
         C=best_C, class_weight="balanced",
         random_state=RANDOM_SEED, max_iter=2000,
@@ -417,21 +504,34 @@ def step_modelling(
     # train_info.txt
     old_count = len(df_old) if df_old is not None else 0
     info = (
-        f"TRAINING INFO — SVM LinearSVC Update\n"
+        f"TRAINING INFO — SVM LinearSVC Update (Hybrid Imbalance Handling)\n"
         f"======================================\n"
         f"Tanggal          : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
         f"Period           : {period}\n"
         f"Data baru        : {len(df_new_filtered):,} baris\n"
         f"Data historis    : {old_count:,} baris\n"
         f"Total gabungan   : {len(df_combined):,} baris\n"
-        f"Kelas            : {list(le.classes_)}\n"
-        f"Train / Test     : {len(X_train_raw):,} / {len(X_test_raw):,}\n"
+        f"Kelas            : {class_names}\n"
+        f"Train (sebelum SMOTE) : {n_train_before_smote:,}\n"
+        f"Train (sesudah SMOTE) : {X_train.shape[0]:,}\n"
+        f"Test                  : {len(X_test_raw):,}\n"
         f"TF-IDF fitur     : {X_train.shape[1]:,}\n"
+        f"\n"
+        f"Penanganan Imbalance (HYBRID):\n"
+        f"  1. Data-level      : SMOTE (multi-class)\n"
+        f"                       k_neighbors  : {k_neighbors_used}\n"
+        f"                       random_state : {SMOTE_RANDOM_SEED}\n"
+        f"                       Diterapkan setelah TF-IDF, hanya pada data train.\n"
+        f"                       Test set tidak diubah.\n"
+        f"  2. Algorithm-level : class_weight=\"balanced\" (LinearSVC)\n"
+        f"\n"
         f"C candidates     : {C_CANDIDATES}\n"
         f"C terbaik        : {best_C}\n"
         f"Val F1 Macro     : {best_score:.4f}\n"
         f"Train Accuracy   : {train_acc:.4f}\n"
         f"Test  Accuracy   : {test_acc:.4f}\n"
+        f"Runtime TF-IDF   : {tfidf_rt:.2f} detik\n"
+        f"Runtime SMOTE    : {smote_rt:.2f} detik\n"
         f"Runtime Train    : {training_rt:.2f} detik\n"
     )
     (model_dir / "train_info.txt").write_text(info, encoding="utf-8")
@@ -753,7 +853,7 @@ def run_full_pipeline(
         # Step 1 — preprocessing data baru
         df = step_preprocessing(csv_path, root_path, job_id, set_status)
 
-        # Step 2 — gabung data lama + baru, retrain
+        # Step 2 — gabung data lama + baru, retrain (dengan hybrid imbalance handling)
         model_dir, le, split_data, training_rt = step_modelling(
             df, period, root_path, job_id, set_status
         )

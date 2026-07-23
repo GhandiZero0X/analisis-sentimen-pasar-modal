@@ -1,22 +1,22 @@
 EVALUATION INFO — SVM LinearSVC (Skenario 3)
 =============================================
-Tanggal        : 2026-05-27 17:54:00
+Tanggal        : 2026-07-05 13:25:33
 Skenario       : 3 (negatif · netral · positif)
 Test set       : 12,272 baris
-Accuracy       : 0.8287
-Precision      : 0.8059
-Recall         : 0.8259
-F1-score       : 0.8148
-AUC-ROC        : 0.9269
+Accuracy       : 0.8016
+Precision      : 0.7691
+Recall         : 0.8076
+F1-score       : 0.7838
+AUC-ROC        : 0.9134
 
 AUC per kelas:
-  negatif      : 0.9574
-  netral       : 0.8830
-  positif      : 0.9404
+  negatif      : 0.9442
+  netral       : 0.8576
+  positif      : 0.9384
 
 Runtime:
-  Load model    : 0.08 detik
+  Load model    : 0.07 detik
   Predict       : 0.00 detik
-  Plot CM       : 0.28 detik
-  Plot ROC      : 0.25 detik
-  Total runtime : 0.64 detik
+  Plot CM       : 0.29 detik
+  Plot ROC      : 0.23 detik
+  Total runtime : 0.62 detik

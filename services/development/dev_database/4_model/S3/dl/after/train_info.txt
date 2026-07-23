@@ -1,15 +1,30 @@
-TRAINING INFO — IndoBERTweet Fine-tuning (3 Class)
+TRAINING INFO - IndoBERTweet Fine-tuning (3 Class - Skenario 3)
 =====================================
-Tanggal          : 2026-06-04 22:29:23
+Tanggal          : 2026-07-05 16:12:35
 Model pretrained : indolem/indobertweet-base-uncased
 Input file       : tweets_after_covid_labellingLexicon_preprocessingDL.csv
 Total data       : 41,528
-Kelas            : ['negatif', 'netral', 'positif']  ← negatif, netral, positif
+Kelas            : ['negatif', 'netral', 'positif']  <- negatif, netral, positif
 
 Split:
-  Train          : 33,222
-  Validation     : 4,153
-  Test           : 4,153
+  Train (asli)                 : 33,222
+  Train (setelah oversampling) : 62,565
+  Validation                   : 4,153
+  Test                         : 4,153
+
+Penanganan Imbalance (HYBRID):
+  1. Data-level      : Random Oversampling
+                        Setiap kelas yang jumlahnya lebih sedikit dari
+                        kelas dengan sampel terbanyak diduplikasi
+                        (with replacement) hingga seimbang. Diterapkan
+                        hanya pada data train, setelah split, sebelum
+                        tokenisasi. Val & test tidak diubah.
+  2. Algorithm-level : Weighted Cross-Entropy Loss
+                        Class weight dihitung dari distribusi TRAIN ASLI
+                        (sebelum oversampling), skema "balanced":
+    negatif   : 1.9027
+    netral    : 0.5310
+    positif   : 1.6915
 
 Hyperparameter:
   max_length     : 128
@@ -18,14 +33,17 @@ Hyperparameter:
   learning_rate  : 2e-05
   warmup_ratio   : 0.1
   weight_decay   : 0.01
+  random_seed    : 0
+  optimizer      : AdamW
+  gradient_clip  : 1.0
 
 Hasil:
-  Best epoch     : 2
-  Best val_loss  : 0.51495
+  Best epoch     : 1
+  Best val_loss  : 0.72040
 
 Runtime:
-  Load model     : 10.85 detik
-  Fine-tuning    : 4253.89 detik
-  Total runtime  : 4265.39 detik
+  Load model     : 6.07 detik
+  Fine-tuning    : 7724.90 detik
+  Total runtime  : 7732.05 detik
 
 Device: NVIDIA GeForce RTX 3050 Laptop GPU

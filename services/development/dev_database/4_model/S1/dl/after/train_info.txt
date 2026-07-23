@@ -1,15 +1,28 @@
-TRAINING INFO — IndoBERTweet Fine-tuning
+TRAINING INFO - IndoBERTweet Fine-tuning
 =====================================
-Tanggal          : 2026-06-04 21:15:58
+Tanggal          : 2026-07-05 06:38:49
 Model pretrained : indolem/indobertweet-base-uncased
 Input file       : tweets_after_covid_labellingLexicon_preprocessingDL.csv
 Total data       : 15,459  (netral dibuang: 26,069)
-Kelas            : ['negatif', 'positif']  ← hanya positif & negatif
+Kelas            : ['negatif', 'positif']  <- hanya positif & negatif
 
 Split:
-  Train          : 12,367
-  Validation     : 1,546
-  Test           : 1,546
+  Train (asli)        : 12,367
+  Train (setelah oversampling) : 13,094
+  Validation           : 1,546
+  Test                 : 1,546
+
+Penanganan Imbalance (HYBRID):
+  1. Data-level      : Random Oversampling
+                        Kelas minoritas diduplikasi (with replacement)
+                        hingga rasio 1:1 dengan kelas mayoritas.
+                        Diterapkan hanya pada data train, setelah split,
+                        sebelum tokenisasi. Val & test tidak diubah.
+  2. Algorithm-level : Weighted Cross-Entropy Loss
+                        Class weight dihitung dari distribusi TRAIN ASLI
+                        (sebelum oversampling), skema "balanced":
+    negatif   : 1.0625
+    positif   : 0.9445
 
 Hyperparameter:
   max_length     : 128
@@ -18,14 +31,17 @@ Hyperparameter:
   learning_rate  : 2e-05
   warmup_ratio   : 0.1
   weight_decay   : 0.01
+  random_seed    : 0
+  optimizer      : AdamW
+  gradient_clip  : 1.0
 
 Hasil:
   Best epoch     : 1
-  Best val_loss  : 0.34096
+  Best val_loss  : 0.35905
 
 Runtime:
-  Load model     : 18.36 detik
-  Fine-tuning    : 1583.54 detik
-  Total runtime  : 1602.53 detik
+  Load model     : 6.22 detik
+  Fine-tuning    : 1769.43 detik
+  Total runtime  : 1776.35 detik
 
 Device: NVIDIA GeForce RTX 3050 Laptop GPU

@@ -57,7 +57,7 @@ from sklearn.preprocessing import label_binarize
 #  ✅ S3 — 3 kelas (negatif, netral, positif)
 # ══════════════════════════════════════════════════════════════
 BASE_DIR  = Path(__file__).resolve().parent
-MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S3" / "ml" / "all_periods"
+MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S3" / "ml" / "covid"
 
 MODEL_FILE      = MODEL_DIR / "svm_model.joblib"
 ENCODER_FILE    = MODEL_DIR / "label_encoder.joblib"

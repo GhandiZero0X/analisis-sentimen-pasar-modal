@@ -1,15 +1,30 @@
-TRAINING INFO — IndoBERTweet Fine-tuning (3 Class)
+TRAINING INFO - IndoBERTweet Fine-tuning (3 Class - Skenario 3)
 =====================================
-Tanggal          : 2026-05-17 05:16:06
+Tanggal          : 2026-07-05 14:03:10
 Model pretrained : indolem/indobertweet-base-uncased
 Input file       : tweets_before_covid_labellingLexicon_preprocessingDL.csv
 Total data       : 13,568
-Kelas            : ['negatif', 'netral', 'positif']  ← negatif, netral, positif
+Kelas            : ['negatif', 'netral', 'positif']  <- negatif, netral, positif
 
 Split:
-  Train          : 10,854
-  Validation     : 1,357
-  Test           : 1,357
+  Train (asli)                 : 10,854
+  Train (setelah oversampling) : 14,628
+  Validation                   : 1,357
+  Test                         : 1,357
+
+Penanganan Imbalance (HYBRID):
+  1. Data-level      : Random Oversampling
+                        Setiap kelas yang jumlahnya lebih sedikit dari
+                        kelas dengan sampel terbanyak diduplikasi
+                        (with replacement) hingga seimbang. Diterapkan
+                        hanya pada data train, setelah split, sebelum
+                        tokenisasi. Val & test tidak diubah.
+  2. Algorithm-level : Weighted Cross-Entropy Loss
+                        Class weight dihitung dari distribusi TRAIN ASLI
+                        (sebelum oversampling), skema "balanced":
+    negatif   : 1.9868
+    netral    : 0.7420
+    positif   : 0.8703
 
 Hyperparameter:
   max_length     : 128
@@ -18,14 +33,17 @@ Hyperparameter:
   learning_rate  : 2e-05
   warmup_ratio   : 0.1
   weight_decay   : 0.01
+  random_seed    : 0
+  optimizer      : AdamW
+  gradient_clip  : 1.0
 
 Hasil:
   Best epoch     : 2
-  Best val_loss  : 0.22651
+  Best val_loss  : 0.26407
 
 Runtime:
-  Load model     : 7.99 detik
-  Fine-tuning    : 1373.54 detik
-  Total runtime  : 1381.86 detik
+  Load model     : 4.91 detik
+  Fine-tuning    : 1831.22 detik
+  Total runtime  : 1836.31 detik
 
 Device: NVIDIA GeForce RTX 3050 Laptop GPU

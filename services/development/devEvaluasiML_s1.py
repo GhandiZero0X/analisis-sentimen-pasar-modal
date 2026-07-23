@@ -48,7 +48,7 @@ from sklearn.metrics import (
 #  PATH CONFIGURATION
 # ══════════════════════════════════════════════════════════════
 BASE_DIR  = Path(__file__).resolve().parent
-MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S1" / "ml" / "all_periods"
+MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S1" / "ml" / "covid"
 
 MODEL_FILE      = MODEL_DIR / "svm_model.joblib"
 ENCODER_FILE    = MODEL_DIR / "label_encoder.joblib"

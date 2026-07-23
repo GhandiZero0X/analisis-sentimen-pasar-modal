@@ -25,6 +25,7 @@ Input  : dev_database/4_model/S2/dl/covid/    ← ✅ S2, covid
 
 Output : dev_database/4_model/S2/dl/covid/
          confusion_matrix_indobertweet.png
+         evaluation_metrics.csv
          training_curve_indobertweet.png
          classification_report_indobertweet.txt
          evaluation_info.txt
@@ -50,6 +51,8 @@ from sklearn.metrics import (
     accuracy_score,
     precision_recall_fscore_support,
     f1_score,
+    precision_score,
+    recall_score,
 )
 from transformers import (
     AutoConfig,
@@ -62,7 +65,7 @@ from transformers import (
 #  ✅ S2 — binary (positif & negatif), periode covid
 # ══════════════════════════════════════════════════════════════
 BASE_DIR  = Path(__file__).resolve().parent
-MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S2" / "dl" / "all_periods"
+MODEL_DIR = BASE_DIR / "dev_database" / "4_model" / "S2" / "dl" / "covid"
 
 MODEL_BIN_FILE = MODEL_DIR / "best_model.bin"
 TOKENIZER_DIR  = MODEL_DIR / "tokenizer"
@@ -70,10 +73,11 @@ ENCODER_FILE   = MODEL_DIR / "label_encoder.joblib"
 SPLIT_FILE     = MODEL_DIR / "split_indices.joblib"
 TRAIN_LOG_FILE = MODEL_DIR / "train_log.csv"
 
-CM_FILE        = MODEL_DIR / "confusion_matrix_indobertweet.png"
-CURVE_FILE     = MODEL_DIR / "training_curve_indobertweet.png"
-REPORT_FILE    = MODEL_DIR / "classification_report_indobertweet.txt"
-EVAL_INFO_FILE = MODEL_DIR / "evaluation_info.txt"
+CM_FILE         = MODEL_DIR / "confusion_matrix_indobertweet.png"
+METRIC_CSV_FILE = MODEL_DIR / "evaluation_metrics.csv"
+CURVE_FILE      = MODEL_DIR / "training_curve_indobertweet.png"
+REPORT_FILE     = MODEL_DIR / "classification_report_indobertweet.txt"
+EVAL_INFO_FILE  = MODEL_DIR / "evaluation_info.txt"
 
 MAX_LENGTH = 128
 BATCH_SIZE = 16
@@ -224,6 +228,22 @@ precision, recall, f1, support = precision_recall_fscore_support(
     labels  = list(range(n_classes)),
 )
 
+# Overall binary metrics (precision & recall ditambahkan supaya
+# konsisten dengan evaluation_metrics.csv pada Skenario 1)
+binary_precision = precision_score(
+    all_labels, all_preds,
+    average       = "binary",
+    pos_label     = pos_label,
+    zero_division = 0,
+)
+
+binary_recall = recall_score(
+    all_labels, all_preds,
+    average       = "binary",
+    pos_label     = pos_label,
+    zero_division = 0,
+)
+
 # ✅ Binary F1 — sesuai 2 kelas
 binary_f1 = f1_score(
     all_labels, all_preds,
@@ -266,6 +286,38 @@ plt.close()
 print(f"✅ Confusion matrix disimpan : {CM_FILE.name}")
 
 cm_plot_time = time.time() - cm_plot_start
+
+# ══════════════════════════════════════════════════════════════
+#  SIMPAN METRICS KE CSV
+# ══════════════════════════════════════════════════════════════
+
+# Ambil best epoch dari train log
+best_epoch    = None
+best_val_loss = None
+
+if TRAIN_LOG_FILE.exists():
+    train_log_df = pd.read_csv(TRAIN_LOG_FILE)
+
+    # Cari epoch dengan val_loss terendah
+    best_row      = train_log_df.loc[train_log_df["val_loss"].idxmin()]
+    best_epoch    = int(best_row["epoch"])
+    best_val_loss = float(best_row["val_loss"])
+else:
+    print("⚠️  train_log.csv tidak ditemukan, best_epoch/best_val_loss diisi None")
+
+metrics_df = pd.DataFrame([{
+    "accuracy"      : acc,
+    "precision"     : binary_precision,
+    "recall"        : binary_recall,
+    "f1_score"      : binary_f1,
+    "best_epoch"    : best_epoch,
+    "best_val_loss" : best_val_loss,
+}])
+
+metrics_df.to_csv(METRIC_CSV_FILE, index=False, encoding="utf-8-sig")
+
+print(f"✅ Metrics CSV disimpan : {METRIC_CSV_FILE.name}")
+print(f"🏆 Best Epoch           : {best_epoch}")
 
 # ══════════════════════════════════════════════════════════════
 #  b. TRAINING CURVE
@@ -352,9 +404,12 @@ for i, cls in enumerate(class_names):
     )
 
 report_text += f"""
-Binary F1
----------
-{binary_f1:.4f}  (pos_label=positif)
+OVERALL BINARY METRICS
+-----------------------
+Accuracy  : {acc:.4f}
+Precision : {binary_precision:.4f}
+Recall    : {binary_recall:.4f}
+F1-score  : {binary_f1:.4f}  (pos_label=positif)
 
 RUNTIME
 -------
@@ -376,7 +431,11 @@ Model          : indolem/indobertweet-base-uncased
 Test set       : {len(X_test):,} baris
 Kelas          : {class_names}
 Accuracy       : {acc:.4f}
+Precision      : {binary_precision:.4f}
+Recall         : {binary_recall:.4f}
 Binary F1      : {binary_f1:.4f}
+Best Epoch     : {best_epoch}
+Best Val Loss  : {best_val_loss}
 
 Runtime:
   Load model    : {load_time:.2f} detik
@@ -394,6 +453,8 @@ print(f"\n{'='*62}")
 print(f"  ✅ Evaluasi selesai! (Skenario 2 — Binary)")
 print(f"{'='*62}")
 print(f"  📊 Accuracy   : {acc:.4f}")
+print(f"  📊 Precision  : {binary_precision:.4f}")
+print(f"  📊 Recall     : {binary_recall:.4f}")
 print(f"  📊 Binary F1  : {binary_f1:.4f}")
 print(f"  ⏱  Load model : {load_time:.2f} detik")
 print(f"  ⏱  Inferensi  : {infer_time:.2f} detik")
@@ -404,6 +465,7 @@ print(f"\n  Per-kelas:")
 for i, cls in enumerate(class_names):
     print(f"   {cls:<12} P:{precision[i]:.4f}  R:{recall[i]:.4f}  F1:{f1[i]:.4f}")
 print(f"\n  🖼  {CM_FILE.name}")
+print(f"  📄  {METRIC_CSV_FILE.name}")
 print(f"  🖼  {CURVE_FILE.name}")
 print(f"  📄  {REPORT_FILE.name}")
 print(f"  📄  {EVAL_INFO_FILE.name}")

@@ -1,45 +1,49 @@
 EVALUATION REPORT — IndoBERTweet Fine-tuning (3 Class)
 ======================================================
-Tanggal      : 2026-06-04 22:32:43
+Tanggal      : 2026-07-05 19:46:29
 Model        : indolem/indobertweet-base-uncased
 Test set     : 4,153 baris
 Kelas        : ['negatif', 'netral', 'positif']  ← negatif, netral, positif
 
 ACCURACY
 --------
-0.7816
+0.7005
 
-MACRO F1
---------
-0.7369
+OVERALL METRICS (MACRO)
+------------------------
+Precision : 0.6680
+Recall    : 0.7566
+F1-score  : 0.6834
 
-WEIGHTED F1
------------
-0.7820
+OVERALL METRICS (WEIGHTED)
+---------------------------
+Precision : 0.7793
+Recall    : 0.7005
+F1-score  : 0.7114
 
 CLASSIFICATION REPORT
 ---------------------
               precision    recall  f1-score   support
 
-     negatif     0.6690    0.7802    0.7204       728
-      netral     0.8507    0.8308    0.8407      2607
-     positif     0.6755    0.6259    0.6497       818
+     negatif     0.5926    0.8352    0.6933       728
+      netral     0.9225    0.6302    0.7489      2607
+     positif     0.4889    0.8044    0.6081       818
 
-    accuracy                         0.7816      4153
-   macro avg     0.7317    0.7457    0.7369      4153
-weighted avg     0.7844    0.7816    0.7820      4153
+    accuracy                         0.7005      4153
+   macro avg     0.6680    0.7566    0.6834      4153
+weighted avg     0.7793    0.7005    0.7114      4153
 
 
 PER-CLASS DETAIL
 ----------------
-  negatif      precision: 0.6690 | recall: 0.7802 | f1: 0.7204 | support: 728
-  netral       precision: 0.8507 | recall: 0.8308 | f1: 0.8407 | support: 2607
-  positif      precision: 0.6755 | recall: 0.6259 | f1: 0.6497 | support: 818
+  negatif      precision: 0.5926 | recall: 0.8352 | f1: 0.6933 | support: 728
+  netral       precision: 0.9225 | recall: 0.6302 | f1: 0.7489 | support: 2607
+  positif      precision: 0.4889 | recall: 0.8044 | f1: 0.6081 | support: 818
 
 RUNTIME
 -------
-Load model     : 6.77 detik
-Inferensi test : 29.40 detik
-Plot CM        : 0.36 detik
-Plot curve     : 0.29 detik
-Total runtime  : 36.84 detik
+Load model     : 6.97 detik
+Inferensi test : 57.17 detik
+Plot CM        : 0.61 detik
+Plot curve     : 0.80 detik
+Total runtime  : 65.61 detik

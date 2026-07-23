@@ -1,15 +1,15 @@
 EVALUATION INFO — SVM LinearSVC (Skenario 2)
 =============================================
-Tanggal        : 2026-06-06 22:57:31
+Tanggal        : 2026-07-05 13:24:49
 Skenario       : 2 (tanpa kelas netral)
 Test set       : 12,272 baris
-Accuracy       : 0.8732
-Binary F1      : 0.9099
-AUC-ROC        : 0.9369
+Accuracy       : 0.8745
+Binary F1      : 0.9121
+AUC-ROC        : 0.9321
 
 Runtime:
   Load model    : 0.08 detik
   Predict       : 0.00 detik
   Plot CM       : 0.26 detik
-  Plot ROC      : 0.27 detik
-  Total runtime : 0.64 detik
+  Plot ROC      : 0.21 detik
+  Total runtime : 0.58 detik

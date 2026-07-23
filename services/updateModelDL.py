@@ -1,11 +1,14 @@
 # services/updateModelDL.py
 """
 Pipeline Update Model IndoBERTweet (production):
-  1. Preprocessing   → case folding, cleaning, normalisasi slang, buang baris kosong
-  2. Modelling       → load model .bin yang ada, fine-tune dengan data baru, simpan
-  3. Evaluasi        → confusion matrix, metrics CSV, training curve, classification report
-  4. Komparasi       → update tabel_komparasi.csv
-  5. Analisis        → prediksi sentimen data baru, gabung dengan data lama
+    1. Preprocessing   -> case folding, cleaning, normalisasi slang, buang baris kosong
+    2. Modelling       -> load model .bin yang ada, fine-tune dengan data baru, simpan
+                            Penanganan imbalance (HYBRID):
+                            a. Data-level      -> Random Oversampling (hanya pada data train)
+                            b. Algorithm-level -> Weighted Cross-Entropy Loss
+    3. Evaluasi        -> confusion matrix, metrics CSV, training curve, classification report
+    4. Komparasi       -> update tabel_komparasi.csv
+    5. Analisis        -> prediksi sentimen data baru, gabung dengan data lama
 """
 
 from __future__ import annotations
@@ -46,6 +49,8 @@ from sklearn.metrics import (
 )
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
+from sklearn.utils import resample
+from sklearn.utils.class_weight import compute_class_weight
 from transformers import (
     AutoConfig,
     AutoModelForSequenceClassification,
@@ -90,6 +95,10 @@ RANDOM_SEED   = 0
 TRAIN_RATIO   = 0.80
 VAL_RATIO     = 0.10
 TEST_RATIO    = 0.10
+
+# -- Konfigurasi penanganan imbalance (HYBRID, sama seperti devModellingDL_s1.py) --
+IMBALANCE_METHOD_DATA_LEVEL      = "random_oversampling"      # data-level
+IMBALANCE_METHOD_ALGORITHM_LEVEL = "weighted_cross_entropy"   # algorithm-level
 
 torch.manual_seed(RANDOM_SEED)
 np.random.seed(RANDOM_SEED)
@@ -216,7 +225,94 @@ def step_preprocessing(
     return df
 
 
-def _train_one_epoch(model, loader, optimizer, scheduler, device):
+# ══════════════════════════════════════════════════════════════
+#  HELPER: RANDOM OVERSAMPLING (PENANGANAN IMBALANCE - DATA LEVEL)
+# ══════════════════════════════════════════════════════════════
+def _random_oversample_train(X_train, y_train, class_names, random_state):
+    """
+    Menyeimbangkan data TRAIN dengan Random Oversampling.
+
+    Baris-baris kelas minoritas diduplikasi (with replacement) sampai
+    jumlahnya sama dengan kelas mayoritas. Hanya diterapkan pada
+    X_train/y_train (setelah split, sebelum tokenisasi) -- val/test
+    TIDAK diubah, supaya tetap merepresentasikan distribusi data asli
+    dan tidak terjadi data leakage. Class weight untuk Weighted
+    Cross-Entropy Loss dihitung dari distribusi train ASLI (sebelum
+    fungsi ini dipanggil), bukan dari hasil oversampling (lihat
+    _compute_class_weights_tensor).
+    """
+    y_train  = np.array(y_train)
+    df_train = pd.DataFrame({"text": X_train, "label": y_train})
+
+    counts       = df_train["label"].value_counts()
+    majority_lbl = counts.idxmax()
+    majority_n   = int(counts.max())
+
+    print(f"   Random Oversampling (data-level) — sebelum:")
+    for idx, cname in enumerate(class_names):
+        jumlah = int((y_train == idx).sum())
+        print(f"      {cname:<10}: {jumlah:,}")
+
+    frames = []
+    for lbl, group in df_train.groupby("label"):
+        if lbl == majority_lbl:
+            frames.append(group)
+        else:
+            frames.append(resample(
+                group,
+                replace      = True,
+                n_samples    = majority_n,
+                random_state = random_state,
+            ))
+
+    df_balanced = pd.concat(frames).sample(
+        frac=1, random_state=random_state
+    ).reset_index(drop=True)
+
+    print(f"   Random Oversampling (data-level) — sesudah:")
+    for idx, cname in enumerate(class_names):
+        jumlah = int((df_balanced["label"] == idx).sum())
+        print(f"      {cname:<10}: {jumlah:,}")
+
+    return df_balanced["text"].tolist(), df_balanced["label"].to_numpy()
+
+
+# ══════════════════════════════════════════════════════════════
+#  HELPER: HITUNG CLASS WEIGHT (PENANGANAN IMBALANCE - ALGORITHM LEVEL)
+# ══════════════════════════════════════════════════════════════
+def _compute_class_weights_tensor(y_train, class_names, device):
+    """
+    Menghitung bobot kelas untuk Weighted Cross-Entropy Loss.
+
+    HARUS dipanggil dengan y_train ASLI (SEBELUM _random_oversample_train
+    dijalankan). Jika dipanggil sesudah oversampling, distribusi kelas
+    sudah rata (1:1) sehingga bobot mendekati 1.0 untuk semua kelas dan
+    weighted loss tidak lagi memberi efek apa pun -- lihat penjelasan
+    lengkap pada devModellingDL_s1.py.
+    """
+    class_weights = compute_class_weight(
+        class_weight = "balanced",
+        classes      = np.unique(y_train),
+        y            = y_train,
+    )
+
+    print(f"   Weighted Cross-Entropy Loss (algorithm-level) — dari train asli:")
+    for idx, cname in enumerate(class_names):
+        jumlah = int((y_train == idx).sum())
+        print(f"      {cname:<10}: {jumlah:,} sampel -> weight {class_weights[idx]:.4f}")
+
+    return torch.tensor(class_weights, dtype=torch.float32).to(device)
+
+
+def _train_one_epoch(model, loader, optimizer, scheduler, device, loss_fn):
+    """
+    Satu epoch training dengan weighted loss.
+
+    Model dipanggil TANPA argumen `labels`, hanya mengembalikan logits
+    mentah -- loss dihitung manual lewat `loss_fn` (weighted
+    CrossEntropyLoss) supaya penanganan imbalance algorithm-level
+    benar-benar diterapkan.
+    """
     model.train()
     total_loss, total_correct, total_n = 0.0, 0, 0
     for batch in loader:
@@ -224,19 +320,28 @@ def _train_one_epoch(model, loader, optimizer, scheduler, device):
         mask  = batch["attention_mask"].to(device)
         lbls  = batch["label"].to(device)
         optimizer.zero_grad()
-        out   = model(input_ids=ids, attention_mask=mask, labels=lbls)
-        out.loss.backward()
+        out    = model(input_ids=ids, attention_mask=mask)
+        logits = out.logits
+        loss   = loss_fn(logits, lbls)
+        loss.backward()
         nn.utils.clip_grad_norm_(model.parameters(), 1.0)
         optimizer.step()
         scheduler.step()
-        preds          = torch.argmax(out.logits, dim=1)
+        preds          = torch.argmax(logits, dim=1)
         total_correct += (preds == lbls).sum().item()
-        total_loss    += out.loss.item() * len(lbls)
+        total_loss    += loss.item() * len(lbls)
         total_n       += len(lbls)
     return total_loss / total_n, total_correct / total_n
 
 
-def _eval_one_epoch(model, loader, device, pos_label):
+def _eval_one_epoch(model, loader, device, pos_label, loss_fn):
+    """
+    Evaluasi val/test dengan loss_fn yang sama (weighted) dengan
+    training, supaya val_loss yang dipakai untuk memilih checkpoint
+    terbaik konsisten dengan loss yang benar-benar dioptimasi.
+
+    Data val/test TIDAK di-oversample -- tetap distribusi asli.
+    """
     model.eval()
     total_loss, total_correct, total_n = 0.0, 0, 0
     all_preds, all_labels = [], []
@@ -245,10 +350,12 @@ def _eval_one_epoch(model, loader, device, pos_label):
             ids   = batch["input_ids"].to(device)
             mask  = batch["attention_mask"].to(device)
             lbls  = batch["label"].to(device)
-            out   = model(input_ids=ids, attention_mask=mask, labels=lbls)
-            preds = torch.argmax(out.logits, dim=1)
+            out    = model(input_ids=ids, attention_mask=mask)
+            logits = out.logits
+            loss   = loss_fn(logits, lbls)
+            preds  = torch.argmax(logits, dim=1)
             total_correct  += (preds == lbls).sum().item()
-            total_loss     += out.loss.item() * len(lbls)
+            total_loss     += loss.item() * len(lbls)
             total_n        += len(lbls)
             all_preds.extend(preds.cpu().numpy())
             all_labels.extend(lbls.cpu().numpy())
@@ -278,6 +385,7 @@ def step_modelling(
     y  = le.fit_transform(df_train["sentiment"])
     X  = df_train["tweet_preprocessed_dl"].tolist()
     pos_label = list(le.classes_).index("positif")
+    class_names = list(le.classes_)
 
     X_tv, X_test, y_tv, y_test = train_test_split(
         X, y, test_size=TEST_RATIO, random_state=RANDOM_SEED, stratify=y
@@ -313,6 +421,33 @@ def step_modelling(
 
     model.to(device)
 
+    # ── PENANGANAN IMBALANCE (HYBRID) ──────────────────────────
+    set_status(job_id, "Modelling: menghitung class weight...", 28)
+
+    # 1) Hitung class weight dari TRAIN ASLI (SEBELUM oversampling).
+    #    Urutan ini disengaja: kalau dihitung sesudah oversampling,
+    #    distribusi sudah rata dan weighted loss tidak lagi berkontribusi.
+    class_weights_tensor = _compute_class_weights_tensor(
+        y_train     = np.array(y_train),
+        class_names = class_names,
+        device      = device,
+    )
+    loss_fn = nn.CrossEntropyLoss(weight=class_weights_tensor)
+
+    n_train_before_oversampling = len(X_train)
+
+    # 2) Random Oversampling — hanya pada X_train/y_train, val/test
+    #    tetap distribusi asli.
+    set_status(job_id, "Modelling: menerapkan random oversampling...", 29)
+    X_train, y_train = _random_oversample_train(
+        X_train, y_train,
+        class_names  = class_names,
+        random_state = RANDOM_SEED,
+    )
+    print(f"   Train sebelum oversampling : {n_train_before_oversampling:,} baris")
+    print(f"   Train sesudah oversampling : {len(X_train):,} baris")
+    # ────────────────────────────────────────────────────────────
+
     train_ds = TweetDataset(X_train, y_train, tokenizer, MAX_LENGTH)
     val_ds   = TweetDataset(X_val,   y_val,   tokenizer, MAX_LENGTH)
     train_dl = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True,  num_workers=0)
@@ -335,8 +470,8 @@ def step_modelling(
         set_status(job_id, f"Modelling: epoch {epoch}/{EPOCHS}...", pct)
         ep_start = time.time()
 
-        t_loss, t_acc           = _train_one_epoch(model, train_dl, optimizer, scheduler, device)
-        v_loss, v_acc, v_f1     = _eval_one_epoch(model, val_dl, device, pos_label)
+        t_loss, t_acc       = _train_one_epoch(model, train_dl, optimizer, scheduler, device, loss_fn)
+        v_loss, v_acc, v_f1 = _eval_one_epoch(model, val_dl, device, pos_label, loss_fn)
 
         ep_rt = time.time() - ep_start
         train_log.append({
@@ -362,6 +497,11 @@ def step_modelling(
     split_data = {"X_test": X_test, "y_test": y_test}
     joblib.dump(split_data, str(model_dir / "split_indices.joblib"))
 
+    class_weight_info = "\n".join(
+        f"    {cname:<10}: {class_weights_tensor[idx].item():.4f}"
+        for idx, cname in enumerate(class_names)
+    )
+
     device_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
     info = (
         f"TRAINING INFO — IndoBERTweet Update\n"
@@ -369,7 +509,16 @@ def step_modelling(
         f"Tanggal         : {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
         f"Period          : {period}\n"
         f"Total data      : {len(df_train):,}\n"
-        f"Kelas           : {list(le.classes_)}\n"
+        f"Kelas           : {class_names}\n"
+        f"\n"
+        f"Penanganan Imbalance (HYBRID):\n"
+        f"  1. Data-level      : Random Oversampling\n"
+        f"                       Train sebelum : {n_train_before_oversampling:,}\n"
+        f"                       Train sesudah : {len(X_train):,}\n"
+        f"  2. Algorithm-level : Weighted Cross-Entropy Loss\n"
+        f"                       (dihitung dari distribusi train asli)\n"
+        f"{class_weight_info}\n"
+        f"\n"
         f"Best epoch      : {best_epoch}\n"
         f"Best val_loss   : {best_val_loss:.5f}\n"
         f"Fine-tuning     : {training_rt:.2f} detik\n"
