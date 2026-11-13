@@ -1,165 +1,167 @@
-# Analisis Sentimen Pasar Modal
+# 📈 Capital Market Sentiment Analysis
 
-Aplikasi web berbasis Flask untuk analisis sentimen tweet terkait saham pasar modal Indonesia. Project ini menyediakan dashboard analitik, pengelolaan dataset per periode, perbandingan performa model, autentikasi admin, serta endpoint API untuk kebutuhan visualisasi dan inferensi.
+A **Flask**-based web application for sentiment analysis of tweets related to the Indonesian capital market (stocks). This project provides an analytical dashboard, period-based dataset management, model performance comparison, admin authentication, and JSON API endpoints for data visualization and real-time inference.
 
-## Gambaran Umum
+---
 
-Project ini dirancang untuk menampilkan dan membandingkan hasil analisis sentimen dari beberapa pendekatan model, terutama:
+## 📋 Overview
 
-- Deep Learning / IndoBERTweet
-- Machine Learning / SVM
+This project is designed to analyze, display, and compare sentiment analysis results using two primary modeling approaches:
+- **Deep Learning:** IndoBERTweet
+- **Machine Learning:** Support Vector Machine (SVM)
 
-Aplikasi juga mendukung pengelolaan akun admin, halaman profil, serta pemrosesan data tweet berdasarkan periode waktu seperti:
+The application supports administrative account management, profile settings, and tweet data categorization across distinct market periods:
+- **Before COVID**
+- **COVID**
+- **After COVID**
+- **All Periods**
 
-- Before COVID
-- COVID
-- After COVID
-- Semua periode
+---
 
-## Fitur Utama
+## 🚀 Key Features
 
-- Autentikasi login, register, logout, dan manajemen sesi.
-- Dashboard admin dengan ringkasan distribusi sentimen, tren, dan statistik model.
-- Halaman dataset untuk tiap periode analisis.
-- Halaman model Deep Learning dan Machine Learning.
-- Fitur preview dan update model berbasis upload CSV.
-- Halaman komparasi performa model, termasuk akurasi dan runtime.
-- Manajemen akun untuk superadmin.
-- Halaman profil pengguna dan ganti password.
-- Endpoint API untuk dashboard, tren, detail saham, upload CSV, dan analisis kalimat.
+- **🔐 Authentication & Access Control:** Login, registration, logout, server-side session management, and Role-Based Access Control (RBAC) for `admin` and `superadmin`.
+- **📊 Analytical Dashboard:** Overview of sentiment distribution, market trends, and model statistics.
+- **🗂️ Period-Based Dataset Management:** Dedicated dataset views categorized by pandemic timelines.
+- **🧠 Dual-Model Architecture:** Dedicated interfaces for **Deep Learning (IndoBERTweet)** and **Machine Learning (SVM)** models.
+- **📤 CSV Upload & Model Pipeline:** Preview uploaded CSV datasets and trigger background model updates.
+- **⚖️ Model Comparison:** Side-by-side performance benchmarking comparing accuracy, metrics, and runtime execution.
+- **👥 Account & Profile Management:** Superadmin user management panel, user profile customization, and password updates.
+- **🔌 RESTful JSON API:** Endpoints for dashboard metrics, trend charts, stock-specific details, CSV uploads, and real-time sentence inference.
 
-## Teknologi Yang Digunakan
+---
 
-- Python
-- Flask
-- Flask-Session
-- Pandas
-- NumPy
-- PyTorch
-- Transformers
-- scikit-learn
-- NLTK
-- Sastrawi
-- Stanza
-- Joblib
+## 🛠️ Tech Stack
 
-## Struktur Project
+- **Backend:** Python, Flask, Flask-Session, Werkzeug
+- **Data Processing:** Pandas, NumPy, OpenPyXL
+- **Machine Learning & NLP:** PyTorch, Hugging Face Transformers (`IndoBERTweet`), scikit-learn (`SVM`), NLTK, Sastrawi, Stanza, Joblib, Emoji
+- **Frontend:** HTML5, CSS3, JavaScript (Jinja2 Templates)
 
-```text
-app.py
-controller/
-middlewares/
-routes/
-services/
-static/
-templates/
-utils/
-data/
+---
+
+## 📂 Project Structure
+
+```bash
+analisis-sentimen-pasar-modal/
+├── .github/                    # GitHub workflows and repository configurations
+├── .vscode/                    # VS Code workspace settings
+├── controller/                 # Business logic, authentication, dashboard, and model handlers
+├── data/                       # Datasets, trained models, comparison results, and sessions
+│   ├── csv/                    # Tweet datasets categorized by model and time period
+│   ├── flask_sessions/         # Server-side Flask session storage
+│   ├── komparasi/              # Model comparison tables and performance summaries
+│   ├── modelDL/                # Deep Learning (IndoBERTweet) artifacts and outputs
+│   ├── modelML/                # Machine Learning (SVM) artifacts and outputs
+│   ├── uploads_temp/           # Temporary storage for uploaded CSV files
+│   └── users.csv               # Admin user credentials and roles
+├── middlewares/                # Authentication and role-based access control middlewares
+├── routes/                     # Flask URL route registrations
+├── services/                   # Background model update pipelines and preprocessing scripts
+├── static/                     # Static assets (CSS, JavaScript, images, vendor libraries)
+├── templates/                  # Jinja2 HTML layouts and admin pages
+├── utils/                      # Helper and utility functions
+├── .env.example                # Environment variables template
+├── .gitignore                  # Git ignored files configuration
+├── app.py                      # Main application entry point
+├── README.md                   # Project documentation
+└── requirement.txt             # Python dependencies list
 ```
 
-Beberapa folder penting:
+---
 
-- `controller/` berisi logika halaman, autentikasi, model, dashboard, dan komparasi.
-- `routes/` berisi registrasi route Flask.
-- `middlewares/` berisi middleware autentikasi dan role-based access.
-- `services/` berisi pipeline update model dan skrip pengembangan.
-- `templates/` berisi HTML untuk layout dan halaman admin.
-- `static/` berisi CSS, JavaScript, gambar, dan vendor library.
-- `data/` berisi dataset, hasil pemodelan, hasil komparasi, user, dan session Flask.
+## ⚙️ Installation & Local Setup
 
-## Instalasi
-
-### 1. Clone repository
-
+### 1. Clone the repository
 ```bash
 git clone https://github.com/GhandiZero0X/analisis-sentimen-pasar-modal.git
 cd analisis-sentimen-pasar-modal
 ```
 
-### 2. Buat virtual environment
-
+### 2. Create and activate a virtual environment
 ```bash
+# Windows
 python -m venv .venv
+.\.venv\Scripts\activate
+
+# Linux / macOS
+python3 -m venv .venv
+source .venv/bin/activate
 ```
 
-Aktifkan environment:
-
+### 3. Install dependencies
+If `requirement.txt` is empty or incomplete, install the required packages manually:
 ```bash
-.venv\Scripts\activate
+pip install flask flask-session pandas numpy torch transformers scikit-learn nltk sastrawi stanza joblib openpyxl emoji werkzeug python-dotenv
 ```
+*(Note: Adjust additional packages based on specific scripts inside `services/` and `controller/` if needed.)*
 
-### 3. Install dependensi
-
-File `requirement.txt` pada project ini masih kosong, jadi install paket yang dibutuhkan secara manual:
-
+### 4. Configure environment variables
+Copy `.env.example` to `.env` and update the configuration values (e.g., `SECRET_KEY`, `FLASK_ENV`):
 ```bash
-pip install flask flask-session pandas numpy torch transformers scikit-learn nltk sastrawi stanza joblib openpyxl emoji werkzeug
+# Windows
+copy .env.example .env
+
+# Linux / macOS
+cp .env.example .env
 ```
 
-Jika kamu memakai model dan pipeline tertentu yang membutuhkan paket tambahan, sesuaikan lagi dengan skrip di folder `services/` dan `controller/`.
-
-## Menjalankan Aplikasi
-
-Jalankan Flask app dari file utama:
-
+### 5. Run the application
+Start the Flask server from the main entry point:
 ```bash
 python app.py
 ```
-
-Secara default aplikasi akan berjalan pada:
-
+By default, the application will be accessible at:
 ```text
 http://127.0.0.1:5000
 ```
 
-## Halaman Utama
+---
 
-- `/` - halaman publik utama
-- `/admin/login` - login admin
-- `/admin/register` - registrasi akun
-- `/admin/dashboard` - dashboard analitik
-- `/admin/dataset/before-covid` - dataset sebelum COVID
-- `/admin/dataset/covid` - dataset masa COVID
-- `/admin/dataset/after-covid` - dataset setelah COVID
-- `/admin/dataset/all-periods` - dataset semua periode
-- `/admin/model/dl` - halaman model Deep Learning
-- `/admin/model/ml` - halaman model Machine Learning
-- `/admin/komparasi` - halaman perbandingan model
-- `/admin/profile` - profil pengguna
-- `/admin/accounts` - manajemen akun superadmin
+## 🖥️ Application Routes
 
-## Endpoint API
+### Public & Authentication
+- `/` — Main public landing page
+- `/admin/login` — Admin login page
+- `/admin/register` — Admin account registration
 
-Project ini juga menyediakan beberapa endpoint JSON:
+### Admin & Analytics
+- `/admin/dashboard` — Main analytical dashboard
+- `/admin/dataset/before-covid` — Pre-COVID period dataset
+- `/admin/dataset/covid` — COVID period dataset
+- `/admin/dataset/after-covid` — Post-COVID period dataset
+- `/admin/dataset/all-periods` — Combined dataset across all periods
+- `/admin/model/dl` — Deep Learning (IndoBERTweet) model page
+- `/admin/model/ml` — Machine Learning (SVM) model page
+- `/admin/komparasi` — Model performance comparison page
+- `/admin/profile` — User profile and password settings
+- `/admin/accounts` — Account management *(Superadmin only)*
 
-- `GET /api/dashboard`
-- `GET /api/trend`
-- `GET /api/saham`
-- `POST /api/upload`
-- `POST /api/kalimat`
+---
 
-## Data dan Output
+## 🔌 API Endpoints
 
-Beberapa lokasi data penting yang dipakai aplikasi:
+The application exposes several JSON endpoints for frontend visualizations and real-time predictions:
 
-- `data/users.csv` - data akun admin
-- `data/csv/` - dataset tweet per model dan periode
-- `data/modelDL/` - hasil model deep learning
-- `data/modelML/` - hasil model machine learning
-- `data/komparasi/` - tabel dan ringkasan komparasi model
-- `data/uploads_temp/` - file upload sementara saat update model
+- `GET /api/dashboard` — Fetch summary metrics and sentiment distribution
+- `GET /api/trend` — Fetch sentiment trends over time
+- `GET /api/saham` — Fetch sentiment breakdown by specific stock tickers
+- `POST /api/upload` — Upload CSV dataset to preview or update models
+- `POST /api/kalimat` — Perform real-time sentiment inference on a custom sentence
 
-## Catatan Penggunaan
+---
 
-- Aplikasi memakai server-side session dengan folder session di `data/flask_sessions/`.
-- Beberapa halaman admin hanya bisa diakses setelah login.
-- Akses manajemen akun dibatasi untuk role `superadmin`.
-- Pipeline update model dijalankan di background thread dan statusnya bisa dipantau lewat endpoint status.
+## 📌 Operational Notes
 
-## Lisensi
+- **Server-Side Sessions:** Active user sessions are stored locally inside `data/flask_sessions/`.
+- **Role Restrictions:** Administrative routes require active authentication, and `/admin/accounts` is strictly restricted to users with the `superadmin` role.
+- **Background Processing:** Model retraining/updating pipelines run asynchronously in a background thread; progress can be monitored via the status endpoint.
+- **Security:** Ensure `.env` and sensitive user data in `data/users.csv` are never exposed publicly.
 
-Belum ditentukan.
+---
 
-## Kontribusi
+## 🤝 Contributing & License
 
-Jika ingin menambah fitur atau memperbaiki analitik, pastikan perubahan tetap konsisten dengan struktur route, controller, dan format data yang sudah dipakai project ini.
+Contributions, feature additions, and analytical improvements are welcome. Please ensure any modifications remain consistent with the existing `routes/`, `controller/`, and data schema structures before submitting a Pull Request.
+
+*License: Unspecified / Internal Project Use.*
